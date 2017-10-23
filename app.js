@@ -319,10 +319,9 @@ function jobJD(job) {
     if (job.sex === 'female') sex = `🏆Giới tính: Nữ\n`;
     else if (job.sex === 'male') sex = `🏆Giới tính: Nam\n`;
     if (job.figure) figure = '🏆Yêu cầu ngoại hình\n';
-    else figure = '🏆Không yêu cầu ngoại hình\n';
 
     const text = `${storeName} - ${address}👩‍💻👨‍💻\n
-🏆Vị trí của bạn sẽ là: ${jobName}\n
+        🏆Vị trí của bạn sẽ là: ${jobName}\n
 ${working_type}${salary}${hourly_wages}${timeStr}\n${experience}${sex}${unit}${figure}\n`
     return text;
 }
@@ -470,7 +469,7 @@ function receivedMessage(event) {
                 break;
 
             default:
-                sendTextMessage(senderID, messageText);
+                sendTextMessage(senderID, "Cám ơn bạn đã inbox, mình sẽ hỗ trợ cho bạn ngay!");
         }
     } else if (messageAttachments) {
         sendTextMessage(senderID, "Message with attachment received");
