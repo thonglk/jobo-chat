@@ -292,25 +292,31 @@ function receivedAuthentication(event) {
  * then we'll simply confirm that we've received the attachment.
  * 
  */
-function jobJD({storeName = '', address = '',jobName = '', salary = '', hourly_wages = '', working_type = '', work_time = '', figure = '', unit = '', experience = '', sex = '', description = ''}) {
-    if (salary) salary = `🏆Lương: ${salary} triệu/tháng\n`;
-    if (hourly_wages) hourly_wages = `🏆Lương: ${hourly_wages} k/h + thưởng hấp dẫn\n`;
-    if (working_type) working_type = `🏆Hình thức làm việc: ${working_type}\n`;
+function jobJD(job) {
+    var storeName = '', address = '', jobName = '', salary = '', hourly_wages = '', working_type = '', work_time = '',
+        figure = '', unit = '', experience = '', sex = '', description = '';
+
+    if (job.storeName) storeName = job.storeName
+    if (job.address) address = job.address
+
+    if (job.salary) salary = `🏆Lương: ${salary} triệu/tháng\n`;
+    if (job.hourly_wages) hourly_wages = `🏆Lương: ${hourly_wages} k/h + thưởng hấp dẫn\n`;
+    if (job.working_type) working_type = `🏆Hình thức làm việc: ${working_type}\n`;
     let timeStr = '';
-    if (work_time) {
-        if (work_time.length > 1) {
+    if (job.work_time) {
+        if (job.work_time.length > 1) {
             timeStr = 'Ca làm:\n';
-            work_time.forEach(t => timeStr += `- ${t.start} giờ đến ${t.end} giờ\n`);
-        } else timeStr = `Ca làm: ${work_time[0].start} giờ - ${work_time[0].end} giờ`;
+            job.work_time.forEach(t => timeStr += `- ${t.start} giờ đến ${t.end} giờ\n`);
+        } else timeStr = `Ca làm: ${job.work_time[0].start} giờ - ${job.work_time[0].end} giờ`;
     }
 
-    if (description) description = `🏆Mô tả công việc: ${description}\n`;
-    if (unit) unit = `🏆Số lượng cần tuyển: ${unit} ứng viên\n`;
-    if (experience) experience = `🏆Yêu cầu kinh nghiệm\n`;
+    if (job.description) description = `🏆Mô tả công việc: ${description}\n`;
+    if (job.unit) unit = `🏆Số lượng cần tuyển: ${unit} ứng viên\n`;
+    if (job.experience) experience = `🏆Yêu cầu kinh nghiệm\n`;
     else experience = '🏆Không cần kinh nghiệm\n';
-    if (sex === 'female') sex = `🏆Giới tính: Nữ\n`;
-    else if (sex === 'male') sex = `🏆Giới tính: Nam\n`;
-    if (figure) figure = '🏆Yêu cầu ngoại hình\n';
+    if (job.sex === 'female') sex = `🏆Giới tính: Nữ\n`;
+    else if (job.sex === 'male') sex = `🏆Giới tính: Nam\n`;
+    if (job.figure) figure = '🏆Yêu cầu ngoại hình\n';
     else figure = '🏆Không yêu cầu ngoại hình\n';
 
     const text = `${storeName} - ${address}👩‍💻👨‍💻\n
@@ -357,7 +363,7 @@ function receivedMessage(event) {
             if (payload[2] == 'yes') {
                 var jobId = payload[3];
                 loadJob(jobId).then(result => {
-                    var jobData = Object.assign({},result)
+                    var jobData = Object.assign({}, result)
                     jobData.storeName = result.storeData.storeName
                     jobData.address = result.storeData.address
 
