@@ -377,9 +377,10 @@ function receivedPostback(event) {
         axios.get(url)
             .then(res => {
                 var jobData = res.data;
+
                 var messageData = {
                     recipient: {
-                        id: recipientId
+                        id: recipientID
                     },
                     message: {
                         text: `Có phải bạn đang muốn ứng tuyển vào vị trí ${jobData.jobName} của ${jobData.storeData.storeName} ?`,
