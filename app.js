@@ -551,7 +551,7 @@ function receivedPostback(event) {
             };
 
             callSendAPI(messageData);
-        }).catch(err => sendTextMessage(senderID, "Postback called"))
+        }).catch(err => sendTextMessage(senderID, JSON.stringify(err)))
 
 
         //
@@ -566,7 +566,7 @@ function loadJob(jobId) {
     return new Promise(function (resolve, reject) {
         const url = `https://jobo-server.herokuapp.com/on/job?jobId=${jobId}`;
         axios.get(url)
-            .then(result => resolve(res.data))
+            .then(result => resolve(result.data))
             .catch(err => reject(err));
     })
 }
