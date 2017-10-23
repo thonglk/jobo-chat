@@ -107,7 +107,7 @@ var jobochat = firebase.initializeApp({
     databaseURL: FIRE_BASE_ADMIN['jobochat'].databaseURL
 }, "jobochat");
 var db = jobochat.database();
-var conversationData,conversationRef = db.ref('conversation')
+var conversationData, conversationRef = db.ref('conversation')
 
 conversationRef.on('value', function (snap) {
     conversationData = snap.val()
@@ -163,7 +163,7 @@ app.post('/webhook', function (req, res) {
                 delete savedMess.sender
                 savedMess.messengerId = messagingEvent.sender.id
                 savedMess.type = 'received'
-                console.log('savedMess',savedMess)
+                console.log('savedMess', savedMess)
                 conversationRef.child(savedMess.messengerId).child(timeOfEvent).update(savedMess).then(() => {
 
                     if (messagingEvent.optin) {
@@ -299,10 +299,11 @@ function jobJD(job) {
 
     if (job.storeName) storeName = job.storeName
     if (job.address) address = job.address
+    if (job.jobName) jobName = job.jobName
 
-    if (job.salary) salary = `🏆Lương: ${salary} triệu/tháng\n`;
-    if (job.hourly_wages) hourly_wages = `🏆Lương: ${hourly_wages} k/h + thưởng hấp dẫn\n`;
-    if (job.working_type) working_type = `🏆Hình thức làm việc: ${working_type}\n`;
+    if (job.salary) salary = `🏆Lương: ${job.salary} triệu/tháng\n`;
+    if (job.hourly_wages) hourly_wages = `🏆Lương: ${job.hourly_wages} k/h + thưởng hấp dẫn\n`;
+    if (job.working_type) working_type = `🏆Hình thức làm việc: ${job.working_type}\n`;
     let timeStr = '';
     if (job.work_time) {
         if (job.work_time.length > 1) {
@@ -311,8 +312,8 @@ function jobJD(job) {
         } else timeStr = `Ca làm: ${job.work_time[0].start} giờ - ${job.work_time[0].end} giờ`;
     }
 
-    if (job.description) description = `🏆Mô tả công việc: ${description}\n`;
-    if (job.unit) unit = `🏆Số lượng cần tuyển: ${unit} ứng viên\n`;
+    if (job.description) description = `🏆Mô tả công việc: ${job.description}\n`;
+    if (job.unit) unit = `🏆Số lượng cần tuyển: ${job.unit} ứng viên\n`;
     if (job.experience) experience = `🏆Yêu cầu kinh nghiệm\n`;
     else experience = '🏆Không cần kinh nghiệm\n';
     if (job.sex === 'female') sex = `🏆Giới tính: Nữ\n`;
@@ -405,7 +406,6 @@ function receivedMessage(event) {
 
 
         } else sendTextMessage(senderID, "Quick reply tapped");
-
 
 
         return;
