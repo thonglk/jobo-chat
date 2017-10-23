@@ -363,6 +363,7 @@ function receivedMessage(event) {
 
             if (payload[2] == 'yes') {
                 var jobId = payload[3];
+                sendTextMessage(senderID, "Hãy kiểm tra lại chi tiết công việc 1 lần nữa trước khi đặt lịch phỏng vấn nhé!")
                 loadJob(jobId).then(result => {
                     var jobData = result
                     jobData.storeName = result.storeData.storeName
@@ -375,7 +376,7 @@ function receivedMessage(event) {
                             id: senderID
                         },
                         message: {
-                            text: `Hãy kiểm tra lại chi tiết công việc 1 lần nữa trước khi đặt lịch phỏng vấn nhé! \n ${text}`,
+                            text,
                             quick_replies: [
                                 {
                                     "content_type": "text",
