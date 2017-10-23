@@ -380,7 +380,7 @@ function receivedPostback(event) {
 
                 var messageData = {
                     recipient: {
-                        id: recipientID
+                        id: senderID
                     },
                     message: {
                         text: `Có phải bạn đang muốn ứng tuyển vào vị trí ${jobData.jobName} của ${jobData.storeData.storeName} ?`,
@@ -392,7 +392,7 @@ function receivedPostback(event) {
                             },
                             {
                                 "content_type": "text",
-                                "title": "Không phải, mình có chút nhầm lẫn :(",
+                                "title": "Không phải",
                                 "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_NO"
                             },
                         ]
