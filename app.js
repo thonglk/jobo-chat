@@ -361,17 +361,17 @@ function receivedPostback(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
     var timeOfPostback = event.timestamp;
-
+    var postback = event.postback
     // The 'payload' param is a developer-defined field which is set in a postback
     // button for Structured Messages.
-    var payload = event.postback.payload;
+    var payload = postback.payload;
     console.log('Received', event)
 
     console.log("Received postback for user %d and page %d with payload '%s' " +
         "at %d", senderID, recipientID, payload, timeOfPostback);
 
-    if (payload.referral) {
-        var jobId = payload.referral.ref;
+    if (postback.referral) {
+        var jobId = postback.referral.ref;
         // get data job
         const url = `https://jobo-server.herokuapp.com/on/job/${jobId}`;
         axios.get(url)
