@@ -323,7 +323,7 @@ function jobJD(job) {
 
     const text = `${storeName} - ${address}👩‍💻👨‍💻\n
 🏆Vị trí của bạn sẽ là: ${jobName}\n
-${working_type}${salary}${hourly_wages}${timeStr}\n${experience}${sex}${unit}${figure}${description}\n`
+${working_type}${salary}${hourly_wages}${timeStr}\n${experience}${sex}${unit}${figure}\n`
     return text;
 }
 
