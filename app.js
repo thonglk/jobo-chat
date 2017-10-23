@@ -373,7 +373,7 @@ function receivedPostback(event) {
     if (postback.referral) {
         var jobId = postback.referral.ref;
         // get data job
-        const url = `https://jobo-server.herokuapp.com/on/job/${jobId}`;
+        const url = `https://jobo-server.herokuapp.com/on/job?jobId=${jobId}`;
         axios.get(url)
             .then(res => {
                 var jobData = res.data;
