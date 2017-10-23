@@ -292,7 +292,7 @@ function receivedAuthentication(event) {
  * then we'll simply confirm that we've received the attachment.
  * 
  */
-function jobJD({jobName = '', salary = '', hourly_wages = '', working_type = '', work_time = '', figure = '', unit = '', experience = '', sex = '', description = ''}, {storeData = {}, address = ''}) {
+function jobJD({jobName = '', salary = '', hourly_wages = '', working_type = '', work_time = '', figure = '', unit = '', experience = '', sex = '', description = ''}, {storeName = '', address = ''}) {
     if (salary) salary = `🏆Lương: ${salary} triệu/tháng\n`;
     if (hourly_wages) hourly_wages = `🏆Lương: ${hourly_wages} k/h + thưởng hấp dẫn\n`;
     if (working_type) working_type = `🏆Hình thức làm việc: ${working_type}\n`;
