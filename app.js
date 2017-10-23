@@ -292,7 +292,7 @@ function receivedAuthentication(event) {
  * then we'll simply confirm that we've received the attachment.
  * 
  */
-function jobJD({jobName = '', salary = '', hourly_wages = '', working_type = '', work_time = '', figure = '', unit = '', experience = '', sex = '', description = ''}, {storeName = '', address = ''}) {
+function jobJD({storeName = '', address = '',jobName = '', salary = '', hourly_wages = '', working_type = '', work_time = '', figure = '', unit = '', experience = '', sex = '', description = ''}) {
     if (salary) salary = `🏆Lương: ${salary} triệu/tháng\n`;
     if (hourly_wages) hourly_wages = `🏆Lương: ${hourly_wages} k/h + thưởng hấp dẫn\n`;
     if (working_type) working_type = `🏆Hình thức làm việc: ${working_type}\n`;
@@ -357,9 +357,11 @@ function receivedMessage(event) {
             if (payload[2] == 'yes') {
                 var jobId = payload[3];
                 loadJob(jobId).then(result => {
-                    var jobData = result
+                    var jobData = Object.assign({},result)
+                    jobData.storeName = result.storeData.storeName
+                    jobData.address = result.storeData.address
 
-                    var text = jobJD(jobData, jobData.storeData);
+                    var text = jobJD(jobData);
 
                     var messageData = {
                         recipient: {
