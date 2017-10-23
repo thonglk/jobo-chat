@@ -163,7 +163,8 @@ app.post('/webhook', function (req, res) {
                 delete savedMess.sender
                 savedMess.messengerId = messagingEvent.sender.id
                 savedMess.type = 'received'
-                db.ref('conversion').child(savedMess.messengerId).child(savedMess.timestamp).update(savedMess).then(() => {
+                console.log('savedMess',savedMess)
+                db.ref('conversion').child(savedMess.messengerId).child(timeOfEvent).update(savedMess).then(() => {
 
                     if (messagingEvent.optin) {
                         receivedAuthentication(messagingEvent);
