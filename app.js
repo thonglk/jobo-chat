@@ -107,9 +107,9 @@ var jobochat = firebase.initializeApp({
     databaseURL: FIRE_BASE_ADMIN['jobochat'].databaseURL
 }, "jobochat");
 var db = jobochat.database();
-var conversationData;
+var conversationData,conversationRef = db.ref('conversation')
 
-db.ref('conversion').on('value', function (snap) {
+conversationRef.on('value', function (snap) {
     conversationData = snap.val()
 })
 
@@ -164,7 +164,7 @@ app.post('/webhook', function (req, res) {
                 savedMess.messengerId = messagingEvent.sender.id
                 savedMess.type = 'received'
                 console.log('savedMess',savedMess)
-                db.ref('conversion').child(savedMess.messengerId).child(timeOfEvent).update(savedMess).then(() => {
+                conversationRef.child(savedMess.messengerId).child(timeOfEvent).update(savedMess).then(() => {
 
                     if (messagingEvent.optin) {
                         receivedAuthentication(messagingEvent);
@@ -364,10 +364,10 @@ function receivedMessage(event) {
             if (payload[2] == 'yes') {
                 var jobId = payload[3];
                 loadJob(jobId).then(result => {
-                    var jobData = Object.assign({}, result)
+                    var jobData = result
                     jobData.storeName = result.storeData.storeName
                     jobData.address = result.storeData.address
-
+                    console.log(jobData)
                     var text = jobJD(jobData);
 
                     var messageData = {
@@ -403,10 +403,10 @@ function receivedMessage(event) {
             }
 
 
-        }
+        } else sendTextMessage(senderID, "Quick reply tapped");
 
 
-        sendTextMessage(senderID, "Quick reply tapped");
+
         return;
     }
 
