@@ -161,7 +161,7 @@ app.post('/webhook', function (req, res) {
                 // var savedMess = Object({}, messagingEvent)
                 // savedMess.messengerId = messagingEvent.sender.id
                 // savedMess.type = 'received'
-                console.log('savedMess', savedMess)
+
                 conversationRef.child(messagingEvent.sender.id).child(timeOfEvent).update(messagingEvent).then(() => {
 
                     if (messagingEvent.optin) {
