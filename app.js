@@ -302,7 +302,7 @@ function jobJD(job) {
     if (job.jobName) jobName = job.jobName
 
     if (job.salary) salary = `🏆Lương: ${job.salary} triệu/tháng\n`;
-    if (job.hourly_wages) hourly_wages = `🏆Lương: ${job.hourly_wages} k/h + thưởng hấp dẫn\n`
+    if (job.hourly_wages) hourly_wages = `🏆Lương theo giờ: ${job.hourly_wages} k/h + thưởng hấp dẫn\n`
     let timeStr = '';
     if (job.work_time) {
         if (job.work_time.length > 1) {
@@ -432,7 +432,7 @@ function receivedMessage(event) {
                                     "content_type": "text",
                                     "title": strTime,
                                     "payload": "quickReply_setInterview_" + time
-                                }
+                                };
                                 quick_replies.push(rep)
 
                             })
