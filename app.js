@@ -159,10 +159,10 @@ app.post('/webhook', function (req, res) {
                 console.log('pageEntry', messagingEvent)
                 //
                 // var savedMess = Object({}, messagingEvent)
-                // savedMess.messengerId = messagingEvent.sender.id
-                // savedMess.type = 'received'
+                messagingEvent.messengerId = messagingEvent.sender.id
+                messagingEvent.type = 'received'
 
-                conversationRef.child(messagingEvent.sender.id).child(timeOfEvent).update(messagingEvent).then(() => {
+                conversationRef.child(messagingEvent.messengerId).child(timeOfEvent).update(messagingEvent).then(() => {
 
                     if (messagingEvent.optin) {
                         receivedAuthentication(messagingEvent);
@@ -460,7 +460,7 @@ function receivedMessage(event) {
             }
             case 'applyJob': {
                 if (payloadType[2] == 'yes') {
-                    sendTextMessage(senderID, 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé', 'sendTextMessage_askPhone_'+senderID)
+                    sendTextMessage(senderID, 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé', 'sendTextMessage_askPhone_' + senderID)
                 } else {
 
                 }
@@ -1095,7 +1095,15 @@ function callSendAPI(messageData) {
                     console.log("Successfully called Send API for recipient %s",
                         recipientId);
                 }
-                resolve(response)
+                messageData.messengerId = recipientId
+                messageData.type = 'sent'
+                messageData.timestamp = Date().now()
+
+                conversationRef.child(messageData.messengerId)
+                    .child(messageData.timestamp)
+                    .update(messageData)
+                    .then(() => resolve(response))
+
 
             } else {
                 console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
