@@ -406,7 +406,7 @@ function receivedMessage(event) {
             case 'bookingInterview': {
                 if (payload[2] == 'yes') {
                     var jobId = payload[3];
-                    console.log('bookingInterview')
+
                     loadJob(jobId).then(result => {
                         var jobData = result;
                         var storeData = result.storeData
@@ -415,25 +415,25 @@ function receivedMessage(event) {
                         console.log(jobData)
 
                         var quick_replies = []
-
+                        var vietnamDay = {
+                            0: 'Chủ nhật',
+                            1: 'Thứ 2',
+                            2: 'Thứ 3',
+                            3: 'Thứ 4',
+                            4: 'Thứ 5',
+                            5: 'Thứ 6',
+                            6: 'Thứ 7',
+                            7: 'Chủ nhật'
+                        }
                         if (storeData.interviewOption) {
                             storeData.interviewOption.forEach(time => {
                                 var newtime = new Date(time)
-                                var vietnamDay = {
-                                    0: 'Chủ nhật',
-                                    1: 'Thứ 2',
-                                    2: 'Thứ 3',
-                                    3: 'Thứ 4',
-                                    4: 'Thứ 5',
-                                    5: 'Thứ 6',
-                                    6: 'Thứ 7',
-                                    7: 'Chủ nhật'
-                                }
-                                var strTime = newtime.getHours() + 'h ' + vietnamDay[newtime.getDay()] + ' ngày ' + newtime.getDate()
+
+                                // var strTime = newtime.getHours() + 'h ' + vietnamDay[newtime.getDay()] + ' ngày ' + newtime.getDate()
 
                                 var rep = {
                                     "content_type": "text",
-                                    "title": strTime,
+                                    "title": newtime,
                                     "payload": "quickReply_setInterview_" + time
                                 };
                                 quick_replies.push(rep)
