@@ -352,7 +352,116 @@ function receivedMessage(event) {
     } else if (quickReply) {
         var quickReplyPayload = quickReply.payload;
         console.log("Quick reply for message %s with payload %s", messageId, quickReplyPayload);
+        var payloadType = quickReplyPayload.split('_');
 
+        switch (payloadType[1]) {
+            case 'confirmJob': {
+                if (payloadType[2] == 'yes') {
+                    var jobId = payloadType[3];
+                    sendTextMessage(senderID, "Hãy kiểm tra lại chi tiết công việc 1 lần nữa trước khi đặt lịch phỏng vấn nhé!")
+                        .then(result => loadJob(jobId))
+                        .then(result => {
+                            var jobData = result
+                            jobData.storeName = result.storeData.storeName
+                            jobData.address = result.storeData.address
+                            console.log(jobData)
+                            var text = jobJD(jobData);
+
+                            var messageData = {
+                                recipient: {
+                                    id: senderID
+                                },
+                                message: {
+                                    text,
+                                    quick_replies: [
+                                        {
+                                            "content_type": "text",
+                                            "title": "Ứng tuyển",
+                                            "payload": "quickReply_applyJob_yes_" + jobId
+                                        },
+                                        {
+                                            "content_type": "text",
+                                            "title": "Từ chối ",
+                                            "payload": "quickReply_applyJob_no_" + jobId
+                                        }
+                                    ]
+                                }
+                            };
+
+                            callSendAPI(messageData);
+
+
+                        })
+
+
+                } else {
+
+
+                }
+            }
+            case 'bookingInterview': {
+                if (payloadType[2] == 'yes') {
+                    var jobId = payloadType[3];
+
+                    loadJob(jobId).then(result => {
+                        var jobData = result;
+                        var storeData = result.storeData
+                        jobData.storeName = storeData.storeName
+                        jobData.address = storeData.address
+                        console.log('storeData.interviewOption', storeData.interviewOption)
+
+                        var quick_replies = []
+                        var vietnamDay = {
+                            0: 'Chủ nhật',
+                            1: 'Thứ 2',
+                            2: 'Thứ 3',
+                            3: 'Thứ 4',
+                            4: 'Thứ 5',
+                            5: 'Thứ 6',
+                            6: 'Thứ 7',
+                            7: 'Chủ nhật'
+                        }
+                        if (storeData.interviewOption) {
+                            for (var i in storeData.interviewOption) {
+                                var time = storeData.interviewOption[i]
+                                var newtime = new Date(time);
+
+                                var strTime = newtime.getHours() + 'giờ ' + vietnamDay[newtime.getDay()] + ' ngày ' + newtime.getDate()
+
+                                var rep = {
+                                    "content_type": "text",
+                                    "title": strTime,
+                                    "payload": "quickReply_setInterview_" + time
+                                };
+                                quick_replies.push(rep)
+                            }
+
+                        }
+
+
+                        var messageData = {
+                            recipient: {
+                                id: senderID
+                            },
+                            message: {
+                                text: 'Bạn có thể tham gia phỏng vấn lúc nào?',
+                                quick_replies: quick_replies
+                            }
+                        };
+                        console.log('messageData', messageData)
+                        callSendAPI(messageData);
+
+
+                    })
+                } else {
+
+
+                }
+            }
+            case 'applyJob':{
+
+            }
+        }
 
 
         return;
@@ -472,116 +581,6 @@ function receivedPostback(event) {
     console.log("Received postback for user %d and page %d with payload '%s' " +
         "at %d", senderID, recipientID, payload, timeOfPostback);
 
-    var payloadType = payload.split('_');
-
-    switch (payloadType[1]) {
-        case 'confirmJob': {
-            if (payloadType[2] == 'yes') {
-                var jobId = payloadType[3];
-                sendTextMessage(senderID, "Hãy kiểm tra lại chi tiết công việc 1 lần nữa trước khi đặt lịch phỏng vấn nhé!")
-                    .then(result => loadJob(jobId))
-                    .then(result => {
-                        var jobData = result
-                        jobData.storeName = result.storeData.storeName
-                        jobData.address = result.storeData.address
-                        console.log(jobData)
-                        var text = jobJD(jobData);
-
-                        var messageData = {
-                            recipient: {
-                                id: senderID
-                            },
-                            message: {
-                                text,
-                                quick_replies: [
-                                    {
-                                        "content_type": "text",
-                                        "title": "Ứng tuyển",
-                                        "payload": "quickReply_applyJob_yes_" + jobId
-                                    },
-                                    {
-                                        "content_type": "text",
-                                        "title": "Từ chối ",
-                                        "payload": "quickReply_applyJob_no_" + jobId
-                                    }
-                                ]
-                            }
-                        };
-
-                        callSendAPI(messageData);
-
-
-                    })
-
-
-            } else {
-
-
-            }
-        }
-        case 'bookingInterview': {
-            if (payloadType[2] == 'yes') {
-                var jobId = payloadType[3];
-
-                loadJob(jobId).then(result => {
-                    var jobData = result;
-                    var storeData = result.storeData
-                    jobData.storeName = storeData.storeName
-                    jobData.address = storeData.address
-                    console.log('storeData.interviewOption', storeData.interviewOption)
-
-                    var quick_replies = []
-                    var vietnamDay = {
-                        0: 'Chủ nhật',
-                        1: 'Thứ 2',
-                        2: 'Thứ 3',
-                        3: 'Thứ 4',
-                        4: 'Thứ 5',
-                        5: 'Thứ 6',
-                        6: 'Thứ 7',
-                        7: 'Chủ nhật'
-                    }
-                    if (storeData.interviewOption) {
-                        for (var i in storeData.interviewOption) {
-                            var time = storeData.interviewOption[i]
-                            var newtime = new Date(time);
-
-                            var strTime = newtime.getHours() + 'giờ ' + vietnamDay[newtime.getDay()] + ' ngày ' + newtime.getDate()
-
-                            var rep = {
-                                "content_type": "text",
-                                "title": strTime,
-                                "payload": "quickReply_setInterview_" + time
-                            };
-                            quick_replies.push(rep)
-                        }
-
-                    }
-
-
-                    var messageData = {
-                        recipient: {
-                            id: senderID
-                        },
-                        message: {
-                            text: 'Bạn có thể tham gia phỏng vấn lúc nào?',
-                            quick_replies: quick_replies
-                        }
-                    };
-                    console.log('messageData', messageData)
-                    callSendAPI(messageData);
-
-
-                })
-            } else {
-
-
-            }
-        }
-        case 'applyJob':{
-
-        }
-    }
 
 
     if (postback.referral) {
