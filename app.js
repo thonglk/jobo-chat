@@ -865,10 +865,12 @@ function sendTextMessage(recipientId, messageText, metadata) {
                 id: recipientId
             },
             message: {
-                text: messageText,
-                metadata
+                text: messageText
             }
         };
+        if(metadata){
+            messageData.message.metadata = metadata
+        }
 
         callSendAPI(messageData).then(result => resolve(result))
             .catch(err => reject(err))
@@ -1163,8 +1165,7 @@ function callSendAPI(messageData) {
                     console.log("Successfully sent message with id %s to recipient %s",
                         messageId, recipientId);
                 } else {
-                    console.log("Successfully called Send API for recipient %s",
-                        recipientId);
+                    console.log("Successfully called Send API for recipient %s", recipientId);
                 }
                 messageData.messengerId = recipientId
                 messageData.type = 'sent'
