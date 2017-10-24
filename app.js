@@ -302,15 +302,15 @@ function jobJD(job) {
     if (job.jobName) jobName = job.jobName
 
     if (job.salary) salary = `🏆Lương: ${job.salary} triệu/tháng\n`;
-    if (job.hourly_wages) hourly_wages = `🏆Lương: ${job.hourly_wages} k/h + thưởng hấp dẫn\n`;
-    if (job.working_type) working_type = `🏆Hình thức làm việc: ${job.working_type}\n`;
+    if (job.hourly_wages) hourly_wages = `🏆Lương: ${job.hourly_wages} k/h + thưởng hấp dẫn\n`
     let timeStr = '';
     if (job.work_time) {
         if (job.work_time.length > 1) {
             timeStr = 'Ca làm:\n';
             job.work_time.forEach(t => timeStr += `- ${t.start} giờ đến ${t.end} giờ\n`);
         } else timeStr = `Ca làm: ${job.work_time[0].start} giờ - ${job.work_time[0].end} giờ`;
-    }
+    } else if (job.working_type) working_type = `🏆Hình thức làm việc: ${job.working_type}\n`;
+
 
     if (job.description) description = `🏆Mô tả công việc: ${job.description}\n`;
     if (job.unit) unit = `🏆Số lượng cần tuyển: ${job.unit} ứng viên\n`;
@@ -321,7 +321,7 @@ function jobJD(job) {
     if (job.figure) figure = '🏆Yêu cầu ngoại hình\n';
 
     const text = `${storeName} - ${address}👩‍💻👨‍💻\n
-        🏆Vị trí của bạn sẽ là: ${jobName}\n
+    🏆Vị trí của bạn sẽ là: ${jobName}\n
 ${working_type}${salary}${hourly_wages}${timeStr}\n${experience}${sex}${unit}${figure}\n`
     return text;
 }
@@ -358,52 +358,107 @@ function receivedMessage(event) {
         //vd: 'quickReply_confirmJob_yes_jobId'
         var payload = quickReplyPayload.split('_');
 
+        switch (payload[1]) {
+            case 'confirmJob': {
+                if (payload[2] == 'yes') {
+                    var jobId = payload[3];
+                    sendTextMessage(senderID, "Hãy kiểm tra lại chi tiết công việc 1 lần nữa trước khi đặt lịch phỏng vấn nhé!")
+                    loadJob(jobId).then(result => {
+                        var jobData = result
+                        jobData.storeName = result.storeData.storeName
+                        jobData.address = result.storeData.address
+                        console.log(jobData)
+                        var text = jobJD(jobData);
 
-        if (payload[1] == 'confirmJob') {
+                        var messageData = {
+                            recipient: {
+                                id: senderID
+                            },
+                            message: {
+                                text,
+                                quick_replies: [
+                                    {
+                                        "content_type": "text",
+                                        "title": "Ứng tuyển",
+                                        "payload": "quickReply_bookingInterview_yes_" + jobId
+                                    },
+                                    {
+                                        "content_type": "text",
+                                        "title": "Từ chối ",
+                                        "payload": "quickReply_bookingInterview_no_" + jobId
+                                    }
+                                ]
+                            }
+                        };
 
-            if (payload[2] == 'yes') {
-                var jobId = payload[3];
-                sendTextMessage(senderID, "Hãy kiểm tra lại chi tiết công việc 1 lần nữa trước khi đặt lịch phỏng vấn nhé!")
-                loadJob(jobId).then(result => {
-                    var jobData = result
-                    jobData.storeName = result.storeData.storeName
-                    jobData.address = result.storeData.address
-                    console.log(jobData)
-                    var text = jobJD(jobData);
-
-                    var messageData = {
-                        recipient: {
-                            id: senderID
-                        },
-                        message: {
-                            text,
-                            quick_replies: [
-                                {
-                                    "content_type": "text",
-                                    "title": "Ứng tuyển",
-                                    "payload": "quickReply_bookingInterview_yes_" + jobId
-                                },
-                                {
-                                    "content_type": "text",
-                                    "title": "Từ chối ",
-                                    "payload": "quickReply_bookingInterview_no_" + jobId
-                                }
-                            ]
-                        }
-                    };
-
-                    callSendAPI(messageData);
-
-
-                })
+                        callSendAPI(messageData);
 
 
-            } else {
+                    })
 
 
+                } else {
+
+
+                }
             }
+            case 'bookingInterview': {
+                if (payload[2] == 'yes') {
+                    loadJob(jobId).then(result => {
+                        var jobData = result
+                        var storeData = result.storeData
+                        jobData.storeName = storeData.storeName
+                        jobData.address = storeData.address
+                        console.log(jobData)
+
+                        var quick_replies = []
+
+                        if(storeData.interviewOption){
+                            storeData.interviewOption.forEach(time => {
+                                var newtime = new Date(time)
+                                var vietnamDay ={
+                                    0:'Chủ nhật',
+                                    1:'Thứ 2',
+                                    2:'Thứ 3',
+                                    3:'Thứ 4',
+                                    4:'Thứ 5',
+                                    5:'Thứ 6',
+                                    6:'Thứ 7',
+                                    7:'Chủ nhật'
+                                }
+                                var strTime = newtime.getHours() +'h '+ vietnamDay[newtime.getDay()] + ' ngày '+ newtime.getDate()
+
+                                var rep = {
+                                    "content_type": "text",
+                                    "title": strTime,
+                                    "payload": "quickReply_setInterview_" + time
+                                }
+                                quick_replies.push(rep)
+
+                            })
+                        }
 
 
+
+                        var messageData = {
+                            recipient: {
+                                id: senderID
+                            },
+                            message: {
+                                text:'Bạn có thể tham gia phỏng vấn lúc nào?',
+                                quick_replies: quick_replies
+                            }
+                        };
+
+                        callSendAPI(messageData);
+
+
+                    })
+                } else {
+
+
+                }
+            }
         }
 
 
@@ -468,7 +523,8 @@ function receivedMessage(event) {
                 sendAccountLinking(senderID);
                 break;
 
-            default:{}
+            default: {
+            }
 
         }
     } else if (messageAttachments) {
