@@ -404,8 +404,10 @@ function receivedMessage(event) {
             }
             case 'bookingInterview': {
                 if (payload[2] == 'yes') {
+                    var jobId = payload[3];
+
                     loadJob(jobId).then(result => {
-                        var jobData = result
+                        var jobData = result;
                         var storeData = result.storeData
                         jobData.storeName = storeData.storeName
                         jobData.address = storeData.address
@@ -416,7 +418,7 @@ function receivedMessage(event) {
                         if(storeData.interviewOption){
                             storeData.interviewOption.forEach(time => {
                                 var newtime = new Date(time)
-                                var vietnamDay ={
+                                var vietnamDay = {
                                     0:'Chủ nhật',
                                     1:'Thứ 2',
                                     2:'Thứ 3',
