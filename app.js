@@ -427,7 +427,7 @@ function receivedMessage(event) {
                         }
                         if (storeData.interviewOption) {
                             storeData.interviewOption.forEach(time => {
-                                var newtime = new Date(time)
+                                var newtime = new Date(time);
 
                                 // var strTime = newtime.getHours() + 'h ' + vietnamDay[newtime.getDay()] + ' ngày ' + newtime.getDate()
 
@@ -451,7 +451,7 @@ function receivedMessage(event) {
                                 quick_replies: quick_replies
                             }
                         };
-
+console.log('messageData',messageData)
                         callSendAPI(messageData);
 
 
