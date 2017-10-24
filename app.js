@@ -363,38 +363,39 @@ function receivedMessage(event) {
                 if (payload[2] == 'yes') {
                     var jobId = payload[3];
                     sendTextMessage(senderID, "Hãy kiểm tra lại chi tiết công việc 1 lần nữa trước khi đặt lịch phỏng vấn nhé!")
-                    loadJob(jobId).then(result => {
-                        var jobData = result
-                        jobData.storeName = result.storeData.storeName
-                        jobData.address = result.storeData.address
-                        console.log(jobData)
-                        var text = jobJD(jobData);
+                        .then(result => loadJob(jobId))
+                        .then(result => {
+                            var jobData = result
+                            jobData.storeName = result.storeData.storeName
+                            jobData.address = result.storeData.address
+                            console.log(jobData)
+                            var text = jobJD(jobData);
 
-                        var messageData = {
-                            recipient: {
-                                id: senderID
-                            },
-                            message: {
-                                text,
-                                quick_replies: [
-                                    {
-                                        "content_type": "text",
-                                        "title": "Ứng tuyển",
-                                        "payload": "quickReply_bookingInterview_yes_" + jobId
-                                    },
-                                    {
-                                        "content_type": "text",
-                                        "title": "Từ chối ",
-                                        "payload": "quickReply_bookingInterview_no_" + jobId
-                                    }
-                                ]
-                            }
-                        };
+                            var messageData = {
+                                recipient: {
+                                    id: senderID
+                                },
+                                message: {
+                                    text,
+                                    quick_replies: [
+                                        {
+                                            "content_type": "text",
+                                            "title": "Ứng tuyển",
+                                            "payload": "quickReply_bookingInterview_yes_" + jobId
+                                        },
+                                        {
+                                            "content_type": "text",
+                                            "title": "Từ chối ",
+                                            "payload": "quickReply_bookingInterview_no_" + jobId
+                                        }
+                                    ]
+                                }
+                            };
 
-                        callSendAPI(messageData);
+                            callSendAPI(messageData);
 
 
-                    })
+                        })
 
 
                 } else {
@@ -415,20 +416,20 @@ function receivedMessage(event) {
 
                         var quick_replies = []
 
-                        if(storeData.interviewOption){
+                        if (storeData.interviewOption) {
                             storeData.interviewOption.forEach(time => {
                                 var newtime = new Date(time)
                                 var vietnamDay = {
-                                    0:'Chủ nhật',
-                                    1:'Thứ 2',
-                                    2:'Thứ 3',
-                                    3:'Thứ 4',
-                                    4:'Thứ 5',
-                                    5:'Thứ 6',
-                                    6:'Thứ 7',
-                                    7:'Chủ nhật'
+                                    0: 'Chủ nhật',
+                                    1: 'Thứ 2',
+                                    2: 'Thứ 3',
+                                    3: 'Thứ 4',
+                                    4: 'Thứ 5',
+                                    5: 'Thứ 6',
+                                    6: 'Thứ 7',
+                                    7: 'Chủ nhật'
                                 }
-                                var strTime = newtime.getHours() +'h '+ vietnamDay[newtime.getDay()] + ' ngày '+ newtime.getDate()
+                                var strTime = newtime.getHours() + 'h ' + vietnamDay[newtime.getDay()] + ' ngày ' + newtime.getDate()
 
                                 var rep = {
                                     "content_type": "text",
@@ -441,13 +442,12 @@ function receivedMessage(event) {
                         }
 
 
-
                         var messageData = {
                             recipient: {
                                 id: senderID
                             },
                             message: {
-                                text:'Bạn có thể tham gia phỏng vấn lúc nào?',
+                                text: 'Bạn có thể tham gia phỏng vấn lúc nào?',
                                 quick_replies: quick_replies
                             }
                         };
@@ -783,17 +783,21 @@ function sendFileMessage(recipientId) {
  *
  */
 function sendTextMessage(recipientId, messageText) {
-    var messageData = {
-        recipient: {
-            id: recipientId
-        },
-        message: {
-            text: messageText,
-            metadata: "DEVELOPER_DEFINED_METADATA"
-        }
-    };
+    return new Promise(function (resolve, reject) {
+        var messageData = {
+            recipient: {
+                id: recipientId
+            },
+            message: {
+                text: messageText,
+                metadata: "DEVELOPER_DEFINED_METADATA"
+            }
+        };
 
-    callSendAPI(messageData);
+        callSendAPI(messageData).then(result => resolve(result))
+            .catch(err => reject(err))
+    })
+
 }
 
 /*
@@ -1067,29 +1071,35 @@ function sendAccountLinking(recipientId) {
  *
  */
 function callSendAPI(messageData) {
-    request({
-        uri: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token: PAGE_ACCESS_TOKEN},
-        method: 'POST',
-        json: messageData
+    return new Promise(function (resolve, reject) {
+        request({
+            uri: 'https://graph.facebook.com/v2.6/me/messages',
+            qs: {access_token: PAGE_ACCESS_TOKEN},
+            method: 'POST',
+            json: messageData
 
-    }, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var recipientId = body.recipient_id;
-            var messageId = body.message_id;
+        }, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var recipientId = body.recipient_id;
+                var messageId = body.message_id;
 
-            if (messageId) {
-                console.log("Successfully sent message with id %s to recipient %s",
-                    messageId, recipientId);
+                if (messageId) {
+                    console.log("Successfully sent message with id %s to recipient %s",
+                        messageId, recipientId);
+                } else {
+                    console.log("Successfully called Send API for recipient %s",
+                        recipientId);
+                }
+                resolve(response)
+
             } else {
-                console.log("Successfully called Send API for recipient %s",
-                    recipientId);
-            }
+                console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
+                reject(response)
 
-        } else {
-            console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
-        }
-    });
+            }
+        });
+    })
+
 }
 
 // Start server
