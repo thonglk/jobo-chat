@@ -1168,7 +1168,7 @@ function callSendAPI(messageData) {
                 }
                 messageData.messengerId = recipientId
                 messageData.type = 'sent'
-                messageData.timestamp = Date().now()
+                messageData.timestamp = Date.now()
 
                 conversationRef.child(messageData.messengerId)
                     .child(messageData.timestamp)
