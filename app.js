@@ -475,6 +475,8 @@ function receivedMessage(event) {
     if (messageText) {
 
         var conversation = conversationData[senderID];
+        console.log('conversation',conversation)
+
         var lastMessage = _.max(conversation, function(card){ return card.timestamp; });
         console.log('lastMessage',lastMessage)
         if(lastMessage){
