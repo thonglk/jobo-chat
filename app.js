@@ -404,7 +404,7 @@ function receivedMessage(event) {
             }
 
 
-        } else sendTextMessage(senderID, "Quick reply tapped");
+        }
 
 
         return;
