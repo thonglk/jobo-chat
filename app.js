@@ -468,8 +468,8 @@ function receivedMessage(event) {
                 sendAccountLinking(senderID);
                 break;
 
-            default:
-                sendTextMessage(senderID, "Cám ơn bạn đã inbox, mình sẽ hỗ trợ cho bạn ngay!");
+            default:{}
+
         }
     } else if (messageAttachments) {
         sendTextMessage(senderID, "Message with attachment received");
