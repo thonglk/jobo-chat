@@ -412,7 +412,7 @@ function receivedMessage(event) {
                         var storeData = result.storeData
                         jobData.storeName = storeData.storeName
                         jobData.address = storeData.address
-                        console.log(jobData)
+                        console.log('storeData.interviewOption', storeData.interviewOption)
 
                         var quick_replies = []
                         var vietnamDay = {
@@ -426,7 +426,8 @@ function receivedMessage(event) {
                             7: 'Chủ nhật'
                         }
                         if (storeData.interviewOption) {
-                            storeData.interviewOption.forEach(time => {
+                            for (var i in storeData.interviewOption) {
+                                var time = storeData.interviewOption[i]
                                 var newtime = new Date(time);
 
                                 // var strTime = newtime.getHours() + 'h ' + vietnamDay[newtime.getDay()] + ' ngày ' + newtime.getDate()
@@ -437,8 +438,8 @@ function receivedMessage(event) {
                                     "payload": "quickReply_setInterview_" + time
                                 };
                                 quick_replies.push(rep)
+                            }
 
-                            })
                         }
 
 
@@ -451,7 +452,7 @@ function receivedMessage(event) {
                                 quick_replies: quick_replies
                             }
                         };
-console.log('messageData',messageData)
+                        console.log('messageData', messageData)
                         callSendAPI(messageData);
 
 
