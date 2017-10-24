@@ -406,7 +406,7 @@ function receivedMessage(event) {
             case 'bookingInterview': {
                 if (payload[2] == 'yes') {
                     var jobId = payload[3];
-
+                    console.log('bookingInterview')
                     loadJob(jobId).then(result => {
                         var jobData = result;
                         var storeData = result.storeData
