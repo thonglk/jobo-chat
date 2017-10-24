@@ -460,7 +460,7 @@ function receivedMessage(event) {
             }
             case 'applyJob': {
                 if (payloadType[2] == 'yes') {
-                    sendTextMessage(senderID, 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé', 'sendTextMessage_askPhone_' + senderID)
+                    sendTextMessage(senderID, 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé', 'sendTextMessage_askPhone_' + payloadType[3])
                 } else {
 
                 }
