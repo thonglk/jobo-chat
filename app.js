@@ -18,8 +18,8 @@ const
     https = require('https'),
     request = require('request'),
     axios = require('axios'),
-    firebase = require('firebase-admin');
-_ = require('underscore')
+    firebase = require('firebase-admin'),
+    _ = require('underscore');
 var app = express();
 
 
@@ -351,8 +351,7 @@ function receivedMessage(event) {
             messageId, appId, metadata);
         return;
     }
-    else
-    if (quickReply) {
+    else if (quickReply) {
         var quickReplyPayload = quickReply.payload;
         console.log("Quick reply for message %s with payload %s", messageId, quickReplyPayload);
         var payloadType = quickReplyPayload.split('_');
@@ -472,20 +471,24 @@ function receivedMessage(event) {
 
         return;
     }
-    else
-    if (messageText) {
+    else if (messageText) {
 
         var conversation = conversationData[senderID];
-        console.log('conversation',conversation)
 
-        var lastMessage = _.max(conversation, function(card){ return card.timestamp; });
-        console.log('lastMessage',lastMessage)
-        if(lastMessage){
-            if(lastMessage.message && lastMessage.message.metadata){
+        var listSentMessage = _.filter(conversation,function (card) {
+            return card.type == 'sent';
+
+        })
+        var lastMessage = _.max(listSentMessage, function (card) {
+            return card.timestamp;
+        });
+        console.log('lastMessage', lastMessage)
+        if (lastMessage) {
+            if (lastMessage.message && lastMessage.message.metadata) {
                 var metadata = lastMessage.message.metadata
                 var metadataType = metadata.split('_')
-                switch (metadataType[1]){
-                    case 'askPhone':{
+                switch (metadataType[1]) {
+                    case 'askPhone': {
 
                         var jobId = metadataType[2];
 
@@ -543,7 +546,6 @@ function receivedMessage(event) {
                     }
                 }
             }
-
 
 
         }
@@ -610,8 +612,7 @@ function receivedMessage(event) {
 
         }
     }
-    else
-    if (messageAttachments) {
+    else if (messageAttachments) {
         sendTextMessage(senderID, "Message with attachment received");
     }
 }
@@ -875,7 +876,7 @@ function sendTextMessage(recipientId, messageText, metadata) {
                 text: messageText
             }
         };
-        if(metadata){
+        if (metadata) {
             messageData.message.metadata = metadata
         }
 
