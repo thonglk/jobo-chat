@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -49,18 +50,18 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="441" column="24" lean-forward="false" selection-start-line="441" selection-start-column="24" selection-end-line="441" selection-end-column="24" />
+            <state relative-caret-position="-54">
+              <caret line="401" column="0" lean-forward="true" selection-start-line="401" selection-start-column="0" selection-end-line="401" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <element signature="e#19490#20923#0" expanded="false" />
+                <element signature="e#19431#20864#0" expanded="false" />
                 <element signature="n#!!block;n#sendImageMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendVideoMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendFileMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
-                <element signature="e#39682#39867#0" expanded="false" />
+                <element signature="e#39673#39858#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -185,12 +186,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1508779802294</updated>
-      <workItem from="1508779803911" duration="19491000" />
+      <workItem from="1508779803911" duration="19748000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19491000" />
+    <option name="totallyTimeSpent" value="19748000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -271,18 +272,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="441" column="24" lean-forward="false" selection-start-line="441" selection-start-column="24" selection-end-line="441" selection-end-column="24" />
+        <state relative-caret-position="-54">
+          <caret line="401" column="0" lean-forward="true" selection-start-line="401" selection-start-column="0" selection-end-line="401" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <element signature="e#19490#20923#0" expanded="false" />
+            <element signature="e#19431#20864#0" expanded="false" />
             <element signature="n#!!block;n#sendImageMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendVideoMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendFileMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
-            <element signature="e#39682#39867#0" expanded="false" />
+            <element signature="e#39673#39858#0" expanded="false" />
           </folding>
         </state>
       </provider>

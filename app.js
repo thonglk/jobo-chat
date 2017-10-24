@@ -353,9 +353,8 @@ function receivedMessage(event) {
         return;
     } else if (quickReply) {
         var quickReplyPayload = quickReply.payload;
-        console.log("Quick reply for message %s with payload %s",
-            messageId, quickReplyPayload);
-        //vd: 'quickReply_confirmJob_yes_jobId'
+        console.log("Quick reply for message %s with payload %s", messageId, quickReplyPayload);
+
         var payload = quickReplyPayload.split('_');
 
         switch (payload[1]) {
@@ -430,11 +429,11 @@ function receivedMessage(event) {
                                 var time = storeData.interviewOption[i]
                                 var newtime = new Date(time);
 
-                                // var strTime = newtime.getHours() + 'h ' + vietnamDay[newtime.getDay()] + ' ngày ' + newtime.getDate()
+                                var strTime = newtime.getHours() + 'giờ ' + vietnamDay[newtime.getDay()] + ' ngày ' + newtime.getDate()
 
                                 var rep = {
                                     "content_type": "text",
-                                    "title": newtime,
+                                    "title": strTime,
                                     "payload": "quickReply_setInterview_" + time
                                 };
                                 quick_replies.push(rep)
