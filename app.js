@@ -349,7 +349,9 @@ function receivedMessage(event) {
         console.log("Received echo for message %s and app %d with metadata %s",
             messageId, appId, metadata);
         return;
-    } else if (quickReply) {
+    }
+    else
+    if (quickReply) {
         var quickReplyPayload = quickReply.payload;
         console.log("Quick reply for message %s with payload %s", messageId, quickReplyPayload);
         var payloadType = quickReplyPayload.split('_');
@@ -467,14 +469,14 @@ function receivedMessage(event) {
             }
         }
 
-
         return;
     }
-
+    else
     if (messageText) {
 
         var conversation = conversationData[senderID];
         var lastMessage = _.max(conversation, function(card){ return card.timestamp; });
+        console.log('lastMessage',lastMessage)
         if(lastMessage){
             if(lastMessage.message && lastMessage.message.metadata){
                 var metadata = lastMessage.message.metadata
@@ -604,7 +606,9 @@ function receivedMessage(event) {
             }
 
         }
-    } else if (messageAttachments) {
+    }
+    else
+    if (messageAttachments) {
         sendTextMessage(senderID, "Message with attachment received");
     }
 }
