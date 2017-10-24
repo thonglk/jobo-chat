@@ -159,8 +159,6 @@ app.post('/webhook', function (req, res) {
                 console.log('pageEntry', messagingEvent)
 
                 var savedMess = Object({}, messagingEvent)
-                delete savedMess.recipient
-                delete savedMess.sender
                 savedMess.messengerId = messagingEvent.sender.id
                 savedMess.type = 'received'
                 console.log('savedMess', savedMess)
