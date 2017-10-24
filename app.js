@@ -157,12 +157,12 @@ app.post('/webhook', function (req, res) {
             pageEntry.messaging.forEach(function (messagingEvent) {
 
                 console.log('pageEntry', messagingEvent)
-
-                var savedMess = Object({}, messagingEvent)
-                savedMess.messengerId = messagingEvent.sender.id
-                savedMess.type = 'received'
+                //
+                // var savedMess = Object({}, messagingEvent)
+                // savedMess.messengerId = messagingEvent.sender.id
+                // savedMess.type = 'received'
                 console.log('savedMess', savedMess)
-                conversationRef.child(savedMess.messengerId).child(timeOfEvent).update(savedMess).then(() => {
+                conversationRef.child(messagingEvent.sender.id).child(timeOfEvent).update(messagingEvent).then(() => {
 
                     if (messagingEvent.optin) {
                         receivedAuthentication(messagingEvent);
@@ -458,8 +458,12 @@ function receivedMessage(event) {
 
                 }
             }
-            case 'applyJob':{
+            case 'applyJob': {
+                if (payloadType[2] == 'yes') {
+                    sendTextMessage(senderID, 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé', 'sendTextMessage_askPhone_'+senderID)
+                } else {
 
+                }
             }
         }
 
@@ -582,7 +586,6 @@ function receivedPostback(event) {
         "at %d", senderID, recipientID, payload, timeOfPostback);
 
 
-
     if (postback.referral) {
         var jobId = postback.referral.ref;
         // get data job
@@ -616,7 +619,6 @@ function receivedPostback(event) {
 
         //
     }
-
 
 
     // When a postback is called, we'll send a message back to the sender to
@@ -785,7 +787,7 @@ function sendFileMessage(recipientId) {
  * Send a text message using the Send API.
  *
  */
-function sendTextMessage(recipientId, messageText) {
+function sendTextMessage(recipientId, messageText, metadata) {
     return new Promise(function (resolve, reject) {
         var messageData = {
             recipient: {
@@ -793,7 +795,7 @@ function sendTextMessage(recipientId, messageText) {
             },
             message: {
                 text: messageText,
-                metadata: "DEVELOPER_DEFINED_METADATA"
+                metadata
             }
         };
 
