@@ -401,70 +401,72 @@ function receivedMessage(event) {
 
                 }
             }
-            case 'bookingInterview': {
-                if (payloadType[2] == 'yes') {
-                    var jobId = payloadType[3];
-
-                    loadJob(jobId).then(result => {
-                        var jobData = result;
-                        var storeData = result.storeData
-                        jobData.storeName = storeData.storeName
-                        jobData.address = storeData.address
-                        console.log('storeData.interviewOption', storeData.interviewOption)
-
-                        var quick_replies = []
-                        var vietnamDay = {
-                            0: 'Chủ nhật',
-                            1: 'Thứ 2',
-                            2: 'Thứ 3',
-                            3: 'Thứ 4',
-                            4: 'Thứ 5',
-                            5: 'Thứ 6',
-                            6: 'Thứ 7',
-                            7: 'Chủ nhật'
-                        }
-                        if (storeData.interviewOption) {
-                            for (var i in storeData.interviewOption) {
-                                var time = storeData.interviewOption[i]
-                                var newtime = new Date(time);
-
-                                var strTime = newtime.getHours() + 'giờ ' + vietnamDay[newtime.getDay()] + ' ngày ' + newtime.getDate()
-
-                                var rep = {
-                                    "content_type": "text",
-                                    "title": strTime,
-                                    "payload": "quickReply_setInterview_" + time
-                                };
-                                quick_replies.push(rep)
-                            }
-
-                        }
-
-
-                        var messageData = {
-                            recipient: {
-                                id: senderID
-                            },
-                            message: {
-                                text: 'Bạn có thể tham gia phỏng vấn lúc nào?',
-                                quick_replies: quick_replies
-                            }
-                        };
-                        console.log('messageData', messageData)
-                        callSendAPI(messageData);
-
-
-                    })
-                } else {
-
-
-                }
-            }
             case 'applyJob': {
                 if (payloadType[2] == 'yes') {
                     sendTextMessage(senderID, 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé', 'sendTextMessage_askPhone_' + payloadType[3])
                 } else {
 
+                }
+            }
+            case 'confirmJobSeeker': {
+                if (payloadType[2] == 'yes') {
+                    sendAPI(senderID, {
+                        text: "Okie, chào mừng bạn đến với Jobo <3"
+                    }).then(() => {
+
+                        sendAPI(senderID, {
+                            text: "Bạn vui lòng lưu ý 1 số thứ sau trước khi bắt đầu đi làm nhé!"
+                        }).then(() => {
+
+                            sendAPI(senderID, {
+                                text: ` 
+                                * Bạn sẽ được: \n 
+                                 - Chọn ca linh hoạt theo lịch của bạn \n 
+                                 - Làm việc với cả thương hiệu lớn \n 
+                                 - Không cần CV \n 
+                                 - Thu nhập từ 6-8tr`
+                            }).then(() => {
+
+                                sendAPI(senderID,{
+                                    text:`
+                                    * Lưu ý khi nhận việc \n 
+                                     - Xem kỹ yêu câu công việc trước khi ứng tuyển \n
+                                     - Vui lòng đi phỏng vấn đúng giờ, theo như lịch đã hẹn \n
+                                     - Nếu có việc đột xuất không tham gia được, bạn phải báo lại cho mình ngay`
+                                }).then(()=>{
+                                    sendAPI(senderID,{
+                                        text:"Bạn đã rõ chưa nhỉ???",
+                                        quick_replies:[{
+                                            "content_type": "text",
+                                            "title": "Mình đồng ý (Y)",
+                                            "payload": "quickReply_confirmPolicy_yes"
+                                        },{
+                                            "content_type": "text",
+                                            "title": "Không đồng ý đâu :(",
+                                            "payload": "quickReply_confirmPolicy_no"
+                                        }]
+                                    })
+                                })
+
+                            })
+
+                        })
+
+                    })
+
+                } else {
+
+                }
+            }
+            case 'confirmPolicy':{
+                if(payloadType[2] == 'yes'){
+                    sendAPI(senderID,{
+                        text:"Hiện tại đang có 1 số công việc đang tuyển gấp, xem nó có gần bạn không nhé",
+                        quick_replies:[{
+                            "content_type": "location",
+                            "payload": "quickReply_inputLocation"
+                        }]
+                    })
                 }
             }
         }
@@ -475,7 +477,7 @@ function receivedMessage(event) {
 
         var conversation = conversationData[senderID];
 
-        var listSentMessage = _.filter(conversation,function (card) {
+        var listSentMessage = _.filter(conversation, function (card) {
             return card.type == 'sent';
 
         })
@@ -659,44 +661,65 @@ function receivedPostback(event) {
     // The 'payload' param is a developer-defined field which is set in a postback
     // button for Structured Messages.
     var payload = postback.payload;
-    console.log('Received', event)
 
     console.log("Received postback for user %d and page %d with payload '%s' " +
         "at %d", senderID, recipientID, payload, timeOfPostback);
 
+    switch (payload.type) {
+        case 'GET_STARTED': {
+            if (postback.referral && postback.referral.ref != 'start') {
+                var jobId = postback.referral.ref;
+                // get data job
 
-    if (postback.referral) {
-        var jobId = postback.referral.ref;
-        // get data job
+                loadJob(jobId).then(result => {
+                    var jobData = result
+                    var messageData = {
+                        recipient: {
+                            id: senderID
+                        },
+                        message: {
+                            text: `Có phải bạn đang muốn ứng tuyển vào vị trí ${jobData.jobName} của ${jobData.storeData.storeName} ?`,
+                            quick_replies: [
+                                {
+                                    "content_type": "text",
+                                    "title": "Đúng rồi (Y)",
+                                    "payload": "quickReply_confirmJob_yes_" + jobId
+                                },
+                                {
+                                    "content_type": "text",
+                                    "title": "Không phải",
+                                    "payload": "quickReply_confirmJob_no_" + jobId
+                                },
+                            ]
+                        }
+                    };
 
-        loadJob(jobId).then(result => {
-            var jobData = result
-            var messageData = {
-                recipient: {
-                    id: senderID
-                },
-                message: {
-                    text: `Có phải bạn đang muốn ứng tuyển vào vị trí ${jobData.jobName} của ${jobData.storeData.storeName} ?`,
+                    callSendAPI(messageData);
+                }).catch(err => sendTextMessage(senderID, JSON.stringify(err)))
+
+
+                //
+            } else {
+                sendAPI(senderID, {
+                    text: `Có phải bạn đang muốn tham gia Jobo để tìm việc làm thêm?`,
                     quick_replies: [
                         {
                             "content_type": "text",
-                            "title": "Đúng rồi (Y)",
-                            "payload": "quickReply_confirmJob_yes_" + jobId
+                            "title": "Đúng vậy",
+                            "payload": "quickReply_confirmJobSeeker_yes_"
                         },
                         {
                             "content_type": "text",
                             "title": "Không phải",
-                            "payload": "quickReply_confirmJob_no_" + jobId
+                            "payload": "quickReply_confirmJobSeeker_no_"
                         },
                     ]
-                }
-            };
-
-            callSendAPI(messageData);
-        }).catch(err => sendTextMessage(senderID, JSON.stringify(err)))
+                })
 
 
-        //
+            }
+
+        }
     }
 
 
@@ -879,6 +902,21 @@ function sendTextMessage(recipientId, messageText, metadata) {
         if (metadata) {
             messageData.message.metadata = metadata
         }
+
+        callSendAPI(messageData).then(result => resolve(result))
+            .catch(err => reject(err))
+    })
+
+}
+
+function sendAPI(recipientId, message) {
+    return new Promise(function (resolve, reject) {
+        var messageData = {
+            recipient: {
+                id: recipientId
+            },
+            message: message
+        };
 
         callSendAPI(messageData).then(result => resolve(result))
             .catch(err => reject(err))
