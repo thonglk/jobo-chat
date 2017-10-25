@@ -256,9 +256,9 @@ function jobJD(job) {
     let timeStr = '';
     if (job.work_time) {
         if (job.work_time.length > 1) {
-            timeStr = '🏆Ca làm:\n';
+            timeStr = '🕐Ca làm:\n';
             job.work_time.forEach(t => timeStr += `- ${t.start} giờ đến ${t.end} giờ\n`);
-        } else timeStr = `🏆Ca làm: ${job.work_time[0].start} giờ - ${job.work_time[0].end} giờ`;
+        } else timeStr = `🕐Ca làm: ${job.work_time[0].start} giờ - ${job.work_time[0].end} giờ`;
     } else if (job.working_type) working_type = `🏆Hình thức làm việc: ${job.working_type}\n`;
 
 
@@ -270,7 +270,7 @@ function jobJD(job) {
     else if (job.sex === 'male') sex = `🏆Giới tính: Nam\n`;
     if (job.figure) figure = '🏆Yêu cầu ngoại hình\n';
 
-    const text = `${storeName} - ${address}👩‍💻👨‍💻\n🏆Vị trí của bạn sẽ là: ${jobName}\n
+    const text = `🏠${storeName} - ${address}👩‍💻👨‍💻\n 🛄Vị trí của bạn sẽ là: ${jobName}\n
 ${working_type}${salary}${hourly_wages}${timeStr}\n${experience}${sex}${unit}${figure}\n`
     return text;
 }

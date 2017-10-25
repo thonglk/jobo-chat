@@ -49,18 +49,18 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22">
-              <caret line="537" column="0" lean-forward="false" selection-start-line="537" selection-start-column="0" selection-end-line="537" selection-end-column="0" />
+            <state relative-caret-position="191">
+              <caret line="879" column="0" lean-forward="true" selection-start-line="879" selection-start-column="0" selection-end-line="879" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#timeAgo#0" expanded="false" />
                 <element signature="e#15556#16086#0" expanded="false" />
                 <element signature="e#20601#21921#0" expanded="false" />
                 <element signature="e#22196#23440#0" expanded="false" />
-                <element signature="e#30341#32368#0" expanded="false" />
-                <element signature="e#32551#33133#0" expanded="false" />
+                <element signature="e#30315#32342#0" expanded="false" />
+                <element signature="e#32525#33107#0" expanded="false" />
                 <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-                <element signature="e#36660#36854#0" expanded="false" />
+                <element signature="e#36634#36828#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendVideoMessage#0" expanded="false" />
@@ -209,12 +209,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1508779802294</updated>
-      <workItem from="1508779803911" duration="50387000" />
+      <workItem from="1508779803911" duration="50643000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="50387000" />
+    <option name="totallyTimeSpent" value="50643000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -303,18 +303,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="537" column="0" lean-forward="false" selection-start-line="537" selection-start-column="0" selection-end-line="537" selection-end-column="0" />
+        <state relative-caret-position="191">
+          <caret line="879" column="0" lean-forward="true" selection-start-line="879" selection-start-column="0" selection-end-line="879" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="e#15556#16086#0" expanded="false" />
             <element signature="e#20601#21921#0" expanded="false" />
             <element signature="e#22196#23440#0" expanded="false" />
-            <element signature="e#30341#32368#0" expanded="false" />
-            <element signature="e#32551#33133#0" expanded="false" />
+            <element signature="e#30315#32342#0" expanded="false" />
+            <element signature="e#32525#33107#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-            <element signature="e#36660#36854#0" expanded="false" />
+            <element signature="e#36634#36828#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendVideoMessage#0" expanded="false" />
