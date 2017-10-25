@@ -365,87 +365,6 @@ function receivedMessage(event) {
     }
     else if (messageText) {
 
-        var conversation = conversationData[senderID];
-
-        var listSentMessage = _.filter(conversation, function (card) {
-            return card.type == 'sent';
-
-        })
-        var lastMessage = _.max(listSentMessage, function (card) {
-            return card.timestamp;
-        });
-        console.log('lastMessage', lastMessage)
-        if (lastMessage) {
-            if (lastMessage.message && lastMessage.message.metadata) {
-                var metadata = lastMessage.message.metadata
-                var metadataType = metadata.split('_')
-                switch (metadataType[1]) {
-                    case 'askPhone': {
-
-                        var jobId = metadataType[2];
-
-                        loadJob(jobId).then(result => {
-                            var jobData = result;
-                            var storeData = result.storeData
-                            jobData.storeName = storeData.storeName
-                            jobData.address = storeData.address
-                            console.log('storeData.interviewOption', storeData.interviewOption)
-
-                            var quick_replies = []
-                            var vietnamDay = {
-                                0: 'Chủ nhật',
-                                1: 'Thứ 2',
-                                2: 'Thứ 3',
-                                3: 'Thứ 4',
-                                4: 'Thứ 5',
-                                5: 'Thứ 6',
-                                6: 'Thứ 7',
-                                7: 'Chủ nhật'
-                            }
-                            if (storeData.interviewOption) {
-                                for (var i in storeData.interviewOption) {
-                                    var time = storeData.interviewOption[i]
-                                    var newtime = new Date(time);
-
-                                    var strTime = newtime.getHours() + 'giờ ' + vietnamDay[newtime.getDay()] + ' ngày ' + newtime.getDate()
-
-                                    var rep = {
-                                        "content_type": "text",
-                                        "title": strTime,
-                                        "payload": JSON.stringify({
-                                            type: 'setInterview',
-                                            time: time
-                                        })
-                                    };
-                                    quick_replies.push(rep)
-                                }
-
-                            }
-
-
-                            var messageData = {
-                                recipient: {
-                                    id: senderID
-                                },
-                                message: {
-                                    text: 'Bạn có thể tham gia phỏng vấn lúc nào?',
-                                    quick_replies: quick_replies
-                                }
-                            };
-
-                            callSendAPI(messageData);
-
-
-                        })
-
-                    }
-                }
-            }
-
-
-        }
-
-
         // If we receive a text message, check to see if it matches any special
         // keywords and send back the corresponding example. Otherwise, just echo
         // the text we received.
@@ -750,7 +669,7 @@ function matchingPayload(event) {
                 if (payload.answer == 'yes') {
                     sendTextMessage(senderID, 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé', JSON.stringify({
                         type: 'askPhone',
-                        phone: payload.phone
+                        jobId: payload.jobId
                     }))
                 } else {
 
