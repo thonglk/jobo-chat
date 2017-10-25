@@ -472,7 +472,6 @@ function matchingPayload(event) {
                         sendAPI(senderID, {
                             text: "Bạn vui lòng lưu ý 1 số thứ sau trước khi bắt đầu đi làm nhé!"
                         }).then(() => {
-
                             sendAPI(senderID, {
                                 text: "* Bạn sẽ được:\n" +
                                 "- Chọn ca linh hoạt theo lịch của bạn\n" +
@@ -512,11 +511,12 @@ function matchingPayload(event) {
                         })
 
                     })
-                    break;
 
                 } else {
 
                 }
+                break;
+
             }
             case'confirmPolicy': {
                 if (payload.answer == 'yes') {
