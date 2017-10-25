@@ -1149,8 +1149,10 @@ function sendTextMessage(recipientId, messageText, metadata) {
 
 }
 
-function sendAPI(recipientId, message, typing = 1000) {
+function sendAPI(recipientId, message, typing) {
     return new Promise(function (resolve, reject) {
+        if(!typing) typing = 1000
+
         var messageData = {
             recipient: {
                 id: recipientId
