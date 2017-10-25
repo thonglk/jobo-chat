@@ -1168,6 +1168,11 @@ function sendAPI(recipientId, message, typing) {
         setTimeout(function () {
             sendTypingOff(recipientId)
             callSendAPI(messageData).then(result => {
+
+                messageData.messengerId = recipientId
+                messageData.type = 'sent'
+                messageData.timestamp = Date.now()
+
                 conversationRef.child(messageData.messengerId)
                     .child(messageData.timestamp)
                     .update(messageData)
@@ -1177,9 +1182,7 @@ function sendAPI(recipientId, message, typing) {
                 .catch(err => reject(err))
         }, typing)
 
-        messageData.messengerId = recipientId
-        messageData.type = 'sent'
-        messageData.timestamp = Date.now()
+
 
 
     })
