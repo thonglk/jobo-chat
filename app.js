@@ -391,11 +391,11 @@ function matchingPayload(event) {
 
                                 sendAPI(senderID, {
                                     text
-                                }).then(() => {
+                                },3000).then(() => {
                                         if (jobData.description) {
                                             sendAPI(senderID, {
                                                 text: jobData.description
-                                            }).then(sendAPI(senderID, {
+                                            },6000).then(sendAPI(senderID, {
                                                 text: 'Bạn có muốn ứng tuyển vào công việc này không?',
                                                 quick_replies: [
                                                     {
@@ -417,7 +417,7 @@ function matchingPayload(event) {
                                                         })
                                                     }
                                                 ]
-                                            }))
+                                            },1000))
                                         } else sendAPI(senderID, {
                                             text: 'Bạn có muốn ứng tuyển vào công việc này không?',
                                             quick_replies: [
