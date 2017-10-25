@@ -391,34 +391,11 @@ function matchingPayload(event) {
 
                                 sendAPI(senderID, {
                                     text
-                                },3000).then(() => {
-                                        if (jobData.description) {
-                                            sendAPI(senderID, {
-                                                text: jobData.description
-                                            },6000).then(sendAPI(senderID, {
-                                                text: 'Bạn có muốn ứng tuyển vào công việc này không?',
-                                                quick_replies: [
-                                                    {
-                                                        "content_type": "text",
-                                                        "title": "Ứng tuyển",
-                                                        "payload": JSON.stringify({
-                                                            type: 'applyJob',
-                                                            answer: 'yes',
-                                                            jobId: jobId
-                                                        })
-                                                    },
-                                                    {
-                                                        "content_type": "text",
-                                                        "title": "Từ chối ",
-                                                        "payload": JSON.stringify({
-                                                            type: 'applyJob',
-                                                            answer: 'no',
-                                                            jobId: jobId
-                                                        })
-                                                    }
-                                                ]
-                                            },1000))
-                                        } else sendAPI(senderID, {
+                                }, 3000).then(() => {
+
+                                        sendAPI(senderID, {
+                                            text: jobData.description || '(Y) (Y) (Y)'
+                                        }).then(sendAPI(senderID, {
                                             text: 'Bạn có muốn ứng tuyển vào công việc này không?',
                                             quick_replies: [
                                                 {
@@ -440,7 +417,7 @@ function matchingPayload(event) {
                                                     })
                                                 }
                                             ]
-                                        })
+                                        }))
                                     }
                                 );
                             }
@@ -882,7 +859,7 @@ function receivedMessage(event) {
                 var resultData = result.data;
                 var jobData = resultData.data;
                 console.log('resultData', resultData.total);
-                sendAPI(senderID, {text:`Mình tìm thấy ${resultData.total} công việc đang tuyển xung quanh nè!`})
+                sendAPI(senderID, {text: `Mình tìm thấy ${resultData.total} công việc đang tuyển xung quanh nè!`})
                 for (var i in jobData) {
                     var job = jobData[i];
 
@@ -1183,8 +1160,6 @@ function sendAPI(recipientId, message, typing) {
             })
 
         }, typing)
-
-
 
 
     })
