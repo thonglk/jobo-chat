@@ -49,18 +49,18 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
-              <caret line="879" column="0" lean-forward="true" selection-start-line="879" selection-start-column="0" selection-end-line="879" selection-end-column="0" />
+            <state relative-caret-position="331">
+              <caret line="275" column="1" lean-forward="true" selection-start-line="275" selection-start-column="1" selection-end-line="275" selection-end-column="1" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-                <element signature="e#15556#16086#0" expanded="false" />
-                <element signature="e#20601#21921#0" expanded="false" />
-                <element signature="e#22196#23440#0" expanded="false" />
-                <element signature="e#30315#32342#0" expanded="false" />
-                <element signature="e#32525#33107#0" expanded="false" />
+                <element signature="e#15559#16089#0" expanded="false" />
+                <element signature="e#20604#21924#0" expanded="false" />
+                <element signature="e#22199#23443#0" expanded="false" />
+                <element signature="e#30318#32345#0" expanded="false" />
+                <element signature="e#32528#33110#0" expanded="false" />
                 <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-                <element signature="e#36634#36828#0" expanded="false" />
+                <element signature="e#36637#36831#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendVideoMessage#0" expanded="false" />
@@ -209,16 +209,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1508779802294</updated>
-      <workItem from="1508779803911" duration="50643000" />
+      <workItem from="1508779803911" duration="50728000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="50643000" />
+    <option name="totallyTimeSpent" value="50728000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -228,7 +227,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -303,18 +302,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="879" column="0" lean-forward="true" selection-start-line="879" selection-start-column="0" selection-end-line="879" selection-end-column="0" />
+        <state relative-caret-position="331">
+          <caret line="275" column="1" lean-forward="true" selection-start-line="275" selection-start-column="1" selection-end-line="275" selection-end-column="1" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="e#15556#16086#0" expanded="false" />
-            <element signature="e#20601#21921#0" expanded="false" />
-            <element signature="e#22196#23440#0" expanded="false" />
-            <element signature="e#30315#32342#0" expanded="false" />
-            <element signature="e#32525#33107#0" expanded="false" />
+            <element signature="e#15559#16089#0" expanded="false" />
+            <element signature="e#20604#21924#0" expanded="false" />
+            <element signature="e#22199#23443#0" expanded="false" />
+            <element signature="e#30318#32345#0" expanded="false" />
+            <element signature="e#32528#33110#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-            <element signature="e#36634#36828#0" expanded="false" />
+            <element signature="e#36637#36831#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendVideoMessage#0" expanded="false" />
