@@ -380,7 +380,7 @@ function matchingPayload(event) {
                 if (payload.answer == 'yes') {
                     console.log('Response confirmJob:', payload)
                     var jobId = payload.jobId;
-                    sendTextMessage(senderID, "Hãy kiểm tra lại chi tiết công việc 1 lần nữa trước khi đặt lịch phỏng vấn nhé!")
+                    sendTextMessage(senderID, "Hãy kiểm tra lại chi tiết công việc trước khi đặt lịch phỏng vấn nhé!")
                         .then(result => loadJob(jobId))
                         .then(result => {
                                 var jobData = result;
