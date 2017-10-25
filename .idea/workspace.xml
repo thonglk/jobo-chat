@@ -49,13 +49,11 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="890" column="39" lean-forward="true" selection-start-line="890" selection-start-column="39" selection-end-line="890" selection-end-column="39" />
+            <state relative-caret-position="324">
+              <caret line="315" column="0" lean-forward="true" selection-start-line="315" selection-start-column="0" selection-end-line="315" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-                <element signature="e#15559#16089#0" expanded="false" />
-                <element signature="e#20604#21924#0" expanded="false" />
                 <element signature="e#22199#23443#0" expanded="false" />
                 <element signature="e#24406#24531#0" expanded="false" />
                 <element signature="e#24644#24990#0" expanded="false" />
@@ -79,7 +77,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>booking</find>
       <find>book</find>
       <find>bookI</find>
       <find>webhook</find>
@@ -102,13 +99,14 @@
       <find>askphone</find>
       <find>loadjob</find>
       <find>location</find>
-      <find>confirmJob</find>
       <find>sendAPI</find>
       <find>case</find>
       <find>timeAgo</find>
       <find>setInterview</find>
       <find>confirmJobSeeker</find>
       <find>job</find>
+      <find>confirmJob</find>
+      <find>).then(</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -212,12 +210,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1508779802294</updated>
-      <workItem from="1508779803911" duration="53064000" />
+      <workItem from="1508779803911" duration="53612000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53064000" />
+    <option name="totallyTimeSpent" value="53612000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -306,13 +304,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="890" column="39" lean-forward="true" selection-start-line="890" selection-start-column="39" selection-end-line="890" selection-end-column="39" />
+        <state relative-caret-position="324">
+          <caret line="315" column="0" lean-forward="true" selection-start-line="315" selection-start-column="0" selection-end-line="315" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="e#15559#16089#0" expanded="false" />
-            <element signature="e#20604#21924#0" expanded="false" />
             <element signature="e#22199#23443#0" expanded="false" />
             <element signature="e#24406#24531#0" expanded="false" />
             <element signature="e#24644#24990#0" expanded="false" />

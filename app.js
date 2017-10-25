@@ -454,10 +454,13 @@ function matchingPayload(event) {
             }
             case'applyJob': {
                 if (payload.answer == 'yes') {
-                    sendTextMessage(senderID, 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé', JSON.stringify({
-                        type: 'askPhone',
-                        jobId: payload.jobId
-                    }));
+                    sendAPI(senderID, {
+                        text: 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé',
+                        metadata: JSON.stringify({
+                            type: 'askPhone',
+                            jobId: payload.jobId
+                        })
+                    });
                     break;
 
                 } else {
@@ -903,7 +906,8 @@ function receivedMessage(event) {
                     }
 
                     sendAPI(senderID, {text:`Mình tìm thấy ${resultData.total} công việc đang tuyển xung quanh nè!`})
-                    sendAPI(senderID, message)
+                        .then(sendAPI(senderID, message))
+
 
                 }
 
