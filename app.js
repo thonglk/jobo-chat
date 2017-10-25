@@ -604,10 +604,9 @@ function matchingPayload(event) {
                             })
                         }]
                     }))
+                break;
             }
-            case
-            'confirmInterview'
-            : {
+            case'confirmInterview': {
                 var time = payload.time
                 sendAPI(senderID, {
                     text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi phỏng vấn.\n` +
@@ -615,6 +614,7 @@ function matchingPayload(event) {
                 }).then(sendAPI(senderID, {
                     text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!'
                 }))
+                break;
             }
         }
     }
