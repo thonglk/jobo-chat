@@ -105,6 +105,10 @@ const FIRE_BASE_ADMIN = {
         }
     }
 }
+var CONFIG;
+axios.get(API_URL+'/config')
+    .then(result => CONFIG = result.data)
+    .catch(err => console.log(err))
 
 var jobochat = firebase.initializeApp({
     credential: firebase.credential.cert(FIRE_BASE_ADMIN['jobochat'].cert),
@@ -146,6 +150,98 @@ app.get('/webhook', function (req, res) {
  * https://developers.facebook.com/docs/messenger-platform/product-overview/setup#subscribe_app
  *
  */
+function shortAddress(fullAddress) {
+    if (fullAddress) {
+        var mixAddress = fullAddress.split(",")
+        if (mixAddress.length < 3) {
+            return fullAddress
+        } else {
+            var address = mixAddress[0] + ', ' + mixAddress[1] + ', ' + mixAddress[2]
+            return address
+        }
+
+    }
+}
+
+function strTime(time) {
+    var vietnamDay = {
+        0: 'Chủ nhật',
+        1: 'Thứ 2',
+        2: 'Thứ 3',
+        3: 'Thứ 4',
+        4: 'Thứ 5',
+        5: 'Thứ 6',
+        6: 'Thứ 7',
+        7: 'Chủ nhật'
+    }
+
+    var newtime = new Date(time);
+    return newtime.getHours() + ' giờ ' + vietnamDay[newtime.getDay()] + ' ngày ' + newtime.getDate()
+
+}
+
+function timeAgo(timestamp) {
+    var time;
+    timestamp = new Date(timestamp).getTime()
+    var now = new Date().getTime()
+    var a = now - timestamp
+    if (a > 0) {
+        var minute = Math.round(a / 60000);
+        if (minute < 60) {
+            time = minute + " phút trước"
+        } else {
+            var hour = Math.round(minute / 60);
+            if (hour < 24) {
+                time = hour + " giờ trước"
+            } else {
+                var day = Math.round(hour / 24);
+                if (day < 30) {
+                    time = day + " ngày trước"
+                } else {
+                    var month = Math.round(day / 30);
+                    if (month < 12) {
+                        time = month + " tháng trước"
+                    } else {
+                        var year = Math.round(month / 12);
+                        time = year + " năm trước"
+                    }
+                }
+            }
+        }
+
+        return time;
+    }
+    if (a < 0) {
+        a = Math.abs(a);
+
+        var minute = Math.round(a / 60000);
+        if (minute < 60) {
+            time = "còn " + minute + " phút"
+        } else {
+            var hour = Math.round(minute / 60);
+            if (hour < 24) {
+                time = "còn " + hour + " giờ"
+            } else {
+                var day = Math.round(hour / 24);
+                if (day < 30) {
+                    time = "còn " + day + " ngày"
+                } else {
+                    var month = Math.round(day / 30);
+                    if (month < 12) {
+                        time = "còn " + month + " tháng"
+                    } else {
+                        var year = Math.round(month / 12);
+                        time = "còn " + year + " năm "
+                    }
+                }
+            }
+        }
+
+        return time;
+
+    }
+
+}
 
 function jobJD(job) {
     var storeName = '', address = '', jobName = '', salary = '', hourly_wages = '', working_type = '', work_time = '',
@@ -160,9 +256,9 @@ function jobJD(job) {
     let timeStr = '';
     if (job.work_time) {
         if (job.work_time.length > 1) {
-            timeStr = 'Ca làm:\n';
+            timeStr = '🏆Ca làm:\n';
             job.work_time.forEach(t => timeStr += `- ${t.start} giờ đến ${t.end} giờ\n`);
-        } else timeStr = `Ca làm: ${job.work_time[0].start} giờ - ${job.work_time[0].end} giờ`;
+        } else timeStr = `🏆Ca làm: ${job.work_time[0].start} giờ - ${job.work_time[0].end} giờ`;
     } else if (job.working_type) working_type = `🏆Hình thức làm việc: ${job.working_type}\n`;
 
 
@@ -174,8 +270,7 @@ function jobJD(job) {
     else if (job.sex === 'male') sex = `🏆Giới tính: Nam\n`;
     if (job.figure) figure = '🏆Yêu cầu ngoại hình\n';
 
-    const text = `${storeName} - ${address}👩‍💻👨‍💻\n
-    🏆Vị trí của bạn sẽ là: ${jobName}\n
+    const text = `${storeName} - ${address}👩‍💻👨‍💻\n🏆Vị trí của bạn sẽ là: ${jobName}\n
 ${working_type}${salary}${hourly_wages}${timeStr}\n${experience}${sex}${unit}${figure}\n`
     return text;
 }
@@ -253,7 +348,6 @@ function matchingPayload(event) {
                         callSendAPI(messageData);
                     }).catch(err => sendTextMessage(senderID, JSON.stringify(err)))
 
-
                     //
                 } else {
                     sendAPI(senderID, {
@@ -279,22 +373,20 @@ function matchingPayload(event) {
                             },
                         ]
                     })
-
-
                 }
                 break;
             }
             case 'confirmJob': {
                 if (payload.answer == 'yes') {
-                    console.log('Response confirmJob:',payload)
+                    console.log('Response confirmJob:', payload)
                     var jobId = payload.jobId;
                     sendTextMessage(senderID, "Hãy kiểm tra lại chi tiết công việc 1 lần nữa trước khi đặt lịch phỏng vấn nhé!")
                         .then(result => loadJob(jobId))
                         .then(result => {
-                            var jobData = result
+                            var jobData = result;
                             jobData.storeName = result.storeData.storeName;
                             jobData.address = result.storeData.address;
-                            console.log(jobData)
+                            console.log(jobData);
                             var text = jobJD(jobData);
 
                             var messageData = {
@@ -365,14 +457,14 @@ function matchingPayload(event) {
                                 "- Làm việc với các thương hiệu lớn\n" +
                                 "- Không cần CV\n" +
                                 "- Thu nhập từ 6-8tr"
-                            }).then(() => {
+                            }, 4000).then(() => {
 
                                 sendAPI(senderID, {
                                     text: "* Lưu ý khi nhận việc\n " +
                                     "- Xem kỹ yêu câu công việc trước khi ứng tuyển\n" +
                                     "- Vui lòng đi phỏng vấn đúng giờ, theo như lịch đã hẹn\n" +
                                     "- Nếu có việc đột xuất không tham gia được, bạn phải báo lại cho mình ngay\n"
-                                }).then(() => {
+                                }, 3000).then(() => {
                                     sendAPI(senderID, {
                                         text: "Bạn đã rõ chưa nhỉ???",
                                         quick_replies: [{
@@ -420,7 +512,7 @@ function matchingPayload(event) {
                 }
             }
             case 'askPhone': {
-                console.log('Response askPhone:',payload)
+                console.log('Response askPhone:', payload)
                 var jobId = payload.jobId;
 
                 loadJob(jobId).then(result => {
@@ -431,26 +523,14 @@ function matchingPayload(event) {
                     console.log('storeData.interviewOption', storeData.interviewOption)
 
                     var quick_replies = []
-                    var vietnamDay = {
-                        0: 'Chủ nhật',
-                        1: 'Thứ 2',
-                        2: 'Thứ 3',
-                        3: 'Thứ 4',
-                        4: 'Thứ 5',
-                        5: 'Thứ 6',
-                        6: 'Thứ 7',
-                        7: 'Chủ nhật'
-                    }
+
                     if (storeData.interviewOption) {
                         for (var i in storeData.interviewOption) {
                             var time = storeData.interviewOption[i]
-                            var newtime = new Date(time);
-
-                            var strTime = newtime.getHours() + 'giờ ' + vietnamDay[newtime.getDay()] + ' ngày ' + newtime.getDate()
 
                             var rep = {
                                 "content_type": "text",
-                                "title": strTime,
+                                "title": strTime(time),
                                 "payload": JSON.stringify({
                                     type: 'setInterview',
                                     time: time
@@ -462,22 +542,47 @@ function matchingPayload(event) {
                     }
 
 
-                    var messageData = {
-                        recipient: {
-                            id: senderID
-                        },
-                        message: {
-                            text: 'Bạn có thể tham gia phỏng vấn lúc nào?',
-                            quick_replies: quick_replies
-                        }
-                    };
-
-                    callSendAPI(messageData);
+                    sendAPI(senderID, {
+                        text: 'Bạn có thể tham gia phỏng vấn lúc nào?',
+                        quick_replies: quick_replies
+                    });
 
 
                 });
                 break;
 
+            }
+            case 'setInterview': {
+                var time = payload.time
+                sendAPI(senderID, `Oke bạn, vậy bạn sẽ có buổi phỏng vấn vào ${strTime(time)}.\n`).then(
+                    sendAPI(senderID, {
+                        text: 'Bạn vui lòng xác nhận việc có mặt tại buổi phỏng vấn này ',
+                        quick_replies: [{
+                            "content_type": "text",
+                            "title": 'Mình xác nhận sẽ tham gia',
+                            "payload": JSON.stringify({
+                                type: 'confirmInterview',
+                                answer: 'yes'
+                            })
+                        }, {
+                            "content_type": "text",
+                            "title": 'Từ chối tham gia',
+                            "payload": JSON.stringify({
+                                type: 'confirmInterview',
+                                answer: 'no',
+                                time: time
+                            })
+                        }]
+                    }))
+            }
+            case 'confirmInterview': {
+                var time = payload.time
+                sendAPI(senderID, {
+                    text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi phỏng vấn.\n` +
+                    'Chúc bạn phỏng vấn thành công nhé <3'
+                }).then(sendAPI(senderID,{
+                    text:'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!'
+                }))
             }
         }
     }
@@ -760,7 +865,7 @@ function receivedMessage(event) {
                                     "title": `Xem chi tiết`,
                                     "payload": JSON.stringify({
                                         type: 'confirmJob',
-                                        answer:'yes',
+                                        answer: 'yes',
                                         jobId: job.jobId
                                     })
                                 }]
@@ -1020,7 +1125,7 @@ function sendTextMessage(recipientId, messageText, metadata) {
 
 }
 
-function sendAPI(recipientId, message) {
+function sendAPI(recipientId, message, typing = 1000) {
     return new Promise(function (resolve, reject) {
         var messageData = {
             recipient: {
@@ -1031,9 +1136,20 @@ function sendAPI(recipientId, message) {
         sendTypingOn(recipientId)
         setTimeout(function () {
             sendTypingOff(recipientId)
-            callSendAPI(messageData).then(result => resolve(result))
+            callSendAPI(messageData).then(result => {
+                conversationRef.child(messageData.messengerId)
+                    .child(messageData.timestamp)
+                    .update(messageData)
+                    .then(() => resolve(result))
+
+            })
                 .catch(err => reject(err))
-        },1000)
+        }, typing)
+
+        messageData.messengerId = recipientId
+        messageData.type = 'sent'
+        messageData.timestamp = Date.now()
+
 
     })
 
@@ -1328,14 +1444,6 @@ function callSendAPI(messageData) {
                 } else {
                     console.log("Successfully called Send API for recipient %s", recipientId);
                 }
-                messageData.messengerId = recipientId
-                messageData.type = 'sent'
-                messageData.timestamp = Date.now()
-
-                conversationRef.child(messageData.messengerId)
-                    .child(messageData.timestamp)
-                    .update(messageData)
-                    .then(() => resolve(response))
 
 
             } else {
