@@ -888,10 +888,10 @@ function receivedMessage(event) {
                             type: "template",
                             payload: {
                                 template_type: "button",
-                                text: `Mình đã tìm thấy ${resultData.total} phù hợp với bạn!`,
+                                text: `🛄${job.jobName} - ${job.storeName} - cách ${job.distance} km`,
                                 buttons: [{
                                     "type": "postback",
-                                    "title": `${job.jobName} - ${job.storeName} - cách ${job.distance} km`,
+                                    "title": `Xem chi tiết`,
                                     "payload": JSON.stringify({
                                         type: 'confirmJob',
                                         answer: 'yes',
@@ -902,7 +902,7 @@ function receivedMessage(event) {
                         }
                     }
 
-
+                    sendAPI(senderID, {text:`Mình tìm thấy ${resultData.total} công việc đang tuyển xung quanh nè!`})
                     sendAPI(senderID, message)
 
                 }
