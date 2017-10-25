@@ -627,31 +627,29 @@ function receivedMessage(event) {
                 var jobData = resultData.data
                 console.log('resultData', resultData.total)
 
-                var message = {
-                    attachment: {
-                        type: "template",
-                        payload: {
-                            template_type: "button",
-                            text: `Chúng tôi có ${resultData.total} công việc đang tuyển gấp xung quanh bạn nè`,
-                            buttons: []
-                        }
-                    }
-                }
-
                 for (var i in jobData) {
                     var job = jobData[i]
-                    var jobTextButton = {
-                        "type": "postback",
-                        "title": `${job.jobName} - ${job.storeName} - cách ${job.distance} km`,
-                        "payload": "quickReply_confirmJob_yes_" + job.jobId
-                    };
-                    console.log('jobTextButton', jobTextButton)
 
-                    message.attachment.payload.buttons.push(jobTextButton)
+                    var message = {
+                        attachment: {
+                            type: "template",
+                            payload: {
+                                template_type: "button",
+                                text: `${job.jobName} - ${job.storeName} - cách ${job.distance} km`,
+                                buttons: [{
+                                    "type": "postback",
+                                    "title": `Xem chi tiết`,
+                                    "payload": "quickReply_confirmJob_yes_" + job.jobId
+                                }]
+                            }
+                        }
+                    }
+
+
+                    sendAPI(senderID, message)
+
                 }
-                console.log('messageJob', message)
 
-                sendAPI(senderID, message)
 
 
             }).catch(err => {
