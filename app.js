@@ -298,6 +298,8 @@ function matchingPayload(event) {
     var message = event.message
     var postback = event.postback
 
+    sendReadReceipt(senderID)
+
     var payloadStr = '';
     if (message && message.quick_reply && message.quick_reply.payload) payloadStr = message.quick_reply.payload
     else if (message && message.payload) payloadStr = message.payload
@@ -410,7 +412,7 @@ function matchingPayload(event) {
                                 }, 3000).then(() => {
                                         sendAPI(senderID, {
                                             text: jobData.description || '(Y) (Y) (Y)'
-                                        },2000).then(()=>{
+                                        }, 2000).then(() => {
                                             sendAPI(senderID, {
                                                 text: 'Bạn có muốn ứng tuyển vào công việc này không?',
                                                 quick_replies: [
@@ -578,15 +580,17 @@ function matchingPayload(event) {
             }
             case'setInterview': {
                 var time = payload.time
-                sendAPI(senderID, `Oke bạn, vậy bạn sẽ có buổi phỏng vấn vào ${strTime(time)}.\n`).then(
-                    sendAPI(senderID, {
+                sendAPI(senderID, {
+                    text: `Oke bạn, vậy bạn sẽ có buổi phỏng vấn vào ${strTime(time)}.`
+                }).then(()=> sendAPI(senderID, {
                         text: 'Bạn vui lòng xác nhận việc có mặt tại buổi phỏng vấn này ',
                         quick_replies: [{
                             "content_type": "text",
                             "title": 'Mình xác nhận sẽ tham gia',
                             "payload": JSON.stringify({
                                 type: 'confirmInterview',
-                                answer: 'yes'
+                                answer: 'yes',
+                                time: time
                             })
                         }, {
                             "content_type": "text",
@@ -605,9 +609,10 @@ function matchingPayload(event) {
                 sendAPI(senderID, {
                     text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi phỏng vấn.\n` +
                     'Chúc bạn phỏng vấn thành công nhé <3'
-                }).then(sendAPI(senderID, {
-                    text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!'
-                }))
+                }).then(() => sendAPI(senderID, {
+                        text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!'
+                    })
+                )
                 break;
             }
         }
@@ -638,7 +643,6 @@ app.post('/webhook', function (req, res) {
                 messagingEvent.type = 'received'
 
                 conversationRef.child(messagingEvent.messengerId).child(timeOfEvent).update(messagingEvent).then(() => {
-
                     matchingPayload(messagingEvent)
 
                     if (messagingEvent.optin) {
