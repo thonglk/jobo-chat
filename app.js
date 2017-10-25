@@ -537,12 +537,11 @@ function matchingPayload(event) {
                 payloadStr = lastMessage.message.metadata
             }
         }
-
     }
 
     if (payloadStr.length > 0) {
         var payload = JSON.parse(payloadStr)
-
+        console.log('payload',payload)
         switch (payload.type) {
             case 'GET_STARTED': {
                 if (postback.referral && postback.referral.ref != 'start') {
@@ -680,7 +679,6 @@ function matchingPayload(event) {
                     sendAPI(senderID, {
                         text: "Okie, chào mừng bạn đến với Jobo <3"
                     }).then(() => {
-
                         sendAPI(senderID, {
                             text: "Bạn vui lòng lưu ý 1 số thứ sau trước khi bắt đầu đi làm nhé!"
                         }).then(() => {

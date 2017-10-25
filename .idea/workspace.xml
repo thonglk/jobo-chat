@@ -49,16 +49,16 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="677" column="46" lean-forward="true" selection-start-line="677" selection-start-column="46" selection-end-line="677" selection-end-column="46" />
+            <state relative-caret-position="246">
+              <caret line="539" column="5" lean-forward="true" selection-start-line="539" selection-start-column="5" selection-end-line="539" selection-end-column="5" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#13053#13635#0" expanded="false" />
                 <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
                 <element signature="n#!!block;n#jobJD#0" expanded="false" />
                 <element signature="e#18745#18939#0" expanded="false" />
-                <element signature="e#24426#27480#0" expanded="false" />
-                <element signature="e#27559#29708#0" expanded="false" />
+                <element signature="e#24405#27459#0" expanded="false" />
+                <element signature="e#27538#29687#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendVideoMessage#0" expanded="false" />
@@ -207,12 +207,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1508779802294</updated>
-      <workItem from="1508779803911" duration="42203000" />
+      <workItem from="1508779803911" duration="42337000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42203000" />
+    <option name="totallyTimeSpent" value="42337000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -293,16 +293,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="677" column="46" lean-forward="true" selection-start-line="677" selection-start-column="46" selection-end-line="677" selection-end-column="46" />
+        <state relative-caret-position="246">
+          <caret line="539" column="5" lean-forward="true" selection-start-line="539" selection-start-column="5" selection-end-line="539" selection-end-column="5" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#13053#13635#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="e#18745#18939#0" expanded="false" />
-            <element signature="e#24426#27480#0" expanded="false" />
-            <element signature="e#27559#29708#0" expanded="false" />
+            <element signature="e#24405#27459#0" expanded="false" />
+            <element signature="e#27538#29687#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendVideoMessage#0" expanded="false" />
