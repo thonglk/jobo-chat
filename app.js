@@ -507,7 +507,6 @@ function matchingPayload(event) {
                                             })
                                         }]
                                     })
-                                    break;
 
                                 })
 
@@ -516,6 +515,7 @@ function matchingPayload(event) {
                         })
 
                     })
+
 
                 } else {
 
@@ -1155,7 +1155,7 @@ function sendTextMessage(recipientId, messageText, metadata) {
 
 function sendAPI(recipientId, message, typing) {
     return new Promise(function (resolve, reject) {
-        if(!typing) typing = 1000
+        if (!typing) typing = 1000
 
         var messageData = {
             recipient: {
