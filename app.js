@@ -516,18 +516,18 @@ function matchingPayload(event) {
     var postback = event.postback
 
 
-    var payloadStr = ''
-    if (message && message.quick_replies && event.message.quick_replies.payload) payloadStr = event.message.quick_replies
-    else if (event.message && event.message.payload) payloadStr = event.message.payload
+    var payloadStr = '';
+    if (message && message.quick_replies && message.quick_replies.payload) payloadStr = message.quick_replies.payload
+    else if (message && message.payload) payloadStr = message.payload
     else if (postback && postback.payload) payloadStr = postback.payload
-    else if(message.text) {
+    else if (message.text) {
 
         var conversation = conversationData[senderID];
 
         var listSentMessage = _.filter(conversation, function (card) {
             return card.type == 'sent';
 
-        })
+        });
         var lastMessage = _.max(listSentMessage, function (card) {
             return card.timestamp;
         });
@@ -539,6 +539,7 @@ function matchingPayload(event) {
         }
 
     }
+
     if (payloadStr.length > 0) {
         var payload = JSON.parse(payloadStr)
 
@@ -661,7 +662,6 @@ function matchingPayload(event) {
 
 
                 } else {
-
 
                 }
             }
