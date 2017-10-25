@@ -618,14 +618,16 @@ function receivedMessage(event) {
         }
     }
     else if (messageAttachments) {
-        // sendTextMessage(senderID, "Message with attachment received");
+
         var locationData = messageAttachments[0].payload.coordinates;
+        console.log('locationData',locationData)
         var url = `${API_URL}/api/job?type=premium?lat=${locationData.lat}&lng=${locationData.long}`;
         axios.get(url)
             .then(result => {
 
                 var resultData = result.data
                 var jobData = resultData.data
+                console.log('resultData',resultData.total)
 
                 var message =  {
                     attachment: {
@@ -644,8 +646,10 @@ function receivedMessage(event) {
                     var jobTextButton = {
                         "type": "postback",
                         "title": `${job.jobName} - ${job.storeName} - cách ${job.distance} km`,
-                        "payload": "quickReply_confirmJob_yes_" + jobId
-                    }
+                        "payload": "quickReply_confirmJob_yes_" + job.jobId
+                    };
+                    console.log('jobTextButton',jobTextButton)
+
                     message.attachment.payload.buttons.push(jobTextButton)
                 }).then(()=>{
                     sendAPI(senderID,message)
