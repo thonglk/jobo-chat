@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-    </list>
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -49,8 +47,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="438" column="70" lean-forward="true" selection-start-line="438" selection-start-column="70" selection-end-line="438" selection-end-column="70" />
+            <state relative-caret-position="204">
+              <caret line="647" column="22" lean-forward="true" selection-start-line="647" selection-start-column="22" selection-end-line="647" selection-end-column="22" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#13000#13582#0" expanded="false" />
@@ -58,7 +56,7 @@
                 <element signature="n#!!block;n#jobJD#0" expanded="false" />
                 <element signature="e#18667#18861#0" expanded="false" />
                 <element signature="e#19141#20961#0" expanded="false" />
-                <element signature="e#24019#28551#0" expanded="false" />
+                <element signature="e#24021#28553#0" expanded="false" />
                 <element signature="n#!!block;n#receivedPostback#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
@@ -204,12 +202,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1508779802294</updated>
-      <workItem from="1508779803911" duration="36096000" />
+      <workItem from="1508779803911" duration="36384000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36096000" />
+    <option name="totallyTimeSpent" value="36384000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -290,8 +288,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="438" column="70" lean-forward="true" selection-start-line="438" selection-start-column="70" selection-end-line="438" selection-end-column="70" />
+        <state relative-caret-position="204">
+          <caret line="647" column="22" lean-forward="true" selection-start-line="647" selection-start-column="22" selection-end-line="647" selection-end-column="22" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#13000#13582#0" expanded="false" />
@@ -299,7 +297,7 @@
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="e#18667#18861#0" expanded="false" />
             <element signature="e#19141#20961#0" expanded="false" />
-            <element signature="e#24019#28551#0" expanded="false" />
+            <element signature="e#24021#28553#0" expanded="false" />
             <element signature="n#!!block;n#receivedPostback#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />

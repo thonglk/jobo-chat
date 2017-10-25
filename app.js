@@ -618,16 +618,16 @@ function receivedMessage(event) {
     else if (messageAttachments) {
 
         var locationData = messageAttachments[0].payload.coordinates;
-        console.log('locationData',locationData)
+        console.log('locationData', locationData)
         var url = `${API_URL}/api/job?type=premium&lat=${locationData.lat}&lng=${locationData.long}`;
         axios.get(url)
             .then(result => {
 
                 var resultData = result.data
                 var jobData = resultData.data
-                console.log('resultData',resultData.total)
+                console.log('resultData', resultData.total)
 
-                var message =  {
+                var message = {
                     attachment: {
                         type: "template",
                         payload: {
@@ -638,23 +638,20 @@ function receivedMessage(event) {
                     }
                 }
 
-
-                jobData.map(job => {
-
+                for (var i in jobData) {
+                    var job = jobData[i]
                     var jobTextButton = {
                         "type": "postback",
                         "title": `${job.jobName} - ${job.storeName} - cách ${job.distance} km`,
                         "payload": "quickReply_confirmJob_yes_" + job.jobId
                     };
-                    console.log('jobTextButton',jobTextButton)
+                    console.log('jobTextButton', jobTextButton)
 
                     message.attachment.payload.buttons.push(jobTextButton)
-                }).then(()=>{
-                    sendAPI(senderID,message)
-                })
+                }
+                console.log('messageJob', message)
 
-
-
+                sendAPI(senderID, message)
 
 
             }).catch(err => {
