@@ -179,13 +179,13 @@ function jobJD(job) {
 ${working_type}${salary}${hourly_wages}${timeStr}\n${experience}${sex}${unit}${figure}\n`
     return text;
 }
+
 function matchingPayload(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
     var timeOfPostback = event.timestamp;
     var message = event.message
     var postback = event.postback
-
 
     var payloadStr = '';
     if (message && message.quick_reply && message.quick_reply.payload) payloadStr = message.quick_reply.payload
@@ -211,8 +211,8 @@ function matchingPayload(event) {
     }
 
     if (payloadStr.length > 0) {
-        var payload = JSON.parse(payloadStr)
-        console.log('payload',payload)
+        var payload = JSON.parse(payloadStr);
+        console.log('payload', payload);
         switch (payload.type) {
             case 'GET_STARTED': {
                 if (postback.referral && postback.referral.ref != 'start') {
@@ -282,17 +282,17 @@ function matchingPayload(event) {
 
 
                 }
-
+                break;
             }
             case 'confirmJob': {
                 if (payload.answer == 'yes') {
-                    var jobId = payload.jobId
+                    var jobId = payload.jobId;
                     sendTextMessage(senderID, "Hãy kiểm tra lại chi tiết công việc 1 lần nữa trước khi đặt lịch phỏng vấn nhé!")
                         .then(result => loadJob(jobId))
                         .then(result => {
                             var jobData = result
-                            jobData.storeName = result.storeData.storeName
-                            jobData.address = result.storeData.address
+                            jobData.storeName = result.storeData.storeName;
+                            jobData.address = result.storeData.address;
                             console.log(jobData)
                             var text = jobJD(jobData);
 
@@ -328,8 +328,9 @@ function matchingPayload(event) {
                             callSendAPI(messageData);
 
 
-                        })
+                        });
 
+                    break;
 
                 } else {
 
@@ -340,7 +341,9 @@ function matchingPayload(event) {
                     sendTextMessage(senderID, 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé', JSON.stringify({
                         type: 'askPhone',
                         jobId: payload.jobId
-                    }))
+                    }));
+                    break;
+
                 } else {
 
                 }
@@ -393,6 +396,7 @@ function matchingPayload(event) {
                         })
 
                     })
+                    break;
 
                 } else {
 
@@ -409,6 +413,8 @@ function matchingPayload(event) {
                             })
                         }]
                     })
+                    break;
+
                 }
             }
             case 'askPhone': {
@@ -467,7 +473,8 @@ function matchingPayload(event) {
                     callSendAPI(messageData);
 
 
-                })
+                });
+                break;
 
             }
         }
