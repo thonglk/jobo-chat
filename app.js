@@ -469,9 +469,12 @@ function matchingPayload(event) {
                     sendAPI(senderID, {
                         text: "Okie, chào mừng bạn đến với Jobo <3"
                     }).then(() => {
+                        console.log('Okie')
                         sendAPI(senderID, {
                             text: "Bạn vui lòng lưu ý 1 số thứ sau trước khi bắt đầu đi làm nhé!"
                         }).then(() => {
+                            console.log('Bạn vui')
+
                             sendAPI(senderID, {
                                 text: "* Bạn sẽ được:\n" +
                                 "- Chọn ca linh hoạt theo lịch của bạn\n" +
