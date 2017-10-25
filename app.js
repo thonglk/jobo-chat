@@ -392,32 +392,33 @@ function matchingPayload(event) {
                                 sendAPI(senderID, {
                                     text
                                 }, 3000).then(() => {
-
                                         sendAPI(senderID, {
                                             text: jobData.description || '(Y) (Y) (Y)'
-                                        },2000).then(sendAPI(senderID, {
-                                            text: 'Bạn có muốn ứng tuyển vào công việc này không?',
-                                            quick_replies: [
-                                                {
-                                                    "content_type": "text",
-                                                    "title": "Ứng tuyển",
-                                                    "payload": JSON.stringify({
-                                                        type: 'applyJob',
-                                                        answer: 'yes',
-                                                        jobId: jobId
-                                                    })
-                                                },
-                                                {
-                                                    "content_type": "text",
-                                                    "title": "Từ chối ",
-                                                    "payload": JSON.stringify({
-                                                        type: 'applyJob',
-                                                        answer: 'no',
-                                                        jobId: jobId
-                                                    })
-                                                }
-                                            ]
-                                        }))
+                                        },2000).then(()=>{
+                                            sendAPI(senderID, {
+                                                text: 'Bạn có muốn ứng tuyển vào công việc này không?',
+                                                quick_replies: [
+                                                    {
+                                                        "content_type": "text",
+                                                        "title": "Ứng tuyển",
+                                                        "payload": JSON.stringify({
+                                                            type: 'applyJob',
+                                                            answer: 'yes',
+                                                            jobId: jobId
+                                                        })
+                                                    },
+                                                    {
+                                                        "content_type": "text",
+                                                        "title": "Từ chối ",
+                                                        "payload": JSON.stringify({
+                                                            type: 'applyJob',
+                                                            answer: 'no',
+                                                            jobId: jobId
+                                                        })
+                                                    }
+                                                ]
+                                            }
+                                        })
                                     }
                                 );
                             }
