@@ -1167,7 +1167,7 @@ function sendAPI(recipientId, message, typing) {
         sendTypingOn(recipientId)
         setTimeout(function () {
             sendTypingOff(recipientId)
-            callSendAPI(messageData).then(() => {
+            callSendAPI(messageData).then(result => {
 
                 messageData.messengerId = recipientId
                 messageData.type = 'sent'
@@ -1478,6 +1478,7 @@ function callSendAPI(messageData) {
                     console.log("Successfully called Send API for recipient %s", recipientId);
                 }
 
+                resolve(messageData)
 
             } else {
                 console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
