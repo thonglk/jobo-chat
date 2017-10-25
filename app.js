@@ -422,20 +422,18 @@ function receivedMessage(event) {
                         }).then(() => {
 
                             sendAPI(senderID, {
-                                text: ` 
-                                * Bạn sẽ được:
-                                - Chọn ca linh hoạt theo lịch của bạn
-                                - Làm việc với cả thương hiệu lớn
-                                - Không cần CV
-                                - Thu nhập từ 6-8tr`
+                                text: "* Bạn sẽ được:\n" +
+                                "- Chọn ca linh hoạt theo lịch của bạn\n" +
+                                "- Làm việc với cả thương hiệu lớn\n" +
+                                "- Không cần CV\n" +
+                                "- Thu nhập từ 6-8tr"
                             }).then(() => {
 
                                 sendAPI(senderID, {
-                                    text: `
-                                    * Lưu ý khi nhận việc
-                                    - Xem kỹ yêu câu công việc trước khi ứng tuyển
-                                    - Vui lòng đi phỏng vấn đúng giờ, theo như lịch đã hẹn
-                                    - Nếu có việc đột xuất không tham gia được, bạn phải báo lại cho mình ngay`
+                                    text: "* Lưu ý khi nhận việc\n " +
+                                    "- Xem kỹ yêu câu công việc trước khi ứng tuyển\n" +
+                                    "- Vui lòng đi phỏng vấn đúng giờ, theo như lịch đã hẹn\n" +
+                                    "- Nếu có việc đột xuất không tham gia được, bạn phải báo lại cho mình ngay\n"
                                 }).then(() => {
                                     sendAPI(senderID, {
                                         text: "Bạn đã rõ chưa nhỉ???",
@@ -464,7 +462,7 @@ function receivedMessage(event) {
             case 'confirmPolicy': {
                 if (payloadType[2] == 'yes') {
                     sendAPI(senderID, {
-                        text: "Hiện tại đang có 1 số công việc đang tuyển gấp, xem nó có gần bạn không nhé",
+                        text: "Hiện tại đang có một số công việc đang tuyển gấp, xem nó có gần bạn không nhé",
                         quick_replies: [{
                             "content_type": "location",
                             "payload": "quickReply_inputLocation"
@@ -621,7 +619,7 @@ function receivedMessage(event) {
 
         var locationData = messageAttachments[0].payload.coordinates;
         console.log('locationData',locationData)
-        var url = `${API_URL}/api/job?type=premium?lat=${locationData.lat}&lng=${locationData.long}`;
+        var url = `${API_URL}/api/job?type=premium&lat=${locationData.lat}&lng=${locationData.long}`;
         axios.get(url)
             .then(result => {
 
