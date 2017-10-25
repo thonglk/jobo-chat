@@ -395,7 +395,7 @@ function matchingPayload(event) {
 
                                         sendAPI(senderID, {
                                             text: jobData.description || '(Y) (Y) (Y)'
-                                        }).then(sendAPI(senderID, {
+                                        },2000).then(sendAPI(senderID, {
                                             text: 'Bạn có muốn ứng tuyển vào công việc này không?',
                                             quick_replies: [
                                                 {
