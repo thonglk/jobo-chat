@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -49,19 +50,20 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="452" column="62" lean-forward="false" selection-start-line="452" selection-start-column="59" selection-end-line="452" selection-end-column="62" />
+            <state relative-caret-position="333">
+              <caret line="423" column="58" lean-forward="true" selection-start-line="423" selection-start-column="58" selection-end-line="423" selection-end-column="58" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-                <element signature="e#15559#16089#0" expanded="false" />
-                <element signature="e#16255#19328#0" expanded="false" />
-                <element signature="e#23073#23419#0" expanded="false" />
-                <element signature="e#23491#23898#0" expanded="false" />
-                <element signature="e#28865#30892#0" expanded="false" />
-                <element signature="e#31075#31657#0" expanded="false" />
+                <element signature="e#16330#16860#0" expanded="false" />
+                <element signature="e#17026#20099#0" expanded="false" />
+                <element signature="e#23785#23910#0" expanded="false" />
+                <element signature="e#24023#24369#0" expanded="false" />
+                <element signature="e#24441#24848#0" expanded="false" />
+                <element signature="e#29815#31842#0" expanded="false" />
+                <element signature="e#32025#32607#0" expanded="false" />
                 <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-                <element signature="e#35184#35378#0" expanded="false" />
+                <element signature="e#36134#36328#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendVideoMessage#0" expanded="false" />
@@ -210,12 +212,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1508779802294</updated>
-      <workItem from="1508779803911" duration="55098000" />
+      <workItem from="1508779803911" duration="55403000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="55098000" />
+    <option name="totallyTimeSpent" value="55403000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -304,19 +306,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="452" column="62" lean-forward="false" selection-start-line="452" selection-start-column="59" selection-end-line="452" selection-end-column="62" />
+        <state relative-caret-position="333">
+          <caret line="423" column="58" lean-forward="true" selection-start-line="423" selection-start-column="58" selection-end-line="423" selection-end-column="58" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="e#15559#16089#0" expanded="false" />
-            <element signature="e#16255#19328#0" expanded="false" />
-            <element signature="e#23073#23419#0" expanded="false" />
-            <element signature="e#23491#23898#0" expanded="false" />
-            <element signature="e#28865#30892#0" expanded="false" />
-            <element signature="e#31075#31657#0" expanded="false" />
+            <element signature="e#16330#16860#0" expanded="false" />
+            <element signature="e#17026#20099#0" expanded="false" />
+            <element signature="e#23785#23910#0" expanded="false" />
+            <element signature="e#24023#24369#0" expanded="false" />
+            <element signature="e#24441#24848#0" expanded="false" />
+            <element signature="e#29815#31842#0" expanded="false" />
+            <element signature="e#32025#32607#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-            <element signature="e#35184#35378#0" expanded="false" />
+            <element signature="e#36134#36328#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendVideoMessage#0" expanded="false" />
