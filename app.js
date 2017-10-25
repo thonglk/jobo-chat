@@ -882,7 +882,7 @@ function receivedMessage(event) {
                 var resultData = result.data;
                 var jobData = resultData.data;
                 console.log('resultData', resultData.total);
-
+                sendAPI(senderID, {text:`Mình tìm thấy ${resultData.total} công việc đang tuyển xung quanh nè!`})
                 for (var i in jobData) {
                     var job = jobData[i];
 
@@ -905,8 +905,7 @@ function receivedMessage(event) {
                         }
                     }
 
-                    sendAPI(senderID, {text:`Mình tìm thấy ${resultData.total} công việc đang tuyển xung quanh nè!`})
-                        .then(sendAPI(senderID, message))
+                    sendAPI(senderID, message)
 
 
                 }
