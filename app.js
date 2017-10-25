@@ -286,6 +286,7 @@ function matchingPayload(event) {
             }
             case 'confirmJob': {
                 if (payload.answer == 'yes') {
+                    console.log('Response confirmJob:',payload)
                     var jobId = payload.jobId;
                     sendTextMessage(senderID, "Hãy kiểm tra lại chi tiết công việc 1 lần nữa trước khi đặt lịch phỏng vấn nhé!")
                         .then(result => loadJob(jobId))
@@ -330,11 +331,12 @@ function matchingPayload(event) {
 
                         });
 
-                    break;
 
                 } else {
 
                 }
+                break;
+
             }
             case 'applyJob': {
                 if (payload.answer == 'yes') {
@@ -360,7 +362,7 @@ function matchingPayload(event) {
                             sendAPI(senderID, {
                                 text: "* Bạn sẽ được:\n" +
                                 "- Chọn ca linh hoạt theo lịch của bạn\n" +
-                                "- Làm việc với cả thương hiệu lớn\n" +
+                                "- Làm việc với các thương hiệu lớn\n" +
                                 "- Không cần CV\n" +
                                 "- Thu nhập từ 6-8tr"
                             }).then(() => {
@@ -418,7 +420,7 @@ function matchingPayload(event) {
                 }
             }
             case 'askPhone': {
-
+                console.log('Response askPhone:',payload)
                 var jobId = payload.jobId;
 
                 loadJob(jobId).then(result => {
@@ -740,9 +742,9 @@ function receivedMessage(event) {
         axios.get(url)
             .then(result => {
 
-                var resultData = result.data
-                var jobData = resultData.data
-                console.log('resultData', resultData.total)
+                var resultData = result.data;
+                var jobData = resultData.data;
+                console.log('resultData', resultData.total);
 
                 for (var i in jobData) {
                     var job = jobData[i];
@@ -758,7 +760,7 @@ function receivedMessage(event) {
                                     "title": `Xem chi tiết`,
                                     "payload": JSON.stringify({
                                         type: 'confirmJob',
-                                        result: 'yes',
+                                        answer:'yes',
                                         jobId: job.jobId
                                     })
                                 }]
@@ -1026,9 +1028,13 @@ function sendAPI(recipientId, message) {
             },
             message: message
         };
+        sendTypingOn(recipientId)
+        setTimeout(function () {
+            sendTypingOff(recipientId)
+            callSendAPI(messageData).then(result => resolve(result))
+                .catch(err => reject(err))
+        },1000)
 
-        callSendAPI(messageData).then(result => resolve(result))
-            .catch(err => reject(err))
     })
 
 }
