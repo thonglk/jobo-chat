@@ -54,6 +54,9 @@ const PAGE_ACCESS_TOKEN = (process.env.MESSENGER_PAGE_ACCESS_TOKEN) ?
 const SERVER_URL = (process.env.SERVER_URL) ?
     (process.env.SERVER_URL) :
     config.get('serverURL');
+const API_URL = (process.env.API_URL) ?
+    (process.env.API_URL) :
+    config.get('apiURL');
 
 const FIRE_BASE_ADMIN = {
     jobochat: {
@@ -420,27 +423,27 @@ function receivedMessage(event) {
 
                             sendAPI(senderID, {
                                 text: ` 
-                                * Bạn sẽ được: \n 
-                                 - Chọn ca linh hoạt theo lịch của bạn \n 
-                                 - Làm việc với cả thương hiệu lớn \n 
-                                 - Không cần CV \n 
-                                 - Thu nhập từ 6-8tr`
+                                * Bạn sẽ được:
+                                - Chọn ca linh hoạt theo lịch của bạn
+                                - Làm việc với cả thương hiệu lớn
+                                - Không cần CV
+                                - Thu nhập từ 6-8tr`
                             }).then(() => {
 
-                                sendAPI(senderID,{
-                                    text:`
-                                    * Lưu ý khi nhận việc \n 
-                                     - Xem kỹ yêu câu công việc trước khi ứng tuyển \n
-                                     - Vui lòng đi phỏng vấn đúng giờ, theo như lịch đã hẹn \n
-                                     - Nếu có việc đột xuất không tham gia được, bạn phải báo lại cho mình ngay`
-                                }).then(()=>{
-                                    sendAPI(senderID,{
-                                        text:"Bạn đã rõ chưa nhỉ???",
-                                        quick_replies:[{
+                                sendAPI(senderID, {
+                                    text: `
+                                    * Lưu ý khi nhận việc
+                                    - Xem kỹ yêu câu công việc trước khi ứng tuyển
+                                    - Vui lòng đi phỏng vấn đúng giờ, theo như lịch đã hẹn
+                                    - Nếu có việc đột xuất không tham gia được, bạn phải báo lại cho mình ngay`
+                                }).then(() => {
+                                    sendAPI(senderID, {
+                                        text: "Bạn đã rõ chưa nhỉ???",
+                                        quick_replies: [{
                                             "content_type": "text",
                                             "title": "Mình đồng ý (Y)",
                                             "payload": "quickReply_confirmPolicy_yes"
-                                        },{
+                                        }, {
                                             "content_type": "text",
                                             "title": "Không đồng ý đâu :(",
                                             "payload": "quickReply_confirmPolicy_no"
@@ -458,11 +461,11 @@ function receivedMessage(event) {
 
                 }
             }
-            case 'confirmPolicy':{
-                if(payloadType[2] == 'yes'){
-                    sendAPI(senderID,{
-                        text:"Hiện tại đang có 1 số công việc đang tuyển gấp, xem nó có gần bạn không nhé",
-                        quick_replies:[{
+            case 'confirmPolicy': {
+                if (payloadType[2] == 'yes') {
+                    sendAPI(senderID, {
+                        text: "Hiện tại đang có 1 số công việc đang tuyển gấp, xem nó có gần bạn không nhé",
+                        quick_replies: [{
                             "content_type": "location",
                             "payload": "quickReply_inputLocation"
                         }]
@@ -615,7 +618,47 @@ function receivedMessage(event) {
         }
     }
     else if (messageAttachments) {
-        sendTextMessage(senderID, "Message with attachment received");
+        // sendTextMessage(senderID, "Message with attachment received");
+        var locationData = messageAttachments[0].payload.coordinates;
+        var url = `${API_URL}/api/job?type=premium?lat=${locationData.lat}&lng=${locationData.long}`;
+        axios.get(url)
+            .then(result => {
+
+                var resultData = result.data
+                var jobData = resultData.data
+
+                var message =  {
+                    attachment: {
+                        type: "template",
+                        payload: {
+                            template_type: "button",
+                            text: `Chúng tôi có ${resultData.total} công việc đang tuyển gấp xung quanh bạn nè`,
+                            buttons: []
+                        }
+                    }
+                }
+
+
+                jobData.map(job => {
+
+                    var jobTextButton = {
+                        "type": "postback",
+                        "title": `${job.jobName} - ${job.storeName} - cách ${job.distance} km`,
+                        "payload": "quickReply_confirmJob_yes_" + jobId
+                    }
+                    message.attachment.payload.buttons.push(jobTextButton)
+                }).then(()=>{
+                    sendAPI(senderID,message)
+                })
+
+
+
+
+
+            }).catch(err => {
+
+        })
+
     }
 }
 
