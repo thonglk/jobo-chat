@@ -507,6 +507,8 @@ function matchingPayload(event) {
                                             })
                                         }]
                                     })
+                                    break;
+
                                 })
 
                             })
@@ -518,7 +520,6 @@ function matchingPayload(event) {
                 } else {
 
                 }
-                break;
 
             }
             case'confirmPolicy': {
