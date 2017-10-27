@@ -328,73 +328,93 @@ function matchingPayload(event) {
         console.log('payload', payload);
         switch (payload.type) {
             case 'GET_STARTED': {
-                if (postback.referral && postback.referral.ref != 'start') {
-                    var jobId = postback.referral.ref;
-                    // get data job
+                if (postback.referral && postback.referral.ref.length > 0) {
+                    var refstr = postback.referral.ref
+                    var refData = refstr.split('_')
 
-                    loadJob(jobId).then(result => {
-                        var jobData = result
-                        var messageData = {
-                            recipient: {
-                                id: senderID
-                            },
+                    if (refData[0] != 'start') {
+                        var jobId = refData[0]
+                        loadJob(jobId).then(result => {
+                            var jobData = result
+                            var messageData = {
+                                recipient: {
+                                    id: senderID
+                                },
+                                message: {
+                                    text: `Có phải bạn đang muốn ứng tuyển vào vị trí ${jobData.jobName} của ${jobData.storeData.storeName} ?`,
+                                    quick_replies: [
+                                        {
+                                            "content_type": "text",
+                                            "title": "Đúng rồi (Y)",
+                                            "payload": JSON.stringify({
+                                                type: 'confirmJob',
+                                                answer: 'yes',
+                                                jobId: jobId
+                                            })
+                                        },
+                                        {
+                                            "content_type": "text",
+                                            "title": "Không phải",
+                                            "payload": JSON.stringify({
+                                                type: 'confirmJob',
+                                                answer: 'no',
+                                                jobId: jobId
+                                            })
+                                        },
+                                    ]
+                                }
+                            };
+
+                            callSendAPI(messageData);
+                        }).catch(err => sendTextMessage(senderID, JSON.stringify(err)))
+                    } else if (refData[1] == 'tailieunhansu') {
+                        sendAPI(senderID, {
+                            text: `Jobo xin gửi link tài liệu " Toàn bộ quy trình liên quan đến lương,thưởng và quản lý nhân sự "`,
                             message: {
-                                text: `Có phải bạn đang muốn ứng tuyển vào vị trí ${jobData.jobName} của ${jobData.storeData.storeName} ?`,
-                                quick_replies: [
-                                    {
-                                        "content_type": "text",
-                                        "title": "Đúng rồi (Y)",
-                                        "payload": JSON.stringify({
-                                            type: 'confirmJob',
-                                            answer: 'yes',
-                                            jobId: jobId
-                                        })
-                                    },
-                                    {
-                                        "content_type": "text",
-                                        "title": "Không phải",
-                                        "payload": JSON.stringify({
-                                            type: 'confirmJob',
-                                            answer: 'no',
-                                            jobId: jobId
-                                        })
-                                    },
-                                ]
+                                attachment: {
+                                    type: "file",
+                                    payload: {
+                                        url: "http://jobo.asia/file/NhanSu.zip"
+                                    }
+                                }
                             }
-                        };
+                        })
 
-                        callSendAPI(messageData);
-                    }).catch(err => sendTextMessage(senderID, JSON.stringify(err)))
+                    } else {
+                        sendAPI(senderID, {
+                            text: `Có phải bạn đang muốn tham gia Jobo để tìm việc làm thêm?`,
+                            quick_replies: [
+                                {
+                                    "content_type": "text",
+                                    "title": "Đúng vậy",
+                                    "payload": JSON.stringify({
+                                        type: 'confirmJobSeeker',
+                                        answer: 'yes',
+                                        jobId: jobId
+                                    })
+                                },
+                                {
+                                    "content_type": "text",
+                                    "title": "Không phải",
+                                    "payload": JSON.stringify({
+                                        type: 'confirmJobSeeker',
+                                        answer: 'no',
+                                        jobId: jobId
+                                    })
+                                },
+                            ]
+                        })
 
-                    //
-                } else {
-                    sendAPI(senderID, {
-                        text: `Có phải bạn đang muốn tham gia Jobo để tìm việc làm thêm?`,
-                        quick_replies: [
-                            {
-                                "content_type": "text",
-                                "title": "Đúng vậy",
-                                "payload": JSON.stringify({
-                                    type: 'confirmJobSeeker',
-                                    answer: 'yes',
-                                    jobId: jobId
-                                })
-                            },
-                            {
-                                "content_type": "text",
-                                "title": "Không phải",
-                                "payload": JSON.stringify({
-                                    type: 'confirmJobSeeker',
-                                    answer: 'no',
-                                    jobId: jobId
-                                })
-                            },
-                        ]
-                    })
+                    }
+
+
                 }
+
                 break;
             }
-            case 'confirmJob': {
+            case
+            'confirmJob'
+            : {
                 if (payload.answer == 'yes') {
                     console.log('Response confirmJob:', payload)
                     var jobId = payload.jobId;
@@ -448,7 +468,9 @@ function matchingPayload(event) {
                 break;
 
             }
-            case'applyJob': {
+            case
+            'applyJob'
+            : {
                 if (payload.answer == 'yes') {
                     sendAPI(senderID, {
                         text: 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé',
@@ -463,7 +485,9 @@ function matchingPayload(event) {
 
                 }
             }
-            case'confirmJobSeeker': {
+            case
+            'confirmJobSeeker'
+            : {
                 if (payload.answer == 'yes') {
                     sendAPI(senderID, {
                         text: "Okie, chào mừng bạn đến với Jobo <3"
@@ -522,7 +546,9 @@ function matchingPayload(event) {
                 }
 
             }
-            case'confirmPolicy': {
+            case
+            'confirmPolicy'
+            : {
                 if (payload.answer == 'yes') {
                     sendAPI(senderID, {
                         text: "Hiện tại đang có một số công việc đang tuyển gấp, xem nó có gần bạn không nhé",
@@ -537,7 +563,9 @@ function matchingPayload(event) {
 
                 }
             }
-            case'askPhone': {
+            case
+            'askPhone'
+            : {
 
                 var jobId = payload.jobId;
 
@@ -578,33 +606,37 @@ function matchingPayload(event) {
                 break;
 
             }
-            case'setInterview': {
+            case
+            'setInterview'
+            : {
                 var time = payload.time
                 sendAPI(senderID, {
                     text: `Oke bạn, vậy bạn sẽ có buổi phỏng vấn vào ${strTime(time)}.`
-                }).then(()=> sendAPI(senderID, {
-                        text: 'Bạn vui lòng xác nhận việc có mặt tại buổi phỏng vấn này ',
-                        quick_replies: [{
-                            "content_type": "text",
-                            "title": 'Mình xác nhận sẽ tham gia',
-                            "payload": JSON.stringify({
-                                type: 'confirmInterview',
-                                answer: 'yes',
-                                time: time
-                            })
-                        }, {
-                            "content_type": "text",
-                            "title": 'Từ chối tham gia',
-                            "payload": JSON.stringify({
-                                type: 'confirmInterview',
-                                answer: 'no',
-                                time: time
-                            })
-                        }]
-                    }))
+                }).then(() => sendAPI(senderID, {
+                    text: 'Bạn vui lòng xác nhận việc có mặt tại buổi phỏng vấn này ',
+                    quick_replies: [{
+                        "content_type": "text",
+                        "title": 'Mình xác nhận sẽ tham gia',
+                        "payload": JSON.stringify({
+                            type: 'confirmInterview',
+                            answer: 'yes',
+                            time: time
+                        })
+                    }, {
+                        "content_type": "text",
+                        "title": 'Từ chối tham gia',
+                        "payload": JSON.stringify({
+                            type: 'confirmInterview',
+                            answer: 'no',
+                            time: time
+                        })
+                    }]
+                }))
                 break;
             }
-            case'confirmInterview': {
+            case
+            'confirmInterview'
+            : {
                 var time = payload.time
                 sendAPI(senderID, {
                     text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi phỏng vấn.\n` +

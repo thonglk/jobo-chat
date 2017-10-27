@@ -49,23 +49,22 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="327">
-              <caret line="429" column="73" lean-forward="false" selection-start-line="429" selection-start-column="73" selection-end-line="429" selection-end-column="73" />
+            <state relative-caret-position="211">
+              <caret line="375" column="46" lean-forward="true" selection-start-line="375" selection-start-column="46" selection-end-line="375" selection-end-column="46" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#timeAgo#0" expanded="false" />
                 <element signature="e#16361#16891#0" expanded="false" />
-                <element signature="e#17057#20130#0" expanded="false" />
-                <element signature="e#23817#23942#0" expanded="false" />
-                <element signature="e#24055#24401#0" expanded="false" />
-                <element signature="e#24473#24880#0" expanded="false" />
-                <element signature="e#32056#32638#0" expanded="false" />
+                <element signature="e#17414#19128#0" expanded="false" />
+                <element signature="e#24863#24988#0" expanded="false" />
+                <element signature="e#25101#25447#0" expanded="false" />
+                <element signature="e#25519#25926#0" expanded="false" />
+                <element signature="e#33234#33816#0" expanded="false" />
                 <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-                <element signature="e#36165#36359#0" expanded="false" />
+                <element signature="e#37343#37537#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendVideoMessage#0" expanded="false" />
-                <element signature="n#!!block;n#sendFileMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
               </folding>
@@ -77,7 +76,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>webhook</find>
       <find>applyJob</find>
       <find>Date()</find>
       <find>askPhone</find>
@@ -104,9 +102,10 @@
       <find>job</find>
       <find>confirmJob</find>
       <find>).then(</find>
-      <find>case</find>
       <find>trước</find>
       <find>sendReadReceipt</find>
+      <find>start</find>
+      <find>case</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -140,8 +139,8 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1440" />
-    <option name="height" value="900" />
+    <option name="width" value="1280" />
+    <option name="height" value="800" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -210,12 +209,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1508779802294</updated>
-      <workItem from="1508779803911" duration="56405000" />
+      <workItem from="1508779803911" duration="61231000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56405000" />
+    <option name="totallyTimeSpent" value="61231000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -304,23 +303,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="429" column="73" lean-forward="false" selection-start-line="429" selection-start-column="73" selection-end-line="429" selection-end-column="73" />
+        <state relative-caret-position="211">
+          <caret line="375" column="46" lean-forward="true" selection-start-line="375" selection-start-column="46" selection-end-line="375" selection-end-column="46" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="e#16361#16891#0" expanded="false" />
-            <element signature="e#17057#20130#0" expanded="false" />
-            <element signature="e#23817#23942#0" expanded="false" />
-            <element signature="e#24055#24401#0" expanded="false" />
-            <element signature="e#24473#24880#0" expanded="false" />
-            <element signature="e#32056#32638#0" expanded="false" />
+            <element signature="e#17414#19128#0" expanded="false" />
+            <element signature="e#24863#24988#0" expanded="false" />
+            <element signature="e#25101#25447#0" expanded="false" />
+            <element signature="e#25519#25926#0" expanded="false" />
+            <element signature="e#33234#33816#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-            <element signature="e#36165#36359#0" expanded="false" />
+            <element signature="e#37343#37537#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendVideoMessage#0" expanded="false" />
-            <element signature="n#!!block;n#sendFileMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
           </folding>
