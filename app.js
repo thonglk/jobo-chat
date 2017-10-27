@@ -331,7 +331,7 @@ function matchingPayload(event) {
                 if (postback.referral && postback.referral.ref.length > 0) {
                     var refstr = postback.referral.ref
                     var refData = refstr.split('_')
-
+                    console.log('refData', refData)
                     if (refData[0] != 'start') {
                         var jobId = refData[0]
                         loadJob(jobId).then(result => {
@@ -367,44 +367,47 @@ function matchingPayload(event) {
 
                             callSendAPI(messageData);
                         }).catch(err => sendTextMessage(senderID, JSON.stringify(err)))
-                    } else if (refData[1] == 'tailieunhansu') {
-                        sendAPI(senderID, {
-                            text: `Jobo xin gửi link tài liệu " Toàn bộ quy trình liên quan đến lương,thưởng và quản lý nhân sự "`,
-                            message: {
-                                attachment: {
-                                    type: "file",
-                                    payload: {
-                                        url: "http://jobo.asia/file/NhanSu.zip"
+                    } else {
+
+                        if (refData[1] == 'tailieunhansu') {
+                            sendAPI(senderID, {
+                                text: `Jobo xin gửi link tài liệu " Toàn bộ quy trình liên quan đến lương,thưởng và quản lý nhân sự "`,
+                                message: {
+                                    attachment: {
+                                        type: "file",
+                                        payload: {
+                                            url: "http://jobo.asia/file/NhanSu.zip"
+                                        }
                                     }
                                 }
-                            }
-                        })
+                            })
 
-                    } else {
-                        sendAPI(senderID, {
-                            text: `Có phải bạn đang muốn tham gia Jobo để tìm việc làm thêm?`,
-                            quick_replies: [
-                                {
-                                    "content_type": "text",
-                                    "title": "Đúng vậy",
-                                    "payload": JSON.stringify({
-                                        type: 'confirmJobSeeker',
-                                        answer: 'yes',
-                                        jobId: jobId
-                                    })
-                                },
-                                {
-                                    "content_type": "text",
-                                    "title": "Không phải",
-                                    "payload": JSON.stringify({
-                                        type: 'confirmJobSeeker',
-                                        answer: 'no',
-                                        jobId: jobId
-                                    })
-                                },
-                            ]
-                        })
+                        } else {
+                            sendAPI(senderID, {
+                                text: `Có phải bạn đang muốn tham gia Jobo để tìm việc làm thêm?`,
+                                quick_replies: [
+                                    {
+                                        "content_type": "text",
+                                        "title": "Đúng vậy",
+                                        "payload": JSON.stringify({
+                                            type: 'confirmJobSeeker',
+                                            answer: 'yes',
+                                            jobId: jobId
+                                        })
+                                    },
+                                    {
+                                        "content_type": "text",
+                                        "title": "Không phải",
+                                        "payload": JSON.stringify({
+                                            type: 'confirmJobSeeker',
+                                            answer: 'no',
+                                            jobId: jobId
+                                        })
+                                    },
+                                ]
+                            })
 
+                        }
                     }
 
 
