@@ -370,17 +370,19 @@ function matchingPayload(event) {
                     } else {
 
                         if (refData[1] == 'tailieunhansu') {
-                            sendAPI(senderID, {
+                            sendAPI(senderID,{
                                 text: `Jobo xin gửi link tài liệu " Toàn bộ quy trình liên quan đến lương,thưởng và quản lý nhân sự "`,
-                                message: {
+                            }).then(()=>{
+                                sendAPI(senderID, {
                                     attachment: {
                                         type: "file",
                                         payload: {
-                                            url: "http://jobo.asia/file/NhanSu.zip"
+                                            url: "https://jobo.asia/file/NhanSu.zip"
                                         }
                                     }
-                                }
+                                })
                             })
+
 
                         } else {
                             sendAPI(senderID, {
