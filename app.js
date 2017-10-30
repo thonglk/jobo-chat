@@ -518,10 +518,10 @@ function matchingPayload(event) {
 
                                 sendAPI(senderID, {
                                     text
-                                }, 3000).then(() => {
+                                }, 2000).then(() => {
                                         sendAPI(senderID, {
                                             text: jobData.description || '(Y) (Y) (Y)'
-                                        }, 2000).then(() => {
+                                        }, 12000).then(() => {
                                             sendAPI(senderID, {
                                                 text: 'Bạn có muốn ứng tuyển vào công việc này không?',
                                                 quick_replies: [
@@ -544,7 +544,7 @@ function matchingPayload(event) {
                                                         })
                                                     }
                                                 ]
-                                            })
+                                            },10000)
                                         })
                                     }
                                 );
