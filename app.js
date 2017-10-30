@@ -317,12 +317,12 @@ app.get('/getUserDataAndSave', function (req, res) {
 
 function getUserDataAndSave(senderID) {
     return new Promise(function (resolve, reject) {
-        console.log('get Profile')
+        console.log('get Profile');
 
         graph.get(senderID, (err, result) => {
-            if (err) reject(err)
+            if (err) reject(err);
 
-            console.log(result)
+            console.log(result);
             var user = result
             var userData = {
                 name: user.first_name + ' '+ user.last_name,
@@ -489,6 +489,14 @@ function matchingPayload(event) {
                                         type: 'confirmJobSeeker',
                                         answer: 'yes',
                                     })
+                                },
+                                {
+                                    "content_type": "text",
+                                    "title": "Tôi muốn tuyển dụng",
+                                    "payload": JSON.stringify({
+                                        type: 'confirmEmployer',
+                                        answer: 'yes',
+                                    })
                                 }
                             ]
                         })
@@ -574,9 +582,7 @@ function matchingPayload(event) {
 
                 }
             }
-            case
-            'confirmJobSeeker'
-            : {
+            case'confirmJobSeeker': {
                 if (payload.answer == 'yes') {
                     sendAPI(senderID, {
                         text: "Okie, chào mừng bạn đến với Jobo <3"
@@ -635,6 +641,22 @@ function matchingPayload(event) {
                 }
 
             }
+            case'confirmEmployer': {
+                if (payload.answer == 'yes') {
+                    sendAPI(senderID, {
+                        text: "Dạ. Bạn vui lòng cho ad xin số điện thoại để bộ phận tư vấn liên hệ nhé ạ",
+                        metadata: JSON.stringify({
+                            type: 'askPhone',
+                            sequence:'employer'
+                        })
+                    });
+                    break;
+
+                } else {
+
+                }
+
+            }
             case
             'confirmPolicy'
             : {
@@ -655,43 +677,54 @@ function matchingPayload(event) {
             case
             'askPhone'
             : {
+                if(payload.sequence == 'employer'){
+                    sendAPI(senderID, {
+                        text: "Okie, bạn đang cần tuyển vị trí gì nhỉ?",
+                        metadata : JSON.stringify({
+                            type:'employer_job',
+                            sequence:'employer'
+                        })
+                    })
 
-                var jobId = payload.jobId;
+                }else {
+                    var jobId = payload.jobId;
 
-                loadJob(jobId).then(result => {
-                    var jobData = result;
-                    var storeData = result.storeData
-                    jobData.storeName = storeData.storeName
-                    jobData.address = storeData.address
-                    console.log('storeData.interviewOption', storeData.interviewOption)
+                    loadJob(jobId).then(result => {
+                        var jobData = result;
+                        var storeData = result.storeData
+                        jobData.storeName = storeData.storeName
+                        jobData.address = storeData.address
+                        console.log('storeData.interviewOption', storeData.interviewOption)
 
-                    var quick_replies = []
+                        var quick_replies = []
 
-                    if (storeData.interviewOption) {
-                        for (var i in storeData.interviewOption) {
-                            var time = storeData.interviewOption[i]
+                        if (storeData.interviewOption) {
+                            for (var i in storeData.interviewOption) {
+                                var time = storeData.interviewOption[i]
 
-                            var rep = {
-                                "content_type": "text",
-                                "title": strTime(time),
-                                "payload": JSON.stringify({
-                                    type: 'setInterview',
-                                    time: time
-                                })
-                            };
-                            quick_replies.push(rep)
+                                var rep = {
+                                    "content_type": "text",
+                                    "title": strTime(time),
+                                    "payload": JSON.stringify({
+                                        type: 'setInterview',
+                                        time: time
+                                    })
+                                };
+                                quick_replies.push(rep)
+                            }
+
                         }
 
-                    }
+
+                        sendAPI(senderID, {
+                            text: 'Bạn có thể tham gia phỏng vấn lúc nào?',
+                            quick_replies: quick_replies
+                        });
 
 
-                    sendAPI(senderID, {
-                        text: 'Bạn có thể tham gia phỏng vấn lúc nào?',
-                        quick_replies: quick_replies
                     });
+                }
 
-
-                });
                 break;
 
             }

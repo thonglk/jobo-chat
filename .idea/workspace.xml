@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -17,19 +19,22 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="311" column="33" lean-forward="true" selection-start-line="311" selection-start-column="33" selection-end-line="311" selection-end-column="33" />
+            <state relative-caret-position="158">
+              <caret line="646" column="58" lean-forward="true" selection-start-line="646" selection-start-column="58" selection-end-line="646" selection-end-column="58" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-                <element signature="e#17766#18296#0" expanded="false" />
-                <element signature="e#19051#20889#0" expanded="false" />
-                <element signature="e#27911#28036#0" expanded="false" />
-                <element signature="e#28149#28495#0" expanded="false" />
-                <element signature="e#28567#28974#0" expanded="false" />
-                <element signature="e#36282#36864#0" expanded="false" />
+                <element signature="e#17769#18299#0" expanded="false" />
+                <element signature="e#19054#20892#0" expanded="false" />
+                <element signature="e#28315#28440#0" expanded="false" />
+                <element signature="e#28553#28899#0" expanded="false" />
+                <element signature="e#28971#29378#0" expanded="false" />
+                <element signature="e#31022#31147#0" expanded="false" />
+                <element signature="e#31260#31606#0" expanded="false" />
+                <element signature="e#31678#32085#0" expanded="false" />
+                <element signature="e#39393#39975#0" expanded="false" />
                 <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-                <element signature="e#40391#40585#0" expanded="false" />
+                <element signature="e#43502#43696#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendVideoMessage#0" expanded="false" />
@@ -72,8 +77,8 @@
       <find>file</find>
       <find>taileo</find>
       <find>aPI</find>
-      <find>confirmJobSeeker</find>
       <find>GET_</find>
+      <find>confirmJobSeeker</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -178,15 +183,16 @@
       <option name="presentableId" value="Default" />
       <updated>1508779802294</updated>
       <workItem from="1508779803911" duration="71675000" />
-      <workItem from="1509354917434" duration="2244000" />
+      <workItem from="1509354917434" duration="3579000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="73919000" />
+    <option name="totallyTimeSpent" value="75254000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -270,19 +276,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="311" column="33" lean-forward="true" selection-start-line="311" selection-start-column="33" selection-end-line="311" selection-end-column="33" />
+        <state relative-caret-position="158">
+          <caret line="646" column="58" lean-forward="true" selection-start-line="646" selection-start-column="58" selection-end-line="646" selection-end-column="58" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="e#17766#18296#0" expanded="false" />
-            <element signature="e#19051#20889#0" expanded="false" />
-            <element signature="e#27911#28036#0" expanded="false" />
-            <element signature="e#28149#28495#0" expanded="false" />
-            <element signature="e#28567#28974#0" expanded="false" />
-            <element signature="e#36282#36864#0" expanded="false" />
+            <element signature="e#17769#18299#0" expanded="false" />
+            <element signature="e#19054#20892#0" expanded="false" />
+            <element signature="e#28315#28440#0" expanded="false" />
+            <element signature="e#28553#28899#0" expanded="false" />
+            <element signature="e#28971#29378#0" expanded="false" />
+            <element signature="e#31022#31147#0" expanded="false" />
+            <element signature="e#31260#31606#0" expanded="false" />
+            <element signature="e#31678#32085#0" expanded="false" />
+            <element signature="e#39393#39975#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-            <element signature="e#40391#40585#0" expanded="false" />
+            <element signature="e#43502#43696#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendVideoMessage#0" expanded="false" />
