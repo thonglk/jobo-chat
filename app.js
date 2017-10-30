@@ -298,8 +298,11 @@ function jobJD(job) {
 ${working_type}${salary}${hourly_wages}${timeStr}\n${experience}${sex}${unit}${figure}\n`
     return text;
 }
+
 function getUserDataAndSave(senderID) {
     return new Promise(function (resolve, reject) {
+        console.log('get Profile')
+
         graph.get(senderID).then(result => {
             console.log(result.data)
             var user = result.data
@@ -307,7 +310,6 @@ function getUserDataAndSave(senderID) {
                 name: user.first_name + user.last_name,
                 messengerId: senderID,
                 createdAt: Date.now(),
-
             }
 
 
@@ -364,7 +366,7 @@ function matchingPayload(event) {
         console.log('payload', payload);
         switch (payload.type) {
             case 'GET_STARTED': {
-                getUserDataAndSave(senderID).then(result=>{
+                getUserDataAndSave(senderID).then(result => {
 
                     if (postback.referral && postback.referral.ref.length > 0) {
 
