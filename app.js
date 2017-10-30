@@ -308,7 +308,8 @@ ${working_type}${salary}${hourly_wages}${timeStr}\n${experience}${sex}${unit}${f
 }
 
 app.get('/getUserDataAndSave', function (req, res) {
-    var {senderID} = req.query
+    var query = req.query
+    var senderID = query.senderID
     getUserDataAndSave(senderID)
         .then(result => res.send(result))
         .catch(err => res.status(500).json(err))
