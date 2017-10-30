@@ -299,15 +299,24 @@ ${working_type}${salary}${hourly_wages}${timeStr}\n${experience}${sex}${unit}${f
     return text;
 }
 
+app.get('/getUserDataAndSave', function (req, res) {
+    var {senderID} = req.query
+    getUserDataAndSave(senderID)
+        .then(result => res.send(result))
+        .catch(err => res.status(500).json(err))
+})
+
 function getUserDataAndSave(senderID) {
     return new Promise(function (resolve, reject) {
         console.log('get Profile')
 
-        graph.get(senderID).then(result => {
-            console.log(result.data)
-            var user = result.data
+        graph.get(senderID, (err, result) => {
+            if (err) reject(err)
+
+            console.log(result)
+            var user = result
             var userData = {
-                name: user.first_name + user.last_name,
+                name: user.first_name + ' '+ user.last_name,
                 messengerId: senderID,
                 createdAt: Date.now(),
             }
@@ -320,10 +329,9 @@ function getUserDataAndSave(senderID) {
                 updatedAt: Date.now(),
             }
             userRef.child(senderID).update(userData)
-                .then(() => profileRef.child(senderID).update(profileData)
-                    .then(() => resolve(profileData)))
+                .then(() => profileRef.child(senderID).update(profileData))
+                .then(() => resolve(profileData))
                 .catch(err => reject(err))
-
         })
     })
 
