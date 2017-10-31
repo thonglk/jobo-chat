@@ -145,13 +145,48 @@ conversationRef.on('value', function (snap) {
     conversationData = snap.val()
 
 })
+
 function initUser() {
     conversationRef.once('value', function (snap) {
         conversationData = snap.val()
-
-
+        for (var i in conversationData) {
+            getUserDataAndSave(i)
+        }
     })
 }
+
+app.get('/initUser', function () {
+    initUser()
+})
+
+function sendHalloWeenMessage(user) {
+    sendAPI(user.messengerId, {
+        attachment: {
+            type: "video",
+            payload: {
+                url: 'https://jobo.asia/file/halloween.mp4'
+            }
+        }
+    }).then(() => {
+        sendAPI(user.messengerId, {
+            text: `Happy Halloween nhé, ${user.name} <3 !!!`
+        })
+    })
+}
+
+app.get('/sendHalloWeenMessage', function (req, res) {
+    conversationRef.once('value', function (snap) {
+        conversationData = snap.val()
+        // for (var i in conversationData) {
+        //     sendHalloWeenMessage(conversationData[i])
+        // }
+        sendHalloWeenMessage(conversationData['1226124860830528'])
+
+        res.send('done')
+
+    })
+})
+
 
 if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
     console.error("Missing config values");
@@ -315,6 +350,7 @@ app.get('/getUserDataAndSave', function (req, res) {
         .catch(err => res.status(500).json(err))
 })
 
+
 function getUserDataAndSave(senderID) {
     return new Promise(function (resolve, reject) {
         console.log('get Profile');
@@ -325,7 +361,7 @@ function getUserDataAndSave(senderID) {
             console.log(result);
             var user = result
             var userData = {
-                name: user.first_name + ' '+ user.last_name,
+                name: user.first_name + ' ' + user.last_name,
                 messengerId: senderID,
                 createdAt: Date.now(),
             }
@@ -552,7 +588,7 @@ function matchingPayload(event) {
                                                         })
                                                     }
                                                 ]
-                                            },10000)
+                                            }, 10000)
                                         })
                                     }
                                 );
@@ -576,11 +612,12 @@ function matchingPayload(event) {
                             jobId: payload.jobId
                         })
                     });
-                    break;
 
                 } else {
 
                 }
+                break;
+
             }
             case'confirmJobSeeker': {
                 if (payload.answer == 'yes') {
@@ -633,12 +670,13 @@ function matchingPayload(event) {
                         })
 
                     })
-                    break;
 
 
                 } else {
 
                 }
+                break;
+
 
             }
             case'confirmEmployer': {
@@ -647,19 +685,18 @@ function matchingPayload(event) {
                         text: "Dạ. Bạn vui lòng cho ad xin số điện thoại để bộ phận tư vấn liên hệ nhé ạ",
                         metadata: JSON.stringify({
                             type: 'askPhone',
-                            sequence:'employer'
+                            sequence: 'employer'
                         })
                     });
-                    break;
 
                 } else {
 
                 }
+                break;
+
 
             }
-            case
-            'confirmPolicy'
-            : {
+            case'confirmPolicy': {
                 if (payload.answer == 'yes') {
                     sendAPI(senderID, {
                         text: "Hiện tại đang có một số công việc đang tuyển gấp, xem nó có gần bạn không nhé",
@@ -670,23 +707,22 @@ function matchingPayload(event) {
                             })
                         }]
                     })
-                    break;
 
                 }
+                break;
+
             }
-            case
-            'askPhone'
-            : {
-                if(payload.sequence == 'employer'){
+            case'askPhone': {
+                if (payload.sequence == 'employer') {
                     sendAPI(senderID, {
                         text: "Okie, bạn đang cần tuyển vị trí gì nhỉ?",
-                        metadata : JSON.stringify({
-                            type:'employer_job',
-                            sequence:'employer'
+                        metadata: JSON.stringify({
+                            type: 'employer_job',
+                            sequence: 'employer'
                         })
                     })
 
-                }else {
+                } else {
                     var jobId = payload.jobId;
 
                     loadJob(jobId).then(result => {
@@ -729,8 +765,7 @@ function matchingPayload(event) {
 
             }
             case
-            'setInterview'
-            : {
+            'setInterview': {
                 var time = payload.time
                 sendAPI(senderID, {
                     text: `Oke bạn, vậy bạn sẽ có buổi phỏng vấn vào ${strTime(time)}.`
