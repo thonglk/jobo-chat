@@ -1150,26 +1150,30 @@ function receivedMessage(event) {
                         }
                     }
                 }
-
+                var a = 0
                 for (var i in jobData) {
                     var job = jobData[i];
+                    a++
 
-                    message.attachment.payload.elements.push({
-                        "title": job.jobName,
-                        "subtitle": `${job.storeName} cách ${job.distance} km`,
-                        "image_url": job.avatar,
-                        "buttons": [
-                            {
-                                "title": "Xem chi tiết",
-                                "type": "postback",
-                                "payload": JSON.stringify({
-                                    type: 'confirmJob',
-                                    answer: 'yes',
-                                    jobId: job.jobId
-                                })
-                            }
-                        ]
-                    })
+                    if (a < 5){
+                        message.attachment.payload.elements.push({
+                            "title": job.jobName,
+                            "subtitle": `${job.storeName} cách ${job.distance} km`,
+                            "image_url": job.avatar,
+                            "buttons": [
+                                {
+                                    "title": "Xem chi tiết",
+                                    "type": "postback",
+                                    "payload": JSON.stringify({
+                                        type: 'confirmJob',
+                                        answer: 'yes',
+                                        jobId: job.jobId
+                                    })
+                                }
+                            ]
+                        })
+
+                    }
 
                 }
                 sendAPI(senderID, {text: `Mình tìm thấy ${resultData.total} công việc đang tuyển xung quanh nè!`}).then(() => {
