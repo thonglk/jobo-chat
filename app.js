@@ -159,7 +159,79 @@ app.get('/initUser', function () {
     initUser()
 })
 
+app.get('/setMenu', function (req, res) {
+    setMenu().then(result => res.send(result))
+        .catch(err => res.status(500).json(err))
+})
+
+function setMenu() {
+    var menu = {
+        "persistent_menu": [
+            {
+                "call_to_actions": [
+                    {
+                        "title": "👑 Xem thêm",
+                        "type": "nested",
+
+                        "call_to_actions": [
+                            {
+                                "title": "🍔 Tìm việc xung quanh",
+                                "type": "postback",
+                                "payload": JSON.stringify({
+                                    type: 'confirmPolicy',
+                                    answer: 'yes',
+                                })
+                            },
+                            {
+                                "title": "🍇 Lịch phỏng vấn",
+                                "type": "postback",
+                                "payload": JSON.stringify({
+                                    type: 'profile',
+                                    state: 'inverview',
+                                })
+                            },
+                            {
+                                "title": "🍋 We're hiring",
+                                "type": "postback",
+                                "payload": JSON.stringify({
+                                    type: 'nav',
+                                    state: 'career',
+                                })
+                            }
+                        ]
+                    }
+                ],
+                "locale": "default",
+
+            }
+        ]
+    }
+
+
+    return new Promise(function (resolve, reject) {
+        request({
+            uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
+            qs: {access_token: PAGE_ACCESS_TOKEN},
+            method: 'POST',
+            json: menu
+
+        }, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+
+                resolve(response)
+
+            } else {
+                console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
+                reject(error)
+
+            }
+        });
+    })
+
+}
+
 function sendHalloWeenMessage(user) {
+    console.log(user)
     sendAPI(user.messengerId, {
         attachment: {
             type: "video",
@@ -175,12 +247,11 @@ function sendHalloWeenMessage(user) {
 }
 
 app.get('/sendHalloWeenMessage', function (req, res) {
-    conversationRef.once('value', function (snap) {
-        conversationData = snap.val()
-        // for (var i in conversationData) {
-        //     sendHalloWeenMessage(conversationData[i])
-        // }
-        sendHalloWeenMessage(conversationData['1226124860830528'])
+    userRef.once('value', function (snap) {
+        var dataUser = snap.val()
+        for (var i in dataUser) {
+            sendHalloWeenMessage(dataUser[i])
+        }
 
         res.send('done')
 
@@ -1069,33 +1140,41 @@ function receivedMessage(event) {
                 var resultData = result.data;
                 var jobData = resultData.data;
                 console.log('resultData', resultData.total);
-                sendAPI(senderID, {text: `Mình tìm thấy ${resultData.total} công việc đang tuyển xung quanh nè!`})
+                var message = {
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "list",
+                            "top_element_style": "compact",
+                            "elements": [],
+                        }
+                    }
+                }
+
                 for (var i in jobData) {
                     var job = jobData[i];
 
-                    var message = {
-                        attachment: {
-                            type: "template",
-                            payload: {
-                                template_type: "button",
-                                text: `🛄${job.jobName} - ${job.storeName} - cách ${job.distance} km`,
-                                buttons: [{
-                                    "type": "postback",
-                                    "title": `Xem chi tiết`,
-                                    "payload": JSON.stringify({
-                                        type: 'confirmJob',
-                                        answer: 'yes',
-                                        jobId: job.jobId
-                                    })
-                                }]
+                    message.attachment.payload.elements.push({
+                        "title": job.jobName,
+                        "subtitle": `${job.storeName} cách ${job.distance} km`,
+                        "image_url": job.avatar,
+                        "buttons": [
+                            {
+                                "title": "Xem chi tiết",
+                                "type": "postback",
+                                "payload": JSON.stringify({
+                                    type: 'confirmJob',
+                                    answer: 'yes',
+                                    jobId: job.jobId
+                                })
                             }
-                        }
-                    }
-
-                    sendAPI(senderID, message)
-
+                        ]
+                    })
 
                 }
+                sendAPI(senderID, {text: `Mình tìm thấy ${resultData.total} công việc đang tuyển xung quanh nè!`}).then(() => {
+                    sendAPI(senderID, message, 3000)
+                })
 
 
             }).catch(err => {
