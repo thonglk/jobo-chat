@@ -884,7 +884,7 @@ function matchingPayload(event) {
 
 app.post('/webhook', function (req, res) {
     var data = req.body;
-    console.log('webhook', data)
+    console.log('webhook', JSON.stringify(data))
 
     // Make sure this is a page subscription
     if (data.object == 'page') {
@@ -895,36 +895,38 @@ app.post('/webhook', function (req, res) {
             var timeOfEvent = pageEntry.time;
 
             // Iterate over each messaging event
-            pageEntry.messaging.forEach(function (messagingEvent) {
-                //
-                // var savedMess = Object({}, messagingEvent)
-                messagingEvent.messengerId = messagingEvent.sender.id
-                messagingEvent.type = 'received'
+            if(pageEntry.messaging){
+                pageEntry.messaging.forEach(function (messagingEvent) {
+                    //
+                    // var savedMess = Object({}, messagingEvent)
+                    messagingEvent.messengerId = messagingEvent.sender.id
+                    messagingEvent.type = 'received'
 
-                conversationRef.child(messagingEvent.messengerId).child(timeOfEvent).update(messagingEvent).then(() => {
-                    matchingPayload(messagingEvent)
+                    conversationRef.child(messagingEvent.messengerId).child(timeOfEvent).update(messagingEvent).then(() => {
+                        matchingPayload(messagingEvent)
 
-                    if (messagingEvent.optin) {
-                        receivedAuthentication(messagingEvent);
-                    } else if (messagingEvent.message) {
-                        receivedMessage(messagingEvent);
-                    } else if (messagingEvent.delivery) {
-                        receivedDeliveryConfirmation(messagingEvent);
-                    } else if (messagingEvent.postback) {
-                        receivedPostback(messagingEvent);
-                    } else if (messagingEvent.read) {
-                        receivedMessageRead(messagingEvent);
-                    } else if (messagingEvent.account_linking) {
-                        receivedAccountLink(messagingEvent);
-                    } else {
-                        console.log("Webhook received unknown messagingEvent: ", messagingEvent);
-                    }
-
-
-                })
+                        if (messagingEvent.optin) {
+                            receivedAuthentication(messagingEvent);
+                        } else if (messagingEvent.message) {
+                            receivedMessage(messagingEvent);
+                        } else if (messagingEvent.delivery) {
+                            receivedDeliveryConfirmation(messagingEvent);
+                        } else if (messagingEvent.postback) {
+                            receivedPostback(messagingEvent);
+                        } else if (messagingEvent.read) {
+                            receivedMessageRead(messagingEvent);
+                        } else if (messagingEvent.account_linking) {
+                            receivedAccountLink(messagingEvent);
+                        } else {
+                            console.log("Webhook received unknown messagingEvent: ", messagingEvent);
+                        }
 
 
-            });
+                    })
+
+
+                });
+            }
         });
 
         // Assume all went well.
