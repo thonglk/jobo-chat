@@ -17,8 +17,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="913" column="38" lean-forward="true" selection-start-line="913" selection-start-column="38" selection-end-line="913" selection-end-column="38" />
+            <state relative-caret-position="234">
+              <caret line="916" column="5" lean-forward="true" selection-start-line="916" selection-start-column="5" selection-end-line="916" selection-end-column="5" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
@@ -29,10 +29,10 @@
                 <element signature="e#32529#32875#0" expanded="false" />
                 <element signature="e#32947#33354#0" expanded="false" />
                 <element signature="e#36294#37623#0" expanded="false" />
-                <element signature="e#40042#41407#0" expanded="false" />
-                <element signature="e#41863#42445#0" expanded="false" />
+                <element signature="e#40088#41453#0" expanded="false" />
+                <element signature="e#41909#42491#0" expanded="false" />
                 <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-                <element signature="e#45972#46166#0" expanded="false" />
+                <element signature="e#46018#46212#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
@@ -67,7 +67,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>messageText</find>
       <find>askphone</find>
       <find>loadjob</find>
       <find>location</find>
@@ -97,6 +96,7 @@
       <find>setM</find>
       <find>whiteListDomains</find>
       <find>viewMore</find>
+      <find>getJob</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -208,12 +208,12 @@
       <updated>1508779802294</updated>
       <workItem from="1508779803911" duration="71675000" />
       <workItem from="1509354917434" duration="7683000" />
-      <workItem from="1509435377569" duration="10386000" />
+      <workItem from="1509435377569" duration="11000000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="89744000" />
+    <option name="totallyTimeSpent" value="90358000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -226,7 +226,7 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -309,8 +309,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="913" column="38" lean-forward="true" selection-start-line="913" selection-start-column="38" selection-end-line="913" selection-end-column="38" />
+        <state relative-caret-position="234">
+          <caret line="916" column="5" lean-forward="true" selection-start-line="916" selection-start-column="5" selection-end-line="916" selection-end-column="5" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
@@ -321,10 +321,10 @@
             <element signature="e#32529#32875#0" expanded="false" />
             <element signature="e#32947#33354#0" expanded="false" />
             <element signature="e#36294#37623#0" expanded="false" />
-            <element signature="e#40042#41407#0" expanded="false" />
-            <element signature="e#41863#42445#0" expanded="false" />
+            <element signature="e#40088#41453#0" expanded="false" />
+            <element signature="e#41909#42491#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-            <element signature="e#45972#46166#0" expanded="false" />
+            <element signature="e#46018#46212#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />

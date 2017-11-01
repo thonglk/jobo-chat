@@ -1175,7 +1175,7 @@ function receivedMessage(event) {
         var data = {
             lat: locationData.lat,
             lng: locationData.long,
-            p: 1,
+            page: 1,
             per_page: 4,
             type: 'premium'
         }
@@ -1201,7 +1201,7 @@ function getJob(data) {
                 var resultData = result.data;
                 var jobData = resultData.data;
                 console.log('resultData', resultData.total);
-                data.p++
+                data.page++
                 var message = {
                     "attachment": {
                         "type": "template",
