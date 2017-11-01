@@ -911,7 +911,7 @@ function matchingPayload(event) {
             }
             case 'viewMoreJob': {
                 var data = payload.data
-                sendJob(data,senderID)
+                getJob(data).then(result => sendAPI(senderID, result.message, 3000))
             }
         }
     }
@@ -1179,13 +1179,17 @@ function receivedMessage(event) {
             per_page: 4,
             type: 'premium'
         }
-        sendJob(data,senderID)
+        getJob(data).then(result => sendAPI(senderID, {text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh nè!`})
+            .then(() => {
+                sendAPI(senderID, result.message, 3000)
+            })
+        )
 
 
     }
 }
 
-function sendJob(data,senderID) {
+function getJob(data) {
     return new Promise(function (resolve, reject) {
         var url = `${API_URL}/api/job`;
 
@@ -1197,6 +1201,7 @@ function sendJob(data,senderID) {
                 var resultData = result.data;
                 var jobData = resultData.data;
                 console.log('resultData', resultData.total);
+                data.p++
                 var message = {
                     "attachment": {
                         "type": "template",
@@ -1210,7 +1215,7 @@ function sendJob(data,senderID) {
                                     "type": "postback",
                                     "payload": JSON.stringify({
                                         type: 'viewMoreJob',
-                                        data: {lat: data.lat, lng: data.lng, p: data.p++}
+                                        data
                                     })
                                 }
                             ]
@@ -1237,10 +1242,8 @@ function sendJob(data,senderID) {
                     })
 
                 }
-                sendAPI(senderID, {text: `Mình tìm thấy ${resultData.total} công việc đang tuyển xung quanh nè!`}).then(() => {
-                    sendAPI(senderID, message, 3000).then(result => resolve(result))
-                })
-
+                resultData.message = message
+                resolve(resultData)
 
             }).catch(err => reject(err))
     })
