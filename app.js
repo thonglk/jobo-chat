@@ -884,6 +884,7 @@ function matchingPayload(event) {
 
 app.post('/webhook', function (req, res) {
     var data = req.body;
+    console.log('webhook', data)
 
     // Make sure this is a page subscription
     if (data.object == 'page') {
@@ -895,8 +896,6 @@ app.post('/webhook', function (req, res) {
 
             // Iterate over each messaging event
             pageEntry.messaging.forEach(function (messagingEvent) {
-
-                console.log('pageEntry', messagingEvent)
                 //
                 // var savedMess = Object({}, messagingEvent)
                 messagingEvent.messengerId = messagingEvent.sender.id
