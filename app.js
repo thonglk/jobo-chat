@@ -1172,7 +1172,6 @@ function receivedMessage(event) {
                                 }
                             ]
                         })
-
                     }
 
                 }
