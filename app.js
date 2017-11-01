@@ -50,6 +50,8 @@ const PAGE_ACCESS_TOKEN = (process.env.MESSENGER_PAGE_ACCESS_TOKEN) ?
     (process.env.MESSENGER_PAGE_ACCESS_TOKEN) :
     config.get('pageAccessToken');
 
+const WHITE_LIST = config.get('whiteListDomains')
+
 var graph = require('fbgraph');
 graph.setAccessToken(PAGE_ACCESS_TOKEN);
 
@@ -160,11 +162,12 @@ app.get('/initUser', function () {
 })
 
 app.get('/setMenu', function (req, res) {
-    setMenu().then(result => res.send(result))
+    setDefautMenu().then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 })
 
-function setMenu() {
+
+function setDefautMenu() {
     var menu = {
         "persistent_menu": [
             {
@@ -214,6 +217,39 @@ function setMenu() {
             qs: {access_token: PAGE_ACCESS_TOKEN},
             method: 'POST',
             json: menu
+
+        }, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+
+                resolve(response)
+
+            } else {
+                console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
+                reject(error)
+
+            }
+        });
+    })
+
+}
+
+app.get('/setWhiteListDomain', function (req, res) {
+    setWhiteListDomain().then(result => res.send(result))
+        .catch(err => res.status(500).json(err))
+})
+
+function setWhiteListDomain() {
+    var mes = {
+        "whitelisted_domains": WHITE_LIST
+    }
+
+
+    return new Promise(function (resolve, reject) {
+        request({
+            uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
+            qs: {access_token: PAGE_ACCESS_TOKEN},
+            method: 'POST',
+            json: mes
 
         }, function (error, response, body) {
             if (!error && response.statusCode == 200) {
@@ -862,9 +898,7 @@ function matchingPayload(event) {
                 }))
                 break;
             }
-            case
-            'confirmInterview'
-            : {
+            case'confirmInterview': {
                 var time = payload.time
                 sendAPI(senderID, {
                     text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi phỏng vấn.\n` +
@@ -874,6 +908,11 @@ function matchingPayload(event) {
                     })
                 )
                 break;
+            }
+            case 'viewMoreJob': {
+                var data = payload.data
+                sendJob(data)
+
             }
         }
     }
@@ -895,7 +934,7 @@ app.post('/webhook', function (req, res) {
             var timeOfEvent = pageEntry.time;
 
             // Iterate over each messaging event
-            if(pageEntry.messaging){
+            if (pageEntry.messaging) {
                 pageEntry.messaging.forEach(function (messagingEvent) {
                     //
                     // var savedMess = Object({}, messagingEvent)
@@ -1134,7 +1173,20 @@ function receivedMessage(event) {
 
         var locationData = messageAttachments[0].payload.coordinates;
         console.log('locationData', locationData)
-        var url = `${API_URL}/api/job?type=premium&lat=${locationData.lat}&lng=${locationData.long}`;
+        var data = {
+            lat: locationData.lat,
+            lng: locationData.long,
+            p: 1
+
+        }
+        sendJob(data)
+
+
+    }
+}
+function sendJob(data) {
+    return new Promise(function (resolve, reject) {
+        var url = `${API_URL}/api/job?type=premium&lat=${data.lat}&lng=${data.lng}&p=${data.p}&per_page=4`;
         axios.get(url)
             .then(result => {
 
@@ -1148,44 +1200,48 @@ function receivedMessage(event) {
                             "template_type": "list",
                             "top_element_style": "compact",
                             "elements": [],
-                        }
-                    }
-                }
-                var a = 0
-                for (var i in jobData) {
-                    var job = jobData[i];
-                    a++
-
-                    if (a < 5){
-                        message.attachment.payload.elements.push({
-                            "title": job.jobName,
-                            "subtitle": `${job.storeName} cách ${job.distance} km`,
-                            "image_url": job.avatar,
                             "buttons": [
                                 {
-                                    "title": "Xem chi tiết",
+                                    "title": "Xem thêm",
                                     "type": "postback",
                                     "payload": JSON.stringify({
-                                        type: 'confirmJob',
-                                        answer: 'yes',
-                                        jobId: job.jobId
+                                        type: 'viewMoreJob',
+                                        data: {lat: data.lat, lng: data.lng, p: data.p++}
                                     })
                                 }
                             ]
-                        })
+                        }
                     }
+                }
+                for (var i in jobData) {
+                    var job = jobData[i];
+                    message.attachment.payload.elements.push({
+                        "title": job.jobName,
+                        "subtitle": `${job.storeName} cách ${job.distance} km`,
+                        "image_url": job.avatar,
+                        "buttons": [
+                            {
+                                "title": "Xem chi tiết",
+                                "type": "postback",
+                                "payload": JSON.stringify({
+                                    type: 'confirmJob',
+                                    answer: 'yes',
+                                    jobId: job.jobId
+                                })
+                            }
+                        ]
+                    })
 
                 }
                 sendAPI(senderID, {text: `Mình tìm thấy ${resultData.total} công việc đang tuyển xung quanh nè!`}).then(() => {
-                    sendAPI(senderID, message, 3000)
+                    sendAPI(senderID, message, 3000).then(result => resolve(result))
                 })
 
 
-            }).catch(err => {
+            }).catch(err => reject(err))
+    })
 
-        })
 
-    }
 }
 
 
