@@ -911,8 +911,7 @@ function matchingPayload(event) {
             }
             case 'viewMoreJob': {
                 var data = payload.data
-                sendJob(data)
-
+                sendJob(data,senderID)
             }
         }
     }
@@ -1176,18 +1175,23 @@ function receivedMessage(event) {
         var data = {
             lat: locationData.lat,
             lng: locationData.long,
-            p: 1
-
+            p: 1,
+            per_page: 4,
+            type: 'premium'
         }
-        sendJob(data)
+        sendJob(data,senderID)
 
 
     }
 }
-function sendJob(data) {
+
+function sendJob(data,senderID) {
     return new Promise(function (resolve, reject) {
-        var url = `${API_URL}/api/job?type=premium&lat=${data.lat}&lng=${data.lng}&p=${data.p}&per_page=4`;
-        axios.get(url)
+        var url = `${API_URL}/api/job`;
+
+        axios.get(url, {
+            params: data
+        })
             .then(result => {
 
                 var resultData = result.data;
