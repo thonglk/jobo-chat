@@ -1501,21 +1501,23 @@ function sendAPI(recipientId, message, typing) {
             message: message
         };
         sendTypingOn(recipientId)
-        setTimeout(function () {
-            sendTypingOff(recipientId)
-            callSendAPI(messageData).then(result => {
+            .then(result => setTimeout(function () {
+                sendTypingOff(recipientId)
+                callSendAPI(messageData).then(result => {
 
-                messageData.messengerId = recipientId
-                messageData.type = 'sent'
-                messageData.timestamp = Date.now()
+                    messageData.messengerId = recipientId
+                    messageData.type = 'sent'
+                    messageData.timestamp = Date.now()
 
-                conversationRef.child(messageData.messengerId).child(messageData.timestamp)
-                    .update(messageData)
-                    .then(() => resolve(result))
-                    .catch(err => reject(err))
-            })
+                    conversationRef.child(messageData.messengerId).child(messageData.timestamp)
+                        .update(messageData)
+                        .then(() => resolve(result))
+                        .catch(err => reject(err))
+                })
 
-        }, typing)
+            }, typing)
+            .catch(err => reject(err))
+        )
 
 
     })
@@ -1731,16 +1733,21 @@ function sendReadReceipt(recipientId) {
  *
  */
 function sendTypingOn(recipientId) {
-    console.log("Turning typing indicator on");
+    return new Promise(function (resolve,reject) {
+        console.log("Turning typing indicator on");
 
-    var messageData = {
-        recipient: {
-            id: recipientId
-        },
-        sender_action: "typing_on"
-    };
+        var messageData = {
+            recipient: {
+                id: recipientId
+            },
+            sender_action: "typing_on"
+        };
 
-    callSendAPI(messageData);
+        callSendAPI(messageData)
+            .then(result => resolve(result))
+            .catch(err => reject(err));
+    })
+
 }
 
 /*
