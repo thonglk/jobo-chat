@@ -1502,9 +1502,8 @@ function sendAPI(recipientId, message, typing) {
         };
         sendTypingOn(recipientId)
             .then(result => setTimeout(function () {
-                sendTypingOff(recipientId)
                 callSendAPI(messageData).then(result => {
-
+                    sendTypingOff(recipientId)
                     messageData.messengerId = recipientId
                     messageData.type = 'sent'
                     messageData.timestamp = Date.now()
