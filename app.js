@@ -496,8 +496,6 @@ function matchingPayload(event) {
     var message = event.message
     var postback = event.postback
 
-    sendReadReceipt(senderID)
-
     var payloadStr = '';
     if (message && message.quick_reply && message.quick_reply.payload) payloadStr = message.quick_reply.payload
     else if (message && message.payload) payloadStr = message.payload
@@ -518,6 +516,23 @@ function matchingPayload(event) {
             if (lastMessage.message && lastMessage.message.metadata) {
                 payloadStr = lastMessage.message.metadata
             }
+        }
+    } else if(message.attachments){
+        if(message.attachments[0].payload.coordinates){
+            var locationData = message.attachments[0].payload.coordinates;
+            console.log('locationData', locationData);
+            var data = {
+                lat: locationData.lat,
+                lng: locationData.long,
+                page: 1,
+                per_page: 4,
+                type: 'premium'
+            };
+            getJob(data).then(result => sendAPI(senderID, {text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh nè!`})
+                .then(() => {
+                    sendAPI(senderID, result.message, 3000)
+                })
+            )
         }
     }
 
@@ -941,7 +956,7 @@ app.post('/webhook', function (req, res) {
                     messagingEvent.type = 'received'
 
                     conversationRef.child(messagingEvent.messengerId).child(timeOfEvent).update(messagingEvent).then(() => {
-                        matchingPayload(messagingEvent)
+                        matchingPayload(messagingEvent);
 
                         if (messagingEvent.optin) {
                             receivedAuthentication(messagingEvent);
@@ -950,7 +965,7 @@ app.post('/webhook', function (req, res) {
                         } else if (messagingEvent.delivery) {
                             receivedDeliveryConfirmation(messagingEvent);
                         } else if (messagingEvent.postback) {
-                            receivedPostback(messagingEvent);
+                            // receivedPostback(messagingEvent);
                         } else if (messagingEvent.read) {
                             receivedMessageRead(messagingEvent);
                         } else if (messagingEvent.account_linking) {
@@ -1170,25 +1185,6 @@ function receivedMessage(event) {
 
         }
     }
-    else if (messageAttachments) {
-
-        var locationData = messageAttachments[0].payload.coordinates;
-        console.log('locationData', locationData)
-        var data = {
-            lat: locationData.lat,
-            lng: locationData.long,
-            page: 1,
-            per_page: 4,
-            type: 'premium'
-        }
-        getJob(data).then(result => sendAPI(senderID, {text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh nè!`})
-            .then(() => {
-                sendAPI(senderID, result.message, 3000)
-            })
-        )
-
-
-    }
 }
 
 function getJob(data) {
@@ -1289,26 +1285,26 @@ function receivedDeliveryConfirmation(event) {
  */
 
 
-function receivedPostback(event) {
-    var senderID = event.sender.id;
-    var recipientID = event.recipient.id;
-    var timeOfPostback = event.timestamp;
-    var postback = event.postback
-    // The 'payload' param is a developer-defined field which is set in a postback
-    // button for Structured Messages.
-
-
-    var payload = JSON.parse(postback.payload);
-
-    console.log("Received postback for user %d and page %d with payload '%s' " +
-        "at %d", senderID, recipientID, payload, timeOfPostback);
-
-
-    //done
-
-    // When a postback is called, we'll send a message back to the sender to
-    // let them know it was successful
-}
+// function receivedPostback(event) {
+//     var senderID = event.sender.id;
+//     var recipientID = event.recipient.id;
+//     var timeOfPostback = event.timestamp;
+//     var postback = event.postback
+//     // The 'payload' param is a developer-defined field which is set in a postback
+//     // button for Structured Messages.
+//
+//
+//     var payload = JSON.parse(postback.payload);
+//
+//     console.log("Received postback for user %d and page %d with payload '%s' " +
+//         "at %d", senderID, recipientID, payload, timeOfPostback);
+//
+//
+//     //done
+//
+//     // When a postback is called, we'll send a message back to the sender to
+//     // let them know it was successful
+// }
 
 function loadJob(jobId) {
     return new Promise(function (resolve, reject) {
