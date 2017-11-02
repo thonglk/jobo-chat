@@ -1152,7 +1152,9 @@ function receivedMessage(event) {
                 break;
 
             case 'typing on':
-                sendTypingOn(senderID);
+                sendTypingOn(senderID)
+                    .then(result => console.log(result))
+                    .catch(err => console.log(err));
                 break;
 
             case 'typing off':
@@ -1811,12 +1813,7 @@ function callSendAPI(messageData) {
                 var recipientId = body.recipient_id;
                 var messageId = body.message_id;
 
-                if (messageId) {
-                    console.log("Successfully sent message with id %s to recipient %s",
-                        messageId, recipientId);
-                } else {
-                    console.log("Successfully called Send API for recipient %s", recipientId);
-                }
+                console.log("Successfully sent message with id %s to recipient %s", messageId, recipientId);
 
                 resolve(messageData)
 
