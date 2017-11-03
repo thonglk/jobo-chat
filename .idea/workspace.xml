@@ -17,8 +17,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="550" column="50" lean-forward="true" selection-start-line="550" selection-start-column="50" selection-end-line="550" selection-end-column="50" />
+            <state relative-caret-position="355">
+              <caret line="552" column="21" lean-forward="true" selection-start-line="552" selection-start-column="21" selection-end-line="552" selection-end-column="21" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
@@ -27,16 +27,16 @@
                 <element signature="n#!!block;n#timeAgo#0" expanded="false" />
                 <element signature="n#!!block;n#jobJD#0" expanded="false" />
                 <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-                <element signature="e#23718#24454#0" expanded="false" />
-                <element signature="e#24820#30537#0" expanded="false" />
-                <element signature="e#25192#27093#0" expanded="false" />
-                <element signature="e#25295#27009#0" expanded="false" />
-                <element signature="e#34021#34138#0" expanded="false" />
-                <element signature="e#34243#34565#0" expanded="false" />
-                <element signature="e#34633#35020#0" expanded="false" />
-                <element signature="e#37700#38929#0" expanded="false" />
-                <element signature="e#43215#43797#0" expanded="false" />
-                <element signature="e#47324#47518#0" expanded="false" />
+                <element signature="e#23498#24234#0" expanded="false" />
+                <element signature="e#24911#30628#0" expanded="false" />
+                <element signature="e#25283#27184#0" expanded="false" />
+                <element signature="e#25386#27100#0" expanded="false" />
+                <element signature="e#34112#34229#0" expanded="false" />
+                <element signature="e#34334#34656#0" expanded="false" />
+                <element signature="e#34724#35111#0" expanded="false" />
+                <element signature="e#37791#39020#0" expanded="false" />
+                <element signature="e#43308#43890#0" expanded="false" />
+                <element signature="e#47417#47611#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
@@ -221,12 +221,12 @@
       <updated>1508779802294</updated>
       <workItem from="1508779803911" duration="71675000" />
       <workItem from="1509354917434" duration="7683000" />
-      <workItem from="1509435377569" duration="27287000" />
+      <workItem from="1509435377569" duration="27658000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="106645000" />
+    <option name="totallyTimeSpent" value="107016000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -323,8 +323,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="550" column="50" lean-forward="true" selection-start-line="550" selection-start-column="50" selection-end-line="550" selection-end-column="50" />
+        <state relative-caret-position="355">
+          <caret line="552" column="21" lean-forward="true" selection-start-line="552" selection-start-column="21" selection-end-line="552" selection-end-column="21" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
@@ -333,16 +333,16 @@
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="e#23718#24454#0" expanded="false" />
-            <element signature="e#24820#30537#0" expanded="false" />
-            <element signature="e#25192#27093#0" expanded="false" />
-            <element signature="e#25295#27009#0" expanded="false" />
-            <element signature="e#34021#34138#0" expanded="false" />
-            <element signature="e#34243#34565#0" expanded="false" />
-            <element signature="e#34633#35020#0" expanded="false" />
-            <element signature="e#37700#38929#0" expanded="false" />
-            <element signature="e#43215#43797#0" expanded="false" />
-            <element signature="e#47324#47518#0" expanded="false" />
+            <element signature="e#23498#24234#0" expanded="false" />
+            <element signature="e#24911#30628#0" expanded="false" />
+            <element signature="e#25283#27184#0" expanded="false" />
+            <element signature="e#25386#27100#0" expanded="false" />
+            <element signature="e#34112#34229#0" expanded="false" />
+            <element signature="e#34334#34656#0" expanded="false" />
+            <element signature="e#34724#35111#0" expanded="false" />
+            <element signature="e#37791#39020#0" expanded="false" />
+            <element signature="e#43308#43890#0" expanded="false" />
+            <element signature="e#47417#47611#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />

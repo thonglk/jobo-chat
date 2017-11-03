@@ -514,9 +514,9 @@ function matchingPayload(event) {
 
         var payloadStr = '';
 
-        if (!message) reject({err: 'no message'})
 
-        if (message.text) {
+
+        if (message && message.text) {
 
             var conversation = conversationData[senderID];
             if (conversation) var listSentMessage = _.filter(conversation, function (card) {
@@ -558,7 +558,7 @@ function matchingPayload(event) {
                 .catch(console.error);
 
 
-        } else if (message.attachments) {
+        } else if (message && message.attachments) {
             if (message.attachments[0].payload.coordinates) {
                 var locationData = message.attachments[0].payload.coordinates;
                 console.log('locationData', locationData);
@@ -578,7 +578,7 @@ function matchingPayload(event) {
         }
         else {
 
-            if (message.quick_reply && message.quick_reply.payload) payloadStr = message.quick_reply.payload
+            if (message && message.quick_reply && message.quick_reply.payload) payloadStr = message.quick_reply.payload
             else if (message && message.payload) payloadStr = message.payload
             else if (postback && postback.payload) payloadStr = postback.payload
 
