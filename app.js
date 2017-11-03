@@ -1556,7 +1556,7 @@ function sendAPI(recipientId, message, typing) {
                         .catch(err => reject(err))
                 })
 
-            }, typing)
+            }, typing))
             .catch(err => reject(err))
         )
 
