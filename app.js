@@ -515,9 +515,8 @@ function matchingPayload(event) {
         var payloadStr = '';
 
 
-
         if (message && message.text) {
-
+            console.log('message.text',message.text)
             var conversation = conversationData[senderID];
             if (conversation) var listSentMessage = _.filter(conversation, function (card) {
                 return card.type == 'sent';
