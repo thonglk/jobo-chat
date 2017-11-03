@@ -579,8 +579,6 @@ function matchingPayload(event) {
 
         if (payloadStr.length > 0) {
             var payload = JSON.parse(payloadStr);
-            console.log('payload', payload);
-
             resolve({payload, senderID, postback})
         }
 
@@ -591,6 +589,8 @@ function matchingPayload(event) {
 }
 
 function intention(payload, senderID, postback) {
+    console.log('payload', payload);
+
     switch (payload.type) {
         case 'GET_STARTED': {
             getUserDataAndSave(senderID).then(result => {
