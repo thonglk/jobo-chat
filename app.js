@@ -513,10 +513,10 @@ function matchingPayload(event) {
         var postback = event.postback
 
         var payloadStr = '';
-        if (message && message.quick_reply && message.quick_reply.payload) payloadStr = message.quick_reply.payload
-        else if (message && message.payload) payloadStr = message.payload
-        else if (postback && postback.payload) payloadStr = postback.payload
-        else if (message.text) {
+
+        if (!message) reject({err: 'no message'})
+
+        if (message.text) {
 
             var conversation = conversationData[senderID];
             if (conversation) var listSentMessage = _.filter(conversation, function (card) {
@@ -546,14 +546,13 @@ function matchingPayload(event) {
                             return card.confidence;
                         });
                         var value = most.value
-                        console.log('value',value)
+                        console.log('value', value)
                         if (value == 'yes') {
                             payload.answer = 'yes'
                         }
                     }
 
                     resolve({payload, senderID, postback})
-
 
                 })
                 .catch(console.error);
@@ -577,10 +576,17 @@ function matchingPayload(event) {
                 )
             }
         }
+        else {
 
-        if (payloadStr.length > 0) {
-            var payload = JSON.parse(payloadStr);
-            resolve({payload, senderID, postback})
+            if (message.quick_reply && message.quick_reply.payload) payloadStr = message.quick_reply.payload
+            else if (message && message.payload) payloadStr = message.payload
+            else if (postback && postback.payload) payloadStr = postback.payload
+
+            if (payloadStr.length > 0) {
+                var payload = JSON.parse(payloadStr);
+                resolve({payload, senderID, postback})
+            }
+
         }
 
 
@@ -1009,7 +1015,7 @@ app.post('/webhook', function (req, res) {
 
                     conversationRef.child(messagingEvent.messengerId).child(timeOfEvent).update(messagingEvent).then(() => {
                         matchingPayload(messagingEvent)
-                            .then(result => intention(result.payload,result.senderID,result.postback))
+                            .then(result => intention(result.payload, result.senderID, result.postback))
                             .catch(err => console.error())
                         ;
 
