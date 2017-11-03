@@ -514,8 +514,14 @@ function matchingPayload(event) {
 
         var payloadStr = '';
 
+        if (message && message.quick_reply && message.quick_reply.payload) payloadStr = message.quick_reply.payload
+        else if (message && message.payload) payloadStr = message.payload
+        else if (postback && postback.payload) payloadStr = postback.payload
 
-        if (message && message.text) {
+        if (payloadStr.length > 0) {
+            var payload = JSON.parse(payloadStr);
+            resolve({payload, senderID, postback})
+        } else if (message && message.text) {
             console.log('message.text',message.text)
             var conversation = conversationData[senderID];
             if (conversation) var listSentMessage = _.filter(conversation, function (card) {
@@ -575,18 +581,7 @@ function matchingPayload(event) {
                 )
             }
         }
-        else {
 
-            if (message && message.quick_reply && message.quick_reply.payload) payloadStr = message.quick_reply.payload
-            else if (message && message.payload) payloadStr = message.payload
-            else if (postback && postback.payload) payloadStr = postback.payload
-
-            if (payloadStr.length > 0) {
-                var payload = JSON.parse(payloadStr);
-                resolve({payload, senderID, postback})
-            }
-
-        }
 
 
     })
