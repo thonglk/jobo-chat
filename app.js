@@ -619,6 +619,9 @@ function intention(payload, senderID, postback) {
                                 },
                                 message: {
                                     text: `Có phải bạn đang muốn ứng tuyển vào vị trí ${jobData.jobName} của ${jobData.storeData.storeName} ?`,
+                                    metadata: JSON.stringify({
+                                        type: 'confirmJob',
+                                    }),
                                     quick_replies: [
                                         {
                                             "content_type": "text",
@@ -701,6 +704,10 @@ function intention(payload, senderID, postback) {
 
                     sendAPI(senderID, {
                         text: `Chào ${result.name}, Jobo có thể giúp gì cho bạn nhỉ?`,
+                        metadata: JSON.stringify({
+                            type: 'welcome',
+                            case:'GET_STARTED'
+                        }),
                         quick_replies: [
                             {
                                 "content_type": "text",
@@ -743,10 +750,17 @@ function intention(payload, senderID, postback) {
                             var text = jobJD(jobData);
 
                             sendAPI(senderID, {
-                                text
+                                text,metadata:JSON.stringify({
+                                    case: 'confirmJob',
+                                    type:'jd'
+                                })
                             }, 2000).then(() => {
                                     sendAPI(senderID, {
-                                        text: jobData.description || '(Y) (Y) (Y)'
+                                        text: jobData.description || '(Y) (Y) (Y)',
+                                        metadata:JSON.stringify({
+                                            case: 'confirmJob',
+                                            type:'description'
+                                        })
                                     }, 12000).then(() => {
                                         sendAPI(senderID, {
                                             text: 'Bạn có muốn ứng tuyển vào công việc này không?',
@@ -769,7 +783,11 @@ function intention(payload, senderID, postback) {
                                                         jobId: jobId
                                                     })
                                                 }
-                                            ]
+                                            ],
+                                            metadata:JSON.stringify({
+                                                case: 'confirmJob',
+                                                type:'applyJob'
+                                            })
                                         }, 10000)
                                     })
                                 }
@@ -791,6 +809,7 @@ function intention(payload, senderID, postback) {
                     text: 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé',
                     metadata: JSON.stringify({
                         type: 'askPhone',
+                        case:'applyJob',
                         jobId: payload.jobId
                     })
                 });
@@ -804,30 +823,45 @@ function intention(payload, senderID, postback) {
         case'confirmJobSeeker': {
             if (payload.answer == 'yes') {
                 sendAPI(senderID, {
-                    text: "Okie, chào mừng bạn đến với Jobo <3"
+                    text: "Okie, chào mừng bạn đến với Jobo <3",
+                    metadata: JSON.stringify({
+                        type: 'welcome',
+                        case:'confirmJobSeeker',
+                    })
                 }).then(() => {
-                    console.log('Okie')
+
                     sendAPI(senderID, {
-                        text: "Bạn vui lòng lưu ý 1 số thứ sau trước khi bắt đầu đi làm nhé!"
+                        text: "Bạn vui lòng lưu ý 1 số thứ sau trước khi bắt đầu đi làm nhé!",
+                        metadata: JSON.stringify({
+                            type: 'welcome_note',
+                            case:'confirmJobSeeker',
+                        })
                     }).then(() => {
-                        console.log('Bạn vui')
 
                         sendAPI(senderID, {
                             text: "* Bạn sẽ được:\n" +
                             "- Chọn ca linh hoạt theo lịch của bạn\n" +
                             "- Làm việc với các thương hiệu lớn\n" +
                             "- Không cần CV\n" +
-                            "- Thu nhập từ 6-8tr"
+                            "- Thu nhập từ 6-8tr",
+                            metadata: JSON.stringify({
+                                type: 'welcome_note_benefit',
+                                case:'confirmJobSeeker',
+                            })
                         }, 4000).then(() => {
 
                             sendAPI(senderID, {
                                 text: "* Lưu ý khi nhận việc\n " +
                                 "- Xem kỹ yêu câu công việc trước khi ứng tuyển\n" +
                                 "- Vui lòng đi phỏng vấn đúng giờ, theo như lịch đã hẹn\n" +
-                                "- Nếu có việc đột xuất không tham gia được, bạn phải báo lại cho mình ngay\n"
+                                "- Nếu có việc đột xuất không tham gia được, bạn phải báo lại cho mình ngay\n",
+                                metadata: JSON.stringify({
+                                    type: 'welcome_note_requirement',
+                                    case:'confirmJobSeeker',
+                                })
                             }, 3000).then(() => {
                                 sendAPI(senderID, {
-                                    text: "Bạn đã rõ chưa nhỉ???",
+                                    text: "Bạn đã nắm rõ chưa nhỉ???",
                                     quick_replies: [{
                                         "content_type": "text",
                                         "title": "Mình đồng ý (Y)",
@@ -842,7 +876,11 @@ function intention(payload, senderID, postback) {
                                             type: 'confirmPolicy',
                                             answer: 'no',
                                         })
-                                    }]
+                                    }],
+                                    metadata: JSON.stringify({
+                                        type: 'confirmPolicy',
+                                        case:'confirmJobSeeker',
+                                    })
                                 })
 
                             })
@@ -867,7 +905,7 @@ function intention(payload, senderID, postback) {
                     text: "Dạ. Bạn vui lòng cho ad xin số điện thoại để bộ phận tư vấn liên hệ nhé ạ",
                     metadata: JSON.stringify({
                         type: 'askPhone',
-                        sequence: 'employer'
+                        case: 'confirmEmployer'
                     })
                 });
 
@@ -881,26 +919,30 @@ function intention(payload, senderID, postback) {
         case'confirmPolicy': {
             if (payload.answer == 'yes') {
                 sendAPI(senderID, {
-                    text: "Hiện tại đang có một số công việc đang tuyển gấp, xem nó có gần bạn không nhé",
+                    text: "Hiện tại đang có một số công việc đang tuyển gấp, hãy gửi địa chỉ để xem nó có gần bạn không nhé",
                     quick_replies: [{
                         "content_type": "location",
                         "payload": JSON.stringify({
                             type: 'inputLocation',
                         })
-                    }]
-                })
+                    }],
+                    metadata: JSON.stringify({
+                        type: 'inputLocation',
+                        case: 'confirmPolicy'
+                    })
 
+                })
             }
             break;
 
         }
         case'askPhone': {
-            if (payload.sequence == 'employer') {
+            if (payload.case == 'confirmEmployer') {
                 sendAPI(senderID, {
                     text: "Okie, bạn đang cần tuyển vị trí gì nhỉ?",
                     metadata: JSON.stringify({
                         type: 'employer_job',
-                        sequence: 'employer'
+                        case: 'askPhone'
                     })
                 })
 
@@ -936,9 +978,11 @@ function intention(payload, senderID, postback) {
 
                     sendAPI(senderID, {
                         text: 'Bạn có thể tham gia phỏng vấn lúc nào?',
-                        quick_replies: quick_replies
+                        quick_replies: quick_replies,
+                        metadata: JSON.stringify({
+                            type: 'setInterview',
+                        })
                     });
-
 
                 });
             }
@@ -953,9 +997,13 @@ function intention(payload, senderID, postback) {
                 text: `Oke bạn, vậy bạn sẽ có buổi phỏng vấn vào ${strTime(time)}.`
             }).then(() => sendAPI(senderID, {
                 text: 'Bạn vui lòng xác nhận việc có mặt tại buổi phỏng vấn này ',
+                metadata: JSON.stringify({
+                    type: 'confirmInterview',
+                    case: 'setInterview'
+                }),
                 quick_replies: [{
                     "content_type": "text",
-                    "title": 'Mình xác nhận sẽ tham gia',
+                    "title": 'Mình xác nhận tham gia',
                     "payload": JSON.stringify({
                         type: 'confirmInterview',
                         answer: 'yes',
@@ -969,7 +1017,9 @@ function intention(payload, senderID, postback) {
                         answer: 'no',
                         time: time
                     })
-                }]
+                }],
+
+
             }))
             break;
         }
