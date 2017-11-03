@@ -27,11 +27,7 @@ const client = new Wit({
     logger: new log.Logger(log.DEBUG) // optional
 });
 
-client.message('what is the weather in London?', {})
-    .then(data => {
-        console.log('Yay, got Wit.ai response: ',data);
-    })
-    .catch(console.error);
+
 var app = express();
 
 
@@ -168,7 +164,7 @@ function initUser() {
     })
 }
 
-app.get('/message',function (req, res) {
+app.get('/message', function (req, res) {
     var {message} = req.query
     client.message(message, {})
         .then(data => res.send(data))
@@ -521,13 +517,12 @@ function matchingPayload(event) {
     else if (message.text) {
 
 
-
         var conversation = conversationData[senderID];
-        if(conversation) var listSentMessage = _.filter(conversation, function (card) {
+        if (conversation) var listSentMessage = _.filter(conversation, function (card) {
             return card.type == 'sent';
 
         });
-        if(listSentMessage) var lastMessage = _.max(listSentMessage, function (card) {
+        if (listSentMessage) var lastMessage = _.max(listSentMessage, function (card) {
             return card.timestamp;
         });
         console.log('lastMessage', lastMessage)
@@ -540,13 +535,15 @@ function matchingPayload(event) {
 
         client.message(message.text, {})
             .then(data => {
-                console.log('Yay, got Wit.ai response: ',data);
+                console.log('Yay, got Wit.ai response: ', data);
                 var entities = data.entities
 
-                if(entities.yes_no){
-                    var most = _.max(entities.yes_no, function(card){ return card.confidence; });
+                if (entities.yes_no) {
+                    var most = _.max(entities.yes_no, function (card) {
+                        return card.confidence;
+                    });
                     var value = most.value
-                    if(value == 'yes'){
+                    if (value == 'yes') {
 
                     }
 
@@ -557,9 +554,8 @@ function matchingPayload(event) {
             .catch(console.error);
 
 
-
-    } else if(message.attachments){
-        if(message.attachments[0].payload.coordinates){
+    } else if (message.attachments) {
+        if (message.attachments[0].payload.coordinates) {
             var locationData = message.attachments[0].payload.coordinates;
             console.log('locationData', locationData);
             var data = {
@@ -1558,7 +1554,6 @@ function sendAPI(recipientId, message, typing) {
 
             }, typing))
             .catch(err => reject(err))
-        )
 
 
     })
@@ -1774,7 +1769,7 @@ function sendReadReceipt(recipientId) {
  *
  */
 function sendTypingOn(recipientId) {
-    return new Promise(function (resolve,reject) {
+    return new Promise(function (resolve, reject) {
         console.log("Turning typing indicator on");
 
         var messageData = {
