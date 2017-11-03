@@ -20,7 +20,18 @@ const
     axios = require('axios'),
     firebase = require('firebase-admin'),
     _ = require('underscore');
+const {Wit, log} = require('node-wit');
 
+const client = new Wit({
+    accessToken: 'CR6XEPRE2F3FLVWYJA6XFYJSVUO4SCN7',
+    logger: new log.Logger(log.DEBUG) // optional
+});
+
+client.message('what is the weather in London?', {})
+    .then(data => {
+        console.log('Yay, got Wit.ai response: ',data);
+    })
+    .catch(console.error);
 var app = express();
 
 
@@ -157,6 +168,13 @@ function initUser() {
     })
 }
 
+app.get('/message',function (req, res) {
+    var {message} = req.query
+    client.message(message, {})
+        .then(data => res.send(data))
+        .catch(err => res.status(500).json(err));
+})
+
 app.get('/initUser', function () {
     initUser()
 })
@@ -236,7 +254,7 @@ function setDefautMenu() {
 app.get('/setWhiteListDomain', function (req, res) {
     setWhiteListDomain().then(result => res.send(result))
         .catch(err => res.status(500).json(err))
-})
+});
 
 function setWhiteListDomain() {
     var mes = {
@@ -502,13 +520,14 @@ function matchingPayload(event) {
     else if (postback && postback.payload) payloadStr = postback.payload
     else if (message.text) {
 
-        var conversation = conversationData[senderID];
 
-        var listSentMessage = _.filter(conversation, function (card) {
+
+        var conversation = conversationData[senderID];
+        if(conversation) var listSentMessage = _.filter(conversation, function (card) {
             return card.type == 'sent';
 
         });
-        var lastMessage = _.max(listSentMessage, function (card) {
+        if(listSentMessage) var lastMessage = _.max(listSentMessage, function (card) {
             return card.timestamp;
         });
         console.log('lastMessage', lastMessage)
@@ -517,6 +536,28 @@ function matchingPayload(event) {
                 payloadStr = lastMessage.message.metadata
             }
         }
+
+
+        client.message(message.text, {})
+            .then(data => {
+                console.log('Yay, got Wit.ai response: ',data);
+                var entities = data.entities
+
+                if(entities.yes_no){
+                    var most = _.max(entities.yes_no, function(card){ return card.confidence; });
+                    var value = most.value
+                    if(value == 'yes'){
+
+                    }
+
+                }
+
+
+            })
+            .catch(console.error);
+
+
+
     } else if(message.attachments){
         if(message.attachments[0].payload.coordinates){
             var locationData = message.attachments[0].payload.coordinates;
@@ -628,7 +669,10 @@ function matchingPayload(event) {
                                                 answer: 'no',
                                             })
                                         },
-                                    ]
+                                    ],
+                                    metadata: JSON.stringify({
+                                        type: 'confirmJobSeeker',
+                                    })
                                 })
 
                             }
