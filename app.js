@@ -546,6 +546,7 @@ function matchingPayload(event) {
                             return card.confidence;
                         });
                         var value = most.value
+                        console.log('value',value)
                         if (value == 'yes') {
                             payload.answer = 'yes'
                         }
