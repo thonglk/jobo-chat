@@ -1025,10 +1025,9 @@ function intention(payload, senderID, postback) {
 
         }
         case
-        'setInterview'
-        : {
+        'setInterview': {
             var time = payload.time
-            var jobId =payload.jobId
+            var jobId = payload.jobId
             sendAPI(senderID, {
                 text: `Oke bạn, vậy bạn sẽ có buổi phỏng vấn vào ${strTime(time)}.`
             }).then(() => sendAPI(senderID, {
@@ -1061,26 +1060,8 @@ function intention(payload, senderID, postback) {
         }
         case'confirmInterview': {
             var time = payload.time
+            var jobId = payload.jobId
 
-            var applyJobList = _.where(conversationData[senderID], {
-                payload: JSON.stringify({
-                    type: 'applyJob',
-                    answer: 'yes'
-                })
-            })
-
-            if (applyJobList.length > 1) {
-                var recentApplyJob = _.max(applyJobList, function (card) {
-                    return card.timestamp;
-                });
-
-                var jobId = recentApplyJob.payload.jobId
-
-
-            } else {
-                var jobId = payload.jobId
-
-            }
             var actId = jobId + ':' + senderID
 
             likeActivityRef.child(actId)
