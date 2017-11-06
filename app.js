@@ -1059,20 +1059,26 @@ function intention(payload, senderID, postback) {
             break;
         }
         case'confirmInterview': {
+            if (payload.answer == 'yes') {
+                var time = payload.time
+                var jobId = payload.jobId
 
-            var time = payload.time
-            var jobId = payload.jobId
+                var actId = jobId + ':' + senderID
+                console.log('actId', actId)
+                likeActivityRef.child(actId)
+                    .update({interviewTime: time})
+                    .then(result =>
+                        sendAPI(senderID, {
+                            text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi phỏng vấn.\n` + 'Chúc bạn phỏng vấn thành công nhé <3'
+                        }).then(result => sendAPI(senderID, {
+                            text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!'
+                        }))
+                    )
+                    .catch(err => console.log(err))
 
-            var actId = jobId + ':' + senderID
-            console.log('actId',actId)
-            likeActivityRef.child(actId)
-                .update({interviewTime: time})
-                .then(result => sendAPI(senderID, {
-                    text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi phỏng vấn.\n` + 'Chúc bạn phỏng vấn thành công nhé <3'
-                }).then(result => sendAPI(senderID, {
-                    text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!'
-                }))
-                .catch(err => console.log(err))
+            }
+
+
             break;
         }
         case
