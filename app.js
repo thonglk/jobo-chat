@@ -197,7 +197,8 @@ app.get('/initUser', function () {
 })
 
 app.get('/setMenu', function (req, res) {
-    setDefautMenu().then(result => res.send(result))
+    var page = req.param('page')
+    setDefautMenu(page).then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 })
 app.get('/setGetstarted', function (req, res) {
@@ -212,7 +213,9 @@ function setGetstarted(page = 'jobo') {
         "thread_state": "new_thread",
         "call_to_actions": [
             {
-                "payload": "USER_DEFINED_PAYLOAD"
+                "payload": JSON.stringify({
+                    type:'GET_STARTED'
+                })
             }
         ]
     }
@@ -238,8 +241,9 @@ function setGetstarted(page = 'jobo') {
     })
 }
 
-function setDefautMenu() {
-    var menu = {
+function setDefautMenu(page='jobo') {
+    var menu = {}
+     menu['jobo'] = {
         "persistent_menu": [
             {
                 "call_to_actions": [
@@ -280,14 +284,40 @@ function setDefautMenu() {
             }
         ]
     }
+    menu['dumpling'] = {
+        "persistent_menu": [
+            {
+                "call_to_actions": [
+                    {
+                        "title": "🍔 Bắt đầu",
+                        "type": "postback",
+                        "payload": JSON.stringify({
+                            type: 'confirmPolicy',
+                            answer: 'yes',
+                        })
+                    },
+                    {
+                        "title": "🍇 Dừng chát",
+                        "type": "postback",
+                        "payload": JSON.stringify({
+                            type: 'profile',
+                            state: 'inverview',
+                        })
+                    }
+                ],
+                "locale": "default",
+
+            }
+        ]
+    }
 
 
     return new Promise(function (resolve, reject) {
         request({
             uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
-            qs: {access_token: PAGE_ACCESS_TOKEN},
+            qs: {access_token: CONFIG.facebookPage[page].access_token},
             method: 'POST',
-            json: menu
+            json: menu[page]
 
         }, function (error, response, body) {
             if (!error && response.statusCode == 200) {
