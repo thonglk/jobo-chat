@@ -1257,7 +1257,6 @@ app.post('/webhook', function (req, res) {
                             receivedAuthentication(messagingEvent);
                         } else if (message) {
 
-
                             // You may get a text or attachment but not both
                             var metadata = message.metadata;
                             var messageText = message.text;
@@ -1271,7 +1270,7 @@ app.post('/webhook', function (req, res) {
 
                                 if (payload.type == 'matching') {
                                     var avaible = _.filter(dataAccount, function (card) {
-                                        if (!card.match && card.gender != senderData.gender && card.id != senderID && card.id != '493938347612411') return true
+                                        if (!card.match && card.gender != senderData.gender && card.id != recipientID) return true
                                         else return false
                                     })
                                     if (avaible && avaible.length > 0) {
@@ -1280,7 +1279,10 @@ app.post('/webhook', function (req, res) {
                                         accountRef.child('dumpling').child(senderID).update({match: matched})
                                             .then(result => accountRef.child('dumpling').child(random.id).update({match: senderID}))
                                             .then(result => sendingAPI(senderID, recipientID, {
-                                                text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công\n" + "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
+                                                text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
+                                            }, 1000, 'dumpling'))
+                                            .then(result => sendingAPI(senderID, recipientID, {
+                                                text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
                                             }, 1000, 'dumpling'))
                                             .then(result => sendingAPI(matched, recipientID, {
                                                 text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
@@ -1334,7 +1336,7 @@ app.post('/webhook', function (req, res) {
                                     ]
                                 }, 1000, 'dumpling')
                             } else if (payload.type == 'matching') {
-                                if (senderData.match) sendingAPI(senderID, recipientID, {
+                                if (senderData && senderData.match) sendingAPI(senderID, recipientID, {
                                     text: "[Hệ Thống] Hãy huỷ cuộc hội thoại hiện có !",
                                 }, 1000, 'dumpling')
                                 else {
