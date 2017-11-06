@@ -1282,7 +1282,7 @@ app.post('/webhook', function (req, res) {
 
                                 if (payload.type == 'matching') {
                                     var avaible = _.filter(dataAccount, function (card) {
-                                        if (!card.match && card.gender != senderData.gender && card.id != senderID) return true
+                                        if (!card.match && card.gender != senderData.gender && card.id != senderID && card.id != '493938347612411') return true
                                         else return false
                                     })
                                     if (avaible && avaible.length > 0) {
