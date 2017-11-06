@@ -146,6 +146,8 @@ var jobochat = firebase.initializeApp({
 }, "jobochat");
 var db = jobochat.database();
 var userRef = db.ref('user');
+var accountRef = db.ref('account');
+
 var profileRef = db.ref('profile');
 var likeActivityRef = db.ref('activity/like');
 
@@ -1221,23 +1223,73 @@ app.post('/webhook', function (req, res) {
                         if (messagingEvent.optin) {
                             receivedAuthentication(messagingEvent);
                         } else if (messagingEvent.message) {
-                            receivedMessage(messagingEvent);
+
+                            var message = messagingEvent.message;
+
+                            // You may get a text or attachment but not both
+                            var metadata = message.metadata;
+                            var messageText = message.text;
+                            var messageAttachments = message.attachments;
+                            var quickReply = message.quick_reply;
+                            var payloadStr = ''
+
+                            if (quickReply) {
+                                var quickReplyPayload = quickReply.payload
+                                var payload = JSON.parse(quickReplyPayload)
+
+                                var senderData = dataAccount[senderID]
+
+                                if (payload.type == 'matching') {
+                                    var avaible = _.filter(dataAccount, function (card) {
+                                        if (!card.match && card.gender != senderData.gender) return true
+                                        else return false
+                                    })
+                                    if (avaible && avaible.length > 0) {
+                                        var random = _.sample(avaible)
+                                        accountRef.child('dumpling').child(senderID).update({match: random.id})
+                                            .then(result => accountRef.child('dumpling').child(random.id).update({match: senderID}))
+                                            .then(result => sendingAPI(senderID, recipientID, {
+                                                text: "Đã ghép bạn với 1 người lạ thành công",
+
+                                            }, 1000, 'dumpling'))
+
+
+                                    } else sendingAPI(senderID, recipientID, {
+                                        text: "Chưa tìm đc người phù hợp",
+
+                                    }, 1000, 'dumpling')
+
+                                }
+
+
+                            }
+
                         } else if (messagingEvent.delivery) {
                             receivedDeliveryConfirmation(messagingEvent);
                         } else if (messagingEvent.postback) {
                             if (messagingEvent.postback.payload == 'USER_DEFINED_PAYLOAD') {
 
+                                graph.get(senderID + '?access_token=' + CONFIG.facebookPage['dumpling'].access_token, (err, result) => {
+                                    if (err) reject(err);
 
-                                sendingAPI(senderID,recipientID, {
-                                    text: "Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ để chát",
-                                    quick_replies: [
-                                        {
-                                            "content_type": "text",
-                                            "title": "💬 Bắt Đầu",
-                                            "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION"
-                                        }
-                                    ]
-                                }, 1000,'dumpling')
+                                    console.log(result);
+                                    var user = result
+                                    accountRef.child('dumpling').child(senderID).update(user)
+                                        .then(() => sendingAPI(senderID, recipientID, {
+                                            text: "Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ để chát",
+                                            quick_replies: [
+                                                {
+                                                    "content_type": "text",
+                                                    "title": "💬 Bắt Đầu",
+                                                    "payload": JSON.stringify({
+                                                        type: 'matching'
+                                                    })
+                                                }
+                                            ]
+                                        }, 1000, 'dumpling'))
+                                        .catch(err => reject(err))
+                                })
+
 
                             }
 
@@ -1763,7 +1815,7 @@ function sendTextMessage(recipientId, messageText, metadata) {
 
 }
 
-function sendingAPI(recipientId,senderId, message, typing, page = 'jobo') {
+function sendingAPI(recipientId, senderId, message, typing, page = 'jobo') {
     return new Promise(function (resolve, reject) {
         if (!typing) typing = 1000
         var messageData = {
@@ -1772,10 +1824,10 @@ function sendingAPI(recipientId,senderId, message, typing, page = 'jobo') {
             },
             message: message
         };
-        sendTypingOn(recipientId,page)
+        sendTypingOn(recipientId, page)
             .then(result => setTimeout(function () {
-                callSendAPI(messageData,page).then(result => {
-                    sendTypingOff(recipientId,page)
+                callSendAPI(messageData, page).then(result => {
+                    sendTypingOff(recipientId, page)
                     messageData.recipientId = recipientId
                     messageData.senderId = senderId
                     messageData.type = 'sent'
@@ -2033,7 +2085,7 @@ function sendReadReceipt(recipientId) {
  * Turn typing indicator on
  *
  */
-function sendTypingOn(recipientId,page = 'jobo') {
+function sendTypingOn(recipientId, page = 'jobo') {
     return new Promise(function (resolve, reject) {
         console.log("Turning typing indicator on");
 
@@ -2044,7 +2096,7 @@ function sendTypingOn(recipientId,page = 'jobo') {
             sender_action: "typing_on"
         };
 
-        callSendAPI(messageData,page )
+        callSendAPI(messageData, page)
             .then(result => resolve(result))
             .catch(err => reject(err));
     })
@@ -2055,7 +2107,7 @@ function sendTypingOn(recipientId,page = 'jobo') {
  * Turn typing indicator off
  *
  */
-function sendTypingOff(recipientId,page= 'jobo') {
+function sendTypingOff(recipientId, page = 'jobo') {
     console.log("Turning typing indicator off");
 
     var messageData = {
