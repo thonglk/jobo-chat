@@ -594,21 +594,25 @@ function matchingPayload(event) {
 
                 var url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${data.lat},${data.lng}`
                 axios.get(url).then(result => {
-                    var results = result.data.results
-                    var address = results[0].formatted_address
-                    profileRef.child(senderID).update({
-                        location: {
-                            lat: data.lat,
-                            lng: data.lng
-                        },
-                        address
-                    })
-                        .then(result => getJob(data))
-                        .then(result => sendAPI(senderID, {
-                            text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh địa chỉ ${shortAddress(address)} nè!`
-                        }).then(() => sendAPI(senderID, result.message, 3000)))
+                    if(result.data.results.length > 0){
+                        var results = result.data.results
+                        var address = results[0].formatted_address
 
-                        .catch(err => console.log(err))
+                        profileRef.child(senderID)
+                            .update({location: {
+                                lat: data.lat,
+                                lng: data.lng
+                            },
+                            address
+                        })
+                            .then(result => getJob(data))
+                            .then(result => sendAPI(senderID, {
+                                text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh địa chỉ ${shortAddress(address)} nè!`
+                            }).then(() => sendAPI(senderID, result.message, 3000)))
+
+                            .catch(err => console.log(err))
+                    }
+
                 })
 
 
@@ -1707,7 +1711,9 @@ function sendAPI(recipientId, message, typing) {
                     messageData.type = 'sent'
                     messageData.timestamp = Date.now()
 
-                    conversationRef.child(messageData.messengerId).child(messageData.timestamp)
+                    conversationRef
+                        .child(messageData.messengerId)
+                        .child(messageData.timestamp)
                         .update(messageData)
                         .then(() => resolve(result))
                         .catch(err => reject(err))
@@ -1715,10 +1721,7 @@ function sendAPI(recipientId, message, typing) {
 
             }, typing))
             .catch(err => reject(err))
-
-
     })
-
 }
 
 /*
