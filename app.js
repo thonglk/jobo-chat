@@ -146,7 +146,7 @@ var jobochat = firebase.initializeApp({
 }, "jobochat");
 var db = jobochat.database();
 var userRef = db.ref('user');
-var dataAccount,accountRef = db.ref('account');
+var dataAccount, accountRef = db.ref('account');
 accountRef.child('dumpling').on('value', function (snap) {
     dataAccount = snap.val()
 })
@@ -1222,6 +1222,15 @@ app.post('/webhook', function (req, res) {
                         var recipientID = messagingEvent.recipient.id;
                         var timeOfMessage = messagingEvent.timestamp;
                         var message = messagingEvent.message;
+                        var senderData = dataAccount[senderID]
+                        if(!senderData){
+                            graph.get(senderID + '?access_token=' + CONFIG.facebookPage['dumpling'].access_token, (err, result) => {
+                                if (err) reject(err);
+
+                                console.log(result);
+                                var user = result
+                                accountRef.child('dumpling').child(senderID).update(user)
+                        }
 
                         if (messagingEvent.optin) {
                             receivedAuthentication(messagingEvent);
@@ -1234,13 +1243,11 @@ app.post('/webhook', function (req, res) {
                             var messageText = message.text;
                             var messageAttachments = message.attachments;
                             var quickReply = message.quick_reply;
-                            var payloadStr = ''
 
                             if (quickReply) {
                                 var quickReplyPayload = quickReply.payload
                                 var payload = JSON.parse(quickReplyPayload)
 
-                                var senderData = dataAccount[senderID]
 
                                 if (payload.type == 'matching') {
                                     var avaible = _.filter(dataAccount, function (card) {
@@ -1249,22 +1256,33 @@ app.post('/webhook', function (req, res) {
                                     })
                                     if (avaible && avaible.length > 0) {
                                         var random = _.sample(avaible)
-                                        accountRef.child('dumpling').child(senderID).update({match: random.id})
+                                        var matched = random.id
+                                        accountRef.child('dumpling').child(senderID).update({match: matched})
                                             .then(result => accountRef.child('dumpling').child(random.id).update({match: senderID}))
                                             .then(result => sendingAPI(senderID, recipientID, {
-                                                text: "Đã ghép bạn với 1 người lạ thành công",
-
+                                                text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
+                                            }, 1000, 'dumpling'))
+                                            .then(result => sendingAPI(senderID, recipientID, {
+                                                text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
+                                            }, 1000, 'dumpling'))
+                                            .then(result => sendingAPI(matched, recipientID, {
+                                                text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
                                             }, 1000, 'dumpling'))
 
-
                                     } else sendingAPI(senderID, recipientID, {
-                                        text: "Chưa tìm đc người phù hợp",
+                                        text: "[Hệ Thống] Chưa tìm đc người phù hợp",
 
                                     }, 1000, 'dumpling')
 
                                 }
 
 
+                            } else if (messageText) {
+                                if(senderData.match){
+                                    sendingAPI(senderData.match, senderID, {
+                                        text: messageText,
+                                    }, 1000, 'dumpling')
+                                }
                             }
 
                         } else if (messagingEvent.delivery) {
@@ -1272,28 +1290,78 @@ app.post('/webhook', function (req, res) {
                         } else if (messagingEvent.postback) {
                             if (messagingEvent.postback.payload == 'USER_DEFINED_PAYLOAD') {
 
-                                graph.get(senderID + '?access_token=' + CONFIG.facebookPage['dumpling'].access_token, (err, result) => {
-                                    if (err) reject(err);
+                                sendingAPI(senderID, recipientID, {
+                                    text: "Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ để chát",
+                                    quick_replies: [
+                                        {
+                                            "content_type": "text",
+                                            "title": "💬 Bắt Đầu",
+                                            "payload": JSON.stringify({
+                                                type: 'matching'
+                                            })
+                                        }
+                                    ]
+                                }, 1000, 'dumpling')
 
-                                    console.log(result);
-                                    var user = result
-                                    accountRef.child('dumpling').child(senderID).update(user)
-                                        .then(() => sendingAPI(senderID, recipientID, {
-                                            text: "Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ để chát",
-                                            quick_replies: [
-                                                {
-                                                    "content_type": "text",
-                                                    "title": "💬 Bắt Đầu",
-                                                    "payload": JSON.stringify({
-                                                        type: 'matching'
-                                                    })
-                                                }
-                                            ]
-                                        }, 1000, 'dumpling'))
-                                        .catch(err => reject(err))
-                                })
+                            } else {
+                                var payloadStr = messagingEvent.postback.payload
+                                var payload = JSON.parse(payloadStr)
+                                if(payload.type == 'stop'){
+                                    if(senderData.match){
+
+                                        accountRef.child('dumpling').child(senderID).update({match: ''})
+                                            .then(result => accountRef.child('dumpling').child(senderData.match).update({match: ''}))
+                                            .then(result => sendingAPI(senderID, recipientID, {
+                                                text: "[Hệ Thống] Bạn đã dừng cuộc trò chuyện",
+                                            }, 1000, 'dumpling'))
+                                            .then(result => sendingAPI(senderData.match, recipientID, {
+                                                text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
+                                            }, 1000, 'dumpling'))
 
 
+
+                                    } else sendingAPI(senderID, recipientID, {
+                                        text: "[Hệ Thống] Bạn chưa bắt đầu cuộc trò chuyện!",
+                                        quick_replies: [
+                                            {
+                                                "content_type": "text",
+                                                "title": "💬 Bắt Đầu",
+                                                "payload": JSON.stringify({
+                                                    type: 'matching'
+                                                })
+                                            }
+                                        ]
+                                    }, 1000, 'dumpling')
+                                } else if(payload.type == 'matching'){
+                                    if(senderData.match) sendingAPI(senderID, recipientID, {
+                                        text: "[Hệ Thống] Hãy huỷ cuộc hội thoại hiện có !",
+                                    }, 1000, 'dumpling')
+                                    else {
+                                        var avaible = _.filter(dataAccount, function (card) {
+                                            if (!card.match && card.gender != senderData.gender) return true
+                                            else return false
+                                        })
+                                        if (avaible && avaible.length > 0) {
+                                            var random = _.sample(avaible)
+                                            var matched = random.id
+                                            accountRef.child('dumpling').child(senderID).update({match: matched})
+                                                .then(result => accountRef.child('dumpling').child(random.id).update({match: senderID}))
+                                                .then(result => sendingAPI(senderID, recipientID, {
+                                                    text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
+                                                }, 1000, 'dumpling'))
+                                                .then(result => sendingAPI(senderID, recipientID, {
+                                                    text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
+                                                }, 1000, 'dumpling'))
+                                                .then(result => sendingAPI(matched, recipientID, {
+                                                    text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
+                                                }, 1000, 'dumpling'))
+
+                                        } else sendingAPI(senderID, recipientID, {
+                                            text: "[Hệ Thống] Chưa tìm đc người phù hợp",
+
+                                        }, 1000, 'dumpling')
+                                    }
+                                }
                             }
 
                         } else if (messagingEvent.read) {
