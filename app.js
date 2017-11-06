@@ -214,7 +214,7 @@ function setGetstarted(page = 'jobo') {
         "call_to_actions": [
             {
                 "payload": JSON.stringify({
-                    type:'GET_STARTED'
+                    type: 'GET_STARTED'
                 })
             }
         ]
@@ -241,9 +241,9 @@ function setGetstarted(page = 'jobo') {
     })
 }
 
-function setDefautMenu(page='jobo') {
+function setDefautMenu(page = 'jobo') {
     var menu = {}
-     menu['jobo'] = {
+    menu['jobo'] = {
         "persistent_menu": [
             {
                 "call_to_actions": [
@@ -1362,7 +1362,7 @@ app.post('/webhook', function (req, res) {
 
                                     }, 1000, 'dumpling')
                                 }
-                            } else if(payload.type == 'GET_STARTED'){
+                            } else if (payload.type == 'GET_STARTED') {
                                 if (!senderData) {
                                     graph.get(senderID + '?access_token=' + CONFIG.facebookPage['dumpling'].access_token, (err, result) => {
                                         if (err) reject(err);
@@ -1373,18 +1373,26 @@ app.post('/webhook', function (req, res) {
                                     })
                                 }
 
+
                                 sendingAPI(senderID, recipientID, {
-                                    text: "Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ để chát",
-                                    quick_replies: [
-                                        {
-                                            "content_type": "text",
-                                            "title": "💬 Bắt Đầu",
-                                            "payload": JSON.stringify({
-                                                type: 'matching'
-                                            })
-                                        }
-                                    ]
+                                    text: `Dumpling kết nối hai người lạ (nam và nữ) nói chuyện với nhau bằng một cuộc trò chuyện bí mật`,
                                 }, 1000, 'dumpling')
+                                    .then(result => sendingAPI(senderID, recipientID, {
+                                        text: `đảm bảo 100% bí mật thông tin và nội dung trò chuyện của người sử dụng`,
+                                    }, 1000, 'dumpling'))
+                                    .then(result => sendingAPI(senderID, recipientID, {
+                                        text: "Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ để chát",
+                                        quick_replies: [
+                                            {
+                                                "content_type": "text",
+                                                "title": "💬 Bắt Đầu",
+                                                "payload": JSON.stringify({
+                                                    type: 'matching'
+                                                })
+                                            }
+                                        ]
+                                    }, 1000, 'dumpling'))
+
 
                             }
                         }
