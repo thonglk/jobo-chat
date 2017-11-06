@@ -598,7 +598,6 @@ function matchingPayload(event) {
                         var results = result.data.results
                         var address = results[0].formatted_address
 
-
                     } else {
                         address = ' '
                     }
@@ -1029,6 +1028,7 @@ function intention(payload, senderID, postback) {
         'setInterview'
         : {
             var time = payload.time
+            var jobId =payload.jobId
             sendAPI(senderID, {
                 text: `Oke bạn, vậy bạn sẽ có buổi phỏng vấn vào ${strTime(time)}.`
             }).then(() => sendAPI(senderID, {
