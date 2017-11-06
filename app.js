@@ -147,6 +147,7 @@ var jobochat = firebase.initializeApp({
 var db = jobochat.database();
 var userRef = db.ref('user');
 var profileRef = db.ref('profile');
+var likeActivityRef = db.ref('activity/like');
 
 var conversationData, conversationRef = db.ref('conversation')
 
@@ -831,7 +832,6 @@ function intention(payload, senderID, postback) {
 
                 var jobId = payload.jobId
 
-                var likeActivityRef = db.ref('activity/like');
                 var actId = jobId + ':' + senderID
                 likeActivityRef.child(actId).update({
                     actId,
