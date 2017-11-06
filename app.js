@@ -1059,11 +1059,12 @@ function intention(payload, senderID, postback) {
             break;
         }
         case'confirmInterview': {
+
             var time = payload.time
             var jobId = payload.jobId
 
             var actId = jobId + ':' + senderID
-
+            console.log('actId',actId)
             likeActivityRef.child(actId)
                 .update({interviewTime: time})
                 .then(result => sendAPI(senderID, {
