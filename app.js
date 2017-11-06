@@ -1251,15 +1251,7 @@ app.post('/webhook', function (req, res) {
                         var timeOfMessage = messagingEvent.timestamp;
                         var message = messagingEvent.message;
                         var senderData = dataAccount[senderID]
-                        if (!senderData) {
-                            graph.get(senderID + '?access_token=' + CONFIG.facebookPage['dumpling'].access_token, (err, result) => {
-                                if (err) reject(err);
 
-                                console.log(result);
-                                var user = result
-                                accountRef.child('dumpling').child(senderID).update(user)
-                            })
-                        }
 
                         if (messagingEvent.optin) {
                             receivedAuthentication(messagingEvent);
@@ -1371,6 +1363,16 @@ app.post('/webhook', function (req, res) {
                                     }, 1000, 'dumpling')
                                 }
                             } else if(payload.type == 'GET_STARTED'){
+                                if (!senderData) {
+                                    graph.get(senderID + '?access_token=' + CONFIG.facebookPage['dumpling'].access_token, (err, result) => {
+                                        if (err) reject(err);
+
+                                        console.log(result);
+                                        var user = result
+                                        accountRef.child('dumpling').child(senderID).update(user)
+                                    })
+                                }
+
                                 sendingAPI(senderID, recipientID, {
                                     text: "Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ để chát",
                                     quick_replies: [
