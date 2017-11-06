@@ -1288,22 +1288,7 @@ app.post('/webhook', function (req, res) {
                         } else if (messagingEvent.delivery) {
                             receivedDeliveryConfirmation(messagingEvent);
                         } else if (messagingEvent.postback) {
-                            if (messagingEvent.postback.payload == 'USER_DEFINED_PAYLOAD') {
 
-                                sendingAPI(senderID, recipientID, {
-                                    text: "Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ để chát",
-                                    quick_replies: [
-                                        {
-                                            "content_type": "text",
-                                            "title": "💬 Bắt Đầu",
-                                            "payload": JSON.stringify({
-                                                type: 'matching'
-                                            })
-                                        }
-                                    ]
-                                }, 1000, 'dumpling')
-
-                            } else {
                                 var payloadStr = messagingEvent.postback.payload
                                 var payload = JSON.parse(payloadStr)
                                 if(payload.type == 'stop'){
@@ -1361,6 +1346,20 @@ app.post('/webhook', function (req, res) {
 
                                         }, 1000, 'dumpling')
                                     }
+                                } else {
+                                    sendingAPI(senderID, recipientID, {
+                                        text: "Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ để chát",
+                                        quick_replies: [
+                                            {
+                                                "content_type": "text",
+                                                "title": "💬 Bắt Đầu",
+                                                "payload": JSON.stringify({
+                                                    type: 'matching'
+                                                })
+                                            }
+                                        ]
+                                    }, 1000, 'dumpling')
+
                                 }
                             }
 
