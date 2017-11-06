@@ -148,7 +148,7 @@ var db = jobochat.database();
 var userRef = db.ref('user');
 var dataAccount, accountRef = db.ref('account');
 accountRef.child('dumpling').on('value', function (snap) {
-    dataAccount = snap.val()
+    dataAccount = snap.val() || {}
 })
 
 var profileRef = db.ref('profile');
@@ -1265,9 +1265,8 @@ app.post('/webhook', function (req, res) {
 
                         if (messagingEvent.optin) {
                             receivedAuthentication(messagingEvent);
-                        } else if (messagingEvent.message) {
+                        } else if (message) {
 
-                            var message = messagingEvent.message;
 
                             // You may get a text or attachment but not both
                             var metadata = message.metadata;
