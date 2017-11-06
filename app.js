@@ -1282,7 +1282,7 @@ app.post('/webhook', function (req, res) {
 
                                 if (payload.type == 'matching') {
                                     var avaible = _.filter(dataAccount, function (card) {
-                                        if (!card.match && card.gender != senderData.gender) return true
+                                        if (!card.match && card.gender != senderData.gender && card.id != senderID) return true
                                         else return false
                                     })
                                     if (avaible && avaible.length > 0) {
@@ -1325,8 +1325,8 @@ app.post('/webhook', function (req, res) {
                             if (payload.type == 'stop') {
                                 if (senderData.match) {
 
-                                    accountRef.child('dumpling').child(senderID).update({match: ''})
-                                        .then(result => accountRef.child('dumpling').child(senderData.match).update({match: ''}))
+                                    accountRef.child('dumpling').child(senderID).child('match').remove()
+                                        .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
                                         .then(result => sendingAPI(senderID, recipientID, {
                                             text: "[Hệ Thống] Bạn đã dừng cuộc trò chuyện",
                                         }, 1000, 'dumpling'))
