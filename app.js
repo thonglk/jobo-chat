@@ -150,6 +150,7 @@ var profileRef = db.ref('profile');
 var likeActivityRef = db.ref('activity/like');
 
 var conversationData, conversationRef = db.ref('conversation')
+var messageFactory, messageFactoryRef = db.ref('messageFactory')
 
 conversationRef.on('value', function (snap) {
     conversationData = snap.val()
@@ -166,7 +167,6 @@ function shortAddress(fullAddress) {
             var address = mixAddress[0] + ', ' + mixAddress[1] + ', ' + mixAddress[2]
             return address
         }
-
     }
 }
 
@@ -195,7 +195,43 @@ app.get('/setMenu', function (req, res) {
     setDefautMenu().then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 })
+app.get('/setGetstarted', function (req, res) {
+    var page = req.param('page')
+    setGetstarted(page).then(result => res.send(result))
+        .catch(err => res.status(500).json(err))
+})
 
+function setGetstarted(page = 'jobo') {
+    var message = {
+        "setting_type": "call_to_actions",
+        "thread_state": "new_thread",
+        "call_to_actions": [
+            {
+                "payload": "USER_DEFINED_PAYLOAD"
+            }
+        ]
+    }
+
+    return new Promise(function (resolve, reject) {
+        request({
+            uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
+            qs: {access_token: CONFIG.facebookPage[page].access_token},
+            method: 'POST',
+            json: message
+
+        }, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+
+                resolve(response)
+
+            } else {
+                console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
+                reject(error)
+
+            }
+        });
+    })
+}
 
 function setDefautMenu() {
     var menu = {
@@ -625,7 +661,6 @@ function matchingPayload(event) {
 
     })
 }
-
 
 function intention(payload, senderID, postback) {
     console.log('payload', payload);
@@ -1150,12 +1185,38 @@ app.post('/webhook', function (req, res) {
                     // var savedMess = Object({}, messagingEvent)
                     messagingEvent.messengerId = messagingEvent.sender.id
                     messagingEvent.type = 'received'
+                    if (pageID == CONFIG.facebookPage['jobo'].id) {
+                        conversationRef.child(messagingEvent.messengerId).child(timeOfEvent).update(messagingEvent).then(() => {
+                            matchingPayload(messagingEvent)
+                                .then(result => intention(result.payload, result.senderID, result.postback))
+                                .catch(err => console.error())
+                            ;
 
-                    conversationRef.child(messagingEvent.messengerId).child(timeOfEvent).update(messagingEvent).then(() => {
-                        matchingPayload(messagingEvent)
-                            .then(result => intention(result.payload, result.senderID, result.postback))
-                            .catch(err => console.error())
-                        ;
+                            if (messagingEvent.optin) {
+                                receivedAuthentication(messagingEvent);
+                            } else if (messagingEvent.message) {
+                                receivedMessage(messagingEvent);
+                            } else if (messagingEvent.delivery) {
+                                receivedDeliveryConfirmation(messagingEvent);
+                            } else if (messagingEvent.postback) {
+                                // receivedPostback(messagingEvent);
+                            } else if (messagingEvent.read) {
+                                receivedMessageRead(messagingEvent);
+                            } else if (messagingEvent.account_linking) {
+                                receivedAccountLink(messagingEvent);
+                            } else {
+                                console.log("Webhook received unknown messagingEvent: ", messagingEvent);
+                            }
+
+
+                        })
+
+                    } else if (pageID == CONFIG.facebookPage['dumpling'].id) {
+
+                        var senderID = messagingEvent.sender.id;
+                        var recipientID = messagingEvent.recipient.id;
+                        var timeOfMessage = messagingEvent.timestamp;
+                        var message = messagingEvent.message;
 
                         if (messagingEvent.optin) {
                             receivedAuthentication(messagingEvent);
@@ -1164,7 +1225,22 @@ app.post('/webhook', function (req, res) {
                         } else if (messagingEvent.delivery) {
                             receivedDeliveryConfirmation(messagingEvent);
                         } else if (messagingEvent.postback) {
-                            // receivedPostback(messagingEvent);
+                            if (messagingEvent.postback.payload == 'USER_DEFINED_PAYLOAD') {
+
+
+                                sendingAPI(senderID,recipientID, {
+                                    text: "Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ để chát",
+                                    quick_replies: [
+                                        {
+                                            "content_type": "text",
+                                            "title": "💬 Bắt Đầu",
+                                            "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION"
+                                        }
+                                    ]
+                                }, 1000,'dumpling')
+
+                            }
+
                         } else if (messagingEvent.read) {
                             receivedMessageRead(messagingEvent);
                         } else if (messagingEvent.account_linking) {
@@ -1174,7 +1250,7 @@ app.post('/webhook', function (req, res) {
                         }
 
 
-                    })
+                    }
 
 
                 });
@@ -1188,6 +1264,7 @@ app.post('/webhook', function (req, res) {
         res.sendStatus(200);
     }
 });
+
 
 /*
  * This path is used for account linking. The account linking call-to-action
@@ -1686,6 +1763,38 @@ function sendTextMessage(recipientId, messageText, metadata) {
 
 }
 
+function sendingAPI(recipientId,senderId, message, typing, page = 'jobo') {
+    return new Promise(function (resolve, reject) {
+        if (!typing) typing = 1000
+        var messageData = {
+            recipient: {
+                id: recipientId
+            },
+            message: message
+        };
+        sendTypingOn(recipientId,page)
+            .then(result => setTimeout(function () {
+                callSendAPI(messageData,page).then(result => {
+                    sendTypingOff(recipientId,page)
+                    messageData.recipientId = recipientId
+                    messageData.senderId = senderId
+                    messageData.type = 'sent'
+                    messageData.timestamp = Date.now()
+
+                    messageFactoryRef
+                        .child(page)
+                        .child(messageData.timestamp)
+                        .update(messageData)
+                        .then(() => resolve(result))
+                        .catch(err => reject(err))
+                })
+
+            }, typing))
+            .catch(err => reject(err))
+    })
+}
+
+
 function sendAPI(recipientId, message, typing) {
     return new Promise(function (resolve, reject) {
         if (!typing) typing = 1000
@@ -1924,7 +2033,7 @@ function sendReadReceipt(recipientId) {
  * Turn typing indicator on
  *
  */
-function sendTypingOn(recipientId) {
+function sendTypingOn(recipientId,page = 'jobo') {
     return new Promise(function (resolve, reject) {
         console.log("Turning typing indicator on");
 
@@ -1935,7 +2044,7 @@ function sendTypingOn(recipientId) {
             sender_action: "typing_on"
         };
 
-        callSendAPI(messageData)
+        callSendAPI(messageData,page )
             .then(result => resolve(result))
             .catch(err => reject(err));
     })
@@ -1946,7 +2055,7 @@ function sendTypingOn(recipientId) {
  * Turn typing indicator off
  *
  */
-function sendTypingOff(recipientId) {
+function sendTypingOff(recipientId,page= 'jobo') {
     console.log("Turning typing indicator off");
 
     var messageData = {
@@ -1991,11 +2100,11 @@ function sendAccountLinking(recipientId) {
  * get the message id in a response 
  *
  */
-function callSendAPI(messageData) {
+function callSendAPI(messageData, page = 'jobo') {
     return new Promise(function (resolve, reject) {
         request({
             uri: 'https://graph.facebook.com/v2.6/me/messages',
-            qs: {access_token: PAGE_ACCESS_TOKEN},
+            qs: {access_token: CONFIG.facebookPage[page].access_token},
             method: 'POST',
             json: messageData
 
