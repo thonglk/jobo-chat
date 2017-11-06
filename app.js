@@ -146,7 +146,10 @@ var jobochat = firebase.initializeApp({
 }, "jobochat");
 var db = jobochat.database();
 var userRef = db.ref('user');
-var accountRef = db.ref('account');
+var dataAccount,accountRef = db.ref('account');
+accountRef.child('dumpling').on('value', function (snap) {
+    dataAccount = snap.val()
+})
 
 var profileRef = db.ref('profile');
 var likeActivityRef = db.ref('activity/like');
