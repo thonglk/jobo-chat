@@ -1339,7 +1339,7 @@ app.post('/webhook', function (req, res) {
                                 }, 1000, 'dumpling')
                                 else {
                                     var avaible = _.filter(dataAccount, function (card) {
-                                        if (!card.match && card.gender != senderData.gender) return true
+                                        if (!card.match && card.gender != senderData.gender && card.id != recipientID) return true
                                         else return false
                                     })
                                     if (avaible && avaible.length > 0) {
@@ -1378,7 +1378,7 @@ app.post('/webhook', function (req, res) {
                                     text: `Dumpling kết nối hai người lạ (nam và nữ) nói chuyện với nhau bằng một cuộc trò chuyện bí mật`,
                                 }, 1000, 'dumpling')
                                     .then(result => sendingAPI(senderID, recipientID, {
-                                        text: `đảm bảo 100% bí mật thông tin và nội dung trò chuyện của người sử dụng`,
+                                        text: `đảm bảo 100% bí mật thông tin và nội dung trò chuyện`,
                                     }, 1000, 'dumpling'))
                                     .then(result => sendingAPI(senderID, recipientID, {
                                         text: "Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ để chát",
