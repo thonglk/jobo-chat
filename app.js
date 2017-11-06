@@ -1373,7 +1373,7 @@ app.post('/webhook', function (req, res) {
 
                                     }, 1000, 'dumpling')
                                 }
-                            } else {
+                            } else if(payload.type == 'GET_STARTED'){
                                 sendingAPI(senderID, recipientID, {
                                     text: "Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ để chát",
                                     quick_replies: [
