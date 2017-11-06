@@ -152,8 +152,23 @@ var conversationData, conversationRef = db.ref('conversation')
 
 conversationRef.on('value', function (snap) {
     conversationData = snap.val()
-
 })
+
+// CONFIG FUNCTION
+
+function shortAddress(fullAddress) {
+    if (fullAddress) {
+        var mixAddress = fullAddress.split(",")
+        if (mixAddress.length < 3) {
+            return fullAddress
+        } else {
+            var address = mixAddress[0] + ', ' + mixAddress[1] + ', ' + mixAddress[2]
+            return address
+        }
+
+    }
+}
+
 
 function initUser() {
     conversationRef.once('value', function (snap) {
@@ -581,19 +596,18 @@ function matchingPayload(event) {
                 axios.get(url).then(result => {
                     var results = result.data.results
                     var address = results[0].formatted_address
-
-                    userRef.child(senderID).update({
+                    profileRef.child(senderID).update({
                         location: {
                             lat: data.lat,
                             lng: data.lng
                         },
                         address
                     })
-
-                    getJob(data)
-                        .then(result => sendAPI(senderID, {text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh ${address} nè!`})
-                            .then(() => sendAPI(senderID, result.message, 3000)))
-                })
+                        .then(result => getJob(data))
+                        .then(result => sendAPI(senderID, {text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh địa chỉ ${shortAddress(address)} nè!`}))
+                        .then(() => sendAPI(senderID, result.message, 3000))
+                        .catch(err => console.log(err))
+                }))
 
 
             }
@@ -1034,13 +1048,15 @@ function intention(payload, senderID, postback) {
 
             }
 
-            likeActivityRef.child(actId).update({interviewTime: time}).then(result => sendAPI(senderID, {
+            likeActivityRef.child(actId)
+                .update({interviewTime: time})
+                .then(result => sendAPI(senderID, {
                     text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi phỏng vấn.\n` + 'Chúc bạn phỏng vấn thành công nhé <3'
-                })).then(() => sendAPI(senderID, {
+                }))
+                .then(result => sendAPI(senderID, {
                     text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!'
-                })).catch(err => console.log(err))
-
-
+                }))
+                .catch(err => console.log(err))
             break;
         }
         case 'viewMoreJob': {
@@ -1048,7 +1064,6 @@ function intention(payload, senderID, postback) {
             getJob(data).then(result => sendAPI(senderID, result.message, 3000))
         }
     }
-
 }
 
 
