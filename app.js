@@ -594,24 +594,28 @@ function matchingPayload(event) {
 
                 var url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${data.lat},${data.lng}`
                 axios.get(url).then(result => {
-                    if(result.data.results.length > 0){
+                    if (result.data.results[0]) {
                         var results = result.data.results
                         var address = results[0].formatted_address
 
-                        profileRef.child(senderID)
-                            .update({location: {
+
+                    } else {
+                        address = ' '
+                    }
+                    profileRef.child(senderID)
+                        .update({
+                            location: {
                                 lat: data.lat,
                                 lng: data.lng
                             },
                             address
                         })
-                            .then(result => getJob(data))
-                            .then(result => sendAPI(senderID, {
-                                text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh địa chỉ ${shortAddress(address)} nè!`
-                            }).then(() => sendAPI(senderID, result.message, 3000)))
+                        .then(result => getJob(data))
+                        .then(result => sendAPI(senderID, {
+                            text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh địa chỉ ${shortAddress(address)} nè!`
+                        }).then(() => sendAPI(senderID, result.message, 3000)))
 
-                            .catch(err => console.log(err))
-                    }
+                        .catch(err => console.log(err))
 
                 })
 
@@ -766,54 +770,54 @@ function intention(payload, senderID, postback) {
                 sendTextMessage(senderID, "Hãy kiểm tra lại chi tiết công việc trước khi đặt lịch phỏng vấn nhé!")
                     .then(result => loadJob(jobId))
                     .then(result => {
-                            var jobData = result;
-                            jobData.storeName = result.storeData.storeName;
-                            jobData.address = result.storeData.address;
+                        var jobData = result;
+                        jobData.storeName = result.storeData.storeName;
+                        jobData.address = result.storeData.address;
 
-                            var text = jobJD(jobData);
+                        var text = jobJD(jobData);
 
-                            sendAPI(senderID, {
-                                text, metadata: JSON.stringify({
+                        sendAPI(senderID, {
+                            text, metadata: JSON.stringify({
+                                case: 'confirmJob',
+                                type: 'jd'
+                            })
+                        }, 2000)
+                            .then(() => sendAPI(senderID, {
+                                text: jobData.description || '(Y) (Y) (Y)',
+                                metadata: JSON.stringify({
                                     case: 'confirmJob',
-                                    type: 'jd'
+                                    type: 'description'
                                 })
-                            }, 2000)
-                                .then(() => sendAPI(senderID, {
-                                    text: jobData.description || '(Y) (Y) (Y)',
-                                    metadata: JSON.stringify({
-                                        case: 'confirmJob',
-                                        type: 'description'
-                                    })
-                                }, 12000))
-                                .then(() => sendAPI(senderID, {
-                                    text: 'Bạn có muốn ứng tuyển vào công việc này không?',
-                                    quick_replies: [
-                                        {
-                                            "content_type": "text",
-                                            "title": "Ứng tuyển",
-                                            "payload": JSON.stringify({
-                                                type: 'applyJob',
-                                                answer: 'yes',
-                                                jobId: jobId
-                                            })
-                                        },
-                                        {
-                                            "content_type": "text",
-                                            "title": "Từ chối ",
-                                            "payload": JSON.stringify({
-                                                type: 'applyJob',
-                                                answer: 'no',
-                                                jobId: jobId
-                                            })
-                                        }
-                                    ],
-                                    metadata: JSON.stringify({
-                                        case: 'confirmJob',
-                                        type: 'applyJob'
-                                    })
-                                }, 2000))
+                            }, 12000))
+                            .then(() => sendAPI(senderID, {
+                                text: 'Bạn có muốn ứng tuyển vào công việc này không?',
+                                quick_replies: [
+                                    {
+                                        "content_type": "text",
+                                        "title": "Ứng tuyển",
+                                        "payload": JSON.stringify({
+                                            type: 'applyJob',
+                                            answer: 'yes',
+                                            jobId: jobId
+                                        })
+                                    },
+                                    {
+                                        "content_type": "text",
+                                        "title": "Từ chối ",
+                                        "payload": JSON.stringify({
+                                            type: 'applyJob',
+                                            answer: 'no',
+                                            jobId: jobId
+                                        })
+                                    }
+                                ],
+                                metadata: JSON.stringify({
+                                    case: 'confirmJob',
+                                    type: 'applyJob'
+                                })
+                            }, 2000))
 
-                        })
+                    })
 
             } else {
 
