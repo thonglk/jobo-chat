@@ -19,8 +19,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="602" column="26" lean-forward="true" selection-start-line="602" selection-start-column="26" selection-end-line="602" selection-end-column="26" />
+            <state relative-caret-position="287">
+              <caret line="1076" column="13" lean-forward="true" selection-start-line="1076" selection-start-column="13" selection-end-line="1076" selection-end-column="13" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
@@ -28,11 +28,11 @@
                 <element signature="n#!!block;n#strTime#0" expanded="false" />
                 <element signature="n#!!block;n#timeAgo#0" expanded="false" />
                 <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-                <element signature="e#25872#31920#0" expanded="false" />
-                <element signature="e#26244#28308#0" expanded="false" />
-                <element signature="e#26347#28224#0" expanded="false" />
-                <element signature="e#33499#34591#0" expanded="false" />
-                <element signature="e#52656#52850#0" expanded="false" />
+                <element signature="e#26033#32081#0" expanded="false" />
+                <element signature="e#26405#28469#0" expanded="false" />
+                <element signature="e#26508#28385#0" expanded="false" />
+                <element signature="e#33660#34752#0" expanded="false" />
+                <element signature="e#52799#52993#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
@@ -95,7 +95,6 @@
       <find>confirmJobSeeker</find>
       <find>inputLocation</find>
       <find>confirmPolicy</find>
-      <find>confirmInterview</find>
       <find>likeActivityRef</find>
       <find>type:'applyJob'</find>
       <find>max</find>
@@ -106,6 +105,7 @@
       <find>applyJob</find>
       <find>askPhone</find>
       <find>sendReadReceipt</find>
+      <find>confirmInterview</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -217,12 +217,12 @@
       <updated>1508779802294</updated>
       <workItem from="1508779803911" duration="71675000" />
       <workItem from="1509354917434" duration="7683000" />
-      <workItem from="1509435377569" duration="48424000" />
+      <workItem from="1509435377569" duration="48935000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="127782000" />
+    <option name="totallyTimeSpent" value="128293000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -319,8 +319,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="602" column="26" lean-forward="true" selection-start-line="602" selection-start-column="26" selection-end-line="602" selection-end-column="26" />
+        <state relative-caret-position="287">
+          <caret line="1076" column="13" lean-forward="true" selection-start-line="1076" selection-start-column="13" selection-end-line="1076" selection-end-column="13" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
@@ -328,11 +328,11 @@
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="e#25872#31920#0" expanded="false" />
-            <element signature="e#26244#28308#0" expanded="false" />
-            <element signature="e#26347#28224#0" expanded="false" />
-            <element signature="e#33499#34591#0" expanded="false" />
-            <element signature="e#52656#52850#0" expanded="false" />
+            <element signature="e#26033#32081#0" expanded="false" />
+            <element signature="e#26405#28469#0" expanded="false" />
+            <element signature="e#26508#28385#0" expanded="false" />
+            <element signature="e#33660#34752#0" expanded="false" />
+            <element signature="e#52799#52993#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />

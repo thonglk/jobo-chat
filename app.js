@@ -1055,16 +1055,14 @@ function intention(payload, senderID, postback) {
             }))
             break;
         }
-        case
-        'confirmInterview'
-        : {
+        case'confirmInterview': {
             var time = payload.time
 
             var applyJobList = _.where(conversationData[senderID], {
-                payload: {
+                payload: JSON.stringify({
                     type: 'applyJob',
                     answer: 'yes'
-                }
+                })
             })
 
             if (applyJobList.length > 1) {
@@ -1074,9 +1072,12 @@ function intention(payload, senderID, postback) {
 
                 var jobId = recentApplyJob.payload.jobId
 
-                var actId = jobId + ':' + senderID
+
+            } else {
+                var jobId = payload.jobId
 
             }
+            var actId = jobId + ':' + senderID
 
             likeActivityRef.child(actId)
                 .update({interviewTime: time})
