@@ -1291,10 +1291,7 @@ app.post('/webhook', function (req, res) {
                                         accountRef.child('dumpling').child(senderID).update({match: matched})
                                             .then(result => accountRef.child('dumpling').child(random.id).update({match: senderID}))
                                             .then(result => sendingAPI(senderID, recipientID, {
-                                                text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
-                                            }, 1000, 'dumpling'))
-                                            .then(result => sendingAPI(senderID, recipientID, {
-                                                text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
+                                                text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công\n" + "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
                                             }, 1000, 'dumpling'))
                                             .then(result => sendingAPI(matched, recipientID, {
                                                 text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
