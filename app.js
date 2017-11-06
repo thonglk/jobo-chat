@@ -1069,8 +1069,7 @@ function intention(payload, senderID, postback) {
                 .update({interviewTime: time})
                 .then(result => sendAPI(senderID, {
                     text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi phỏng vấn.\n` + 'Chúc bạn phỏng vấn thành công nhé <3'
-                }))
-                .then(result => sendAPI(senderID, {
+                }).then(result => sendAPI(senderID, {
                     text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!'
                 }))
                 .catch(err => console.log(err))
