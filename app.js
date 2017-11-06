@@ -522,11 +522,10 @@ function matchingPayload(event) {
             var payload = JSON.parse(payloadStr);
             resolve({payload, senderID, postback})
         } else if (message && message.text) {
-            console.log('message.text',message.text)
+            console.log('message.text', message.text)
             var conversation = conversationData[senderID];
             if (conversation) var listSentMessage = _.filter(conversation, function (card) {
                 return card.type == 'sent';
-
             });
             if (listSentMessage) var lastMessage = _.max(listSentMessage, function (card) {
                 return card.timestamp;
@@ -537,6 +536,7 @@ function matchingPayload(event) {
                     payloadStr = lastMessage.message.metadata
                 }
             }
+
             if (payloadStr.length > 0) var payload = JSON.parse(payloadStr)
             else payload = {type: 'default'}
 
@@ -567,6 +567,8 @@ function matchingPayload(event) {
             if (message.attachments[0].payload.coordinates) {
                 var locationData = message.attachments[0].payload.coordinates;
                 console.log('locationData', locationData);
+
+
                 var data = {
                     lat: locationData.lat,
                     lng: locationData.long,
@@ -574,20 +576,32 @@ function matchingPayload(event) {
                     per_page: 4,
                     type: 'premium'
                 };
-                getJob(data).then(result => sendAPI(senderID, {text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh nè!`})
-                    .then(() => {
-                        sendAPI(senderID, result.message, 3000)
+
+                var url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${data.lat},${data.lng}`
+                axios.get(url).then(result => {
+                    var results = result.data.results
+                    var address = results[0].formatted_address
+
+                    userRef.child(senderID).update({
+                        location: {
+                            lat: data.lat,
+                            lng: data.lng
+                        },
+                        address
                     })
-                )
+
+                    getJob(data)
+                        .then(result => sendAPI(senderID, {text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh ${address} nè!`})
+                            .then(() => sendAPI(senderID, result.message, 3000)))
+                })
+
+
             }
         }
 
-
-
     })
-
-
 }
+
 
 function intention(payload, senderID, postback) {
     console.log('payload', payload);
@@ -658,12 +672,8 @@ function intention(payload, senderID, postback) {
                                             }
                                         }
                                     })
-
                                 })
-
                             })
-
-
                         } else {
                             sendAPI(senderID, {
                                 text: `Có phải bạn đang muốn tham gia Jobo để tìm việc làm thêm?`,
@@ -700,7 +710,7 @@ function intention(payload, senderID, postback) {
                         text: `Chào ${result.name}, Jobo có thể giúp gì cho bạn nhỉ?`,
                         metadata: JSON.stringify({
                             type: 'welcome',
-                            case:'GET_STARTED'
+                            case: 'GET_STARTED'
                         }),
                         quick_replies: [
                             {
@@ -729,8 +739,7 @@ function intention(payload, senderID, postback) {
             break;
         }
         case
-        'confirmJob'
-        : {
+        'confirmJob': {
             if (payload.answer == 'yes') {
                 console.log('Response confirmJob:', payload)
                 var jobId = payload.jobId;
@@ -744,16 +753,16 @@ function intention(payload, senderID, postback) {
                             var text = jobJD(jobData);
 
                             sendAPI(senderID, {
-                                text,metadata:JSON.stringify({
+                                text, metadata: JSON.stringify({
                                     case: 'confirmJob',
-                                    type:'jd'
+                                    type: 'jd'
                                 })
                             }, 2000).then(() => {
                                     sendAPI(senderID, {
                                         text: jobData.description || '(Y) (Y) (Y)',
-                                        metadata:JSON.stringify({
+                                        metadata: JSON.stringify({
                                             case: 'confirmJob',
-                                            type:'description'
+                                            type: 'description'
                                         })
                                     }, 12000).then(() => {
                                         sendAPI(senderID, {
@@ -778,9 +787,9 @@ function intention(payload, senderID, postback) {
                                                     })
                                                 }
                                             ],
-                                            metadata:JSON.stringify({
+                                            metadata: JSON.stringify({
                                                 case: 'confirmJob',
-                                                type:'applyJob'
+                                                type: 'applyJob'
                                             })
                                         }, 10000)
                                     })
@@ -796,17 +805,37 @@ function intention(payload, senderID, postback) {
 
         }
         case
-        'applyJob'
-        : {
+        'applyJob': {
             if (payload.answer == 'yes') {
-                sendAPI(senderID, {
-                    text: 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé',
-                    metadata: JSON.stringify({
-                        type: 'askPhone',
-                        case:'applyJob',
-                        jobId: payload.jobId
+
+                var jobId = payload.jobId
+
+                var likeActivityRef = db.ref('activity/like');
+                var actId = jobId + ':' + senderID
+                likeActivityRef.child(actId).update({
+                    actId,
+                    userId: senderID,
+                    jobId,
+                    likedAt: Date.now(),
+                    type: 2,
+                    platform: 'messenger'
+                })
+                axios.get(CONFIG.APIURL + '/on/profile?userId=' + senderID)
+                    .then(result => {
+                        var profileData = result.data
+                        if (profileData.userInfo && profileData.userInfo.phone) {
+                            sendAPI(senderID, {
+                                text: 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé',
+                                metadata: JSON.stringify({
+                                    type: 'askPhone',
+                                    case: 'applyJob',
+                                    jobId
+                                })
+                            });
+                        } else {
+                            sendInterviewOption(jobId, senderID)
+                        }
                     })
-                });
 
             } else {
 
@@ -816,11 +845,12 @@ function intention(payload, senderID, postback) {
         }
         case'confirmJobSeeker': {
             if (payload.answer == 'yes') {
+                userRef.child(senderID).update({type: 2})
                 sendAPI(senderID, {
                     text: "Okie, chào mừng bạn đến với Jobo <3",
                     metadata: JSON.stringify({
                         type: 'welcome',
-                        case:'confirmJobSeeker',
+                        case: 'confirmJobSeeker',
                     })
                 }).then(() => {
 
@@ -828,7 +858,7 @@ function intention(payload, senderID, postback) {
                         text: "Bạn vui lòng lưu ý 1 số thứ sau trước khi bắt đầu đi làm nhé!",
                         metadata: JSON.stringify({
                             type: 'welcome_note',
-                            case:'confirmJobSeeker',
+                            case: 'confirmJobSeeker',
                         })
                     }).then(() => {
 
@@ -840,7 +870,7 @@ function intention(payload, senderID, postback) {
                             "- Thu nhập từ 6-8tr",
                             metadata: JSON.stringify({
                                 type: 'welcome_note_benefit',
-                                case:'confirmJobSeeker',
+                                case: 'confirmJobSeeker',
                             })
                         }, 4000).then(() => {
 
@@ -851,7 +881,7 @@ function intention(payload, senderID, postback) {
                                 "- Nếu có việc đột xuất không tham gia được, bạn phải báo lại cho mình ngay\n",
                                 metadata: JSON.stringify({
                                     type: 'welcome_note_requirement',
-                                    case:'confirmJobSeeker',
+                                    case: 'confirmJobSeeker',
                                 })
                             }, 3000).then(() => {
                                 sendAPI(senderID, {
@@ -873,7 +903,7 @@ function intention(payload, senderID, postback) {
                                     }],
                                     metadata: JSON.stringify({
                                         type: 'confirmPolicy',
-                                        case:'confirmJobSeeker',
+                                        case: 'confirmJobSeeker',
                                     })
                                 })
 
@@ -895,6 +925,8 @@ function intention(payload, senderID, postback) {
         }
         case'confirmEmployer': {
             if (payload.answer == 'yes') {
+                userRef.child(senderID).update({type: 1});
+
                 sendAPI(senderID, {
                     text: "Dạ. Bạn vui lòng cho ad xin số điện thoại để bộ phận tư vấn liên hệ nhé ạ",
                     metadata: JSON.stringify({
@@ -942,43 +974,7 @@ function intention(payload, senderID, postback) {
 
             } else {
                 var jobId = payload.jobId;
-
-                loadJob(jobId).then(result => {
-                    var jobData = result;
-                    var storeData = result.storeData
-                    jobData.storeName = storeData.storeName
-                    jobData.address = storeData.address
-                    console.log('storeData.interviewOption', storeData.interviewOption)
-
-                    var quick_replies = []
-
-                    if (storeData.interviewOption) {
-                        for (var i in storeData.interviewOption) {
-                            var time = storeData.interviewOption[i]
-
-                            var rep = {
-                                "content_type": "text",
-                                "title": strTime(time),
-                                "payload": JSON.stringify({
-                                    type: 'setInterview',
-                                    time: time
-                                })
-                            };
-                            quick_replies.push(rep)
-                        }
-
-                    }
-
-
-                    sendAPI(senderID, {
-                        text: 'Bạn có thể tham gia phỏng vấn lúc nào?',
-                        quick_replies: quick_replies,
-                        metadata: JSON.stringify({
-                            type: 'setInterview',
-                        })
-                    });
-
-                });
+                sendInterviewOption(jobId, senderID)
             }
 
             break;
@@ -1001,7 +997,8 @@ function intention(payload, senderID, postback) {
                     "payload": JSON.stringify({
                         type: 'confirmInterview',
                         answer: 'yes',
-                        time: time
+                        time: time,
+                        jobId
                     })
                 }, {
                     "content_type": "text",
@@ -1009,23 +1006,41 @@ function intention(payload, senderID, postback) {
                     "payload": JSON.stringify({
                         type: 'confirmInterview',
                         answer: 'no',
-                        time: time
+                        time: time,
+                        jobId
                     })
                 }],
-
-
             }))
             break;
         }
         case'confirmInterview': {
             var time = payload.time
-            sendAPI(senderID, {
-                text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi phỏng vấn.\n` +
-                'Chúc bạn phỏng vấn thành công nhé <3'
-            }).then(() => sendAPI(senderID, {
+
+            var applyJobList = _.where(conversationData[senderID], {
+                payload: {
+                    type: 'applyJob',
+                    answer: 'yes'
+                }
+            })
+
+            if (applyJobList.length > 1) {
+                var recentApplyJob = _.max(applyJobList, function (card) {
+                    return card.timestamp;
+                });
+
+                var jobId = recentApplyJob.payload.jobId
+
+                var actId = jobId + ':' + senderID
+
+            }
+
+            likeActivityRef.child(actId).update({interviewTime: time}).then(result => sendAPI(senderID, {
+                    text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi phỏng vấn.\n` + 'Chúc bạn phỏng vấn thành công nhé <3'
+                })).then(() => sendAPI(senderID, {
                     text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!'
-                })
-            )
+                })).catch(err => console.log(err))
+
+
             break;
         }
         case 'viewMoreJob': {
@@ -1036,6 +1051,46 @@ function intention(payload, senderID, postback) {
 
 }
 
+
+function sendInterviewOption(jobId, senderID) {
+    loadJob(jobId).then(result => {
+        var jobData = result;
+        var storeData = result.storeData
+        jobData.storeName = storeData.storeName
+        jobData.address = storeData.address
+        console.log('storeData.interviewOption', storeData.interviewOption)
+
+        var quick_replies = []
+
+        if (storeData.interviewOption) {
+            for (var i in storeData.interviewOption) {
+                var time = storeData.interviewOption[i]
+
+                var rep = {
+                    "content_type": "text",
+                    "title": strTime(time),
+                    "payload": JSON.stringify({
+                        type: 'setInterview',
+                        time: time,
+                        jobId
+                    })
+                };
+                quick_replies.push(rep)
+            }
+
+        }
+
+
+        sendAPI(senderID, {
+            text: 'Bạn có thể tham gia phỏng vấn lúc nào?',
+            quick_replies: quick_replies,
+            metadata: JSON.stringify({
+                type: 'setInterview',
+            })
+        });
+
+    });
+}
 
 app.post('/webhook', function (req, res) {
     var data = req.body;
@@ -1343,7 +1398,6 @@ function getJob(data) {
                             }
                         ]
                     })
-
                 }
                 resultData.message = message
                 resolve(resultData)

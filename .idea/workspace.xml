@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -17,22 +19,21 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="683">
-              <caret line="532" column="13" lean-forward="true" selection-start-line="532" selection-start-column="13" selection-end-line="532" selection-end-column="13" />
+            <state relative-caret-position="200">
+              <caret line="1023" column="12" lean-forward="true" selection-start-line="1023" selection-start-column="12" selection-end-line="1023" selection-end-column="12" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
                 <element signature="n#!!block;n#shortAddress#0" expanded="false" />
                 <element signature="n#!!block;n#strTime#0" expanded="false" />
                 <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-                <element signature="n#!!block;n#jobJD#0" expanded="false" />
                 <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-                <element signature="e#23522#24258#0" expanded="false" />
-                <element signature="e#25318#27382#0" expanded="false" />
-                <element signature="e#25421#27298#0" expanded="false" />
-                <element signature="e#39960#41317#0" expanded="false" />
-                <element signature="e#45755#46337#0" expanded="false" />
-                <element signature="e#49864#50058#0" expanded="false" />
+                <element signature="e#25425#31473#0" expanded="false" />
+                <element signature="e#25797#27861#0" expanded="false" />
+                <element signature="e#25900#27777#0" expanded="false" />
+                <element signature="e#43593#44614#0" expanded="false" />
+                <element signature="e#47203#47785#0" expanded="false" />
+                <element signature="e#51312#51506#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
@@ -45,8 +46,8 @@
       <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="26" column="26" lean-forward="true" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
+            <state relative-caret-position="345">
+              <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -76,12 +77,7 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>case</find>
-      <find>file</find>
-      <find>taileo</find>
-      <find>aPI</find>
       <find>GET_</find>
-      <find>confirmJobSeeker</find>
       <find>Employer</find>
       <find>sendVideo</find>
       <find>hallo</find>
@@ -101,11 +97,16 @@
       <find>location</find>
       <find>matching</find>
       <find>attachments</find>
-      <find>applyJob</find>
       <find>metat</find>
-      <find>askPhone</find>
       <find>check</find>
       <find>quick_replies</find>
+      <find>confirmJobSeeker</find>
+      <find>inputLocation</find>
+      <find>confirmPolicy</find>
+      <find>applyJob</find>
+      <find>askPhone</find>
+      <find>confirmInterview</find>
+      <find>likeActivityRef</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -217,12 +218,12 @@
       <updated>1508779802294</updated>
       <workItem from="1508779803911" duration="71675000" />
       <workItem from="1509354917434" duration="7683000" />
-      <workItem from="1509435377569" duration="31387000" />
+      <workItem from="1509435377569" duration="43553000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="110745000" />
+    <option name="totallyTimeSpent" value="122911000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -311,30 +312,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="26" lean-forward="true" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
+        <state relative-caret-position="345">
+          <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="683">
-          <caret line="532" column="13" lean-forward="true" selection-start-line="532" selection-start-column="13" selection-end-line="532" selection-end-column="13" />
+        <state relative-caret-position="200">
+          <caret line="1023" column="12" lean-forward="true" selection-start-line="1023" selection-start-column="12" selection-end-line="1023" selection-end-column="12" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
             <element signature="n#!!block;n#shortAddress#0" expanded="false" />
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="e#23522#24258#0" expanded="false" />
-            <element signature="e#25318#27382#0" expanded="false" />
-            <element signature="e#25421#27298#0" expanded="false" />
-            <element signature="e#39960#41317#0" expanded="false" />
-            <element signature="e#45755#46337#0" expanded="false" />
-            <element signature="e#49864#50058#0" expanded="false" />
+            <element signature="e#25425#31473#0" expanded="false" />
+            <element signature="e#25797#27861#0" expanded="false" />
+            <element signature="e#25900#27777#0" expanded="false" />
+            <element signature="e#43593#44614#0" expanded="false" />
+            <element signature="e#47203#47785#0" expanded="false" />
+            <element signature="e#51312#51506#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
