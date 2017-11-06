@@ -604,8 +604,10 @@ function matchingPayload(event) {
                         address
                     })
                         .then(result => getJob(data))
-                        .then(result => sendAPI(senderID, {text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh địa chỉ ${shortAddress(address)} nè!`}))
-                        .then(() => sendAPI(senderID, result.message, 3000))
+                        .then(result => sendAPI(senderID, {
+                            text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh địa chỉ ${shortAddress(address)} nè!`
+                        }).then(() => sendAPI(senderID, result.message, 3000)))
+
                         .catch(err => console.log(err))
                 })
 
