@@ -292,16 +292,14 @@ function setDefautMenu(page='jobo') {
                         "title": "🍔 Bắt đầu",
                         "type": "postback",
                         "payload": JSON.stringify({
-                            type: 'confirmPolicy',
-                            answer: 'yes',
+                            type: 'matching',
                         })
                     },
                     {
                         "title": "🍇 Dừng chát",
                         "type": "postback",
                         "payload": JSON.stringify({
-                            type: 'profile',
-                            state: 'inverview',
+                            type: 'stop',
                         })
                     }
                 ],
