@@ -1251,6 +1251,7 @@ app.post('/webhook', function (req, res) {
                         var timeOfMessage = messagingEvent.timestamp;
                         var message = messagingEvent.message;
                         var senderData = dataAccount[senderID]
+                        console.log('senderData',senderData)
 
 
                         if (messagingEvent.optin) {
