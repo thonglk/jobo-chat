@@ -1528,6 +1528,9 @@ app.post('/webhook', function (req, res) {
                                         text: `đảm bảo 100% bí mật thông tin và nội dung trò chuyện`,
                                     }, 1000, 'dumpling'))
                                     .then(result => sendingAPI(senderID, recipientID, {
+                                        text: `Sau khi người kia trả lời bạn tối thiệu 20 tin nhắn, bạn sẽ được quyền xem Avatar của người đó ;)`,
+                                    }, 1000, 'dumpling'))
+                                    .then(result => sendingAPI(senderID, recipientID, {
                                         text: "Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ để chát",
                                         quick_replies: [
                                             {
