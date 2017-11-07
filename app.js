@@ -596,12 +596,146 @@ function matchingPayload(event) {
         var timeOfPostback = event.timestamp;
         var message = event.message
         var postback = event.postback
+        var referral = event.referral
 
         var payloadStr = '';
 
         if (message && message.quick_reply && message.quick_reply.payload) payloadStr = message.quick_reply.payload
         else if (message && message.payload) payloadStr = message.payload
         else if (postback && postback.payload) payloadStr = postback.payload
+        else if(referral){
+
+                getUserDataAndSave(senderID).then(result => {
+
+                    if (referral.ref.length > 0) {
+
+                        userRef.child(senderID).update({ref: postback.referral.ref})
+
+                        var refstr = referral.ref;
+                        var refData = refstr.split('_');
+                        console.log('refData', refData);
+                        if (refData[0] != 'start') {
+                            var jobId = refData[0]
+                            loadJob(jobId).then(result => {
+                                var jobData = result
+                                var messageData = {
+                                    recipient: {
+                                        id: senderID
+                                    },
+                                    message: {
+                                        text: `Có phải bạn đang muốn ứng tuyển vào vị trí ${jobData.jobName} của ${jobData.storeData.storeName} ?`,
+                                        metadata: JSON.stringify({
+                                            type: 'confirmJob',
+                                        }),
+                                        quick_replies: [
+                                            {
+                                                "content_type": "text",
+                                                "title": "Đúng rồi (Y)",
+                                                "payload": JSON.stringify({
+                                                    type: 'confirmJob',
+                                                    answer: 'yes',
+                                                    jobId: jobId
+                                                })
+                                            },
+                                            {
+                                                "content_type": "text",
+                                                "title": "Không phải",
+                                                "payload": JSON.stringify({
+                                                    type: 'confirmJob',
+                                                    answer: 'no',
+                                                    jobId: jobId
+                                                })
+                                            },
+                                        ]
+                                    }
+                                };
+
+                                callSendAPI(messageData);
+                            }).catch(err => sendTextMessage(senderID, JSON.stringify(err)))
+                        } else {
+
+                            if (refData[1] == 'tailieunhansu') {
+                                sendAPI(senderID, {
+                                    text: `Jobo xin gửi link tài liệu " Toàn bộ quy trình liên quan đến lương,thưởng và quản lý nhân sự "`,
+                                }).then(() => {
+                                    sendAPI(senderID, {
+                                        text: `Mình đang tải tài liệu lên, bạn chờ một chút nhé... "`,
+                                    }).then(() => {
+                                        sendAPI(senderID, {
+                                            attachment: {
+                                                type: "file",
+                                                payload: {
+                                                    url: "https://jobo.asia/file/NhanSu.zip"
+                                                }
+                                            }
+                                        })
+                                    })
+                                })
+                            } else {
+                                sendAPI(senderID, {
+                                    text: `Có phải bạn đang muốn tham gia Jobo để tìm việc làm thêm?`,
+                                    quick_replies: [
+                                        {
+                                            "content_type": "text",
+                                            "title": "Đúng vậy",
+                                            "payload": JSON.stringify({
+                                                type: 'confirmJobSeeker',
+                                                answer: 'yes',
+                                            })
+                                        },
+                                        {
+                                            "content_type": "text",
+                                            "title": "Không phải",
+                                            "payload": JSON.stringify({
+                                                type: 'confirmJobSeeker',
+                                                answer: 'no',
+                                            })
+                                        },
+                                    ],
+                                    metadata: JSON.stringify({
+                                        type: 'confirmJobSeeker',
+                                    })
+                                })
+
+                            }
+                        }
+
+
+                    } else {
+
+                        sendAPI(senderID, {
+                            text: `Chào ${result.name}, Jobo có thể giúp gì cho bạn nhỉ?`,
+                            metadata: JSON.stringify({
+                                type: 'welcome',
+                                case: 'GET_STARTED'
+                            }),
+                            quick_replies: [
+                                {
+                                    "content_type": "text",
+                                    "title": "Tôi muốn tìm việc",
+                                    "payload": JSON.stringify({
+                                        type: 'confirmJobSeeker',
+                                        answer: 'yes',
+                                    })
+                                },
+                                {
+                                    "content_type": "text",
+                                    "title": "Tôi muốn tuyển dụng",
+                                    "payload": JSON.stringify({
+                                        type: 'confirmEmployer',
+                                        answer: 'yes',
+                                    })
+                                }
+                            ]
+                        })
+
+                    }
+
+
+                })
+
+
+        }
 
         if (payloadStr.length > 0) {
             var payload = JSON.parse(payloadStr);
@@ -1296,13 +1430,23 @@ app.post('/webhook', function (req, res) {
 
                                 }
 
-
                             } else if (messageText) {
                                 if (senderData && senderData.match) {
                                     sendingAPI(senderData.match, senderID, {
                                         text: messageText,
                                     }, 10, 'dumpling')
-                                }
+                                } else sendingAPI(senderData.match, senderID, {
+                                    text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ để chát",
+                                    quick_replies: [
+                                        {
+                                            "content_type": "text",
+                                            "title": "💬 Bắt Đầu",
+                                            "payload": JSON.stringify({
+                                                type: 'matching'
+                                            })
+                                        }
+                                    ]
+                                }, 10, 'dumpling')
                             }
 
                         } else if (messagingEvent.delivery) {
