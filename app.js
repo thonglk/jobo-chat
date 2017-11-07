@@ -1298,7 +1298,7 @@ app.post('/webhook', function (req, res) {
 
 
                             } else if (messageText) {
-                                if (senderData.match) {
+                                if (senderData && senderData.match) {
                                     sendingAPI(senderData.match, senderID, {
                                         text: messageText,
                                     }, 1000, 'dumpling')
