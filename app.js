@@ -1269,12 +1269,11 @@ app.post('/webhook', function (req, res) {
                                 var quickReplyPayload = quickReply.payload
                                 var payload = JSON.parse(quickReplyPayload)
 
-
                                 if (payload.type == 'matching') {
                                     var avaible = _.filter(dataAccount, function (card) {
                                         if (!card.match && card.gender != senderData.gender && card.id != recipientID) return true
                                         else return false
-                                    })
+                                    });
                                     if (avaible && avaible.length > 0) {
                                         var random = _.sample(avaible)
                                         var matched = random.id
@@ -1302,7 +1301,7 @@ app.post('/webhook', function (req, res) {
                                 if (senderData && senderData.match) {
                                     sendingAPI(senderData.match, senderID, {
                                         text: messageText,
-                                    }, 1000, 'dumpling')
+                                    }, 10, 'dumpling')
                                 }
                             }
 
@@ -1325,7 +1324,6 @@ app.post('/webhook', function (req, res) {
                                             text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
                                         }, 1000, 'dumpling'))
 
-
                                 } else if(senderData) sendingAPI(senderID, recipientID, {
                                     text: "[Hệ Thống] Bạn chưa bắt đầu cuộc trò chuyện!",
                                     quick_replies: [
@@ -1341,7 +1339,7 @@ app.post('/webhook', function (req, res) {
                             } else if (payload.type == 'matching') {
                                 if (senderData && senderData.match) sendingAPI(senderID, recipientID, {
                                     text: "[Hệ Thống] Hãy huỷ cuộc hội thoại hiện có !",
-                                }, 1000, 'dumpling')
+                                }, 1000, 'dumpling');
                                 else {
                                     var avaible = _.filter(dataAccount, function (card) {
                                         if (!card.match && card.gender != senderData.gender && card.id != recipientID) return true

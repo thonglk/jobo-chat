@@ -17,8 +17,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="295">
-              <caret line="1336" column="37" lean-forward="false" selection-start-line="1336" selection-start-column="37" selection-end-line="1336" selection-end-column="37" />
+            <state relative-caret-position="140">
+              <caret line="1379" column="0" lean-forward="true" selection-start-line="1379" selection-start-column="0" selection-end-line="1379" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#13569#15076#0" expanded="false" />
@@ -30,7 +30,7 @@
                 <element signature="e#28650#30714#0" expanded="false" />
                 <element signature="e#28753#30630#0" expanded="false" />
                 <element signature="e#35825#36841#0" expanded="false" />
-                <element signature="e#64668#64862#0" expanded="false" />
+                <element signature="e#64699#64893#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
@@ -215,12 +215,12 @@
       <updated>1508779802294</updated>
       <workItem from="1508779803911" duration="71675000" />
       <workItem from="1509354917434" duration="7683000" />
-      <workItem from="1509435377569" duration="64405000" />
+      <workItem from="1509435377569" duration="64884000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="143763000" />
+    <option name="totallyTimeSpent" value="144242000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -325,8 +325,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="1336" column="37" lean-forward="false" selection-start-line="1336" selection-start-column="37" selection-end-line="1336" selection-end-column="37" />
+        <state relative-caret-position="140">
+          <caret line="1379" column="0" lean-forward="true" selection-start-line="1379" selection-start-column="0" selection-end-line="1379" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#13569#15076#0" expanded="false" />
@@ -338,7 +338,7 @@
             <element signature="e#28650#30714#0" expanded="false" />
             <element signature="e#28753#30630#0" expanded="false" />
             <element signature="e#35825#36841#0" expanded="false" />
-            <element signature="e#64668#64862#0" expanded="false" />
+            <element signature="e#64699#64893#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
