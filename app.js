@@ -1254,6 +1254,7 @@ app.post('/webhook', function (req, res) {
                         console.log('senderData',senderData)
 
 
+
                         if (messagingEvent.optin) {
                             receivedAuthentication(messagingEvent);
                         } else if (message) {
@@ -1312,7 +1313,8 @@ app.post('/webhook', function (req, res) {
                             var payloadStr = messagingEvent.postback.payload
                             var payload = JSON.parse(payloadStr)
                             if (payload.type == 'stop') {
-                                if (senderData.match) {
+
+                                if (senderData && senderData.match) {
 
                                     accountRef.child('dumpling').child(senderID).child('match').remove()
                                         .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
@@ -1324,7 +1326,7 @@ app.post('/webhook', function (req, res) {
                                         }, 1000, 'dumpling'))
 
 
-                                } else sendingAPI(senderID, recipientID, {
+                                } else if(senderData) sendingAPI(senderID, recipientID, {
                                     text: "[Hệ Thống] Bạn chưa bắt đầu cuộc trò chuyện!",
                                     quick_replies: [
                                         {
