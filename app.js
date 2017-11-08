@@ -144,21 +144,30 @@ var jobochat = firebase.initializeApp({
     credential: firebase.credential.cert(FIRE_BASE_ADMIN['jobochat'].cert),
     databaseURL: FIRE_BASE_ADMIN['jobochat'].databaseURL
 }, "jobochat");
+
+var jobo = firebase.initializeApp({
+    credential: firebase.credential.cert(FIRE_BASE_ADMIN['production'].cert),
+    databaseURL: FIRE_BASE_ADMIN['production'].databaseURL
+}, "jobo");
+
 var db = jobochat.database();
-var userRef = db.ref('user');
+
+var db2 = jobo.database();
+var userRef = db2.ref('user');
 var dataAccount, accountRef = db.ref('account');
 accountRef.child('dumpling').on('value', function (snap) {
     dataAccount = snap.val() || {}
 })
 
-var profileRef = db.ref('profile');
-var likeActivityRef = db.ref('activity/like');
+var profileRef = db2.ref('profile');
+var likeActivityRef = db2.ref('activity/like');
 
 var conversationData, conversationRef = db.ref('conversation')
 var messageFactory, messageFactoryRef = db.ref('messageFactory')
 
 conversationRef.on('value', function (snap) {
     conversationData = snap.val()
+    console.log('conversationData')
 })
 
 // CONFIG FUNCTION
@@ -570,6 +579,7 @@ function getUserDataAndSave(senderID) {
                 name: user.first_name + ' ' + user.last_name,
                 messengerId: senderID,
                 createdAt: Date.now(),
+                platform: 'messenger'
             }
 
 
@@ -603,136 +613,136 @@ function matchingPayload(event) {
         if (message && message.quick_reply && message.quick_reply.payload) payloadStr = message.quick_reply.payload
         else if (message && message.payload) payloadStr = message.payload
         else if (postback && postback.payload) payloadStr = postback.payload
-        else if(referral){
+        else if (referral) {
 
-                getUserDataAndSave(senderID).then(result => {
+            getUserDataAndSave(senderID).then(result => {
 
-                    if (referral.ref.length > 0) {
+                if (referral.ref.length > 0) {
 
-                        userRef.child(senderID).update({ref: postback.referral.ref})
+                    userRef.child(senderID).update({ref: postback.referral.ref})
 
-                        var refstr = referral.ref;
-                        var refData = refstr.split('_');
-                        console.log('refData', refData);
-                        if (refData[0] != 'start') {
-                            var jobId = refData[0]
-                            loadJob(jobId).then(result => {
-                                var jobData = result
-                                var messageData = {
-                                    recipient: {
-                                        id: senderID
-                                    },
-                                    message: {
-                                        text: `Có phải bạn đang muốn ứng tuyển vào vị trí ${jobData.jobName} của ${jobData.storeData.storeName} ?`,
-                                        metadata: JSON.stringify({
-                                            type: 'confirmJob',
-                                        }),
-                                        quick_replies: [
-                                            {
-                                                "content_type": "text",
-                                                "title": "Đúng rồi (Y)",
-                                                "payload": JSON.stringify({
-                                                    type: 'confirmJob',
-                                                    answer: 'yes',
-                                                    jobId: jobId
-                                                })
-                                            },
-                                            {
-                                                "content_type": "text",
-                                                "title": "Không phải",
-                                                "payload": JSON.stringify({
-                                                    type: 'confirmJob',
-                                                    answer: 'no',
-                                                    jobId: jobId
-                                                })
-                                            },
-                                        ]
-                                    }
-                                };
-
-                                callSendAPI(messageData);
-                            }).catch(err => sendTextMessage(senderID, JSON.stringify(err)))
-                        } else {
-
-                            if (refData[1] == 'tailieunhansu') {
-                                sendAPI(senderID, {
-                                    text: `Jobo xin gửi link tài liệu " Toàn bộ quy trình liên quan đến lương,thưởng và quản lý nhân sự "`,
-                                }).then(() => {
-                                    sendAPI(senderID, {
-                                        text: `Mình đang tải tài liệu lên, bạn chờ một chút nhé... "`,
-                                    }).then(() => {
-                                        sendAPI(senderID, {
-                                            attachment: {
-                                                type: "file",
-                                                payload: {
-                                                    url: "https://jobo.asia/file/NhanSu.zip"
-                                                }
-                                            }
-                                        })
-                                    })
-                                })
-                            } else {
-                                sendAPI(senderID, {
-                                    text: `Có phải bạn đang muốn tham gia Jobo để tìm việc làm thêm?`,
+                    var refstr = referral.ref;
+                    var refData = refstr.split('_');
+                    console.log('refData', refData);
+                    if (refData[0] != 'start') {
+                        var jobId = refData[0]
+                        loadJob(jobId).then(result => {
+                            var jobData = result
+                            var messageData = {
+                                recipient: {
+                                    id: senderID
+                                },
+                                message: {
+                                    text: `Có phải bạn đang muốn ứng tuyển vào vị trí ${jobData.jobName} của ${jobData.storeData.storeName} ?`,
+                                    metadata: JSON.stringify({
+                                        type: 'confirmJob',
+                                    }),
                                     quick_replies: [
                                         {
                                             "content_type": "text",
-                                            "title": "Đúng vậy",
+                                            "title": "Đúng rồi (Y)",
                                             "payload": JSON.stringify({
-                                                type: 'confirmJobSeeker',
+                                                type: 'confirmJob',
                                                 answer: 'yes',
+                                                jobId: jobId
                                             })
                                         },
                                         {
                                             "content_type": "text",
                                             "title": "Không phải",
                                             "payload": JSON.stringify({
-                                                type: 'confirmJobSeeker',
+                                                type: 'confirmJob',
                                                 answer: 'no',
+                                                jobId: jobId
                                             })
                                         },
-                                    ],
-                                    metadata: JSON.stringify({
-                                        type: 'confirmJobSeeker',
-                                    })
-                                })
+                                    ]
+                                }
+                            };
 
-                            }
-                        }
-
-
+                            callSendAPI(messageData);
+                        }).catch(err => sendTextMessage(senderID, JSON.stringify(err)))
                     } else {
 
-                        sendAPI(senderID, {
-                            text: `Chào ${result.name}, Jobo có thể giúp gì cho bạn nhỉ?`,
-                            metadata: JSON.stringify({
-                                type: 'welcome',
-                                case: 'GET_STARTED'
-                            }),
-                            quick_replies: [
-                                {
-                                    "content_type": "text",
-                                    "title": "Tôi muốn tìm việc",
-                                    "payload": JSON.stringify({
-                                        type: 'confirmJobSeeker',
-                                        answer: 'yes',
+                        if (refData[1] == 'tailieunhansu') {
+                            sendAPI(senderID, {
+                                text: `Jobo xin gửi link tài liệu " Toàn bộ quy trình liên quan đến lương,thưởng và quản lý nhân sự "`,
+                            }).then(() => {
+                                sendAPI(senderID, {
+                                    text: `Mình đang tải tài liệu lên, bạn chờ một chút nhé... "`,
+                                }).then(() => {
+                                    sendAPI(senderID, {
+                                        attachment: {
+                                            type: "file",
+                                            payload: {
+                                                url: "https://jobo.asia/file/NhanSu.zip"
+                                            }
+                                        }
                                     })
-                                },
-                                {
-                                    "content_type": "text",
-                                    "title": "Tôi muốn tuyển dụng",
-                                    "payload": JSON.stringify({
-                                        type: 'confirmEmployer',
-                                        answer: 'yes',
-                                    })
-                                }
-                            ]
-                        })
+                                })
+                            })
+                        } else {
+                            sendAPI(senderID, {
+                                text: `Có phải bạn đang muốn tham gia Jobo để tìm việc làm thêm?`,
+                                quick_replies: [
+                                    {
+                                        "content_type": "text",
+                                        "title": "Đúng vậy",
+                                        "payload": JSON.stringify({
+                                            type: 'confirmJobSeeker',
+                                            answer: 'yes',
+                                        })
+                                    },
+                                    {
+                                        "content_type": "text",
+                                        "title": "Không phải",
+                                        "payload": JSON.stringify({
+                                            type: 'confirmJobSeeker',
+                                            answer: 'no',
+                                        })
+                                    },
+                                ],
+                                metadata: JSON.stringify({
+                                    type: 'confirmJobSeeker',
+                                })
+                            })
 
+                        }
                     }
 
 
-                })
+                } else {
+
+                    sendAPI(senderID, {
+                        text: `Chào ${result.name}, Jobo có thể giúp gì cho bạn nhỉ?`,
+                        metadata: JSON.stringify({
+                            type: 'welcome',
+                            case: 'GET_STARTED'
+                        }),
+                        quick_replies: [
+                            {
+                                "content_type": "text",
+                                "title": "Tôi muốn tìm việc",
+                                "payload": JSON.stringify({
+                                    type: 'confirmJobSeeker',
+                                    answer: 'yes',
+                                })
+                            },
+                            {
+                                "content_type": "text",
+                                "title": "Tôi muốn tuyển dụng",
+                                "payload": JSON.stringify({
+                                    type: 'confirmEmployer',
+                                    answer: 'yes',
+                                })
+                            }
+                        ]
+                    })
+
+                }
+
+
+            })
 
 
         }
@@ -742,13 +752,20 @@ function matchingPayload(event) {
             resolve({payload, senderID, postback})
         } else if (message && message.text) {
             console.log('message.text', message.text)
+
             var conversation = conversationData[senderID];
             if (conversation) var listSentMessage = _.filter(conversation, function (card) {
                 return card.type == 'sent';
             });
-            if (listSentMessage) var lastMessage = _.max(listSentMessage, function (card) {
-                return card.timestamp;
-            });
+            var indexCurrent = _.sortedIndex(listSentMessage, {timestamp: timeOfPostback}, 'timestamp');
+
+
+            if (indexCurrent > 1) {
+                var previousCurrent = indexCurrent - 1
+                var lastMessage = listSentMessage[previousCurrent]
+            }
+
+
             console.log('lastMessage', lastMessage)
             if (lastMessage) {
                 if (lastMessage.message && lastMessage.message.metadata) {
@@ -776,7 +793,7 @@ function matchingPayload(event) {
                         }
                     }
 
-                    resolve({payload, senderID, postback})
+                    resolve({payload, senderID, postback, message})
 
                 })
                 .catch(console.error);
@@ -829,8 +846,8 @@ function matchingPayload(event) {
     })
 }
 
-function intention(payload, senderID, postback) {
-    console.log('payload', payload);
+function intention(payload, senderID, postback, message = {}) {
+    console.log('payload', payload, senderID, postback, message);
 
     switch (payload.type) {
         case 'GET_STARTED': {
@@ -1028,8 +1045,7 @@ function intention(payload, senderID, postback) {
 
         }
         case
-        'applyJob'
-        : {
+        'applyJob': {
             if (payload.answer == 'yes') {
 
                 var jobId = payload.jobId
@@ -1197,8 +1213,7 @@ function intention(payload, senderID, postback) {
 
         }
         case
-        'askPhone'
-        : {
+        'askPhone': {
             if (payload.case == 'confirmEmployer') {
                 sendAPI(senderID, {
                     text: "Okie, bạn đang cần tuyển vị trí gì nhỉ?",
@@ -1209,18 +1224,14 @@ function intention(payload, senderID, postback) {
                 })
 
             } else {
-                var lastanswerMessage = _.max(_.where(conversationData[senderID], {type: 'received'}), card => {
-                    return card.timestamp
-                })
-
-                if (lastanswerMessage.message.text) {
-                    var phone = lastanswerMessage.message.text
-                    userRef.child(senderID).update({phone})
-                }
 
                 var jobId = payload.jobId;
 
-                sendInterviewOption(jobId, senderID)
+                var phone = message.text
+                console.log('phone', phone)
+                userRef.child(senderID).update({phone}).then(result => sendInterviewOption(jobId, senderID)
+                )
+
             }
 
             break;
@@ -1333,6 +1344,21 @@ function sendInterviewOption(jobId, senderID) {
     });
 }
 
+app.get('/initconversation', function (req, res) {
+
+for(var a in conversationData){
+    var conversation = conversationData[a]
+    for (var i in conversation) {
+        var messagingEvent = conversation[i]
+        matchingPayload(messagingEvent)
+            .then(result => intention(result.payload, result.senderID, result.postback, result.message))
+            .catch(err => console.error())
+        ;
+    }
+}
+
+})
+
 app.post('/webhook', function (req, res) {
     var data = req.body;
     console.log('webhook', JSON.stringify(data))
@@ -1355,7 +1381,7 @@ app.post('/webhook', function (req, res) {
                     if (pageID == CONFIG.facebookPage['jobo'].id) {
                         conversationRef.child(messagingEvent.messengerId).child(timeOfEvent).update(messagingEvent).then(() => {
                             matchingPayload(messagingEvent)
-                                .then(result => intention(result.payload, result.senderID, result.postback))
+                                .then(result => intention(result.payload, result.senderID, result.postback, result.message))
                                 .catch(err => console.error())
                             ;
 
@@ -1385,8 +1411,7 @@ app.post('/webhook', function (req, res) {
                         var timeOfMessage = messagingEvent.timestamp;
                         var message = messagingEvent.message;
                         var senderData = dataAccount[senderID]
-                        console.log('senderData',senderData)
-
+                        console.log('senderData', senderData)
 
 
                         if (messagingEvent.optin) {
@@ -1404,30 +1429,34 @@ app.post('/webhook', function (req, res) {
                                 var payload = JSON.parse(quickReplyPayload)
 
                                 if (payload.type == 'matching') {
-                                    var avaible = _.filter(dataAccount, function (card) {
-                                        if (!card.match && card.gender != senderData.gender && card.id != recipientID) return true
-                                        else return false
-                                    });
-                                    if (avaible && avaible.length > 0) {
-                                        var random = _.sample(avaible)
-                                        var matched = random.id
-                                        accountRef.child('dumpling').child(senderID).update({match: matched})
-                                            .then(result => accountRef.child('dumpling').child(random.id).update({match: senderID}))
-                                            .then(result => sendingAPI(senderID, recipientID, {
-                                                text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
-                                            }, 1000, 'dumpling'))
-                                            .then(result => sendingAPI(senderID, recipientID, {
-                                                text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
-                                            }, 1000, 'dumpling'))
-                                            .then(result => sendingAPI(matched, recipientID, {
-                                                text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
-                                            }, 1000, 'dumpling'))
+                                    if (senderData && senderData.match) sendingAPI(senderID, recipientID, {
+                                        text: "[Hệ Thống] Hãy huỷ cuộc hội thoại hiện có !",
+                                    }, 1000, 'dumpling');
+                                    else {
+                                        var avaible = _.filter(dataAccount, function (card) {
+                                            if (!card.match && card.gender != senderData.gender && card.id != recipientID) return true
+                                            else return false
+                                        })
+                                        if (avaible && avaible.length > 0) {
+                                            var random = _.sample(avaible)
+                                            var matched = random.id
+                                            accountRef.child('dumpling').child(senderID).update({match: matched})
+                                                .then(result => accountRef.child('dumpling').child(random.id).update({match: senderID}))
+                                                .then(result => sendingAPI(senderID, recipientID, {
+                                                    text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
+                                                }, 1000, 'dumpling'))
+                                                .then(result => sendingAPI(senderID, recipientID, {
+                                                    text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
+                                                }, 1000, 'dumpling'))
+                                                .then(result => sendingAPI(matched, recipientID, {
+                                                    text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
+                                                }, 1000, 'dumpling'))
 
-                                    } else sendingAPI(senderID, recipientID, {
-                                        text: "[Hệ Thống] Chưa tìm đc người phù hợp",
+                                        } else sendingAPI(senderID, recipientID, {
+                                            text: "[Hệ Thống] Chưa tìm đc người phù hợp",
 
-                                    }, 1000, 'dumpling')
-
+                                        }, 1000, 'dumpling')
+                                    }
                                 }
 
                             } else if (messageText) {
@@ -1468,7 +1497,7 @@ app.post('/webhook', function (req, res) {
                                             text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
                                         }, 1000, 'dumpling'))
 
-                                } else if(senderData) sendingAPI(senderID, recipientID, {
+                                } else if (senderData) sendingAPI(senderID, recipientID, {
                                     text: "[Hệ Thống] Bạn chưa bắt đầu cuộc trò chuyện!",
                                     quick_replies: [
                                         {
@@ -1528,7 +1557,7 @@ app.post('/webhook', function (req, res) {
                                         text: `đảm bảo 100% bí mật thông tin và nội dung trò chuyện`,
                                     }, 1000, 'dumpling'))
                                     .then(result => sendingAPI(senderID, recipientID, {
-                                        text: `Sau khi người kia trả lời bạn tối thiệu 20 tin nhắn, bạn sẽ được quyền xem Avatar của người đó ;)`,
+                                        text: `Sau khi người kia trả lời bạn tối thiểu 20 tin nhắn, bạn sẽ được quyền xem Avatar của người đó ;)`,
                                     }, 1000, 'dumpling'))
                                     .then(result => sendingAPI(senderID, recipientID, {
                                         text: "Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ để chát",
@@ -2408,6 +2437,7 @@ function sendAccountLinking(recipientId) {
  */
 function callSendAPI(messageData, page = 'jobo') {
     return new Promise(function (resolve, reject) {
+
         request({
             uri: 'https://graph.facebook.com/v2.6/me/messages',
             qs: {access_token: CONFIG.facebookPage[page].access_token},
