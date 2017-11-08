@@ -1471,7 +1471,7 @@ app.post('/webhook', function (req, res) {
                                     sendingAPI(senderData.match, senderID, {
                                         text: messageText,
                                     }, 10, 'dumpling')
-                                } else sendingAPI(senderData.match, senderID, {
+                                } else sendingAPI(senderID, recipientID, {
                                     text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ để chát",
                                     quick_replies: [
                                         {

@@ -17,8 +17,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="166" column="2" lean-forward="true" selection-start-line="166" selection-start-column="2" selection-end-line="166" selection-end-column="2" />
+            <state relative-caret-position="324">
+              <caret line="1476" column="41" lean-forward="true" selection-start-line="1476" selection-start-column="41" selection-end-line="1476" selection-end-column="41" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
@@ -35,6 +35,7 @@
                 <element signature="e#35506#37570#0" expanded="false" />
                 <element signature="e#35609#37486#0" expanded="false" />
                 <element signature="e#42681#43697#0" expanded="false" />
+                <element signature="e#58242#60762#0" expanded="false" />
                 <element signature="e#73196#73390#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
@@ -85,7 +86,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>account li</find>
       <find>Ứng tuyển</find>
       <find>applyJob</find>
       <find>sendReadReceipt</find>
@@ -115,6 +115,7 @@
       <find>webhook</find>
       <find>matching</find>
       <find>default</find>
+      <find>message.t</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -227,12 +228,12 @@
       <workItem from="1508779803911" duration="71675000" />
       <workItem from="1509354917434" duration="7683000" />
       <workItem from="1509435377569" duration="65763000" />
-      <workItem from="1510028515679" duration="21120000" />
+      <workItem from="1510028515679" duration="21556000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="166241000" />
+    <option name="totallyTimeSpent" value="166677000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -309,6 +310,7 @@
             <element signature="e#35506#37570#0" expanded="false" />
             <element signature="e#35609#37486#0" expanded="false" />
             <element signature="e#42681#43697#0" expanded="false" />
+            <element signature="e#58242#60762#0" expanded="false" />
             <element signature="e#73196#73390#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
@@ -388,8 +390,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="166" column="2" lean-forward="true" selection-start-line="166" selection-start-column="2" selection-end-line="166" selection-end-column="2" />
+        <state relative-caret-position="324">
+          <caret line="1476" column="41" lean-forward="true" selection-start-line="1476" selection-start-column="41" selection-end-line="1476" selection-end-column="41" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
@@ -406,6 +408,7 @@
             <element signature="e#35506#37570#0" expanded="false" />
             <element signature="e#35609#37486#0" expanded="false" />
             <element signature="e#42681#43697#0" expanded="false" />
+            <element signature="e#58242#60762#0" expanded="false" />
             <element signature="e#73196#73390#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
