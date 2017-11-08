@@ -151,8 +151,8 @@ var jobo = firebase.initializeApp({
     databaseURL: FIRE_BASE_ADMIN['production'].databaseURL
 }, "jobo");
 var joboTest = firebase.initializeApp({
-    credential: firebase.credential.cert(FIRE_BASE_ADMIN['production'].cert),
-    databaseURL: FIRE_BASE_ADMIN['production'].databaseURL
+    credential: firebase.credential.cert(FIRE_BASE_ADMIN['joboTest'].cert),
+    databaseURL: FIRE_BASE_ADMIN['joboTest'].databaseURL
 }, "joboTest");
 
 var db = jobochat.database();
