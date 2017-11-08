@@ -103,20 +103,21 @@ const FIRE_BASE_ADMIN = {
             "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-q7ytj%40jobo-b8204.iam.gserviceaccount.com"
         }
     },
-    Jobo: {
-        databaseURL: "https://jobfast-359da.firebaseio.com",
+    joboTest: {
+        databaseURL: "https://jobotest-15784.firebaseio.com",
         cert: {
             "type": "service_account",
-            "project_id": "jobfast-359da",
-            "private_key_id": "faf771e474a27ed686df35ef37eba42836d1952e",
-            "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCq+hHcEgWbqtAM\nzpOBNCIedvSDHkrBqFh/+YjCdPda74C5fBOzbBr4n1Jnl0KQBCdF3+RU0f8psSf3\nIt8ByaPNzEnnU0/21Mbo6UewNh/01lrmIq8yC0LvbrCTsR4A6Kyz45yx0GiI9l+a\nZ17MyoaoiY/n0kr752PXGHdDVhH+n+v8zVCCwk0jyr4Ibsb8AThD2wXbspUn7yAK\n6aIProXCBs+KwXzw2h7ATQocfthzoVDyNQYIefueHPV2kMNno2CxCNBIzaD7Bw5s\nu3xElijONlP2z0O/3ehhTb8iVnYIpS9iUi8Qghoji8WgKX0JQNSGWKPIIZCq9fzM\n41geDzFXAgMBAAECggEAB8EgZDxxAqwO6YseR4Lcyp2XM1yBWXfQI7sRMniUQLc8\nvazcm+DwTDcK9BB5KrJK3FwY1/v6OE2E7tbRtHFiZigOG1lnoV3pyOXOTuCgNxOD\nEI2hfSyOPvEPPcjk/8zjCvmXbBJ0Be+JSyXFt+tg4MNJwo2CwcVZ0tyU3s9IMPsZ\nT4NEDAmiz0FsR897XqehGkZvUum6eYN05zdFNXHw33hhbp5iq3Bctxf+CNzSGMV7\n/Zra7MPYXCI2L2YO0fM6zUKScyYnpv185xKIQVp6DR9kFULr249utzJq3pDyJ3VL\n9A4Gd2HMhDGSNHgRF9OBIxDE8z2/3CRozP4P0rdEmQKBgQDxvevtjn98+PINQ6Gt\nJcu1cmA2OFXsoQzgvtLiSpGk7sezwrTohgompzg7yR9LSvwevAyMUoRRrrTYkNyp\npsIdhlazvnAMXpDrLlTKLw9e62iJME82KQcnQgqg5uKoCkqHS3GuolKE1nOEhGPK\nBvZmOQ+juFqMZ+cigGQslsquqwKBgQC1D6la+b437ol+OG8BXV8/EqHN1AUBIaHf\nwKIf2wFKPRqvWMm4Skg3/n43EcGnfdU36sCWrq/ydNrzci95U2D0HeqqNzqhOxFZ\nT/Zivd8mP8/0zpEupkJrOjVrB+C5B535E5PGRgcN93KYubxSAn9nC/rS31eWZrEQ\njaZYZC1YBQKBgQCCWF6C+6fAMdcJ0eK2IsABOQeplJy392qjMCEzRPPdE6b4RU8Y\nZVXJ27ZVfi9ygJ8Kz2iQrNmN1X7LmuhwTWszUkEjr9ZoxQCs3pF3ZwKJsrLt7e94\nC41A3LowYe3qn4nqA4Lrn7iQybUFygCoaTKokbHeHEQumsOk9ceNx0zH+wKBgF4L\n0YLQwC4bN82ZEIeb8VI4olTgMO1Cg+tOCqgTQJtIG+lCbBzOcK6tAPAnx/fw02Rl\nCj36ZKfCbMwQ3nndhjmmpHJfl5ORs9Q5RZhKWXNrp9/Xv++EKnG53W9Hu0FApJxw\nv8w4KYfmpN6RczEB3R0wSstneP5FPumDOgkll6vlAoGBAMPakXEejITjNomKaUBX\ngIxfTTBWuWoE3q78zLnmDUMBOaLX4e5b7Xi0e0do30MUChM+dxF6aDLQl0ycBW+Q\nCu5PXTkuKOjc9bLlqVX/vmbRiA3ebVDQaCoVw3ED+36g9tyFA3JMmNCo46nA6oiv\nOynT9HetkK43NU9HmFLB69QH\n-----END PRIVATE KEY-----\n",
-            "client_email": "firebase-adminsdk-q1cj9@jobfast-359da.iam.gserviceaccount.com",
-            "client_id": "117389239828615707572",
+            "project_id": "jobotest-15784",
+            "private_key_id": "5d321825529bbd6733efa48613bd0bb160c9094f",
+            "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCuxO6gVlWNONma\nQ0hIlt/Nruej3nRGztllcGCDWXksHl1l6Ds8oN6vMVmOcYlzvoxGqXGjLbd/RQVh\nrXOLRGHngfZIX4ot3jlLZDIK3uzd9KEEoa3pCC0i2v2zw5WZEoWr0ZPibdBa6KJG\nh374GkPRJ6w3uEBUg3uWHpRbIGmWVEQ5803Jz9Vq5nz05yfdR9GNjMLo+1P6ozzU\nVsTY3ca0y0syg7IADrnyRQX2WbHmk9nrMYgVu7h1GhnzGjMbl+lsq4gWik8iDh/N\nJELhY/iXcoOCqdUM1cNmIf3UcqqOg8k6wolI4+jD+fX4PVoS/Ce8oT7u++DCFtAD\nBnfZyzc9AgMBAAECggEABHiENDTRLnIoWuJivHyjkALr6Qy9Q7xx4j7sMR/+Ugsa\nz4sPzN6+o5OrG1I7NmtG8l3OSuLWAVr2JsgFnyfqKz5vWu2avs6i/5M6Fn4aaBkk\nb1ZleQMdCHm6qLkVoBtRsRIE6vNtM44k7JH1xQoC9xxBMxGzD5ZneHEi0Wv0V4SY\ngX1eufCJBPqY0WON0yrModg3ZhDffR5TQUUmDvXSSyzpt2jpRecfPyJVqETk67db\nvrSjPgqbAuWd7x7ODIuLRwoWWjUnCEviN6F5LKFA5cH0alPFdA1egO19umUkuldm\nsGcudwGdalS6oTmgf5DsB/a2bs0BTR+iZSsjuOqToQKBgQDWoClvSYNhXlGsroNf\njkSLOr57i+RrfRFkAo5ntt17lsBV09MAv3mSkG8OxZpS+4Cvo5WTqJo9HJ3B8BXN\n77IfFrIGnSZwaBTRcU4gUsefFj5HS+KqhYAsd/Z6bHXIot0nUAnnKDtjOH1Ksu9Z\nOMxLFG7l08c+Yb2iWBQTeJCsjQKBgQDQddjM+Ee51Jls8kWrCHJk118nLWfoHC0V\nu1nCbpkbPyWe+CIesIbuFLXasjp+W36/YW7qoE7m2G2Oy2XxrXLVxojUkuPfHbL8\nbviZMED0fhiliIUUuDmjGde77BeWCAiCCF1W5QRh0lE7bPeeLeDTSJHgjF13OB85\n6e4OjeyBcQKBgQCSukQZdOSAuH6V02i09wodNTfsNqMeaQ5ulODOPtIEH/e1tW7X\nYA+5B00liCoM+Svs56TmoalwhhPD9mKxu2DGqDllFCKnTkCNPyzuJCmctRQ2ocaA\nVWxe+lRjNasAU3dl3O4oPfT7zC671sCS+qWP3pRCQxo/p4qBZj2zYgVmMQKBgGYC\nJRM4M7El7eY4MAtf2Mqr8a40M/KLRyypP2U7xcRlhD1kYx3teDms/MiGCsWmdEGm\npiY+SB4Crqn/smUvYVBnFLIhJ00ZNWr9yrz7te1ufxUR1z2qYNoFXWJiR7BtQeyP\nt008SIat6n5P9mP7Q1dg3bGqPlqGphEq/gk1PhShAoGAYaJ2O1a1XW0RUgUh/IrK\noqUjL1uSAva8rgcmZtX4XlgPcVvM7GfViPIr1Tj2yCZwEU7tmX0V1hMbkSYzJrnZ\nbjZWq6tpO5uUVGOW700a9fLmM0PXNNIQ8QOXP2zWRUKdbtcC3dUl0JG8E16EhSpT\nBovY0DfWj2mzjxmmA1R27vk=\n-----END PRIVATE KEY-----\n",
+            "client_email": "firebase-adminsdk-qdjob@jobotest-15784.iam.gserviceaccount.com",
+            "client_id": "117909799483746763246",
             "auth_uri": "https://accounts.google.com/o/oauth2/auth",
             "token_uri": "https://accounts.google.com/o/oauth2/token",
             "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-            "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-q1cj9%40jobfast-359da.iam.gserviceaccount.com"
+            "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-qdjob%40jobotest-15784.iam.gserviceaccount.com"
         }
+
     }
 }
 const vietnameseDecode = (str) => {
@@ -149,10 +150,16 @@ var jobo = firebase.initializeApp({
     credential: firebase.credential.cert(FIRE_BASE_ADMIN['production'].cert),
     databaseURL: FIRE_BASE_ADMIN['production'].databaseURL
 }, "jobo");
+var joboTest = firebase.initializeApp({
+    credential: firebase.credential.cert(FIRE_BASE_ADMIN['production'].cert),
+    databaseURL: FIRE_BASE_ADMIN['production'].databaseURL
+}, "joboTest");
 
 var db = jobochat.database();
 
 var db2 = jobo.database();
+var db3 = joboTest.database();
+
 var userRef = db2.ref('user');
 var dataAccount, accountRef = db.ref('account');
 accountRef.child('dumpling').on('value', function (snap) {
@@ -160,7 +167,7 @@ accountRef.child('dumpling').on('value', function (snap) {
 })
 
 var profileRef = db2.ref('profile');
-var likeActivityRef = db2.ref('activity/like');
+var likeActivityRef = db3.ref('activity/like');
 
 var conversationData, conversationRef = db.ref('conversation')
 var messageFactory, messageFactoryRef = db.ref('messageFactory')
@@ -1251,7 +1258,7 @@ function intention(payload, senderID, postback, message = {}) {
                 }),
                 quick_replies: [{
                     "content_type": "text",
-                    "title": 'Mình xác nhận tham gia',
+                    "title": 'Mình xác nhận',
                     "payload": JSON.stringify({
                         type: 'confirmInterview',
                         answer: 'yes',

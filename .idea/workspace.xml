@@ -19,8 +19,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="113">
-              <caret line="852" column="29" lean-forward="true" selection-start-line="852" selection-start-column="29" selection-end-line="852" selection-end-column="29" />
+            <state relative-caret-position="99">
+              <caret line="65" column="25" lean-forward="true" selection-start-line="65" selection-start-column="25" selection-end-line="65" selection-end-column="25" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
@@ -37,7 +37,7 @@
                 <element signature="e#35276#37340#0" expanded="false" />
                 <element signature="e#35379#37256#0" expanded="false" />
                 <element signature="e#42451#43467#0" expanded="false" />
-                <element signature="e#72975#73169#0" expanded="false" />
+                <element signature="e#72966#73160#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
@@ -77,7 +77,7 @@
         <entry file="file://$PROJECT_DIR$/config/default.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="135">
-              <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+              <caret line="9" column="1" lean-forward="false" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -87,7 +87,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>setInterview</find>
       <find>account li</find>
       <find>Ứng tuyển</find>
       <find>applyJob</find>
@@ -117,6 +116,7 @@
       <find>askPhone</find>
       <find>webhook</find>
       <find>matching</find>
+      <find>default</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -229,12 +229,12 @@
       <workItem from="1508779803911" duration="71675000" />
       <workItem from="1509354917434" duration="7683000" />
       <workItem from="1509435377569" duration="65763000" />
-      <workItem from="1510028515679" duration="14185000" />
+      <workItem from="1510028515679" duration="20227000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="159306000" />
+    <option name="totallyTimeSpent" value="165348000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -311,7 +311,7 @@
             <element signature="e#35276#37340#0" expanded="false" />
             <element signature="e#35379#37256#0" expanded="false" />
             <element signature="e#42451#43467#0" expanded="false" />
-            <element signature="e#72975#73169#0" expanded="false" />
+            <element signature="e#72966#73160#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
@@ -383,15 +383,15 @@
     <entry file="file://$PROJECT_DIR$/config/default.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
-          <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+          <caret line="9" column="1" lean-forward="false" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="852" column="29" lean-forward="true" selection-start-line="852" selection-start-column="29" selection-end-line="852" selection-end-column="29" />
+        <state relative-caret-position="99">
+          <caret line="65" column="25" lean-forward="true" selection-start-line="65" selection-start-column="25" selection-end-line="65" selection-end-column="25" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
@@ -408,7 +408,7 @@
             <element signature="e#35276#37340#0" expanded="false" />
             <element signature="e#35379#37256#0" expanded="false" />
             <element signature="e#42451#43467#0" expanded="false" />
-            <element signature="e#72975#73169#0" expanded="false" />
+            <element signature="e#72966#73160#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
