@@ -201,6 +201,14 @@ function initUser() {
     })
 }
 
+app.get('/noti', function (req, res) {
+    let {recipientId, messages} = req.query
+
+    sendAPI(recipientId,messages).then(result => res.send(result))
+        .catch(err => res.status(500).json(err))
+
+})
+
 app.get('/message', function (req, res) {
     var {message} = req.query
     client.message(message, {})
@@ -1353,16 +1361,16 @@ function sendInterviewOption(jobId, senderID) {
 
 app.get('/initconversation', function (req, res) {
 
-for(var a in conversationData){
-    var conversation = conversationData[a]
-    for (var i in conversation) {
-        var messagingEvent = conversation[i]
-        matchingPayload(messagingEvent)
-            .then(result => intention(result.payload, result.senderID, result.postback, result.message))
-            .catch(err => console.error())
-        ;
+    for (var a in conversationData) {
+        var conversation = conversationData[a]
+        for (var i in conversation) {
+            var messagingEvent = conversation[i]
+            matchingPayload(messagingEvent)
+                .then(result => intention(result.payload, result.senderID, result.postback, result.message))
+                .catch(err => console.error())
+            ;
+        }
     }
-}
 
 })
 
