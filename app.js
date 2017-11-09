@@ -201,10 +201,10 @@ function initUser() {
     })
 }
 
-app.get('/noti', function (req, res) {
-    let {recipientId, messages} = req.query
+app.post('/noti', function (req, res) {
+    let {recipientId, message} = req.body
 
-    sendAPI(recipientId,messages).then(result => res.send(result))
+    sendAPI(recipientId,message).then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 
 })
