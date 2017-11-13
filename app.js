@@ -807,6 +807,15 @@ function matchingPayload(event) {
                             payload.answer = 'yes'
                         }
                     }
+                    if (entities.phone_number) {
+                        var most = _.max(entities.phone_number, function (card) {
+                            return card.confidence;
+                        });
+                        var value = most.value
+                        console.log('value', value)
+                        payload.phone_number = value
+                    }
+
 
                     resolve({payload, senderID, postback, message})
 
@@ -1231,29 +1240,110 @@ function intention(payload, senderID, postback, message = {}) {
         'askPhone': {
 
 
-            if (payload.case == 'confirmEmployer') {
+            if (payload.phone_number) {
+
+                var url = `${CONFIG.APIURL}/checkUser?q=${payload.phone_number}`
+                axios.get(url)
+                    .then(result => {
+
+                        var peoples = result.data
+                        if (peoples.length > 0) {
+
+                            var user = peoples[0]
+
+                            var text = ''
+                            if (user.name) {
+                                text = 'Có phải bạn tên là ' + user.name + ' '
+                            } else if (user.email) {
+                                text = 'Có phải bạn từng đăng ký sử dụng Jobo với email là ' + user.email + ' '
+                            } else (
+                                text = 'Có phải bạn từng đăng ký sử dụng Jobo cách đây ' + timeAgo(user.createdAt) + ' '
+                            )
+                            sendAPI(senderID, {
+                                text,
+                                quick_replies: [{
+                                    "content_type": "text",
+                                    "title": 'Đúng vậy',
+                                    "payload": JSON.stringify({
+                                        type: 'confirmCheckUser',
+                                        answer: 'yes',
+                                        phone_number: payload.phone_number,
+                                        case: payload.case,
+                                        userId: user.userId
+                                    })
+                                }, {
+                                    "content_type": "text",
+                                    "title": 'Không phải',
+                                    "payload": JSON.stringify({
+                                        type: 'confirmCheckUser',
+                                        answer: 'no',
+                                        phone_number: payload.phone_number,
+                                        case: payload.case,
+                                        userId: user.userId
+                                    })
+                                }],
+
+                            })
+
+
+                        }
+
+
+                    })
+
+
+            } else {
                 sendAPI(senderID, {
+                    text: `${message.text}? \n Xin lỗi, số điện thoại của bạn là gì nhỉ?`,
+                    metadata: JSON.stringify({
+                        type: 'askPhone',
+                        case: 'applyJob',
+                        jobId,
+                        again: true,
+                    })
+                })
+
+            }
+
+
+            break;
+
+        }
+        case
+        'confirmCheckUser': {
+            if (payload.answer = 'yes') {
+                var userId = payload.userId
+
+                //update messageId
+                userRef.child(userId).update({messengerId: senderID})
+
+
+                if (payload.case == 'confirmEmployer') sendAPI(senderID, {
                     text: "Okie, bạn đang cần tuyển vị trí gì nhỉ?",
                     metadata: JSON.stringify({
                         type: 'employer_job',
                         case: 'askPhone'
                     })
                 })
+                else {
+
+                    var jobId = payload.jobId;
+                    var phone = payload.phone_number
+                    console.log('phone', phone)
+                    userRef.child(senderID).update({phone}).then(result => sendInterviewOption(jobId, senderID))
+
+                }
 
             } else {
 
                 var jobId = payload.jobId;
-
-                var phone = message.text
+                var phone = payload.phone_number
                 console.log('phone', phone)
-                userRef.child(senderID).update({phone}).then(result => sendInterviewOption(jobId, senderID)
-                )
+                userRef.child(senderID).update({phone}).then(result => sendInterviewOption(jobId, senderID))
 
             }
-
-            break;
-
         }
+
         case
         'setInterview': {
             var time = payload.time
@@ -2456,7 +2546,7 @@ function callSendAPI(messageData, page = 'jobo') {
     return new Promise(function (resolve, reject) {
 
         if (messageData.message && messageData.message.text && messageData.message.text.length > 640) {
-            console.log('messageData.message.text.length',messageData.message.text.length)
+            console.log('messageData.message.text.length', messageData.message.text.length)
             var text = messageData.message.text
             var loop = text.length / 640
             var textsplit = []
@@ -2484,7 +2574,7 @@ function callSendAPI(messageData, page = 'jobo') {
                 });
 
             }
-            console.log('textsplit',textsplit)
+            console.log('textsplit', textsplit)
 
             resolve(messageData)
 
