@@ -1018,7 +1018,7 @@ function intention(payload, senderID, postback, message = {}) {
                         var peoples = result.data;
                         if (peoples.length > 0) {
                             var user = peoples[0]
-
+                            console.log('user',user)
                             sendAPI(senderID, {
                                 attachment: {
                                     type: "template",
