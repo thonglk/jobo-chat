@@ -1012,56 +1012,58 @@ function intention(payload, senderID, postback, message = {}) {
             break;
         }
         case 'affiliate': {
-               sendAPI(senderID,{
-                   text: 'Giới thiệu việc làm cho bạn bè, nhận hoa hồng từ 50,000đ đến 1,000,000đ cho mỗi người bạn giới thiệu nhận việc thành công!🙌\n' +
-                   'Nhấn "Chia sẻ" để bắt đầu giúp bạn bè tìm việc 👇'
-               }).then(result => sendAPI(senderID,{
-                   "attachment":{
-                       "type":"template",
-                       "payload":{
-                           "template_type":"generic",
-                           "elements":[
-                               {
-                                   "title":"Tìm việc cho bạn bè, người thân và nhận hoa hồng!",
-                                   "subtitle":"Hơn 1000+ đối tác nhà hàng, cafe, shop đang tuyển dụng trên Jobo. Hãy giới thiệu nó tới bạn bè nhé!.",
-                                   "image_url":"https://scontent.fhan1-1.fna.fbcdn.net/v/t31.0-8/15975027_432312730493096_8750211388245957528_o.jpg?oh=4e4f55391114b3b3c8c6e12755cd385b&oe=5AABE512",
-                                   "buttons": [
-                                       {
-                                           "type": "element_share",
-                                           "share_contents": {
-                                               "attachment": {
-                                                   "type": "template",
-                                                   "payload": {
-                                                       "template_type": "generic",
-                                                       "elements": [
-                                                           {
-                                                               "title":"Tìm việc nhanh theo ca xung quanh bạn!",
-                                                               "subtitle":"Hơn 1000+ đối tác nhà hàng, cafe, shop đang tìm bạn trên Jobo nè. Hãy đặt lịch nhận việc và đi làm ngay!.",
-                                                               "image_url":"https://scontent.fhan1-1.fna.fbcdn.net/v/t31.0-8/15975027_432312730493096_8750211388245957528_o.jpg?oh=4e4f55391114b3b3c8c6e12755cd385b&oe=5AABE512",
-                                                               "default_action": {
-                                                                   "type": "web_url",
-                                                                   "url": "https://m.me/jobo.asia?ref=start_invitedby:"+senderID
-                                                               },
-                                                               "buttons": [
-                                                                   {
-                                                                       "type": "web_url",
-                                                                       "url": "https://m.me/jobo.asia?ref=start_invitedby:"+senderID,
-                                                                       "title": "Nhận việc"
-                                                                   }
-                                                               ]
-                                                           }
-                                                       ]
-                                                   }
-                                               }
-                                           }
-                                       }
-                                   ]
-                               }
-                           ]
-                       }
-                   }
+            sendAPI(senderID, {
+                text: 'Giới thiệu việc làm cho bạn bè, nhận hoa hồng từ 50,000đ đến 1,000,000đ cho mỗi người bạn giới thiệu nhận việc thành công!🙌\n' +
+                'Nhấn "Chia sẻ" để bắt đầu giúp bạn bè tìm việc 👇'
+            }).then(result => sendAPI(senderID, {
+                "attachment": {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "generic",
+                        "elements": [
+                            {
+                                "title": "Tìm việc cho bạn bè, người thân và nhận hoa hồng!",
+                                "subtitle": "Hơn 1000+ đối tác nhà hàng, cafe, shop đang tuyển dụng trên Jobo. Hãy giới thiệu nó tới bạn bè nhé!.",
+                                "image_url": "https://scontent.fhan1-1.fna.fbcdn.net/v/t31.0-8/15975027_432312730493096_8750211388245957528_o.jpg?oh=4e4f55391114b3b3c8c6e12755cd385b&oe=5AABE512",
+                                "buttons": [
+                                    {
+                                        "type": "element_share",
+                                        "share_contents": {
+                                            "attachment": {
+                                                "type": "template",
+                                                "payload": {
+                                                    "template_type": "generic",
+                                                    "elements": [
+                                                        {
+                                                            "title": "Tìm việc nhanh theo ca xung quanh bạn!",
+                                                            "subtitle": "Hơn 1000+ đối tác nhà hàng, cafe, shop đang tìm bạn trên Jobo nè. Hãy đặt lịch nhận việc và đi làm ngay!.",
+                                                            "image_url": "https://scontent.fhan1-1.fna.fbcdn.net/v/t31.0-8/15975027_432312730493096_8750211388245957528_o.jpg?oh=4e4f55391114b3b3c8c6e12755cd385b&oe=5AABE512",
+                                                            "default_action": {
+                                                                "type": "web_url",
+                                                                "url": "https://m.me/jobo.asia?ref=start_invitedby:" + senderID
+                                                            },
+                                                            "buttons": [
+                                                                {
+                                                                    "type": "web_url",
+                                                                    "url": "https://m.me/jobo.asia?ref=start_invitedby:" + senderID,
+                                                                    "title": "Nhận việc"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
 
-               }))
+            })).catch(err => console.log(err))
+            break;
+
         }
         case 'jobseeker': {
 
