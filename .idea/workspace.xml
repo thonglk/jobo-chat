@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-    </list>
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -19,8 +17,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="1034" column="25" lean-forward="true" selection-start-line="1034" selection-start-column="25" selection-end-line="1034" selection-end-column="25" />
+            <state relative-caret-position="-1670">
+              <caret line="269" column="20" lean-forward="true" selection-start-line="269" selection-start-column="20" selection-end-line="269" selection-end-column="20" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
@@ -34,12 +32,12 @@
                 <element signature="e#35741#41789#0" expanded="false" />
                 <element signature="e#36113#38177#0" expanded="false" />
                 <element signature="e#36216#38093#0" expanded="false" />
-                <element signature="e#44543#45559#0" expanded="false" />
-                <element signature="e#63646#66166#0" expanded="false" />
-                <element signature="e#78595#78789#0" expanded="false" />
+                <element signature="e#45334#46350#0" expanded="false" />
+                <element signature="e#64439#66959#0" expanded="false" />
+                <element signature="e#79388#79582#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
-                <element signature="e#90887#91753#0" expanded="false" />
+                <element signature="e#91680#92546#0" expanded="false" />
                 <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendQuickReply#0" expanded="false" />
                 <element signature="n#!!block;n#sendReadReceipt#0" expanded="false" />
@@ -227,12 +225,12 @@
       <workItem from="1508779803911" duration="71675000" />
       <workItem from="1509354917434" duration="7683000" />
       <workItem from="1509435377569" duration="65763000" />
-      <workItem from="1510028515679" duration="34196000" />
+      <workItem from="1510028515679" duration="34396000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="179317000" />
+    <option name="totallyTimeSpent" value="179517000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -306,12 +304,12 @@
             <element signature="e#35741#41789#0" expanded="false" />
             <element signature="e#36113#38177#0" expanded="false" />
             <element signature="e#36216#38093#0" expanded="false" />
-            <element signature="e#44543#45559#0" expanded="false" />
-            <element signature="e#63646#66166#0" expanded="false" />
-            <element signature="e#78595#78789#0" expanded="false" />
+            <element signature="e#45334#46350#0" expanded="false" />
+            <element signature="e#64439#66959#0" expanded="false" />
+            <element signature="e#79388#79582#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
-            <element signature="e#90887#91753#0" expanded="false" />
+            <element signature="e#91680#92546#0" expanded="false" />
             <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendQuickReply#0" expanded="false" />
             <element signature="n#!!block;n#sendReadReceipt#0" expanded="false" />
@@ -386,8 +384,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="1034" column="25" lean-forward="true" selection-start-line="1034" selection-start-column="25" selection-end-line="1034" selection-end-column="25" />
+        <state relative-caret-position="-1670">
+          <caret line="269" column="20" lean-forward="true" selection-start-line="269" selection-start-column="20" selection-end-line="269" selection-end-column="20" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
@@ -401,12 +399,12 @@
             <element signature="e#35741#41789#0" expanded="false" />
             <element signature="e#36113#38177#0" expanded="false" />
             <element signature="e#36216#38093#0" expanded="false" />
-            <element signature="e#44543#45559#0" expanded="false" />
-            <element signature="e#63646#66166#0" expanded="false" />
-            <element signature="e#78595#78789#0" expanded="false" />
+            <element signature="e#45334#46350#0" expanded="false" />
+            <element signature="e#64439#66959#0" expanded="false" />
+            <element signature="e#79388#79582#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
-            <element signature="e#90887#91753#0" expanded="false" />
+            <element signature="e#91680#92546#0" expanded="false" />
             <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendQuickReply#0" expanded="false" />
             <element signature="n#!!block;n#sendReadReceipt#0" expanded="false" />

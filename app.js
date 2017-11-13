@@ -1008,6 +1008,7 @@ function intention(payload, senderID, postback, message = {}) {
         }
 
         case 'jobseeker': {
+
             if (payload.state == 'updateProfile') {
 
                 var url = `${CONFIG.APIURL}/checkUser?q=${senderID}&type=messengerId`
