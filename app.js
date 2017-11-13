@@ -272,7 +272,7 @@ function setDefautMenu(page = 'jobo') {
             {
                 "call_to_actions": [
                     {
-                        "title": "👑 Xem thêm",
+                        "title": "👑 Tìm việc",
                         "type": "nested",
 
                         "call_to_actions": [
@@ -288,16 +288,17 @@ function setDefautMenu(page = 'jobo') {
                                 "title": "🍇 Lịch phỏng vấn",
                                 "type": "postback",
                                 "payload": JSON.stringify({
-                                    type: 'profile',
-                                    state: 'inverview',
+                                    type: 'jobseeker',
+                                    state: 'interview',
                                 })
                             },
                             {
-                                "title": "🍋 We're hiring",
+                                "title": "🍋 Cập nhật hồ sơ",
                                 "type": "postback",
                                 "payload": JSON.stringify({
-                                    type: 'nav',
-                                    state: 'career',
+                                    type: 'jobseeker',
+                                    state: 'updateProfile'
+
                                 })
                             }
                         ]
@@ -1005,6 +1006,55 @@ function intention(payload, senderID, postback, message = {}) {
             })
             break;
         }
+
+        case 'jobseeker': {
+            if (payload.state == 'updateProfile') {
+
+                var url = `${CONFIG.APIURL}/checkUser?q=${senderID}&type=messengerId`
+                axios.get(url)
+                    .then(result => {
+
+                        var peoples = result.data;
+                        if (peoples.length > 0) {
+                            var user = peoples[0]
+
+                            sendAPI(senderID, {
+                                attachment: {
+                                    type: "template",
+                                    payload: {
+                                        template_type: "button",
+                                        text: "Hãy cập nhật thêm thông tin để nhà tuyển dụng chọn bạn!",
+                                        buttons: [{
+                                            type: "web_url",
+                                            url: `${CONFIG.WEBURL}/profile?admin=${user.userId}`,
+                                            title: "Cập nhật hồ sơ"
+                                        }]
+                                    }
+                                }
+                            })
+                        }
+                    })
+                    .catch(err => {
+                        sendAPI(senderID, {
+                            attachment: {
+                                type: "template",
+                                payload: {
+                                    template_type: "button",
+                                    text: "Hãy cập nhật thêm thông tin để nhà tuyển dụng chọn bạn!",
+                                    buttons: [{
+                                        type: "web_url",
+                                        url: `${CONFIG.WEBURL}/profile?admin=${senderID}`,
+                                        title: "Cập nhật hồ sơ"
+                                    }]
+                                }
+                            }
+                        })
+
+                    })
+
+            }
+        }
+
         case
         'confirmJob': {
             if (payload.answer == 'yes') {
@@ -1320,7 +1370,7 @@ function intention(payload, senderID, postback, message = {}) {
             if (payload.answer = 'yes') {
 
                 //update messageId
-                userRef.child(userId).update({messengerId: senderID}).then(result =>{
+                userRef.child(userId).update({messengerId: senderID}).then(result => {
 
                     if (payload.case == 'confirmEmployer') sendAPI(senderID, {
                         text: "Okie, bạn đang cần tuyển vị trí gì nhỉ?",
@@ -1331,7 +1381,7 @@ function intention(payload, senderID, postback, message = {}) {
                     })
                     else {
 
-                        if(jobId){
+                        if (jobId) {
                             //appy job
                             sendInterviewOption(jobId, senderID)
 
@@ -1343,7 +1393,6 @@ function intention(payload, senderID, postback, message = {}) {
 
                     }
                 }).catch(err => console.log(err))
-
 
 
             } else {
