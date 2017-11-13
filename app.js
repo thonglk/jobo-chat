@@ -1313,44 +1313,47 @@ function intention(payload, senderID, postback, message = {}) {
         }
         case
         'confirmCheckUser': {
+            var userId = payload.userId;
+            var jobId = payload.jobId;
+            var phone = payload.phone_number;
+
             if (payload.answer = 'yes') {
-                var userId = payload.userId
-                var jobId = payload.jobId;
-                var phone = payload.phone_number
+
                 //update messageId
-                userRef.child(userId).update({messengerId: senderID})
+                userRef.child(userId).update({messengerId: senderID}).then(result =>{
 
-
-                if (payload.case == 'confirmEmployer') sendAPI(senderID, {
-                    text: "Okie, bạn đang cần tuyển vị trí gì nhỉ?",
-                    metadata: JSON.stringify({
-                        type: 'employer_job',
-                        case: 'askPhone'
+                    if (payload.case == 'confirmEmployer') sendAPI(senderID, {
+                        text: "Okie, bạn đang cần tuyển vị trí gì nhỉ?",
+                        metadata: JSON.stringify({
+                            type: 'employer_job',
+                            case: 'askPhone'
+                        })
                     })
-                })
-                else {
+                    else {
 
-                    console.log('phone', phone);
-                    userRef.child(senderID).update({phone}).then(result => {
                         if(jobId){
+                            //appy job
                             sendInterviewOption(jobId, senderID)
+
                         } else {
                             sendAPI(senderID, {
                                 text: "Ok, hiện tại mình đang bận một chút việc, lát nữa mình sẽ trao đổi tiếp với bạn nhé, pp"
                             })
                         }
-                    })
 
-                }
+                    }
+                }).catch(err => console.log(err))
+
+
 
             } else {
 
-                var jobId = payload.jobId;
-                var phone = payload.phone_number
+
                 console.log('phone', phone)
                 userRef.child(senderID).update({phone}).then(result => sendInterviewOption(jobId, senderID))
 
             }
+            break
         }
 
         case

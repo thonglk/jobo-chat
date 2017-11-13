@@ -19,8 +19,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-309">
-              <caret line="1260" column="29" lean-forward="true" selection-start-line="1260" selection-start-column="29" selection-end-line="1260" selection-end-column="29" />
+            <state relative-caret-position="350">
+              <caret line="1262" column="0" lean-forward="true" selection-start-line="1262" selection-start-column="0" selection-end-line="1262" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
@@ -37,8 +37,8 @@
                 <element signature="e#36096#38160#0" expanded="false" />
                 <element signature="e#36199#38076#0" expanded="false" />
                 <element signature="e#43271#44287#0" expanded="false" />
-                <element signature="e#62013#64533#0" expanded="false" />
-                <element signature="e#76962#77156#0" expanded="false" />
+                <element signature="e#62356#64876#0" expanded="false" />
+                <element signature="e#77305#77499#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendGenericMessage#0" expanded="false" />
@@ -229,12 +229,12 @@
       <workItem from="1508779803911" duration="71675000" />
       <workItem from="1509354917434" duration="7683000" />
       <workItem from="1509435377569" duration="65763000" />
-      <workItem from="1510028515679" duration="31786000" />
+      <workItem from="1510028515679" duration="33242000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="176907000" />
+    <option name="totallyTimeSpent" value="178363000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -310,8 +310,8 @@
             <element signature="e#36096#38160#0" expanded="false" />
             <element signature="e#36199#38076#0" expanded="false" />
             <element signature="e#43271#44287#0" expanded="false" />
-            <element signature="e#62013#64533#0" expanded="false" />
-            <element signature="e#76962#77156#0" expanded="false" />
+            <element signature="e#62356#64876#0" expanded="false" />
+            <element signature="e#77305#77499#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendGenericMessage#0" expanded="false" />
@@ -389,8 +389,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-309">
-          <caret line="1260" column="29" lean-forward="true" selection-start-line="1260" selection-start-column="29" selection-end-line="1260" selection-end-column="29" />
+        <state relative-caret-position="350">
+          <caret line="1262" column="0" lean-forward="true" selection-start-line="1262" selection-start-column="0" selection-end-line="1262" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
@@ -407,8 +407,8 @@
             <element signature="e#36096#38160#0" expanded="false" />
             <element signature="e#36199#38076#0" expanded="false" />
             <element signature="e#43271#44287#0" expanded="false" />
-            <element signature="e#62013#64533#0" expanded="false" />
-            <element signature="e#76962#77156#0" expanded="false" />
+            <element signature="e#62356#64876#0" expanded="false" />
+            <element signature="e#77305#77499#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendGenericMessage#0" expanded="false" />
