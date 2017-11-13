@@ -1239,9 +1239,9 @@ function intention(payload, senderID, postback, message = {}) {
         case
         'askPhone': {
 
+            var jobId = payload.jobId
 
             if (payload.phone_number) {
-
                 var url = `${CONFIG.APIURL}/checkUser?q=${payload.phone_number}`
                 axios.get(url)
                     .then(result => {
@@ -1253,12 +1253,14 @@ function intention(payload, senderID, postback, message = {}) {
 
                             var text = ''
                             if (user.name) {
-                                text = 'Có phải bạn tên là ' + user.name + ' '
+                                text = 'Có phải bạn tên là ' + user.name + ' ?'
                             } else if (user.email) {
-                                text = 'Có phải bạn từng đăng ký sử dụng Jobo với email là ' + user.email + ' '
+                                text = 'Có phải bạn từng đăng ký sử dụng Jobo với email là ' + user.email + ' ?'
                             } else (
-                                text = 'Có phải bạn từng đăng ký sử dụng Jobo cách đây ' + timeAgo(user.createdAt) + ' '
+                                text = 'Có phải bạn từng đăng ký sử dụng Jobo cách đây ' + timeAgo(user.createdAt) + ' ?'
                             )
+
+
                             sendAPI(senderID, {
                                 text,
                                 quick_replies: [{
@@ -1269,7 +1271,8 @@ function intention(payload, senderID, postback, message = {}) {
                                         answer: 'yes',
                                         phone_number: payload.phone_number,
                                         case: payload.case,
-                                        userId: user.userId
+                                        userId: user.userId,
+                                        jobId
                                     })
                                 }, {
                                     "content_type": "text",
@@ -1279,7 +1282,9 @@ function intention(payload, senderID, postback, message = {}) {
                                         answer: 'no',
                                         phone_number: payload.phone_number,
                                         case: payload.case,
-                                        userId: user.userId
+                                        userId: user.userId,
+                                        jobId,
+
                                     })
                                 }],
 
@@ -1292,18 +1297,15 @@ function intention(payload, senderID, postback, message = {}) {
                     })
 
 
-            } else {
-                sendAPI(senderID, {
-                    text: `${message.text}? \n Xin lỗi, số điện thoại của bạn là gì nhỉ?`,
-                    metadata: JSON.stringify({
-                        type: 'askPhone',
-                        case: 'applyJob',
-                        jobId,
-                        again: true,
-                    })
+            } else sendAPI(senderID, {
+                text: `${message.text}? \n Xin lỗi, số điện thoại của bạn là gì nhỉ?`,
+                metadata: JSON.stringify({
+                    type: 'askPhone',
+                    case: 'applyJob',
+                    jobId,
+                    again: true,
                 })
-
-            }
+            })
 
 
             break;
@@ -1313,7 +1315,8 @@ function intention(payload, senderID, postback, message = {}) {
         'confirmCheckUser': {
             if (payload.answer = 'yes') {
                 var userId = payload.userId
-
+                var jobId = payload.jobId;
+                var phone = payload.phone_number
                 //update messageId
                 userRef.child(userId).update({messengerId: senderID})
 
@@ -1327,10 +1330,16 @@ function intention(payload, senderID, postback, message = {}) {
                 })
                 else {
 
-                    var jobId = payload.jobId;
-                    var phone = payload.phone_number
-                    console.log('phone', phone)
-                    userRef.child(senderID).update({phone}).then(result => sendInterviewOption(jobId, senderID))
+                    console.log('phone', phone);
+                    userRef.child(senderID).update({phone}).then(result => {
+                        if(jobId){
+                            sendInterviewOption(jobId, senderID)
+                        } else {
+                            sendAPI(senderID, {
+                                text: "Ok, hiện tại mình đang bận một chút việc, lát nữa mình sẽ trao đổi tiếp với bạn nhé, pp"
+                            })
+                        }
+                    })
 
                 }
 
