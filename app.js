@@ -204,7 +204,7 @@ function initUser() {
 app.post('/noti', function (req, res) {
     let {recipientId, message} = req.body
 
-    sendAPI(recipientId,message).then(result => res.send(result))
+    sendAPI(recipientId, message).then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 
 })
@@ -1229,6 +1229,8 @@ function intention(payload, senderID, postback, message = {}) {
         }
         case
         'askPhone': {
+
+
             if (payload.case == 'confirmEmployer') {
                 sendAPI(senderID, {
                     text: "Okie, bạn đang cần tuyển vị trí gì nhỉ?",
@@ -2453,7 +2455,41 @@ function sendAccountLinking(recipientId) {
 function callSendAPI(messageData, page = 'jobo') {
     return new Promise(function (resolve, reject) {
 
-        request({
+        if (messageData.message && messageData.message.text && messageData.message.text.length > 640) {
+            console.log('messageData.message.text.length',messageData.message.text.length)
+            var text = messageData.message.text
+            var loop = text.length / 640
+            var textsplit = []
+            for (var i = 0; i < loop; i++) {
+                var split = text.slice(640 * i, 640 * (i + 1))
+                textsplit.push(split)
+                messageData.message.text = split
+                request({
+                    uri: 'https://graph.facebook.com/v2.6/me/messages',
+                    qs: {access_token: CONFIG.facebookPage[page].access_token},
+                    method: 'POST',
+                    json: messageData
+
+                }, function (error, response, body) {
+                    if (!error && response.statusCode == 200) {
+                        var recipientId = body.recipient_id;
+                        var messageId = body.message_id;
+
+                        console.log("Successfully sent message with id %s to recipient %s", messageId, recipientId);
+
+                    } else {
+                        console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
+                        reject(response)
+                    }
+                });
+
+            }
+            console.log('textsplit',textsplit)
+
+            resolve(messageData)
+
+
+        } else request({
             uri: 'https://graph.facebook.com/v2.6/me/messages',
             qs: {access_token: CONFIG.facebookPage[page].access_token},
             method: 'POST',
@@ -2465,7 +2501,6 @@ function callSendAPI(messageData, page = 'jobo') {
                 var messageId = body.message_id;
 
                 console.log("Successfully sent message with id %s to recipient %s", messageId, recipientId);
-
                 resolve(messageData)
 
             } else {
