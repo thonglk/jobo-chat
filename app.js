@@ -1196,14 +1196,15 @@ function intention(payload, senderID, postback, message = {}) {
                 var jobId = payload.jobId
 
                 var actId = jobId + ':' + senderID
-                likeActivityRef.child(actId).update({
+                axios.post(CONFIG.APIURL+'/like',{
                     actId,
                     userId: senderID,
                     jobId,
                     likeAt: Date.now(),
                     type: 2,
                     platform: 'messenger'
-                });
+                })
+
                 axios.get(CONFIG.APIURL + '/on/profile?userId=' + senderID)
                     .then(result => {
                         var profileData = result.data
@@ -1551,9 +1552,10 @@ function intention(payload, senderID, postback, message = {}) {
 
                 var actId = jobId + ':' + senderID
                 console.log('actId', actId)
-                likeActivityRef.child(actId)
-                    .update({interviewTime: time})
-                    .then(result => sendAPI(senderID, {text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi phỏng vấn.\n` + 'Chúc bạn phỏng vấn thành công nhé <3'}))
+                axios.post(CONFIG.APIURL+'/like',{
+                    actId,
+                    interviewTime: time
+                }).then(result => sendAPI(senderID, {text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi phỏng vấn.\n` + 'Chúc bạn phỏng vấn thành công nhé <3'}))
                     .then(result => sendAPI(senderID, {text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!'}))
                     .then(result => loadUser(senderID))
                     .then(userData => loadProfile(userData.userId))
@@ -1705,8 +1707,7 @@ app.post('/webhook', function (req, res) {
                         conversationRef.child(messagingEvent.messengerId).child(timeOfEvent).update(messagingEvent).then(() => {
                             matchingPayload(messagingEvent)
                                 .then(result => intention(result.payload, result.senderID, result.postback, result.message))
-                                .catch(err => console.error())
-                            ;
+                                .catch(err => console.error());
 
                             if (messagingEvent.optin) {
                                 receivedAuthentication(messagingEvent);
@@ -1723,7 +1724,6 @@ app.post('/webhook', function (req, res) {
                             } else {
                                 console.log("Webhook received unknown messagingEvent: ", messagingEvent);
                             }
-
 
                         })
 
