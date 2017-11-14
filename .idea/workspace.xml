@@ -19,8 +19,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="373">
-              <caret line="1063" column="16" lean-forward="true" selection-start-line="1063" selection-start-column="16" selection-end-line="1063" selection-end-column="16" />
+            <state relative-caret-position="343">
+              <caret line="1205" column="16" lean-forward="true" selection-start-line="1205" selection-start-column="16" selection-end-line="1205" selection-end-column="16" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
@@ -34,12 +34,13 @@
                 <element signature="e#35831#41879#0" expanded="false" />
                 <element signature="e#36203#38267#0" expanded="false" />
                 <element signature="e#36306#38183#0" expanded="false" />
-                <element signature="e#49014#50030#0" expanded="false" />
-                <element signature="e#68119#70639#0" expanded="false" />
-                <element signature="e#83068#83262#0" expanded="false" />
+                <element signature="e#47681#50368#0" expanded="false" />
+                <element signature="e#49071#50087#0" expanded="false" />
+                <element signature="e#68073#70593#0" expanded="false" />
+                <element signature="e#83022#83216#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
-                <element signature="e#95360#96226#0" expanded="false" />
+                <element signature="e#95314#96180#0" expanded="false" />
                 <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendQuickReply#0" expanded="false" />
                 <element signature="n#!!block;n#sendReadReceipt#0" expanded="false" />
@@ -54,7 +55,7 @@
       <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
+            <state relative-caret-position="318">
               <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
               <folding />
             </state>
@@ -85,7 +86,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>USER</find>
       <find>getstarted</find>
       <find>accountRef</find>
       <find>userRef</find>
@@ -106,15 +106,16 @@
       <find>message.t</find>
       <find>sendAPI</find>
       <find>askPh</find>
-      <find>askPhone</find>
       <find>quick_replies</find>
       <find>confirmCheckUser</find>
       <find>update</find>
-      <find>checkUser</find>
       <find>updateP</find>
       <find>jobseeker</find>
       <find>updateProfile</find>
       <find>affiliate</find>
+      <find>check</find>
+      <find>checkUser</find>
+      <find>askPhone</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -227,12 +228,12 @@
       <workItem from="1508779803911" duration="71675000" />
       <workItem from="1509354917434" duration="7683000" />
       <workItem from="1509435377569" duration="65763000" />
-      <workItem from="1510028515679" duration="36650000" />
+      <workItem from="1510028515679" duration="39769000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="181771000" />
+    <option name="totallyTimeSpent" value="184890000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -244,7 +245,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -305,12 +306,13 @@
             <element signature="e#35831#41879#0" expanded="false" />
             <element signature="e#36203#38267#0" expanded="false" />
             <element signature="e#36306#38183#0" expanded="false" />
-            <element signature="e#49014#50030#0" expanded="false" />
-            <element signature="e#68119#70639#0" expanded="false" />
-            <element signature="e#83068#83262#0" expanded="false" />
+            <element signature="e#47681#50368#0" expanded="false" />
+            <element signature="e#49071#50087#0" expanded="false" />
+            <element signature="e#68073#70593#0" expanded="false" />
+            <element signature="e#83022#83216#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
-            <element signature="e#95360#96226#0" expanded="false" />
+            <element signature="e#95314#96180#0" expanded="false" />
             <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendQuickReply#0" expanded="false" />
             <element signature="n#!!block;n#sendReadReceipt#0" expanded="false" />
@@ -367,14 +369,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config/default.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -383,10 +377,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="1063" column="16" lean-forward="true" selection-start-line="1063" selection-start-column="16" selection-end-line="1063" selection-end-column="16" />
+        <state relative-caret-position="343">
+          <caret line="1205" column="16" lean-forward="true" selection-start-line="1205" selection-start-column="16" selection-end-line="1205" selection-end-column="16" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
@@ -400,12 +402,13 @@
             <element signature="e#35831#41879#0" expanded="false" />
             <element signature="e#36203#38267#0" expanded="false" />
             <element signature="e#36306#38183#0" expanded="false" />
-            <element signature="e#49014#50030#0" expanded="false" />
-            <element signature="e#68119#70639#0" expanded="false" />
-            <element signature="e#83068#83262#0" expanded="false" />
+            <element signature="e#47681#50368#0" expanded="false" />
+            <element signature="e#49071#50087#0" expanded="false" />
+            <element signature="e#68073#70593#0" expanded="false" />
+            <element signature="e#83022#83216#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
-            <element signature="e#95360#96226#0" expanded="false" />
+            <element signature="e#95314#96180#0" expanded="false" />
             <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendQuickReply#0" expanded="false" />
             <element signature="n#!!block;n#sendReadReceipt#0" expanded="false" />

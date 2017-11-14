@@ -1091,7 +1091,12 @@ function intention(payload, senderID, postback, message = {}) {
                                     }
                                 }
                             })
+                        } else {
+
+
+
                         }
+
                     })
                     .catch(err => {
                         sendAPI(senderID, {
@@ -1190,7 +1195,7 @@ function intention(payload, senderID, postback, message = {}) {
                     actId,
                     userId: senderID,
                     jobId,
-                    likedAt: Date.now(),
+                    likeAt: Date.now(),
                     type: 2,
                     platform: 'messenger'
                 });
@@ -1254,41 +1259,38 @@ function intention(payload, senderID, postback, message = {}) {
                                 case: 'confirmJobSeeker',
                             })
                         }, 4000).then(() => {
-
                             sendAPI(senderID, {
-                                text: "* Lưu ý khi nhận việc\n " +
-                                "- Xem kỹ yêu câu công việc trước khi ứng tuyển\n" +
-                                "- Vui lòng đi phỏng vấn đúng giờ, theo như lịch đã hẹn\n" +
-                                "- Nếu có việc đột xuất không tham gia được, bạn phải báo lại cho mình ngay\n",
+                                text: "Bạn đã nắm rõ chưa nhỉ???",
+                                quick_replies: [{
+                                    "content_type": "text",
+                                    "title": "Mình đồng ý (Y)",
+                                    "payload": JSON.stringify({
+                                        type: 'confirmPolicy',
+                                        answer: 'yes',
+                                    })
+                                }, {
+                                    "content_type": "text",
+                                    "title": "Không đồng ý đâu :(",
+                                    "payload": JSON.stringify({
+                                        type: 'confirmPolicy',
+                                        answer: 'no',
+                                    })
+                                }],
                                 metadata: JSON.stringify({
-                                    type: 'welcome_note_requirement',
+                                    type: 'confirmPolicy',
                                     case: 'confirmJobSeeker',
                                 })
-                            }, 3000).then(() => {
-                                sendAPI(senderID, {
-                                    text: "Bạn đã nắm rõ chưa nhỉ???",
-                                    quick_replies: [{
-                                        "content_type": "text",
-                                        "title": "Mình đồng ý (Y)",
-                                        "payload": JSON.stringify({
-                                            type: 'confirmPolicy',
-                                            answer: 'yes',
-                                        })
-                                    }, {
-                                        "content_type": "text",
-                                        "title": "Không đồng ý đâu :(",
-                                        "payload": JSON.stringify({
-                                            type: 'confirmPolicy',
-                                            answer: 'no',
-                                        })
-                                    }],
-                                    metadata: JSON.stringify({
-                                        type: 'confirmPolicy',
-                                        case: 'confirmJobSeeker',
-                                    })
-                                })
-
                             })
+                            // sendAPI(senderID, {
+                            //     text: "* Lưu ý khi nhận việc\n " +
+                            //     "- Xem kỹ yêu câu công việc trước khi ứng tuyển\n" +
+                            //     "- Vui lòng đi phỏng vấn đúng giờ, theo như lịch đã hẹn\n" +
+                            //     "- Nếu có việc đột xuất không tham gia được, bạn phải báo lại cho mình ngay\n",
+                            //     metadata: JSON.stringify({
+                            //         type: 'welcome_note_requirement',
+                            //         case: 'confirmJobSeeker',
+                            //     })
+                            // }, 3000)
 
                         })
 
@@ -1415,8 +1417,8 @@ function intention(payload, senderID, postback, message = {}) {
                     case: 'applyJob',
                     jobId,
                     again: true,
-                })
-            })
+                } )
+            });
 
 
             break;
