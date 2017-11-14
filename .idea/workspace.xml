@@ -19,8 +19,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="1574" column="48" lean-forward="true" selection-start-line="1574" selection-start-column="48" selection-end-line="1574" selection-end-column="48" />
+            <state relative-caret-position="281">
+              <caret line="1210" column="60" lean-forward="false" selection-start-line="1210" selection-start-column="60" selection-end-line="1210" selection-end-column="60" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
@@ -39,8 +39,9 @@
                 <element signature="e#49425#50441#0" expanded="false" />
                 <element signature="e#60676#60969#0" expanded="false" />
                 <element signature="e#61037#61851#0" expanded="false" />
-                <element signature="e#72996#75516#0" expanded="false" />
-                <element signature="e#87934#88128#0" expanded="false" />
+                <element signature="e#65114#66670#0" expanded="false" />
+                <element signature="e#72604#75124#0" expanded="false" />
+                <element signature="e#87542#87736#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
@@ -88,9 +89,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getU</find>
-      <find>GET_STARTED</find>
-      <find>Bạn hãy ấn</find>
       <find>match</find>
       <find>dataAccount</find>
       <find>Bạn chưa bắt đầu</find>
@@ -113,11 +111,14 @@
       <find>send</find>
       <find>update</find>
       <find>updateP</find>
-      <find>updateProfile</find>
       <find>askPhone</find>
       <find>confirmCheckUser</find>
       <find>loadPro</find>
       <find>tks</find>
+      <find>admin</find>
+      <find>admin/createuser</find>
+      <find>updateProfile</find>
+      <find>applyJob</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -230,12 +231,12 @@
       <workItem from="1508779803911" duration="71675000" />
       <workItem from="1509354917434" duration="7683000" />
       <workItem from="1509435377569" duration="65763000" />
-      <workItem from="1510028515679" duration="46877000" />
+      <workItem from="1510028515679" duration="52585000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="191998000" />
+    <option name="totallyTimeSpent" value="197706000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -314,8 +315,9 @@
             <element signature="e#49425#50441#0" expanded="false" />
             <element signature="e#60676#60969#0" expanded="false" />
             <element signature="e#61037#61851#0" expanded="false" />
-            <element signature="e#72996#75516#0" expanded="false" />
-            <element signature="e#87934#88128#0" expanded="false" />
+            <element signature="e#65114#66670#0" expanded="false" />
+            <element signature="e#72604#75124#0" expanded="false" />
+            <element signature="e#87542#87736#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
@@ -392,8 +394,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="1574" column="48" lean-forward="true" selection-start-line="1574" selection-start-column="48" selection-end-line="1574" selection-end-column="48" />
+        <state relative-caret-position="281">
+          <caret line="1210" column="60" lean-forward="false" selection-start-line="1210" selection-start-column="60" selection-end-line="1210" selection-end-column="60" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
@@ -412,8 +414,9 @@
             <element signature="e#49425#50441#0" expanded="false" />
             <element signature="e#60676#60969#0" expanded="false" />
             <element signature="e#61037#61851#0" expanded="false" />
-            <element signature="e#72996#75516#0" expanded="false" />
-            <element signature="e#87934#88128#0" expanded="false" />
+            <element signature="e#65114#66670#0" expanded="false" />
+            <element signature="e#72604#75124#0" expanded="false" />
+            <element signature="e#87542#87736#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
