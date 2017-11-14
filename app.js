@@ -595,24 +595,23 @@ function getUserDataAndSave(senderID) {
             if (err) reject(err);
 
             console.log(result);
-            var user = result
-            var userData = {
-                name: user.first_name + ' ' + user.last_name,
+            var user = {
+                name: result.first_name + ' ' + result.last_name,
                 messengerId: senderID,
                 createdAt: Date.now(),
-                platform: 'messenger'
+                platform: 'messenger',
+
             }
 
 
-            var profileData = {
-                name: userData.name,
+            var profile = {
+                name: user.name,
                 avatar: user.profile_pic,
                 sex: user.gender,
                 updatedAt: Date.now(),
             }
-            userRef.child(senderID).update(userData)
-                .then(() => profileRef.child(senderID).update(profileData))
-                .then(() => resolve(profileData))
+            axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user, profile})
+                .then(() => resolve(profile))
                 .catch(err => reject(err))
         })
     })
@@ -639,8 +638,7 @@ function matchingPayload(event) {
             getUserDataAndSave(senderID).then(result => {
 
                 if (referral.ref.length > 0) {
-
-                    userRef.child(senderID).update({ref: postback.referral.ref})
+                    axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user: {ref: postback.referral.ref}})
 
                     var refstr = referral.ref;
                     var refData = refstr.split('_');
@@ -885,7 +883,7 @@ function intention(payload, senderID, postback, message = {}) {
 
                 if (postback.referral && postback.referral.ref.length > 0) {
 
-                    userRef.child(senderID).update({ref: postback.referral.ref})
+                    axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user: {ref: postback.referral.ref}})
 
                     var refstr = postback.referral.ref;
                     var refData = refstr.split('_');
@@ -1196,12 +1194,13 @@ function intention(payload, senderID, postback, message = {}) {
                 var jobId = payload.jobId
 
                 var actId = jobId + ':' + senderID
-                axios.post(CONFIG.APIURL+'/like',{
+                axios.post(CONFIG.APIURL + '/like', {
                     actId,
                     userId: senderID,
                     jobId,
                     likeAt: Date.now(),
                     type: 2,
+                    status: 0,
                     platform: 'messenger'
                 })
 
@@ -1552,7 +1551,7 @@ function intention(payload, senderID, postback, message = {}) {
 
                 var actId = jobId + ':' + senderID
                 console.log('actId', actId)
-                axios.post(CONFIG.APIURL+'/like',{
+                axios.post(CONFIG.APIURL + '/like', {
                     actId,
                     interviewTime: time
                 }).then(result => sendAPI(senderID, {text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi phỏng vấn.\n` + 'Chúc bạn phỏng vấn thành công nhé <3'}))
