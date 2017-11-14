@@ -1488,6 +1488,7 @@ function intention(payload, senderID, postback, message = {}) {
                             }
                         }
                     })
+
                 if (userId != senderID) {
                     userRef
                         .child(senderID)
