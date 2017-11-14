@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -17,8 +19,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="1553" column="18" lean-forward="true" selection-start-line="1553" selection-start-column="18" selection-end-line="1553" selection-end-column="18" />
+            <state relative-caret-position="324">
+              <caret line="1574" column="48" lean-forward="true" selection-start-line="1574" selection-start-column="48" selection-end-line="1574" selection-end-column="48" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
@@ -32,10 +34,13 @@
                 <element signature="e#35831#41879#0" expanded="false" />
                 <element signature="e#36203#38267#0" expanded="false" />
                 <element signature="e#36306#38183#0" expanded="false" />
-                <element signature="e#47680#50367#0" expanded="false" />
-                <element signature="e#49070#50086#0" expanded="false" />
-                <element signature="e#69849#72369#0" expanded="false" />
-                <element signature="e#84798#84992#0" expanded="false" />
+                <element signature="e#45936#46678#0" expanded="false" />
+                <element signature="e#48035#50722#0" expanded="false" />
+                <element signature="e#49425#50441#0" expanded="false" />
+                <element signature="e#60676#60969#0" expanded="false" />
+                <element signature="e#61037#61851#0" expanded="false" />
+                <element signature="e#72996#75516#0" expanded="false" />
+                <element signature="e#87934#88128#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
@@ -83,8 +88,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>userRef</find>
-      <find>USER_D</find>
       <find>getU</find>
       <find>GET_STARTED</find>
       <find>Bạn hãy ấn</find>
@@ -102,17 +105,19 @@
       <find>sendAPI</find>
       <find>askPh</find>
       <find>quick_replies</find>
-      <find>confirmCheckUser</find>
-      <find>update</find>
-      <find>updateP</find>
       <find>jobseeker</find>
-      <find>updateProfile</find>
       <find>affiliate</find>
       <find>check</find>
       <find>checkUser</find>
-      <find>askPhone</find>
       <find>loadJob</find>
       <find>send</find>
+      <find>update</find>
+      <find>updateP</find>
+      <find>updateProfile</find>
+      <find>askPhone</find>
+      <find>confirmCheckUser</find>
+      <find>loadPro</find>
+      <find>tks</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -225,15 +230,16 @@
       <workItem from="1508779803911" duration="71675000" />
       <workItem from="1509354917434" duration="7683000" />
       <workItem from="1509435377569" duration="65763000" />
-      <workItem from="1510028515679" duration="43893000" />
+      <workItem from="1510028515679" duration="46877000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="189014000" />
+    <option name="totallyTimeSpent" value="191998000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -242,7 +248,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -303,10 +309,13 @@
             <element signature="e#35831#41879#0" expanded="false" />
             <element signature="e#36203#38267#0" expanded="false" />
             <element signature="e#36306#38183#0" expanded="false" />
-            <element signature="e#47680#50367#0" expanded="false" />
-            <element signature="e#49070#50086#0" expanded="false" />
-            <element signature="e#69849#72369#0" expanded="false" />
-            <element signature="e#84798#84992#0" expanded="false" />
+            <element signature="e#45936#46678#0" expanded="false" />
+            <element signature="e#48035#50722#0" expanded="false" />
+            <element signature="e#49425#50441#0" expanded="false" />
+            <element signature="e#60676#60969#0" expanded="false" />
+            <element signature="e#61037#61851#0" expanded="false" />
+            <element signature="e#72996#75516#0" expanded="false" />
+            <element signature="e#87934#88128#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
@@ -383,8 +392,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="1553" column="18" lean-forward="true" selection-start-line="1553" selection-start-column="18" selection-end-line="1553" selection-end-column="18" />
+        <state relative-caret-position="324">
+          <caret line="1574" column="48" lean-forward="true" selection-start-line="1574" selection-start-column="48" selection-end-line="1574" selection-end-column="48" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
@@ -398,10 +407,13 @@
             <element signature="e#35831#41879#0" expanded="false" />
             <element signature="e#36203#38267#0" expanded="false" />
             <element signature="e#36306#38183#0" expanded="false" />
-            <element signature="e#47680#50367#0" expanded="false" />
-            <element signature="e#49070#50086#0" expanded="false" />
-            <element signature="e#69849#72369#0" expanded="false" />
-            <element signature="e#84798#84992#0" expanded="false" />
+            <element signature="e#45936#46678#0" expanded="false" />
+            <element signature="e#48035#50722#0" expanded="false" />
+            <element signature="e#49425#50441#0" expanded="false" />
+            <element signature="e#60676#60969#0" expanded="false" />
+            <element signature="e#61037#61851#0" expanded="false" />
+            <element signature="e#72996#75516#0" expanded="false" />
+            <element signature="e#87934#88128#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />

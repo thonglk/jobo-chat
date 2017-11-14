@@ -1450,47 +1450,54 @@ function intention(payload, senderID, postback, message = {}) {
             if (payload.answer = 'yes') {
 
                 //update messageId
-                userRef.child(userId).update({messengerId: senderID}).then(result => userRef.child(senderID).remove(result => profileRef.child(senderID)
-                    .remove(result => {
-                            console.log('merge profile', senderID)
-                            if (payload.case == 'confirmEmployer') sendAPI(senderID, {
-                                text: "Okie, bạn đang cần tuyển vị trí gì nhỉ?",
-                                metadata: JSON.stringify({
-                                    type: 'employer_job',
-                                    case: 'askPhone'
-                                })
+                userRef.child(userId).update({messengerId: senderID})
+                    .then(result => {
+                        if (payload.case == 'confirmEmployer') sendAPI(senderID, {
+                            text: "Okie, bạn đang cần tuyển vị trí gì nhỉ?",
+                            metadata: JSON.stringify({
+                                type: 'employer_job',
+                                case: 'askPhone'
                             })
-                            else if (payload.case == 'updateProfile') {
-                                sendAPI(senderID, {
-                                    attachment: {
-                                        type: "template",
-                                        payload: {
-                                            template_type: "button",
-                                            text: "Hãy cập nhật thêm thông tin để nhà tuyển dụng chọn bạn!",
-                                            buttons: [{
-                                                type: "web_url",
-                                                url: `${CONFIG.WEBURL}/profile?admin=${userId}`,
-                                                title: "Cập nhật hồ sơ"
-                                            }]
-                                        }
+                        })
+                        else if (payload.case == 'updateProfile') {
+                            sendAPI(senderID, {
+                                attachment: {
+                                    type: "template",
+                                    payload: {
+                                        template_type: "button",
+                                        text: "Hãy cập nhật thêm thông tin để nhà tuyển dụng chọn bạn!",
+                                        buttons: [{
+                                            type: "web_url",
+                                            url: `${CONFIG.WEBURL}/profile?admin=${userId}`,
+                                            title: "Cập nhật hồ sơ"
+                                        }]
                                     }
-                                })
+                                }
+                            })
 
+
+                        } else {
+                            if (jobId) {
+                                //appy job
+                                sendInterviewOption(jobId, senderID)
 
                             } else {
-                                if (jobId) {
-                                    //appy job
-                                    sendInterviewOption(jobId, senderID)
-
-                                } else {
-                                    sendAPI(senderID, {
-                                        text: "Ok, hiện tại mình đang bận một chút việc, lát nữa mình sẽ trao đổi tiếp với bạn nhé, pp"
-                                    })
-                                }
+                                sendAPI(senderID, {
+                                    text: "Ok, hiện tại mình đang bận một chút việc, lát nữa mình sẽ trao đổi tiếp với bạn nhé, pp"
+                                })
                             }
                         }
-                    ))
-                )
+                    })
+                if (userId != senderID) {
+                    userRef
+                        .child(senderID)
+                        .remove(result => profileRef
+                            .child(senderID)
+                            .remove(result =>
+                                console.log('merge profile', senderID)
+                            ))
+                }
+
 
             } else {
 
@@ -1552,7 +1559,9 @@ function intention(payload, senderID, postback, message = {}) {
                             .then(result => sendAPI(senderID, {
                                 text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!'
                             }))
-                            .then(result => loadJob(jobId)
+                            .then(result => loadUser(senderID))
+                            .then(userData => loadProfile(userData.userId))
+                            .then(profileData => loadJob(jobId)
                                 .then(jobData => sendAPI(senderID, {
                                     attachment: {
                                         type: "template",
@@ -1561,7 +1570,7 @@ function intention(payload, senderID, postback, message = {}) {
                                             text: `(Y)Lịch phỏng vấn: \n * ${jobData.jobName} - ${jobData.storeData.storeName}`,
                                             buttons: [{
                                                 type: "web_url",
-                                                url: "https://www.oculus.com/en-us/rift/",
+                                                url: `https://www.google.com/maps/dir/${(profileData.location)?(profileData.location.lat):('')},${(profileData.location)?(profileData.location.lng):('')}/${(jobData.storeData.location)?(jobData.storeData.location.lat):('')},${(jobData.storeData.location)?(jobData.storeData.location.lng):('')}`,
                                                 title: "Chỉ đường"
                                             }, {
                                                 type: "phone_number",
@@ -1597,6 +1606,33 @@ function intention(payload, senderID, postback, message = {}) {
     }
 }
 
+function loadUser(senderID) {
+    return new Promise(function (resolve, reject) {
+
+        var url = `${CONFIG.APIURL}/checkUser?q=${senderID}&type=messengerId`
+        axios.get(url)
+            .then(result => {
+                if (result.data[0]) {
+                    var userData = result.data[0]
+                    resolve(userData)
+                } else {
+                    resolve({})
+                }
+            })
+            .catch(err => reject(err))
+    })
+
+}
+
+function loadProfile(userId) {
+    return new Promise(function (resolve, reject) {
+        var url = `${CONFIG.APIURL}/on/profile?userId=${userId}`
+        axios.get(url)
+            .then(result => resolve(result.data))
+            .catch(err => reject(err))
+    })
+
+}
 
 function sendInterviewOption(jobId, senderID) {
     loadJob(jobId).then(result => {
@@ -1897,8 +1933,8 @@ app.post('/webhook', function (req, res) {
 
 /*
  * This path is used for account linking. The account linking call-to-action
- * (sendAccountLinking) is pointed to this URL. 
- * 
+ * (sendAccountLinking) is pointed to this URL.
+ *
  */
 app.get('/authorize', function (req, res) {
     var accountLinkingToken = req.query.account_linking_token;
@@ -1919,8 +1955,8 @@ app.get('/authorize', function (req, res) {
 });
 
 /*
- * Verify that the callback came from Facebook. Using the App Secret from 
- * the App Dashboard, we can verify the signature that is sent with each 
+ * Verify that the callback came from Facebook. Using the App Secret from
+ * the App Dashboard, we can verify the signature that is sent with each
  * callback in the x-hub-signature field, located in the header.
  *
  * https://developers.facebook.com/docs/graph-api/webhooks#setup
@@ -1951,8 +1987,8 @@ function verifyRequestSignature(req, res, buf) {
 /*
  * Authorization Event
  *
- * The value for 'optin.ref' is defined in the entry point. For the "Send to 
- * Messenger" plugin, it is the 'data-ref' field. Read more at 
+ * The value for 'optin.ref' is defined in the entry point. For the "Send to
+ * Messenger" plugin, it is the 'data-ref' field. Read more at
  * https://developers.facebook.com/docs/messenger-platform/webhook-reference/authentication
  *
  */
@@ -1980,16 +2016,16 @@ function receivedAuthentication(event) {
 /*
  * Message Event
  *
- * This event is called when a message is sent to your page. The 'message' 
+ * This event is called when a message is sent to your page. The 'message'
  * object format can vary depending on the kind of message that was received.
  * Read more at https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-received
  *
- * For this example, we're going to echo any text that we get. If we get some 
+ * For this example, we're going to echo any text that we get. If we get some
  * special keywords ('button', 'generic', 'receipt'), then we'll send back
- * examples of those bubbles to illustrate the special message bubbles we've 
- * created. If we receive a message with an attachment (image, video, audio), 
+ * examples of those bubbles to illustrate the special message bubbles we've
+ * created. If we receive a message with an attachment (image, video, audio),
  * then we'll simply confirm that we've received the attachment.
- * 
+ *
  */
 
 function receivedMessage(event) {
@@ -2157,7 +2193,7 @@ function getJob(data) {
 /*
  * Delivery Confirmation Event
  *
- * This event is sent to confirm the delivery of a message. Read more about 
+ * This event is sent to confirm the delivery of a message. Read more about
  * these fields at https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-delivered
  *
  */
@@ -2183,9 +2219,9 @@ function receivedDeliveryConfirmation(event) {
 /*
  * Postback Event
  *
- * This event is called when a postback is tapped on a Structured Message. 
+ * This event is called when a postback is tapped on a Structured Message.
  * https://developers.facebook.com/docs/messenger-platform/webhook-reference/postback-received
- * 
+ *
  */
 
 
@@ -2225,7 +2261,7 @@ function loadJob(jobId) {
  *
  * This event is called when a previously-sent message has been read.
  * https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-read
- * 
+ *
  */
 function receivedMessageRead(event) {
     var senderID = event.sender.id;
@@ -2245,7 +2281,7 @@ function receivedMessageRead(event) {
  * This event is called when the Link Account or UnLink Account action has been
  * tapped.
  * https://developers.facebook.com/docs/messenger-platform/webhook-reference/account-linking
- * 
+ *
  */
 function receivedAccountLink(event) {
     var senderID = event.sender.id;
@@ -2725,8 +2761,8 @@ function sendAccountLinking(recipientId) {
 }
 
 /*
- * Call the Send API. The message data goes in the body. If successful, we'll 
- * get the message id in a response 
+ * Call the Send API. The message data goes in the body. If successful, we'll
+ * get the message id in a response
  *
  */
 function callSendAPI(messageData, page = 'jobo') {
