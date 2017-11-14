@@ -1044,7 +1044,7 @@ function intention(payload, senderID, postback, message = {}) {
                                                                 {
                                                                     "type": "web_url",
                                                                     "url": "https://m.me/jobo.asia?ref=start_invitedby:" + senderID,
-                                                                    "title": "Nhận việc"
+                                                                    "title": "Bắt đầu tìm việc"
                                                                 }
                                                             ]
                                                         }
@@ -1119,6 +1119,50 @@ function intention(payload, senderID, postback, message = {}) {
 
                     })
 
+            } else if (payload.state == 'interview') {
+                sendAPI(senderID, {
+                    text: 'Lịch phỏng vấn của bạn'
+                })
+                    .then(result => loadUser(senderID))
+                    .then(userData => axios.get(CONFIG.APIURL + '/initData?userId' + userData.userId))
+                    .then(data => {
+                        var applys = data.reactList.like
+                        var profileData = data.userData
+                        if (applys.length > 0) {
+                            applys.forEach(like => loadJob(like.jobId)
+                                .then(jobData => sendAPI(senderID, {
+                                    attachment: {
+                                        type: "template",
+                                        payload: {
+                                            template_type: "button",
+                                            text: `* ${jobData.jobName} - ${jobData.storeData.storeName} \n ${strTime(like.interviewTime)}`,
+                                            buttons: [{
+                                                type: "web_url",
+                                                url: `https://www.google.com/maps/dir/${(profileData.location) ? (profileData.location.lat) : ('')},${(profileData.location) ? (profileData.location.lng) : ('')}/${(jobData.storeData.location) ? (jobData.storeData.location.lat) : ('')},${(jobData.storeData.location) ? (jobData.storeData.location.lng) : ('')}`,
+                                                title: "Chỉ đường"
+                                            }, {
+                                                type: "phone_number",
+                                                title: "Gọi cho nhà tuyển dụng",
+                                                payload: jobData.userInfo.phone || '0968269860'
+                                            }, {
+                                                type: "postback",
+                                                title: "Huỷ phỏng vấn",
+                                                payload: JSON.stringify({
+                                                    type: 'cancelInterview',
+                                                    actId: like.actId,
+                                                })
+                                            }
+                                            ]
+                                        }
+                                    }
+                                }))
+                            )
+                        } else sendAPI(senderID, {
+                            text: 'Bạn chưa lịch phỏng vấn!'
+                        })
+
+                    })
+
             }
             break;
 
@@ -1129,8 +1173,7 @@ function intention(payload, senderID, postback, message = {}) {
             if (payload.answer == 'yes') {
                 console.log('Response confirmJob:', payload)
                 var jobId = payload.jobId;
-                sendTextMessage(senderID, "Hãy kiểm tra lại chi tiết công việc trước khi đặt lịch phỏng vấn nhé!")
-                    .then(result => loadJob(jobId))
+                loadJob(jobId)
                     .then(result => {
                         var jobData = result;
                         jobData.storeName = result.storeData.storeName;
@@ -1150,7 +1193,7 @@ function intention(payload, senderID, postback, message = {}) {
                                     case: 'confirmJob',
                                     type: 'description'
                                 })
-                            }, 12000))
+                            }, 5000))
                             .then(() => sendAPI(senderID, {
                                 text: 'Bạn có muốn ứng tuyển vào công việc này không?',
                                 quick_replies: [
@@ -1578,7 +1621,7 @@ function intention(payload, senderID, postback, message = {}) {
                                     title: "Huỷ phỏng vấn",
                                     payload: JSON.stringify({
                                         type: 'cancelInterview',
-                                        jobId,
+                                        actId,
                                     })
                                 }
                                 ]
