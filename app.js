@@ -1094,7 +1094,6 @@ function intention(payload, senderID, postback, message = {}) {
                         } else {
 
 
-
                         }
 
                     })
@@ -1417,7 +1416,7 @@ function intention(payload, senderID, postback, message = {}) {
                     case: 'applyJob',
                     jobId,
                     again: true,
-                } )
+                })
             });
 
 
@@ -1514,9 +1513,38 @@ function intention(payload, senderID, postback, message = {}) {
                     .then(result =>
                         sendAPI(senderID, {
                             text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi phỏng vấn.\n` + 'Chúc bạn phỏng vấn thành công nhé <3'
-                        }).then(result => sendAPI(senderID, {
-                            text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!'
-                        }))
+                        })
+                            .then(result => sendAPI(senderID, {
+                                text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!'
+                            }))
+                            .then(result => loadJob(jobId))
+                            .then(jobData => sendAPI(senderID, {
+                                    attachment: {
+                                        type: "template",
+                                        payload: {
+                                            template_type: "button",
+                                            text: `(Y)Lịch phỏng vấn: \n * ${jobData.jobName} - ${jobData.storeData.storeName}`,
+                                            buttons: [{
+                                                type: "web_url",
+                                                url: "https://www.oculus.com/en-us/rift/",
+                                                title: "Chỉ đường"
+                                            }, {
+                                                type: "phone_number",
+                                                title: "Gọi cho nhà tuyển dụng",
+                                                payload: jobData.userInfo.phone || '0968269860'
+                                            }, {
+                                                type: "postback",
+                                                title: "Huỷ phỏng vấn",
+                                                payload: JSON.stringify({
+                                                    type:'cancelInterview',
+                                                    jobId,
+                                                })
+                                            }
+                                            ]
+                                        }
+                                    }
+                                })
+                            )
                     )
                     .catch(err => console.log(err))
 
