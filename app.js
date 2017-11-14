@@ -1125,7 +1125,8 @@ function intention(payload, senderID, postback, message = {}) {
                 })
                     .then(result => loadUser(senderID))
                     .then(userData => axios.get(CONFIG.APIURL + '/initData?userId=' + userData.userId))
-                    .then(data => {
+                    .then(result => {
+                        var data = result.data
                         var applys = data.reactList.like
                         var profileData = data.userData
                         if (applys.length > 0) {
@@ -1151,8 +1152,7 @@ function intention(payload, senderID, postback, message = {}) {
                                                     type: 'cancelInterview',
                                                     actId: like.actId,
                                                 })
-                                            }
-                                            ]
+                                            }]
                                         }
                                     }
                                 }))
