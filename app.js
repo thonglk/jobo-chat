@@ -1139,7 +1139,7 @@ function intention(payload, senderID, postback, message = {}) {
                                             text: `* ${jobData.jobName} - ${jobData.storeData.storeName} \n ${strTime(like.interviewTime)}`,
                                             buttons: [{
                                                 type: "web_url",
-                                                url: `https://www.google.com/maps/dir/${(profileData.location) ? (profileData.location.lat) : ('')},${(profileData.location) ? (profileData.location.lng) : ('')}/${(jobData.storeData.location) ? (jobData.storeData.location.lat) : ('')},${(jobData.storeData.location) ? (jobData.storeData.location.lng) : ('')}`,
+                                                url: `https://www.google.com/maps/dir/${(profileData.address) ? (profileData.address) : ''}/${(jobData.storeData.address) ? (jobData.storeData.address) : ('')}`,
                                                 title: "Chỉ đường"
                                             }, {
                                                 type: "phone_number",
@@ -1610,12 +1610,12 @@ function intention(payload, senderID, postback, message = {}) {
                                 text: `(Y)Lịch phỏng vấn: \n * ${jobData.jobName} - ${jobData.storeData.storeName}`,
                                 buttons: [{
                                     type: "web_url",
-                                    url: `https://www.google.com/maps/dir/${(profileData.location) ? (profileData.location.lat) : ('')},${(profileData.location) ? (profileData.location.lng) : ('')}/${(jobData.storeData.location) ? (jobData.storeData.location.lat) : ('')},${(jobData.storeData.location) ? (jobData.storeData.location.lng) : ('')}`,
+                                    url: `https://www.google.com/maps/dir/${(profileData.address) ? (profileData.address) : ''}/${(jobData.storeData.address) ? (jobData.storeData.address) : ('')}`,
                                     title: "Chỉ đường"
                                 }, {
                                     type: "phone_number",
                                     title: "Gọi cho nhà tuyển dụng",
-                                    payload: jobData.userInfo.phone || '0968269860'
+                                    payload: (jobData.userInfo && jobData.userInfo.phone) ? jobData.userInfo.phone : '0968269860'
                                 }, {
                                     type: "postback",
                                     title: "Huỷ phỏng vấn",
