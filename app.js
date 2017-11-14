@@ -1093,7 +1093,13 @@ function intention(payload, senderID, postback, message = {}) {
                             })
                         } else {
 
-
+                            sendAPI(senderID, {
+                                text: 'Hãy gửi số điện thoại của bạn',
+                                metadata: JSON.stringify({
+                                    type: 'askPhone',
+                                    case:'updateProfile'
+                                })
+                            })
                         }
 
                     })
@@ -1403,6 +1409,18 @@ function intention(payload, senderID, postback, message = {}) {
                             })
 
 
+                        } else {
+                            if (jobId) {
+                                //appy job
+                                sendInterviewOption(jobId, senderID)
+
+                            } else {
+                                sendAPI(senderID, {
+                                    text: "Ok, hiện tại mình đang bận một chút việc, lát nữa mình sẽ trao đổi tiếp với bạn nhé, pp"
+                                })
+                            }
+
+
                         }
 
 
@@ -1441,8 +1459,25 @@ function intention(payload, senderID, postback, message = {}) {
                             case: 'askPhone'
                         })
                     })
-                    else {
+                    else if(payload.case == 'updateProfile'){
+                        sendAPI(senderID, {
+                            attachment: {
+                                type: "template",
+                                payload: {
+                                    template_type: "button",
+                                    text: "Hãy cập nhật thêm thông tin để nhà tuyển dụng chọn bạn!",
+                                    buttons: [{
+                                        type: "web_url",
+                                        url: `${CONFIG.WEBURL}/profile?admin=${userId}`,
+                                        title: "Cập nhật hồ sơ"
+                                    }]
+                                }
+                            }
+                        })
 
+
+
+                    } else {
                         if (jobId) {
                             //appy job
                             sendInterviewOption(jobId, senderID)
@@ -1452,7 +1487,6 @@ function intention(payload, senderID, postback, message = {}) {
                                 text: "Ok, hiện tại mình đang bận một chút việc, lát nữa mình sẽ trao đổi tiếp với bạn nhé, pp"
                             })
                         }
-
                     }
                 }).catch(err => console.log(err))
 
@@ -1517,8 +1551,8 @@ function intention(payload, senderID, postback, message = {}) {
                             .then(result => sendAPI(senderID, {
                                 text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!'
                             }))
-                            .then(result => loadJob(jobId))
-                            .then(jobData => sendAPI(senderID, {
+                            .then(result => loadJob(jobId)
+                                .then(jobData => sendAPI(senderID, {
                                     attachment: {
                                         type: "template",
                                         payload: {
@@ -1536,14 +1570,14 @@ function intention(payload, senderID, postback, message = {}) {
                                                 type: "postback",
                                                 title: "Huỷ phỏng vấn",
                                                 payload: JSON.stringify({
-                                                    type:'cancelInterview',
+                                                    type: 'cancelInterview',
                                                     jobId,
                                                 })
                                             }
                                             ]
                                         }
                                     }
-                                })
+                                }))
                             )
                     )
                     .catch(err => console.log(err))
