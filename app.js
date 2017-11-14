@@ -1124,7 +1124,7 @@ function intention(payload, senderID, postback, message = {}) {
                     text: 'Lịch phỏng vấn của bạn'
                 })
                     .then(result => loadUser(senderID))
-                    .then(userData => axios.get(CONFIG.APIURL + '/initData?userId' + userData.userId))
+                    .then(userData => axios.get(CONFIG.APIURL + '/initData?userId=' + userData.userId))
                     .then(data => {
                         var applys = data.reactList.like
                         var profileData = data.userData
