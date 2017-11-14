@@ -1097,7 +1097,7 @@ function intention(payload, senderID, postback, message = {}) {
                                 text: 'Hãy gửi số điện thoại của bạn',
                                 metadata: JSON.stringify({
                                     type: 'askPhone',
-                                    case:'updateProfile'
+                                    case: 'updateProfile'
                                 })
                             })
                         }
@@ -1450,46 +1450,47 @@ function intention(payload, senderID, postback, message = {}) {
             if (payload.answer = 'yes') {
 
                 //update messageId
-                userRef.child(userId).update({messengerId: senderID}).then(result => {
+                userRef.child(userId).update({messengerId: senderID}).then(result => userRef.child(senderID).remove(result => profileRef.child(senderID)
+                    .remove(result => {
+                            console.log('merge profile', senderID)
+                            if (payload.case == 'confirmEmployer') sendAPI(senderID, {
+                                text: "Okie, bạn đang cần tuyển vị trí gì nhỉ?",
+                                metadata: JSON.stringify({
+                                    type: 'employer_job',
+                                    case: 'askPhone'
+                                })
+                            })
+                            else if (payload.case == 'updateProfile') {
+                                sendAPI(senderID, {
+                                    attachment: {
+                                        type: "template",
+                                        payload: {
+                                            template_type: "button",
+                                            text: "Hãy cập nhật thêm thông tin để nhà tuyển dụng chọn bạn!",
+                                            buttons: [{
+                                                type: "web_url",
+                                                url: `${CONFIG.WEBURL}/profile?admin=${userId}`,
+                                                title: "Cập nhật hồ sơ"
+                                            }]
+                                        }
+                                    }
+                                })
 
-                    if (payload.case == 'confirmEmployer') sendAPI(senderID, {
-                        text: "Okie, bạn đang cần tuyển vị trí gì nhỉ?",
-                        metadata: JSON.stringify({
-                            type: 'employer_job',
-                            case: 'askPhone'
-                        })
-                    })
-                    else if(payload.case == 'updateProfile'){
-                        sendAPI(senderID, {
-                            attachment: {
-                                type: "template",
-                                payload: {
-                                    template_type: "button",
-                                    text: "Hãy cập nhật thêm thông tin để nhà tuyển dụng chọn bạn!",
-                                    buttons: [{
-                                        type: "web_url",
-                                        url: `${CONFIG.WEBURL}/profile?admin=${userId}`,
-                                        title: "Cập nhật hồ sơ"
-                                    }]
+
+                            } else {
+                                if (jobId) {
+                                    //appy job
+                                    sendInterviewOption(jobId, senderID)
+
+                                } else {
+                                    sendAPI(senderID, {
+                                        text: "Ok, hiện tại mình đang bận một chút việc, lát nữa mình sẽ trao đổi tiếp với bạn nhé, pp"
+                                    })
                                 }
                             }
-                        })
-
-
-
-                    } else {
-                        if (jobId) {
-                            //appy job
-                            sendInterviewOption(jobId, senderID)
-
-                        } else {
-                            sendAPI(senderID, {
-                                text: "Ok, hiện tại mình đang bận một chút việc, lát nữa mình sẽ trao đổi tiếp với bạn nhé, pp"
-                            })
                         }
-                    }
-                }).catch(err => console.log(err))
-
+                    ))
+                )
 
             } else {
 
