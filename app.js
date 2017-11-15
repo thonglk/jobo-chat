@@ -170,11 +170,14 @@ var profileRef = db2.ref('profile');
 var likeActivityRef = db3.ref('activity/like');
 
 var conversationData, conversationRef = db.ref('conversation')
+var lastMessageData, lastMessageRef = db.ref('last_message')
+
+var conversationData_new, conversationRef_new = db3.ref('conversation_temp')
+
 var messageFactory, messageFactoryRef = db.ref('messageFactory')
 
-conversationRef.on('value', function (snap) {
-    conversationData = snap.val()
-    console.log('conversationData')
+lastMessageRef.on('value', function (snap) {
+    lastMessageData = snap.val()
 })
 
 // CONFIG FUNCTION
@@ -573,7 +576,7 @@ function jobJD(job) {
     else if (job.sex === 'male') sex = `🏆Giới tính: Nam\n`;
     if (job.figure) figure = '🏆Yêu cầu ngoại hình\n';
 
-    const text = `🏠${storeName} - ${address}👩‍💻👨‍💻\n 🛄Vị trí của bạn sẽ là: ${jobName}\n
+    const text = `🏠${storeName} - ${shortAddress(address)}👩‍💻👨‍💻\n 🛄Vị trí của bạn sẽ là: ${jobName}\n
 ${working_type}${salary}${hourly_wages}${timeStr}\n${experience}${sex}${unit}${figure}\n`
     return text;
 }
@@ -789,19 +792,20 @@ function matchingPayload(event) {
         } else if (message && message.text) {
             console.log('message.text', message.text)
 
-            var conversation = conversationData[senderID];
-            if (conversation) var listSentMessage = _.filter(conversation, function (card) {
-                return card.type == 'sent';
-            });
-            var indexCurrent = _.sortedIndex(listSentMessage, {timestamp: timeOfPostback}, 'timestamp');
 
+            // var conversation = conversationData[senderID];
+            // if (conversation) var listSentMessage = _.filter(conversation, function (card) {
+            //     return card.type == 'sent';
+            // });
+            // var indexCurrent = _.sortedIndex(listSentMessage, {timestamp: timeOfPostback}, 'timestamp');
+            //
+            //
+            // if (indexCurrent > 1) {
+            //     var previousCurrent = indexCurrent - 1
+            //     var lastMessage = listSentMessage[previousCurrent]
+            // }
 
-            if (indexCurrent > 1) {
-                var previousCurrent = indexCurrent - 1
-                var lastMessage = listSentMessage[previousCurrent]
-            }
-
-
+            var lastMessage = lastMessageData[senderID]
             console.log('lastMessage', lastMessage)
             if (lastMessage) {
                 if (lastMessage.message && lastMessage.message.metadata) {
@@ -1636,7 +1640,7 @@ app.post('/webhook', function (req, res) {
                     messagingEvent.messengerId = messagingEvent.sender.id
                     messagingEvent.type = 'received'
                     if (pageID == CONFIG.facebookPage['jobo'].id) {
-                        conversationRef.child(messagingEvent.messengerId).child(timeOfEvent).update(messagingEvent).then(() => {
+                        conversationRef_new.child(messagingEvent.messengerId + ':' + timeOfEvent).update(messagingEvent).then(() => {
                             matchingPayload(messagingEvent)
                                 .then(result => intention(result.payload, result.senderID, result.postback, result.message))
                                 .catch(err => console.error());
@@ -2402,10 +2406,10 @@ function sendAPI(recipientId, message, typing) {
                     messageData.type = 'sent'
                     messageData.timestamp = Date.now()
 
-                    conversationRef
-                        .child(messageData.messengerId)
-                        .child(messageData.timestamp)
+                    conversationRef_new
+                        .child(messageData.messengerId + ':' + messageData.timestamp)
                         .update(messageData)
+                        .then(() => lastMessageRef.child(messageData.messengerId).update(messageData))
                         .then(() => resolve(result))
                         .catch(err => reject(err))
                 })
