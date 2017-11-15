@@ -2201,7 +2201,10 @@ function loadJob(jobId) {
     return new Promise(function (resolve, reject) {
         const url = `https://jobo-server.herokuapp.com/on/job?jobId=${jobId}`;
         axios.get(url)
-            .then(result => resolve(result.data))
+            .then(result => {
+                if (result.data.err) reject(result.data.err)
+                resolve(result.data)
+            })
             .catch(err => reject(err));
     })
 }
