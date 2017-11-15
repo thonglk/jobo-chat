@@ -642,7 +642,7 @@ function referInital(referral, senderID) {
             var refstr = referral.ref;
             var refData = refstr.split('_');
             console.log('refData', refData);
-            if (refData[0] != 'start') {
+            if (refData[0] != 'start' || refData[0] != 'tuyendung') {
                 var jobId = refData[0]
                 loadJob(jobId).then(result => {
                     var jobData = result
@@ -680,7 +680,34 @@ function referInital(referral, senderID) {
 
                     callSendAPI(messageData);
                 }).catch(err => sendTextMessage(senderID, JSON.stringify(err)))
-            } else {
+            }
+            else if (refData[0] == 'tuyendung') sendAPI(senderID, {
+                text: `Chào ${(result.sex == 'male'? 'anh':'chị')}, có phải ${(result.sex == 'male'? 'anh':'chị')} đang cần tuyển nhân viên không ạ?`,
+                quick_replies: [
+                    {
+                        "content_type": "text",
+                        "title": "Đúng vậy",
+                        "payload": JSON.stringify({
+                            type: 'confirmEmployer',
+                            answer: 'yes',
+                        })
+                    },
+                    {
+                        "content_type": "text",
+                        "title": "Không phải",
+                        "payload": JSON.stringify({
+                            type: 'confirmEmployer',
+                            answer: 'no',
+                        })
+                    },
+                ],
+                metadata: JSON.stringify({
+                    type: 'confirmJobSeeker',
+                })
+            })
+
+
+             else {
 
                 if (refData[1] == 'tailieunhansu') {
                     sendAPI(senderID, {
