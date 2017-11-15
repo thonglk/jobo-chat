@@ -681,7 +681,7 @@ function referInital(referral, senderID) {
                 }).catch(err => sendTextMessage(senderID, JSON.stringify(err)))
             }
             else if (refData[0] == 'tuyendung') sendAPI(senderID, {
-                text: `Chào ${(result.sex == 'male'? 'anh':'chị')}, có phải ${(result.sex == 'male'? 'anh':'chị')} đang cần tuyển nhân viên không ạ?`,
+                text: `Chào ${(result.sex == 'male' ? 'anh' : 'chị')}, có phải ${(result.sex == 'male' ? 'anh' : 'chị')} đang cần tuyển nhân viên không ạ?`,
                 quick_replies: [
                     {
                         "content_type": "text",
@@ -706,7 +706,7 @@ function referInital(referral, senderID) {
             })
 
 
-             else {
+            else {
 
                 if (refData[1] == 'tailieunhansu') {
                     sendAPI(senderID, {
@@ -1569,12 +1569,8 @@ function loadUser(senderID) {
         var url = `${CONFIG.APIURL}/checkUser?q=${senderID}&type=messengerId`
         axios.get(url)
             .then(result => {
-                if (result.data[0]) {
-                    var userData = result.data[0]
-                    resolve(userData)
-                } else {
-                    resolve(null)
-                }
+                if (result.data[0]) resolve(result.data[0])
+                else resolve(null)
             })
             .catch(err => reject(err))
     })
