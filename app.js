@@ -610,9 +610,19 @@ function getUserDataAndSave(senderID) {
                 sex: user.gender,
                 updatedAt: Date.now(),
             }
-            axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user, profile})
-                .then(() => resolve(profile))
-                .catch(err => reject(err))
+
+            loadUser(senderID)
+                .then(userData => {
+
+                    if (!userData) {
+                        axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user, profile})
+                            .then(() => resolve(profile))
+                            .catch(err => reject(err))
+                    } else resolve(profile)
+
+                })
+
+
         })
     })
 
@@ -634,11 +644,11 @@ function matchingPayload(event) {
         else if (message && message.payload) payloadStr = message.payload
         else if (postback && postback.payload) payloadStr = postback.payload
         else if (referral) {
-            console.log('referral',referral)
+            console.log('referral', referral)
             getUserDataAndSave(senderID).then(result => {
 
                 if (referral.ref.length > 0) {
-                    axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user: {ref: postback.referral.ref}})
+                    axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user: {ref_new: referral.ref}})
 
                     var refstr = referral.ref;
                     var refData = refstr.split('_');
@@ -700,33 +710,39 @@ function matchingPayload(event) {
                                     })
                                 })
                             })
-                        } else {
+                        } else if (refData[1] == 'account'){
                             sendAPI(senderID, {
-                                text: `Có phải bạn đang muốn tham gia Jobo để tìm việc làm thêm?`,
-                                quick_replies: [
-                                    {
-                                        "content_type": "text",
-                                        "title": "Đúng vậy",
-                                        "payload": JSON.stringify({
-                                            type: 'confirmJobSeeker',
-                                            answer: 'yes',
-                                        })
-                                    },
-                                    {
-                                        "content_type": "text",
-                                        "title": "Không phải",
-                                        "payload": JSON.stringify({
-                                            type: 'confirmJobSeeker',
-                                            answer: 'no',
-                                        })
-                                    },
-                                ],
+                                text: 'Hãy gửi số điện thoại của bạn',
                                 metadata: JSON.stringify({
-                                    type: 'confirmJobSeeker',
+                                    type: 'askPhone',
+                                    case: 'updateProfile'
                                 })
                             })
 
-                        }
+                        } else sendAPI(senderID, {
+                            text: `Có phải bạn đang muốn tham gia Jobo để tìm việc làm thêm?`,
+                            quick_replies: [
+                                {
+                                    "content_type": "text",
+                                    "title": "Đúng vậy",
+                                    "payload": JSON.stringify({
+                                        type: 'confirmJobSeeker',
+                                        answer: 'yes',
+                                    })
+                                },
+                                {
+                                    "content_type": "text",
+                                    "title": "Không phải",
+                                    "payload": JSON.stringify({
+                                        type: 'confirmJobSeeker',
+                                        answer: 'no',
+                                    })
+                                },
+                            ],
+                            metadata: JSON.stringify({
+                                type: 'confirmJobSeeker',
+                            })
+                        })
                     }
 
 
