@@ -613,7 +613,7 @@ function getUserDataAndSave(senderID) {
 
             loadUser(senderID)
                 .then(userData => {
-
+                    resolve(profile)
                     if (!userData) {
                         axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user, profile})
                             .then(() => resolve(profile))
@@ -1543,7 +1543,7 @@ function loadUser(senderID) {
                     var userData = result.data[0]
                     resolve(userData)
                 } else {
-                    resolve({})
+                    resolve(null)
                 }
             })
             .catch(err => reject(err))
