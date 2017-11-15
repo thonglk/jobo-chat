@@ -702,7 +702,7 @@ function referInital(referral, senderID) {
                     },
                 ],
                 metadata: JSON.stringify({
-                    type: 'confirmJobSeeker',
+                    type: 'confirmEmployer',
                 })
             })
 
