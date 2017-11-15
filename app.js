@@ -696,39 +696,40 @@ function referInital(referral, senderID) {
                             })
                         })
                     })
-                } else if (refData[1] == 'account') {
+                }
+
+                else if (refData[1] == 'account')
                     sendAPI(senderID, {
                         text: 'Hãy gửi số điện thoại của bạn',
                         metadata: JSON.stringify({
-                            type: 'askPhone',
-                            case: 'updateProfile'
+                            type: 'askPhone'
                         })
                     })
 
-                } else sendAPI(senderID, {
-                    text: `Có phải bạn đang muốn tham gia Jobo để tìm việc làm thêm?`,
-                    quick_replies: [
-                        {
-                            "content_type": "text",
-                            "title": "Đúng vậy",
-                            "payload": JSON.stringify({
-                                type: 'confirmJobSeeker',
-                                answer: 'yes',
-                            })
-                        },
-                        {
-                            "content_type": "text",
-                            "title": "Không phải",
-                            "payload": JSON.stringify({
-                                type: 'confirmJobSeeker',
-                                answer: 'no',
-                            })
-                        },
-                    ],
-                    metadata: JSON.stringify({
-                        type: 'confirmJobSeeker',
+                else sendAPI(senderID, {
+                        text: `Có phải bạn đang muốn tham gia Jobo để tìm việc làm thêm?`,
+                        quick_replies: [
+                            {
+                                "content_type": "text",
+                                "title": "Đúng vậy",
+                                "payload": JSON.stringify({
+                                    type: 'confirmJobSeeker',
+                                    answer: 'yes',
+                                })
+                            },
+                            {
+                                "content_type": "text",
+                                "title": "Không phải",
+                                "payload": JSON.stringify({
+                                    type: 'confirmJobSeeker',
+                                    answer: 'no',
+                                })
+                            },
+                        ],
+                        metadata: JSON.stringify({
+                            type: 'confirmJobSeeker',
+                        })
                     })
-                })
             }
 
 
