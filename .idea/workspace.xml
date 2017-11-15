@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-    </list>
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -19,8 +17,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="640" column="94" lean-forward="false" selection-start-line="640" selection-start-column="94" selection-end-line="640" selection-end-column="94" />
+            <state relative-caret-position="155">
+              <caret line="898" column="24" lean-forward="true" selection-start-line="898" selection-start-column="24" selection-end-line="898" selection-end-column="24" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
@@ -28,17 +26,16 @@
                 <element signature="n#!!block;n#strTime#0" expanded="false" />
                 <element signature="n#!!block;n#timeAgo#0" expanded="false" />
                 <element signature="n#!!block;n#jobJD#0" expanded="false" />
-                <element signature="e#25964#28028#0" expanded="false" />
-                <element signature="e#26067#27944#0" expanded="false" />
-                <element signature="e#36236#38300#0" expanded="false" />
-                <element signature="e#36339#38216#0" expanded="false" />
-                <element signature="e#45975#46717#0" expanded="false" />
-                <element signature="e#48040#48110#0" expanded="false" />
-                <element signature="e#51915#52931#0" expanded="false" />
-                <element signature="e#63197#63490#0" expanded="false" />
-                <element signature="e#63558#64372#0" expanded="false" />
-                <element signature="e#75015#77535#0" expanded="false" />
-                <element signature="e#89953#90147#0" expanded="false" />
+                <element signature="e#25463#27231#0" expanded="false" />
+                <element signature="e#25550#27155#0" expanded="false" />
+                <element signature="e#27291#28114#0" expanded="false" />
+                <element signature="e#39413#40155#0" expanded="false" />
+                <element signature="e#41478#41548#0" expanded="false" />
+                <element signature="e#45353#46369#0" expanded="false" />
+                <element signature="e#56635#56928#0" expanded="false" />
+                <element signature="e#56996#57810#0" expanded="false" />
+                <element signature="e#68453#70973#0" expanded="false" />
+                <element signature="e#83391#83585#0" expanded="false" />
                 <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
@@ -86,10 +83,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>quick_replies</find>
-      <find>check</find>
-      <find>checkUser</find>
-      <find>loadJob</find>
       <find>send</find>
       <find>update</find>
       <find>updateP</find>
@@ -98,7 +91,6 @@
       <find>admin</find>
       <find>admin/createuser</find>
       <find>updateProfile</find>
-      <find>askPhone</find>
       <find>likeAc</find>
       <find>applyJob</find>
       <find>like</find>
@@ -115,7 +107,12 @@
       <find>google.com/ma</find>
       <find>affiliate</find>
       <find>ref</find>
+      <find>loadUser</find>
+      <find>account</find>
+      <find>getUserDataAndSave</find>
+      <find>askPhone</find>
       <find>confirmCheckUser</find>
+      <find>refer</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -228,12 +225,12 @@
       <workItem from="1508779803911" duration="71675000" />
       <workItem from="1509354917434" duration="7683000" />
       <workItem from="1509435377569" duration="65763000" />
-      <workItem from="1510028515679" duration="65310000" />
+      <workItem from="1510028515679" duration="67521000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="210431000" />
+    <option name="totallyTimeSpent" value="212642000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -301,17 +298,16 @@
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
-            <element signature="e#25964#28028#0" expanded="false" />
-            <element signature="e#26067#27944#0" expanded="false" />
-            <element signature="e#36236#38300#0" expanded="false" />
-            <element signature="e#36339#38216#0" expanded="false" />
-            <element signature="e#45975#46717#0" expanded="false" />
-            <element signature="e#48040#48110#0" expanded="false" />
-            <element signature="e#51915#52931#0" expanded="false" />
-            <element signature="e#63197#63490#0" expanded="false" />
-            <element signature="e#63558#64372#0" expanded="false" />
-            <element signature="e#75015#77535#0" expanded="false" />
-            <element signature="e#89953#90147#0" expanded="false" />
+            <element signature="e#25463#27231#0" expanded="false" />
+            <element signature="e#25550#27155#0" expanded="false" />
+            <element signature="e#27291#28114#0" expanded="false" />
+            <element signature="e#39413#40155#0" expanded="false" />
+            <element signature="e#41478#41548#0" expanded="false" />
+            <element signature="e#45353#46369#0" expanded="false" />
+            <element signature="e#56635#56928#0" expanded="false" />
+            <element signature="e#56996#57810#0" expanded="false" />
+            <element signature="e#68453#70973#0" expanded="false" />
+            <element signature="e#83391#83585#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
@@ -388,8 +384,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="640" column="94" lean-forward="false" selection-start-line="640" selection-start-column="94" selection-end-line="640" selection-end-column="94" />
+        <state relative-caret-position="155">
+          <caret line="898" column="24" lean-forward="true" selection-start-line="898" selection-start-column="24" selection-end-line="898" selection-end-column="24" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
@@ -397,17 +393,16 @@
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
-            <element signature="e#25964#28028#0" expanded="false" />
-            <element signature="e#26067#27944#0" expanded="false" />
-            <element signature="e#36236#38300#0" expanded="false" />
-            <element signature="e#36339#38216#0" expanded="false" />
-            <element signature="e#45975#46717#0" expanded="false" />
-            <element signature="e#48040#48110#0" expanded="false" />
-            <element signature="e#51915#52931#0" expanded="false" />
-            <element signature="e#63197#63490#0" expanded="false" />
-            <element signature="e#63558#64372#0" expanded="false" />
-            <element signature="e#75015#77535#0" expanded="false" />
-            <element signature="e#89953#90147#0" expanded="false" />
+            <element signature="e#25463#27231#0" expanded="false" />
+            <element signature="e#25550#27155#0" expanded="false" />
+            <element signature="e#27291#28114#0" expanded="false" />
+            <element signature="e#39413#40155#0" expanded="false" />
+            <element signature="e#41478#41548#0" expanded="false" />
+            <element signature="e#45353#46369#0" expanded="false" />
+            <element signature="e#56635#56928#0" expanded="false" />
+            <element signature="e#56996#57810#0" expanded="false" />
+            <element signature="e#68453#70973#0" expanded="false" />
+            <element signature="e#83391#83585#0" expanded="false" />
             <element signature="n#!!block;n#sendGifMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendAudioMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />

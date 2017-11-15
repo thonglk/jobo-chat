@@ -633,8 +633,8 @@ function referInital(referral, senderID) {
     getUserDataAndSave(senderID).then(result => {
 
 
-        if (referral.ref.length > 0) {
-            axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user: {ref_new: referral.ref}})
+        if (referral && referral.ref) {
+            axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user: {ref: referral.ref}})
 
             var refstr = referral.ref;
             var refData = refstr.split('_');
