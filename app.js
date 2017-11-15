@@ -641,7 +641,7 @@ function referInital(referral, senderID) {
             var refstr = referral.ref;
             var refData = refstr.split('_');
             console.log('refData', refData);
-            if (refData[0] != 'start' || refData[0] != 'tuyendung') {
+            if (refData[0] != 'start' && refData[0] != 'tuyendung') {
                 var jobId = refData[0]
                 loadJob(jobId).then(result => {
                     var jobData = result
