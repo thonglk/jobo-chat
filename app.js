@@ -634,7 +634,7 @@ function matchingPayload(event) {
         else if (message && message.payload) payloadStr = message.payload
         else if (postback && postback.payload) payloadStr = postback.payload
         else if (referral) {
-
+            console.log('referral',referral)
             getUserDataAndSave(senderID).then(result => {
 
                 if (referral.ref.length > 0) {
@@ -1022,7 +1022,7 @@ function intention(payload, senderID, postback, message = {}) {
                             {
                                 "title": "Tìm việc cho bạn bè, người thân và nhận hoa hồng!",
                                 "subtitle": "Hơn 1000+ đối tác nhà hàng, cafe, shop đang tuyển dụng trên Jobo. Hãy giới thiệu nó tới bạn bè nhé!.",
-                                "image_url": "https://scontent.fhan1-1.fna.fbcdn.net/v/t31.0-8/15975027_432312730493096_8750211388245957528_o.jpg?oh=4e4f55391114b3b3c8c6e12755cd385b&oe=5AABE512",
+                                "image_url": "https://scontent.fhan1-1.fna.fbcdn.net/v/t31.0-8/20451785_560611627663205_769548871451838527_o.png?oh=9b46638692186f9b5c3c24dfe883f983&oe=5A992075",
                                 "buttons": [
                                     {
                                         "type": "element_share",
