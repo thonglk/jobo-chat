@@ -632,7 +632,7 @@ function getUserDataAndSave(senderID) {
 
 function referInital(referral, senderID) {
 
-    getUserDataAndSave(senderID).then(result => {
+    getUserDataAndSave(senderID).then(profile => {
 
 
         if (referral && referral.ref) {
@@ -643,8 +643,7 @@ function referInital(referral, senderID) {
             console.log('refData', refData);
             if (refData[0] != 'start' && refData[0] != 'tuyendung') {
                 var jobId = refData[0]
-                loadJob(jobId).then(result => {
-                    var jobData = result
+                loadJob(jobId).then(jobData => {
                     var messageData = {
                         recipient: {
                             id: senderID
@@ -681,7 +680,7 @@ function referInital(referral, senderID) {
                 }).catch(err => sendTextMessage(senderID, JSON.stringify(err)))
             }
             else if (refData[0] == 'tuyendung') sendAPI(senderID, {
-                text: `Chào ${(result.sex == 'male' ? 'anh' : 'chị')}, có phải ${(result.sex == 'male' ? 'anh' : 'chị')} đang cần tuyển nhân viên không ạ?`,
+                text: `Chào ${(profile.sex == 'male' ? 'anh' : 'chị')}, có phải ${(profile.sex == 'male' ? 'anh' : 'chị')} đang cần tuyển nhân viên không ạ?`,
                 quick_replies: [
                     {
                         "content_type": "text",
@@ -763,7 +762,7 @@ function referInital(referral, senderID) {
 
 
         } else sendAPI(senderID, {
-            text: `Chào ${result.name}, Jobo có thể giúp gì cho bạn nhỉ?`,
+            text: `Chào ${profile.name}, Jobo có thể giúp gì cho bạn nhỉ?`,
             metadata: JSON.stringify({
                 type: 'welcome',
                 case: 'GET_STARTED'
