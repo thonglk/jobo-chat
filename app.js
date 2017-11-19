@@ -1880,7 +1880,7 @@ app.post('/webhook', function (req, res) {
                                                                         "elements": [
                                                                             {
                                                                                 "title": "Dumpling Bot <3 <3 <3!",
-                                                                                "subtitle": "HMình là Dumpling Xanh Dương cực dễ thương. Mình đến với trái đất với mục đích kết duyên mọi người.",
+                                                                                "subtitle": "Mình là Dumpling Xanh Dương cực dễ thương. Mình đến với trái đất với mục đích kết duyên mọi người.",
                                                                                 "image_url": "https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/23659623_558217007851211_9187684244656643971_n.jpg?oh=7f6099d65ee108a021a2818c369777c5&oe=5AA8F1BD",
                                                                                 "default_action": {
                                                                                     "type": "web_url",
