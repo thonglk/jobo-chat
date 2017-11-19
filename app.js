@@ -321,21 +321,21 @@ function setDefautMenu(page = 'jobo') {
             {
                 "call_to_actions": [
                     {
-                        "title": "🍔 Bắt đầu",
+                        "title": "✨ Bắt đầu",
                         "type": "postback",
                         "payload": JSON.stringify({
                             type: 'matching',
                         })
                     },
                     {
-                        "title": "🍇 Dừng chat",
+                        "title": "❎ Dừng chat",
                         "type": "postback",
                         "payload": JSON.stringify({
                             type: 'stop',
                         })
                     },
                     {
-                        "title": "🍇 Chia sẻ Dumpling",
+                        "title": "💏 Chia sẻ Dumpling",
                         "type": "postback",
                         "payload": JSON.stringify({
                             type: 'share',
@@ -1751,7 +1751,7 @@ app.post('/webhook', function (req, res) {
                                         text: messageText,
                                     }, 10, 'dumpling')
                                 } else sendingAPI(senderID, recipientID, {
-                                    text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ để chát",
+                                    text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
                                     quick_replies: [
                                         {
                                             "content_type": "text",
@@ -1843,7 +1843,7 @@ app.post('/webhook', function (req, res) {
                                         text: `đảm bảo 100% bí mật thông tin và nội dung trò chuyện`,
                                     }, 1000, 'dumpling'))
                                     .then(result => sendingAPI(senderID, recipientID, {
-                                        text: "Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ để chát",
+                                        text: "Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
                                         quick_replies: [
                                             {
                                                 "content_type": "text",
