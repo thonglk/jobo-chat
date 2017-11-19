@@ -1762,6 +1762,23 @@ app.post('/webhook', function (req, res) {
                                         }
                                     ]
                                 }, 10, 'dumpling')
+                            } else if(messageAttachments){
+                                if (senderData && senderData.match) {
+                                    sendingAPI(senderData.match, senderID, {
+                                        attachment: messageAttachments[0]
+                                    }, 10, 'dumpling')
+                                } else sendingAPI(senderID, recipientID, {
+                                    text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
+                                    quick_replies: [
+                                        {
+                                            "content_type": "text",
+                                            "title": "💬 Bắt Đầu",
+                                            "payload": JSON.stringify({
+                                                type: 'matching'
+                                            })
+                                        }
+                                    ]
+                                }, 10, 'dumpling')
                             }
 
                         } else if (messagingEvent.delivery) {
