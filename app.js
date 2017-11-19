@@ -156,7 +156,6 @@ var joboTest = firebase.initializeApp({
 }, "joboTest");
 
 var db = jobochat.database();
-
 var db2 = jobo.database();
 var db3 = joboTest.database();
 
@@ -482,7 +481,7 @@ function strTime(time) {
     }
 
     var newtime = new Date(time);
-    return newtime.getHours() + ' giờ ' + vietnamDay[newtime.getDay()] + ' ngày ' + newtime.getDate()
+    return newtime.getHours() + 'h ' + vietnamDay[newtime.getDay()] + ' ' + newtime.getDate()+'/' + newtime.getMonth()
 
 }
 
@@ -1077,7 +1076,7 @@ function intention(payload, senderID, postback, message = {}) {
                                 }))
                             )
                         } else sendAPI(senderID, {
-                            text: 'Bạn chưa lịch phỏng vấn!'
+                            text: 'Bạn chưa có lịch phỏng vấn!'
                         })
 
                     })
@@ -1714,7 +1713,7 @@ app.post('/webhook', function (req, res) {
                                     }, 1000, 'dumpling');
                                     else {
                                         var avaible = _.filter(dataAccount, function (card) {
-                                            if (!card.match && card.gender != senderData.gender && card.id != recipientID) return true
+                                            if (!card.match && card.id != recipientID) return true
                                             else return false
                                         })
                                         if (avaible && avaible.length > 0) {
@@ -1831,13 +1830,10 @@ app.post('/webhook', function (req, res) {
 
 
                                 sendingAPI(senderID, recipientID, {
-                                    text: `Dumpling kết nối hai người lạ (nam và nữ) nói chuyện với nhau bằng một cuộc trò chuyện bí mật`,
+                                    text: `Dumpling kết nối hai người lạ nói chuyện với nhau bằng một cuộc trò chuyện bí mật`,
                                 }, 1000, 'dumpling')
                                     .then(result => sendingAPI(senderID, recipientID, {
                                         text: `đảm bảo 100% bí mật thông tin và nội dung trò chuyện`,
-                                    }, 1000, 'dumpling'))
-                                    .then(result => sendingAPI(senderID, recipientID, {
-                                        text: `Sau khi người kia trả lời bạn tối thiểu 20 tin nhắn, bạn sẽ được quyền xem Avatar của người đó ;)`,
                                     }, 1000, 'dumpling'))
                                     .then(result => sendingAPI(senderID, recipientID, {
                                         text: "Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ để chát",
