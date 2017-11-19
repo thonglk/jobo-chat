@@ -1857,9 +1857,9 @@ app.post('/webhook', function (req, res) {
 
 
                             } else if(payload.type == 'share') {
-                                sendAPI(senderID, {
+                                sendingAPI(senderID,recipientID, {
                                     text: 'Chia sẻ Dumpling với bạn bè để giúp họ tìm thấy 1 nữa của đời mình nhé 👇'
-                                }).then(result => sendAPI(senderID, {
+                                }, 1000, 'dumpling').then(result => sendingAPI(senderID,recipientID, {
                                     "attachment": {
                                         "type": "template",
                                         "payload": {
@@ -1905,7 +1905,7 @@ app.post('/webhook', function (req, res) {
                                         }
                                     }
 
-                                })).catch(err => console.log(err))
+                                },1000,'dumpling')).catch(err => console.log(err))
                             }
                         }
 
