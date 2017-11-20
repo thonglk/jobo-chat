@@ -488,7 +488,7 @@ function strTime(time) {
     }
 
     var newtime = new Date(time);
-    return newtime.getHours() + 'h ' + vietnamDay[newtime.getDay()] + ' ' + newtime.getDate()+'/' + newtime.getMonth()
+    return newtime.getHours() + 'h ' + vietnamDay[newtime.getDay()] + ' ' + newtime.getDate() + '/' + newtime.getMonth()
 
 }
 
@@ -1161,38 +1161,50 @@ function intention(payload, senderID, postback, message = {}) {
 
                 var jobId = payload.jobId
 
-                var actId = jobId + ':' + senderID
-                axios.post(CONFIG.APIURL + '/like', {
-                    actId,
-                    userId: senderID,
-                    jobId,
-                    likeAt: Date.now(),
-                    type: 2,
-                    status: 0,
-                    platform: 'messenger'
+                loadJob(jobId).then(jobData => {
+                    if (jobData.deadline > Date.now()) {
+                        var status = 1
+                    } else {
+                        status = 0
+                    }
+
+                    var actId = jobId + ':' + senderID
+                    axios.post(CONFIG.APIURL + '/like', {
+                        actId,
+                        userId: senderID,
+                        jobId,
+                        likeAt: Date.now(),
+                        type: 2,
+                        status,
+                        platform: 'messenger'
+                    })
+
+                    axios.get(CONFIG.APIURL + '/on/profile?userId=' + senderID)
+                        .then(result => {
+                            var profileData = result.data
+                            if (profileData.userInfo && profileData.userInfo.phone) sendInterviewOption(jobId, senderID,status)
+                            else sendAPI(senderID, {
+                                text: 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé',
+                                metadata: JSON.stringify({
+                                    type: 'askPhone',
+                                    case: 'applyJob',
+                                    jobId,
+                                    status
+                                })
+                            });
+
+                        }).catch(err => sendAPI(senderID, {
+                        text: 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé',
+                        metadata: JSON.stringify({
+                            type: 'askPhone',
+                            case: 'applyJob',
+                            jobId,
+                            status
+                        })
+                    }))
+
                 })
 
-                axios.get(CONFIG.APIURL + '/on/profile?userId=' + senderID)
-                    .then(result => {
-                        var profileData = result.data
-                        if (profileData.userInfo && profileData.userInfo.phone) sendInterviewOption(jobId, senderID)
-                        else sendAPI(senderID, {
-                            text: 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé',
-                            metadata: JSON.stringify({
-                                type: 'askPhone',
-                                case: 'applyJob',
-                                jobId
-                            })
-                        });
-
-                    }).catch(err => sendAPI(senderID, {
-                    text: 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé',
-                    metadata: JSON.stringify({
-                        type: 'askPhone',
-                        case: 'applyJob',
-                        jobId
-                    })
-                }))
 
             } else {
 
@@ -1358,7 +1370,8 @@ function intention(payload, senderID, postback, message = {}) {
                                         phone_number: payload.phone_number,
                                         case: payload.case,
                                         userId: user.userId,
-                                        jobId
+                                        jobId,
+                                        status: payload.status
                                     })
                                 }, {
                                     "content_type": "text",
@@ -1370,6 +1383,7 @@ function intention(payload, senderID, postback, message = {}) {
                                         case: payload.case,
                                         userId: user.userId,
                                         jobId,
+                                        status: payload.status
 
                                     })
                                 }],
@@ -1380,7 +1394,7 @@ function intention(payload, senderID, postback, message = {}) {
                         } else {
                             if (jobId) {
                                 //appy job
-                                sendInterviewOption(jobId, senderID)
+                                sendInterviewOption(jobId, senderID,payload.status)
 
                             } else {
                                 sendAPI(senderID, {
@@ -1447,7 +1461,7 @@ function intention(payload, senderID, postback, message = {}) {
                         } else {
                             if (jobId) {
                                 //appy job
-                                sendInterviewOption(jobId, senderID)
+                                sendInterviewOption(jobId, senderID,payload.status)
 
                             } else {
                                 sendAPI(senderID, {
@@ -1472,7 +1486,7 @@ function intention(payload, senderID, postback, message = {}) {
 
 
                 console.log('phone', phone)
-                userRef.child(senderID).update({phone}).then(result => sendInterviewOption(jobId, senderID))
+                userRef.child(senderID).update({phone}).then(result => sendInterviewOption(jobId, senderID,payload.status))
 
             }
             break
@@ -1592,7 +1606,7 @@ function loadProfile(userId) {
 
 }
 
-function sendInterviewOption(jobId, senderID) {
+function sendInterviewOption(jobId, senderID, status) {
     loadJob(jobId).then(result => {
         var jobData = result;
         var storeData = result.storeData
@@ -1601,33 +1615,54 @@ function sendInterviewOption(jobId, senderID) {
         console.log('storeData.interviewOption', storeData.interviewOption)
 
         var quick_replies = []
+        if (status == 1) {
 
-        if (storeData.interviewOption) {
-            for (var i in storeData.interviewOption) {
-                var time = storeData.interviewOption[i]
+            if (storeData.interviewOption) {
+                for (var i in storeData.interviewOption) {
+                    var time = storeData.interviewOption[i]
 
-                var rep = {
-                    "content_type": "text",
-                    "title": strTime(time),
-                    "payload": JSON.stringify({
-                        type: 'setInterview',
-                        time: time,
-                        jobId
-                    })
-                };
-                quick_replies.push(rep)
+                    var rep = {
+                        "content_type": "text",
+                        "title": strTime(time),
+                        "payload": JSON.stringify({
+                            type: 'setInterview',
+                            time: time,
+                            jobId
+                        })
+                    };
+                    quick_replies.push(rep)
+                }
+
             }
 
+
+            sendAPI(senderID, {
+                text: 'Bạn có thể tham gia phỏng vấn lúc nào?',
+                quick_replies: quick_replies,
+                metadata: JSON.stringify({
+                    type: 'setInterview',
+                })
+            });
+
+
+        } else {
+            sendAPI(senderID, {
+                attachment: {
+                    type: "template",
+                    payload: {
+                        template_type: "button",
+                        text: 'Tiếp theo bạn hãy cập nhật hồ sơ để ứng tuyển nhé',
+                        buttons: [{
+                            type: "web_url",
+                            url: `${CONFIG.WEBURL}/profile?admin=${user.userId}`,
+                            title: "Cập nhật hồ sơ"
+                        }]
+                    }
+                }
+            });
+
+
         }
-
-
-        sendAPI(senderID, {
-            text: 'Bạn có thể tham gia phỏng vấn lúc nào?',
-            quick_replies: quick_replies,
-            metadata: JSON.stringify({
-                type: 'setInterview',
-            })
-        });
 
     });
 }
@@ -1762,7 +1797,7 @@ app.post('/webhook', function (req, res) {
                                         }
                                     ]
                                 }, 10, 'dumpling')
-                            } else if(messageAttachments){
+                            } else if (messageAttachments) {
                                 if (senderData && senderData.match) {
                                     sendingAPI(senderData.match, senderID, {
                                         attachment: messageAttachments[0]
@@ -1873,10 +1908,10 @@ app.post('/webhook', function (req, res) {
                                     }, 1000, 'dumpling'))
 
 
-                            } else if(payload.type == 'share') {
-                                sendingAPI(senderID,recipientID, {
+                            } else if (payload.type == 'share') {
+                                sendingAPI(senderID, recipientID, {
                                     text: 'Chia sẻ Dumpling với bạn bè để giúp họ tìm thấy 1 nữa của đời mình nhé 👇'
-                                }, 1000, 'dumpling').then(result => sendingAPI(senderID,recipientID, {
+                                }, 1000, 'dumpling').then(result => sendingAPI(senderID, recipientID, {
                                     "attachment": {
                                         "type": "template",
                                         "payload": {
@@ -1922,7 +1957,7 @@ app.post('/webhook', function (req, res) {
                                         }
                                     }
 
-                                },1000,'dumpling')).catch(err => console.log(err))
+                                }, 1000, 'dumpling')).catch(err => console.log(err))
                             }
                         }
 
