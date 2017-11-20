@@ -204,12 +204,78 @@ function initUser() {
 }
 
 app.post('/noti', function (req, res) {
-    let {recipientId, message} = req.body
-
-    sendAPI(recipientId, message).then(result => res.send(result))
+    let {recipientId, message, page} = req.body
+    if (page) sendingAPI(recipientId, CONFIG.facebookPage[page].id, message, null, page)
+    else sendAPI(recipientId, message)
+        .then(result => res.send(result))
         .catch(err => res.status(500).json(err))
-
+});
+app.get('/notiWelcome', function (req, res) {
+    sendWelcome()
+    res.send('done')
 })
+
+function sendWelcome() {
+    var sent = 0
+
+    var filter = _.map(dataAccount, account => {
+        var page = 'dumpling';
+        var message = {
+            attachment: {
+                type: "template",
+                payload: {
+                    template_type: "button",
+                    text: `[DUMPLING]
+Dear ${account.last_name} ${account.first_name}
+Bạn là một trong những người đầu tiên đến với Dumpling!
+Mong rằng các bạn sẽ tìm được những người bạn mới thật thú vị. 
+Đừng quên chia sẻ trải nghiệm của bạn tại Dumpling bằng cách like fanpage và gia nhập group thảo luận nhé! 
+Dumpling cảm ơn! Chúc các bạn ngủ ngon và mơ đẹp nhé! <3 <3 <3`,
+                    buttons: [{
+                        type: "web_url",
+                        url: "https://www.facebook.com/dumpling.bot",
+                        title: "Fanpage Dumpling"
+                    }, {
+                        type: "web_url",
+                        url: "https://www.facebook.com/groups/1985734365037855",
+                        title: "Tham gia nhóm"
+                    }, {
+                        type: "postback",
+                        title: "Chia sẻ",
+                        payload: JSON.stringify({type: 'share'})
+                    }]
+                }
+            }
+        }
+        var recipientId = account.id
+        if (!a) {
+            var a = 0
+        }
+        if (recipientId == '1962106533816606') {
+            sent = 1
+        }
+
+        if (sent == 1) {
+            a++
+            setTimeout(function () {
+                sendingAPI(recipientId, CONFIG.facebookPage[page].id, message, null, page)
+            }, a * 2000)
+        }
+
+    });
+}
+
+app.get('/dumpling/account', function (req, res) {
+    var query = req.query
+    var filter = _.filter(dataAccount, account => {
+        if (
+            (!query.match || (query.match && account.match)) &&
+            (!query.gender || account.gender == query.gender)
+        ) return true
+    });
+    console.log('length', filter.length)
+    res.send(filter)
+});
 
 app.get('/message', function (req, res) {
     var {message} = req.query
@@ -220,13 +286,14 @@ app.get('/message', function (req, res) {
 
 app.get('/initUser', function () {
     initUser()
-})
+});
 
 app.get('/setMenu', function (req, res) {
     var page = req.param('page')
     setDefautMenu(page).then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 })
+
 app.get('/setGetstarted', function (req, res) {
     var page = req.param('page')
     setGetstarted(page).then(result => res.send(result))
@@ -333,14 +400,27 @@ function setDefautMenu(page = 'jobo') {
                         "payload": JSON.stringify({
                             type: 'stop',
                         })
+                    }, {
+                        "title": "Xem thêm",
+                        "type": "nested",
+
+                        "call_to_actions": [
+                            {
+                                type: "web_url",
+                                url: "https://www.facebook.com/dumpling.bot",
+                                title: "Fanpage Dumpling"
+                            }, {
+                                type: "web_url",
+                                url: "https://www.facebook.com/groups/1985734365037855",
+                                title: "Tham gia nhóm"
+                            }, {
+                                type: "postback",
+                                title: "Chia sẻ Dumpling",
+                                payload: JSON.stringify({type: 'share'})
+                            }
+                        ]
                     },
-                    {
-                        "title": "💏 Chia sẻ Dumpling",
-                        "type": "postback",
-                        "payload": JSON.stringify({
-                            type: 'share',
-                        })
-                    }
+
                 ],
                 "locale": "default",
 
@@ -423,9 +503,7 @@ function sendHalloWeenMessage(user) {
 app.get('/sendHalloWeenMessage', function (req, res) {
     userRef.once('value', function (snap) {
         var dataUser = snap.val()
-        for (var i in dataUser) {
-            sendHalloWeenMessage(dataUser[i])
-        }
+        for (var i in dataUser) sendHalloWeenMessage(dataUser[i])
 
         res.send('done')
 
@@ -1757,7 +1835,7 @@ app.post('/webhook', function (req, res) {
                                     }, 1000, 'dumpling');
                                     else {
                                         var avaible = _.filter(dataAccount, function (card) {
-                                            if (!card.match && card.id != recipientID) return true
+                                            if (!card.match && senderData.gender != card.gender && card.id != recipientID) return true
                                             else return false
                                         })
                                         if (avaible && avaible.length > 0) {
@@ -2488,7 +2566,8 @@ function sendTextMessage(recipientId, messageText, metadata) {
 
 }
 
-function sendingAPI(recipientId, senderId, message, typing, page = 'jobo') {
+
+function sendingAPI(recipientId, senderId = CONFIG.facebookPage['jobo'].id, message, typing, page = 'jobo') {
     return new Promise(function (resolve, reject) {
         if (!typing) typing = 1000
         var messageData = {
