@@ -1647,7 +1647,7 @@ function sendInterviewOption(jobId, senderID, status) {
         } else {
             console.log('cập nhật hồ sơ')
 
-            sendAPI(senderID, {
+            loadUser(senderID).then(user => sendAPI(senderID, {
                 attachment: {
                     type: "template",
                     payload: {
@@ -1660,7 +1660,9 @@ function sendInterviewOption(jobId, senderID, status) {
                         }]
                     }
                 }
-            });
+            });)
+
+
 
 
         }
