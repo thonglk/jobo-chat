@@ -17,8 +17,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="191" column="9" lean-forward="true" selection-start-line="191" selection-start-column="9" selection-end-line="191" selection-end-column="9" />
+            <state relative-caret-position="207">
+              <caret line="2832" column="30" lean-forward="true" selection-start-line="2832" selection-start-column="30" selection-end-line="2832" selection-end-column="30" />
               <folding>
                 <element signature="e#14358#15972#0" expanded="false" />
                 <element signature="n#!!block;n#timeAgo#0" expanded="false" />
@@ -69,7 +69,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>loadUser</find>
       <find>account</find>
       <find>getUserDataAndSave</find>
       <find>refer</find>
@@ -99,6 +98,7 @@
       <find>confirmCheckUser</find>
       <find>sendInterviewOption</find>
       <find>sc</find>
+      <find>sendingA</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -217,12 +217,12 @@
       <workItem from="1510980790702" duration="3474000" />
       <workItem from="1511074518141" duration="420000" />
       <workItem from="1511082841149" duration="3898000" />
-      <workItem from="1511161319446" duration="1307000" />
+      <workItem from="1511161319446" duration="1516000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="236347000" />
+    <option name="totallyTimeSpent" value="236556000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -474,8 +474,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="191" column="9" lean-forward="true" selection-start-line="191" selection-start-column="9" selection-end-line="191" selection-end-column="9" />
+        <state relative-caret-position="207">
+          <caret line="2832" column="30" lean-forward="true" selection-start-line="2832" selection-start-column="30" selection-end-line="2832" selection-end-column="30" />
           <folding>
             <element signature="e#14358#15972#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />

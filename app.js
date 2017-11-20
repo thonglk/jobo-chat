@@ -1612,11 +1612,10 @@ function sendInterviewOption(jobId, senderID, status) {
         var storeData = result.storeData
         jobData.storeName = storeData.storeName
         jobData.address = storeData.address
-        console.log('storeData.interviewOption', storeData.interviewOption)
 
         var quick_replies = []
         if (status == 1) {
-
+            console.log('storeData.interviewOption', storeData.interviewOption)
             if (storeData.interviewOption) {
                 for (var i in storeData.interviewOption) {
                     var time = storeData.interviewOption[i]
@@ -1646,6 +1645,8 @@ function sendInterviewOption(jobId, senderID, status) {
 
 
         } else {
+            console.log('cập nhật hồ sơ')
+
             sendAPI(senderID, {
                 attachment: {
                     type: "template",
