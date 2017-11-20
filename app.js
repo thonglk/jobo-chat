@@ -1182,7 +1182,7 @@ function intention(payload, senderID, postback, message = {}) {
                     axios.get(CONFIG.APIURL + '/on/profile?userId=' + senderID)
                         .then(result => {
                             var profileData = result.data
-                            if (profileData.userInfo && profileData.userInfo.phone) sendInterviewOption(jobId, senderID,status)
+                            if (profileData.userInfo && profileData.userInfo.phone) sendInterviewOption(jobId, senderID, status)
                             else sendAPI(senderID, {
                                 text: 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé',
                                 metadata: JSON.stringify({
@@ -1394,7 +1394,7 @@ function intention(payload, senderID, postback, message = {}) {
                         } else {
                             if (jobId) {
                                 //appy job
-                                sendInterviewOption(jobId, senderID,payload.status)
+                                sendInterviewOption(jobId, senderID, payload.status)
 
                             } else {
                                 sendAPI(senderID, {
@@ -1461,7 +1461,7 @@ function intention(payload, senderID, postback, message = {}) {
                         } else {
                             if (jobId) {
                                 //appy job
-                                sendInterviewOption(jobId, senderID,payload.status)
+                                sendInterviewOption(jobId, senderID, payload.status)
 
                             } else {
                                 sendAPI(senderID, {
@@ -1486,7 +1486,7 @@ function intention(payload, senderID, postback, message = {}) {
 
 
                 console.log('phone', phone)
-                userRef.child(senderID).update({phone}).then(result => sendInterviewOption(jobId, senderID,payload.status))
+                userRef.child(senderID).update({phone}).then(result => sendInterviewOption(jobId, senderID, payload.status))
 
             }
             break
@@ -1648,21 +1648,20 @@ function sendInterviewOption(jobId, senderID, status) {
             console.log('cập nhật hồ sơ')
 
             loadUser(senderID).then(user => sendAPI(senderID, {
-                attachment: {
-                    type: "template",
-                    payload: {
-                        template_type: "button",
-                        text: 'Tiếp theo bạn hãy cập nhật hồ sơ để ứng tuyển nhé',
-                        buttons: [{
-                            type: "web_url",
-                            url: `${CONFIG.WEBURL}/profile?admin=${user.userId}`,
-                            title: "Cập nhật hồ sơ"
-                        }]
+                    attachment: {
+                        type: "template",
+                        payload: {
+                            template_type: "button",
+                            text: 'Tiếp theo bạn hãy cập nhật hồ sơ để ứng tuyển nhé',
+                            buttons: [{
+                                type: "web_url",
+                                url: `${CONFIG.WEBURL}/profile?admin=${user.userId}`,
+                                title: "Cập nhật hồ sơ"
+                            }]
+                        }
                     }
-                }
-            });)
-
-
+                })
+            )
 
 
         }
@@ -2791,7 +2790,7 @@ function sendTypingOff(recipientId, page = 'jobo') {
         sender_action: "typing_off"
     };
 
-    callSendAPI(messageData,page);
+    callSendAPI(messageData, page);
 }
 
 /*
