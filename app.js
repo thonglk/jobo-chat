@@ -2788,7 +2788,7 @@ function sendTypingOff(recipientId, page = 'jobo') {
         sender_action: "typing_off"
     };
 
-    callSendAPI(messageData);
+    callSendAPI(messageData,page);
 }
 
 /*

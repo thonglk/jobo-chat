@@ -17,8 +17,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="2325" column="20" lean-forward="true" selection-start-line="2325" selection-start-column="20" selection-end-line="2325" selection-end-column="20" />
+            <state relative-caret-position="312">
+              <caret line="191" column="9" lean-forward="true" selection-start-line="191" selection-start-column="9" selection-end-line="191" selection-end-column="9" />
               <folding>
                 <element signature="e#14358#15972#0" expanded="false" />
                 <element signature="n#!!block;n#timeAgo#0" expanded="false" />
@@ -26,11 +26,10 @@
                 <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
                 <element signature="n#!!block;n#referInital#0" expanded="false" />
                 <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-                <element signature="n#!!block;n#intention#0" expanded="false" />
-                <element signature="e#36976#37212#0" expanded="false" />
-                <element signature="e#37279#40382#0" expanded="false" />
+                <element signature="e#36978#37214#0" expanded="false" />
+                <element signature="e#37281#40384#0" expanded="false" />
                 <element signature="n#!!block;n#loadUser#0" expanded="false" />
-                <element signature="e#69892#72376#0" expanded="false" />
+                <element signature="e#71238#73722#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -70,18 +69,9 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>jobseeker</find>
-      <find>interview</find>
-      <find>lịch</find>
-      <find>cancelInterview</find>
-      <find>google.com/ma</find>
-      <find>affiliate</find>
-      <find>ref</find>
       <find>loadUser</find>
       <find>account</find>
       <find>getUserDataAndSave</find>
-      <find>askPhone</find>
-      <find>confirmCheckUser</find>
       <find>refer</find>
       <find>conversationData</find>
       <find>conversationRef</find>
@@ -100,6 +90,15 @@
       <find>send</find>
       <find>dumpling</find>
       <find>attachment</find>
+      <find>apply</find>
+      <find>updateProfile</find>
+      <find>/like</find>
+      <find>status</find>
+      <find>sendI</find>
+      <find>askPhone</find>
+      <find>confirmCheckUser</find>
+      <find>sendInterviewOption</find>
+      <find>sc</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -218,11 +217,12 @@
       <workItem from="1510980790702" duration="3474000" />
       <workItem from="1511074518141" duration="420000" />
       <workItem from="1511082841149" duration="3898000" />
+      <workItem from="1511161319446" duration="1307000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="235040000" />
+    <option name="totallyTimeSpent" value="236347000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -235,7 +235,7 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25392985" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25272068" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -278,7 +278,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/app.js</url>
           <line>271</line>
-          <properties />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
@@ -287,6 +286,49 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#14358#15972#0" expanded="false" />
+            <element signature="n#!!block;n#timeAgo#0" expanded="false" />
+            <element signature="n#!!block;n#jobJD#0" expanded="false" />
+            <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
+            <element signature="n#!!block;n#referInital#0" expanded="false" />
+            <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
+            <element signature="e#36978#37214#0" expanded="false" />
+            <element signature="e#37281#40384#0" expanded="false" />
+            <element signature="n#!!block;n#loadUser#0" expanded="false" />
+            <element signature="e#71238#73722#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="36" column="25" lean-forward="false" selection-start-line="36" selection-start-column="25" selection-end-line="36" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/default.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="1" lean-forward="false" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
@@ -306,11 +348,10 @@
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#36976#37212#0" expanded="false" />
-            <element signature="e#37279#40382#0" expanded="false" />
+            <element signature="e#36978#37214#0" expanded="false" />
+            <element signature="e#37281#40384#0" expanded="false" />
             <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#69892#72376#0" expanded="false" />
+            <element signature="e#71238#73722#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -342,11 +383,10 @@
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#36976#37212#0" expanded="false" />
-            <element signature="e#37279#40382#0" expanded="false" />
+            <element signature="e#36978#37214#0" expanded="false" />
+            <element signature="e#37281#40384#0" expanded="false" />
             <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#69892#72376#0" expanded="false" />
+            <element signature="e#71238#73722#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -386,11 +426,10 @@
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#36976#37212#0" expanded="false" />
-            <element signature="e#37279#40382#0" expanded="false" />
+            <element signature="e#36978#37214#0" expanded="false" />
+            <element signature="e#37281#40384#0" expanded="false" />
             <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#69892#72376#0" expanded="false" />
+            <element signature="e#71238#73722#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -435,8 +474,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="2325" column="20" lean-forward="true" selection-start-line="2325" selection-start-column="20" selection-end-line="2325" selection-end-column="20" />
+        <state relative-caret-position="312">
+          <caret line="191" column="9" lean-forward="true" selection-start-line="191" selection-start-column="9" selection-end-line="191" selection-end-column="9" />
           <folding>
             <element signature="e#14358#15972#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
@@ -444,11 +483,10 @@
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#36976#37212#0" expanded="false" />
-            <element signature="e#37279#40382#0" expanded="false" />
+            <element signature="e#36978#37214#0" expanded="false" />
+            <element signature="e#37281#40384#0" expanded="false" />
             <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#69892#72376#0" expanded="false" />
+            <element signature="e#71238#73722#0" expanded="false" />
           </folding>
         </state>
       </provider>
