@@ -1820,7 +1820,7 @@ app.post('/webhook', function (req, res) {
                         var message = messagingEvent.message;
                         var senderData = dataAccount[senderID]
                         if(messagingEvent.referral) var referral = messagingEvent.referral
-                        else if(messagingEvent.postback.referral) referral = messagingEvent.postback.referral
+                        else if(messagingEvent.postback && messagingEvent.postback.referral) referral = messagingEvent.postback.referral
 
 
                         console.log('senderData', senderData)
@@ -1973,7 +1973,7 @@ app.post('/webhook', function (req, res) {
                                         if (err) reject(err);
 
                                         console.log(result);
-                                        var user = result
+                                        var user = result;
 
                                         if (referral && referral.ref) {
                                             user.ref = referral.ref
@@ -1982,7 +1982,6 @@ app.post('/webhook', function (req, res) {
                                         accountRef.child('dumpling').child(senderID).update(user)
                                     })
                                 }
-
 
                                 sendingAPI(senderID, recipientID, {
                                     text: `Dumpling kết nối hai người lạ nói chuyện với nhau bằng một cuộc trò chuyện bí mật`,
