@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -17,29 +19,32 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="2417" column="28" lean-forward="false" selection-start-line="2417" selection-start-column="9" selection-end-line="2417" selection-end-column="28" />
+            <state relative-caret-position="438">
+              <caret line="1439" column="45" lean-forward="false" selection-start-line="1439" selection-start-column="45" selection-end-line="1439" selection-end-column="45" />
               <folding>
                 <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
                 <element signature="e#17021#18098#0" expanded="false" />
-                <element signature="e#20748#20858#0" expanded="false" />
+                <element signature="e#20793#20903#0" expanded="false" />
                 <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
                 <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-                <element signature="e#22479#22826#0" expanded="false" />
+                <element signature="e#22524#22871#0" expanded="false" />
                 <element signature="n#!!block;n#strTime#0" expanded="false" />
                 <element signature="n#!!block;n#timeAgo#0" expanded="false" />
                 <element signature="n#!!block;n#jobJD#0" expanded="false" />
                 <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-                <element signature="n#!!block;n#intention#0" expanded="false" />
-                <element signature="e#40085#40321#0" expanded="false" />
-                <element signature="e#40388#43491#0" expanded="false" />
-                <element signature="e#43578#48669#0" expanded="false" />
+                <element signature="e#40502#40738#0" expanded="false" />
+                <element signature="e#40805#43908#0" expanded="false" />
+                <element signature="e#58994#62359#0" expanded="false" />
                 <element signature="n#!!block;n#loadUser#0" expanded="false" />
-                <element signature="e#74741#77261#0" expanded="false" />
-                <element signature="e#74959#77230#0" expanded="false" />
-                <element signature="e#79842#81418#0" expanded="false" />
-                <element signature="e#81560#81684#0" expanded="false" />
-                <element signature="e#107650#108431#0" expanded="false" />
+                <element signature="e#74935#75030#0" expanded="false" />
+                <element signature="e#75073#80188#0" expanded="false" />
+                <element signature="e#75459#77979#0" expanded="false" />
+                <element signature="e#75677#77948#0" expanded="false" />
+                <element signature="e#80232#90729#0" expanded="false" />
+                <element signature="e#80433#82009#0" expanded="false" />
+                <element signature="e#82151#82275#0" expanded="false" />
+                <element signature="e#86398#86551#0" expanded="false" />
+                <element signature="e#108169#108950#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -79,10 +84,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>refer</find>
-      <find>conversationData</find>
-      <find>conversationRef</find>
-      <find>conversationRef_new</find>
       <find>lịch phỏng</find>
       <find>confirmEmployer</find>
       <find>start</find>
@@ -109,6 +110,10 @@
       <find>matching</find>
       <find>dumpling</find>
       <find>GET_STARTED</find>
+      <find>read</find>
+      <find>button</find>
+      <find>lastM</find>
+      <find>confirmP</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -227,12 +232,12 @@
       <workItem from="1510980790702" duration="3474000" />
       <workItem from="1511074518141" duration="420000" />
       <workItem from="1511082841149" duration="3898000" />
-      <workItem from="1511161319446" duration="9786000" />
+      <workItem from="1511161319446" duration="12724000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="244826000" />
+    <option name="totallyTimeSpent" value="247764000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -303,24 +308,27 @@
           <folding>
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
             <element signature="e#17021#18098#0" expanded="false" />
-            <element signature="e#20748#20858#0" expanded="false" />
+            <element signature="e#20793#20903#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
             <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#22479#22826#0" expanded="false" />
+            <element signature="e#22524#22871#0" expanded="false" />
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#40085#40321#0" expanded="false" />
-            <element signature="e#40388#43491#0" expanded="false" />
-            <element signature="e#43578#48669#0" expanded="false" />
+            <element signature="e#40502#40738#0" expanded="false" />
+            <element signature="e#40805#43908#0" expanded="false" />
+            <element signature="e#58994#62359#0" expanded="false" />
             <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#74741#77261#0" expanded="false" />
-            <element signature="e#74959#77230#0" expanded="false" />
-            <element signature="e#79842#81418#0" expanded="false" />
-            <element signature="e#81560#81684#0" expanded="false" />
-            <element signature="e#107650#108431#0" expanded="false" />
+            <element signature="e#74935#75030#0" expanded="false" />
+            <element signature="e#75073#80188#0" expanded="false" />
+            <element signature="e#75459#77979#0" expanded="false" />
+            <element signature="e#75677#77948#0" expanded="false" />
+            <element signature="e#80232#90729#0" expanded="false" />
+            <element signature="e#80433#82009#0" expanded="false" />
+            <element signature="e#82151#82275#0" expanded="false" />
+            <element signature="e#86398#86551#0" expanded="false" />
+            <element signature="e#108169#108950#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -364,24 +372,27 @@
           <folding>
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
             <element signature="e#17021#18098#0" expanded="false" />
-            <element signature="e#20748#20858#0" expanded="false" />
+            <element signature="e#20793#20903#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
             <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#22479#22826#0" expanded="false" />
+            <element signature="e#22524#22871#0" expanded="false" />
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#40085#40321#0" expanded="false" />
-            <element signature="e#40388#43491#0" expanded="false" />
-            <element signature="e#43578#48669#0" expanded="false" />
+            <element signature="e#40502#40738#0" expanded="false" />
+            <element signature="e#40805#43908#0" expanded="false" />
+            <element signature="e#58994#62359#0" expanded="false" />
             <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#74741#77261#0" expanded="false" />
-            <element signature="e#74959#77230#0" expanded="false" />
-            <element signature="e#79842#81418#0" expanded="false" />
-            <element signature="e#81560#81684#0" expanded="false" />
-            <element signature="e#107650#108431#0" expanded="false" />
+            <element signature="e#74935#75030#0" expanded="false" />
+            <element signature="e#75073#80188#0" expanded="false" />
+            <element signature="e#75459#77979#0" expanded="false" />
+            <element signature="e#75677#77948#0" expanded="false" />
+            <element signature="e#80232#90729#0" expanded="false" />
+            <element signature="e#80433#82009#0" expanded="false" />
+            <element signature="e#82151#82275#0" expanded="false" />
+            <element signature="e#86398#86551#0" expanded="false" />
+            <element signature="e#108169#108950#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -409,24 +420,27 @@
           <folding>
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
             <element signature="e#17021#18098#0" expanded="false" />
-            <element signature="e#20748#20858#0" expanded="false" />
+            <element signature="e#20793#20903#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
             <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#22479#22826#0" expanded="false" />
+            <element signature="e#22524#22871#0" expanded="false" />
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#40085#40321#0" expanded="false" />
-            <element signature="e#40388#43491#0" expanded="false" />
-            <element signature="e#43578#48669#0" expanded="false" />
+            <element signature="e#40502#40738#0" expanded="false" />
+            <element signature="e#40805#43908#0" expanded="false" />
+            <element signature="e#58994#62359#0" expanded="false" />
             <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#74741#77261#0" expanded="false" />
-            <element signature="e#74959#77230#0" expanded="false" />
-            <element signature="e#79842#81418#0" expanded="false" />
-            <element signature="e#81560#81684#0" expanded="false" />
-            <element signature="e#107650#108431#0" expanded="false" />
+            <element signature="e#74935#75030#0" expanded="false" />
+            <element signature="e#75073#80188#0" expanded="false" />
+            <element signature="e#75459#77979#0" expanded="false" />
+            <element signature="e#75677#77948#0" expanded="false" />
+            <element signature="e#80232#90729#0" expanded="false" />
+            <element signature="e#80433#82009#0" expanded="false" />
+            <element signature="e#82151#82275#0" expanded="false" />
+            <element signature="e#86398#86551#0" expanded="false" />
+            <element signature="e#108169#108950#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -462,24 +476,27 @@
           <folding>
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
             <element signature="e#17021#18098#0" expanded="false" />
-            <element signature="e#20748#20858#0" expanded="false" />
+            <element signature="e#20793#20903#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
             <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#22479#22826#0" expanded="false" />
+            <element signature="e#22524#22871#0" expanded="false" />
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#40085#40321#0" expanded="false" />
-            <element signature="e#40388#43491#0" expanded="false" />
-            <element signature="e#43578#48669#0" expanded="false" />
+            <element signature="e#40502#40738#0" expanded="false" />
+            <element signature="e#40805#43908#0" expanded="false" />
+            <element signature="e#58994#62359#0" expanded="false" />
             <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#74741#77261#0" expanded="false" />
-            <element signature="e#74959#77230#0" expanded="false" />
-            <element signature="e#79842#81418#0" expanded="false" />
-            <element signature="e#81560#81684#0" expanded="false" />
-            <element signature="e#107650#108431#0" expanded="false" />
+            <element signature="e#74935#75030#0" expanded="false" />
+            <element signature="e#75073#80188#0" expanded="false" />
+            <element signature="e#75459#77979#0" expanded="false" />
+            <element signature="e#75677#77948#0" expanded="false" />
+            <element signature="e#80232#90729#0" expanded="false" />
+            <element signature="e#80433#82009#0" expanded="false" />
+            <element signature="e#82151#82275#0" expanded="false" />
+            <element signature="e#86398#86551#0" expanded="false" />
+            <element signature="e#108169#108950#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -524,29 +541,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="2417" column="28" lean-forward="false" selection-start-line="2417" selection-start-column="9" selection-end-line="2417" selection-end-column="28" />
+        <state relative-caret-position="438">
+          <caret line="1439" column="45" lean-forward="false" selection-start-line="1439" selection-start-column="45" selection-end-line="1439" selection-end-column="45" />
           <folding>
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
             <element signature="e#17021#18098#0" expanded="false" />
-            <element signature="e#20748#20858#0" expanded="false" />
+            <element signature="e#20793#20903#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
             <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#22479#22826#0" expanded="false" />
+            <element signature="e#22524#22871#0" expanded="false" />
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#40085#40321#0" expanded="false" />
-            <element signature="e#40388#43491#0" expanded="false" />
-            <element signature="e#43578#48669#0" expanded="false" />
+            <element signature="e#40502#40738#0" expanded="false" />
+            <element signature="e#40805#43908#0" expanded="false" />
+            <element signature="e#58994#62359#0" expanded="false" />
             <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#74741#77261#0" expanded="false" />
-            <element signature="e#74959#77230#0" expanded="false" />
-            <element signature="e#79842#81418#0" expanded="false" />
-            <element signature="e#81560#81684#0" expanded="false" />
-            <element signature="e#107650#108431#0" expanded="false" />
+            <element signature="e#74935#75030#0" expanded="false" />
+            <element signature="e#75073#80188#0" expanded="false" />
+            <element signature="e#75459#77979#0" expanded="false" />
+            <element signature="e#75677#77948#0" expanded="false" />
+            <element signature="e#80232#90729#0" expanded="false" />
+            <element signature="e#80433#82009#0" expanded="false" />
+            <element signature="e#82151#82275#0" expanded="false" />
+            <element signature="e#86398#86551#0" expanded="false" />
+            <element signature="e#108169#108950#0" expanded="false" />
           </folding>
         </state>
       </provider>

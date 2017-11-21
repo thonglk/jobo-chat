@@ -957,7 +957,14 @@ function matchingPayload(event) {
                         console.log('value', value)
                         payload.phone_number = value
                     }
-
+                    if (entities.location) {
+                        var most = _.max(entities.location, function (card) {
+                            return card.confidence;
+                        });
+                        var value = most.value
+                        console.log('value', value)
+                        payload.location = value
+                    }
 
                     resolve({payload, senderID, postback, message})
 
@@ -969,41 +976,12 @@ function matchingPayload(event) {
             if (message.attachments[0].payload.coordinates) {
                 var locationData = message.attachments[0].payload.coordinates;
                 console.log('locationData', locationData);
-
-
-                var data = {
+                var location = {
                     lat: locationData.lat,
                     lng: locationData.long,
-                    page: 1,
-                    per_page: 4,
-                    type: 'premium'
-                };
+                }
 
-                var url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${data.lat},${data.lng}`
-                axios.get(url).then(result => {
-                    if (result.data.results[0]) {
-                        var results = result.data.results
-                        var address = results[0].formatted_address
-
-                    } else {
-                        address = ' '
-                    }
-                    profileRef.child(senderID)
-                        .update({
-                            location: {
-                                lat: data.lat,
-                                lng: data.lng
-                            },
-                            address
-                        })
-                        .then(result => getJob(data))
-                        .then(result => sendAPI(senderID, {
-                            text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh địa chỉ ${shortAddress(address)} nè!`
-                        }).then(() => sendAPI(senderID, result.message, 3000)))
-
-                        .catch(err => console.log(err))
-
-                })
+                sendListJobByAddress(location,null,senderID)
 
 
             }
@@ -1011,6 +989,46 @@ function matchingPayload(event) {
 
     })
 }
+
+function sendListJobByAddress(location, address, senderID) {
+    var data = {
+        lat: location.lat,
+        lng: location.lng,
+        page: 1,
+        per_page: 4,
+        type: 'premium'
+    };
+
+    var url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${data.lat},${data.lng}`
+    axios.get(url).then(result => {
+        if (!address) {
+            if (result.data.results[0]) {
+                var results = result.data.results
+                var address = results[0].formatted_address
+
+            } else {
+                address = ' '
+            }
+        }
+
+        profileRef.child(senderID)
+            .update({
+                location: {
+                    lat: data.lat,
+                    lng: data.lng
+                },
+                address
+            })
+            .then(result => getJob(data))
+            .then(result => sendAPI(senderID, {
+                text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh địa chỉ ${shortAddress(address)} nè!`
+            }).then(() => sendAPI(senderID, result.message, 3000)))
+
+            .catch(err => console.log(err))
+
+    })
+}
+
 
 function intention(payload, senderID, postback, message = {}) {
     console.log('payload', payload, senderID, postback, message);
@@ -1417,6 +1435,26 @@ function intention(payload, senderID, postback, message = {}) {
 
                 })
             }
+            break;
+
+        }
+        case
+        'inputLocation': {
+
+            if (payload.location) {
+                var url = 'https://maps.google.com/maps/api/geocode/json?address=' + payload.location + '&components=country:VN&sensor=true'
+                axios.get(url)
+                    .then(result => {
+                        if(result.data && result.data.results && result.data.results[0]){
+                            var list = result.data.results
+                            var location = list[0].location
+                            var address = list[0].address
+                            sendListJobByAddress(location,address,senderID)
+                        }
+                    })
+            }
+
+
             break;
 
         }
