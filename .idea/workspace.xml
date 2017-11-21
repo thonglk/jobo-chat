@@ -19,15 +19,15 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="81">
-              <caret line="290" column="17" lean-forward="false" selection-start-line="290" selection-start-column="10" selection-end-line="290" selection-end-column="17" />
+            <state relative-caret-position="846">
+              <caret line="407" column="27" lean-forward="true" selection-start-line="407" selection-start-column="27" selection-end-line="407" selection-end-column="27" />
               <folding>
                 <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
                 <element signature="e#17021#18098#0" expanded="false" />
-                <element signature="e#20453#20563#0" expanded="false" />
+                <element signature="e#20748#20858#0" expanded="false" />
                 <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
                 <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-                <element signature="e#22184#22531#0" expanded="false" />
+                <element signature="e#22479#22826#0" expanded="false" />
                 <element signature="n#!!block;n#strTime#0" expanded="false" />
                 <element signature="n#!!block;n#timeAgo#0" expanded="false" />
                 <element signature="n#!!block;n#jobJD#0" expanded="false" />
@@ -35,12 +35,13 @@
                 <element signature="n#!!block;n#referInital#0" expanded="false" />
                 <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
                 <element signature="n#!!block;n#intention#0" expanded="false" />
-                <element signature="e#39790#40026#0" expanded="false" />
-                <element signature="e#40093#43196#0" expanded="false" />
-                <element signature="e#43283#48374#0" expanded="false" />
+                <element signature="e#40085#40321#0" expanded="false" />
+                <element signature="e#40388#43491#0" expanded="false" />
+                <element signature="e#43578#48669#0" expanded="false" />
                 <element signature="n#!!block;n#loadUser#0" expanded="false" />
-                <element signature="e#74197#76681#0" expanded="false" />
-                <element signature="e#106886#107667#0" expanded="false" />
+                <element signature="e#74710#76981#0" expanded="false" />
+                <element signature="e#81311#81435#0" expanded="false" />
+                <element signature="e#107217#107998#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -80,7 +81,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>account</find>
       <find>getUserDataAndSave</find>
       <find>refer</find>
       <find>conversationData</find>
@@ -94,7 +94,6 @@
       <find>Hiện tại</find>
       <find>confirmPolicy</find>
       <find>gender</find>
-      <find>matching</find>
       <find>aff</find>
       <find>send</find>
       <find>dumpling</find>
@@ -110,6 +109,8 @@
       <find>sc</find>
       <find>sendingA</find>
       <find>share</find>
+      <find>match</find>
+      <find>matching</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -144,8 +145,9 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1440" />
-    <option name="height" value="900" />
+    <option name="y" value="100" />
+    <option name="width" value="1280" />
+    <option name="height" value="740" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -227,16 +229,15 @@
       <workItem from="1510980790702" duration="3474000" />
       <workItem from="1511074518141" duration="420000" />
       <workItem from="1511082841149" duration="3898000" />
-      <workItem from="1511161319446" duration="7059000" />
+      <workItem from="1511161319446" duration="8091000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="242099000" />
+    <option name="totallyTimeSpent" value="243131000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19591261" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -245,7 +246,7 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25272068" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25272068" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -303,10 +304,10 @@
           <folding>
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
             <element signature="e#17021#18098#0" expanded="false" />
-            <element signature="e#20453#20563#0" expanded="false" />
+            <element signature="e#20748#20858#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
             <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#22184#22531#0" expanded="false" />
+            <element signature="e#22479#22826#0" expanded="false" />
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
@@ -314,12 +315,13 @@
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#39790#40026#0" expanded="false" />
-            <element signature="e#40093#43196#0" expanded="false" />
-            <element signature="e#43283#48374#0" expanded="false" />
+            <element signature="e#40085#40321#0" expanded="false" />
+            <element signature="e#40388#43491#0" expanded="false" />
+            <element signature="e#43578#48669#0" expanded="false" />
             <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#74197#76681#0" expanded="false" />
-            <element signature="e#106886#107667#0" expanded="false" />
+            <element signature="e#74710#76981#0" expanded="false" />
+            <element signature="e#81311#81435#0" expanded="false" />
+            <element signature="e#107217#107998#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -363,10 +365,10 @@
           <folding>
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
             <element signature="e#17021#18098#0" expanded="false" />
-            <element signature="e#20453#20563#0" expanded="false" />
+            <element signature="e#20748#20858#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
             <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#22184#22531#0" expanded="false" />
+            <element signature="e#22479#22826#0" expanded="false" />
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
@@ -374,12 +376,13 @@
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#39790#40026#0" expanded="false" />
-            <element signature="e#40093#43196#0" expanded="false" />
-            <element signature="e#43283#48374#0" expanded="false" />
+            <element signature="e#40085#40321#0" expanded="false" />
+            <element signature="e#40388#43491#0" expanded="false" />
+            <element signature="e#43578#48669#0" expanded="false" />
             <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#74197#76681#0" expanded="false" />
-            <element signature="e#106886#107667#0" expanded="false" />
+            <element signature="e#74710#76981#0" expanded="false" />
+            <element signature="e#81311#81435#0" expanded="false" />
+            <element signature="e#107217#107998#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -407,10 +410,10 @@
           <folding>
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
             <element signature="e#17021#18098#0" expanded="false" />
-            <element signature="e#20453#20563#0" expanded="false" />
+            <element signature="e#20748#20858#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
             <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#22184#22531#0" expanded="false" />
+            <element signature="e#22479#22826#0" expanded="false" />
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
@@ -418,12 +421,13 @@
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#39790#40026#0" expanded="false" />
-            <element signature="e#40093#43196#0" expanded="false" />
-            <element signature="e#43283#48374#0" expanded="false" />
+            <element signature="e#40085#40321#0" expanded="false" />
+            <element signature="e#40388#43491#0" expanded="false" />
+            <element signature="e#43578#48669#0" expanded="false" />
             <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#74197#76681#0" expanded="false" />
-            <element signature="e#106886#107667#0" expanded="false" />
+            <element signature="e#74710#76981#0" expanded="false" />
+            <element signature="e#81311#81435#0" expanded="false" />
+            <element signature="e#107217#107998#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -459,10 +463,10 @@
           <folding>
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
             <element signature="e#17021#18098#0" expanded="false" />
-            <element signature="e#20453#20563#0" expanded="false" />
+            <element signature="e#20748#20858#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
             <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#22184#22531#0" expanded="false" />
+            <element signature="e#22479#22826#0" expanded="false" />
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
@@ -470,12 +474,13 @@
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#39790#40026#0" expanded="false" />
-            <element signature="e#40093#43196#0" expanded="false" />
-            <element signature="e#43283#48374#0" expanded="false" />
+            <element signature="e#40085#40321#0" expanded="false" />
+            <element signature="e#40388#43491#0" expanded="false" />
+            <element signature="e#43578#48669#0" expanded="false" />
             <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#74197#76681#0" expanded="false" />
-            <element signature="e#106886#107667#0" expanded="false" />
+            <element signature="e#74710#76981#0" expanded="false" />
+            <element signature="e#81311#81435#0" expanded="false" />
+            <element signature="e#107217#107998#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -520,15 +525,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="290" column="17" lean-forward="false" selection-start-line="290" selection-start-column="10" selection-end-line="290" selection-end-column="17" />
+        <state relative-caret-position="846">
+          <caret line="407" column="27" lean-forward="true" selection-start-line="407" selection-start-column="27" selection-end-line="407" selection-end-column="27" />
           <folding>
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
             <element signature="e#17021#18098#0" expanded="false" />
-            <element signature="e#20453#20563#0" expanded="false" />
+            <element signature="e#20748#20858#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
             <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#22184#22531#0" expanded="false" />
+            <element signature="e#22479#22826#0" expanded="false" />
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
@@ -536,12 +541,13 @@
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#39790#40026#0" expanded="false" />
-            <element signature="e#40093#43196#0" expanded="false" />
-            <element signature="e#43283#48374#0" expanded="false" />
+            <element signature="e#40085#40321#0" expanded="false" />
+            <element signature="e#40388#43491#0" expanded="false" />
+            <element signature="e#43578#48669#0" expanded="false" />
             <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#74197#76681#0" expanded="false" />
-            <element signature="e#106886#107667#0" expanded="false" />
+            <element signature="e#74710#76981#0" expanded="false" />
+            <element signature="e#81311#81435#0" expanded="false" />
+            <element signature="e#107217#107998#0" expanded="false" />
           </folding>
         </state>
       </provider>

@@ -387,20 +387,26 @@ function setDefautMenu(page = 'jobo') {
         "persistent_menu": [
             {
                 "call_to_actions": [
-                    {
-                        "title": "✨ Bắt đầu",
-                        "type": "postback",
-                        "payload": JSON.stringify({
-                            type: 'matching',
-                        })
-                    },
-                    {
-                        "title": "❎ Dừng chat",
-                        "type": "postback",
-                        "payload": JSON.stringify({
-                            type: 'stop',
-                        })
-                    }, {
+                    { "title": "💑 Trò chuyện",
+                        "type": "nested",
+
+                        "call_to_actions":[
+                            {
+                                "title": "✨ Bắt đầu",
+                                "type": "postback",
+                                "payload": JSON.stringify({
+                                    type: 'matching',
+                                })
+                            },
+                            {
+                                "title": "❎ Dừng chat",
+                                "type": "postback",
+                                "payload": JSON.stringify({
+                                    type: 'stop',
+                                })
+                            }
+                        ]},
+                     {
                         "title": "Xem thêm",
                         "type": "nested",
 
@@ -1805,13 +1811,18 @@ app.post('/webhook', function (req, res) {
 
                         })
 
-                    } else if (pageID == CONFIG.facebookPage['dumpling'].id) {
+                    }
+                    else if (pageID == CONFIG.facebookPage['dumpling'].id) {
 
                         var senderID = messagingEvent.sender.id;
                         var recipientID = messagingEvent.recipient.id;
                         var timeOfMessage = messagingEvent.timestamp;
                         var message = messagingEvent.message;
                         var senderData = dataAccount[senderID]
+                        if(messagingEvent.referral) var referral = messagingEvent.referral
+                        else if(messagingEvent.postback.referral) referral = messagingEvent.postback.referral
+
+
                         console.log('senderData', senderData)
 
 
@@ -1963,6 +1974,11 @@ app.post('/webhook', function (req, res) {
 
                                         console.log(result);
                                         var user = result
+
+                                        if (referral && referral.ref) {
+                                            user.ref = referral.ref
+                                        }
+
                                         accountRef.child('dumpling').child(senderID).update(user)
                                     })
                                 }
