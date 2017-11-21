@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-    </list>
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -19,8 +17,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="134">
-              <caret line="1443" column="139" lean-forward="false" selection-start-line="1443" selection-start-column="27" selection-end-line="1443" selection-end-column="139" />
+            <state relative-caret-position="181">
+              <caret line="122" column="22" lean-forward="false" selection-start-line="122" selection-start-column="6" selection-end-line="122" selection-end-column="22" />
               <folding>
                 <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
                 <element signature="e#17021#18098#0" expanded="false" />
@@ -32,19 +30,20 @@
                 <element signature="n#!!block;n#timeAgo#0" expanded="false" />
                 <element signature="n#!!block;n#jobJD#0" expanded="false" />
                 <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-                <element signature="e#40466#40702#0" expanded="false" />
-                <element signature="e#40769#43872#0" expanded="false" />
-                <element signature="e#59188#62553#0" expanded="false" />
+                <element signature="n#!!block;n#intention#0" expanded="false" />
+                <element signature="e#40468#40704#0" expanded="false" />
+                <element signature="e#40771#43874#0" expanded="false" />
+                <element signature="e#59225#62590#0" expanded="false" />
                 <element signature="n#!!block;n#loadUser#0" expanded="false" />
-                <element signature="e#75129#75224#0" expanded="false" />
-                <element signature="e#75267#80382#0" expanded="false" />
-                <element signature="e#75653#78173#0" expanded="false" />
-                <element signature="e#75871#78142#0" expanded="false" />
-                <element signature="e#80426#90923#0" expanded="false" />
-                <element signature="e#80627#82203#0" expanded="false" />
-                <element signature="e#82345#82469#0" expanded="false" />
-                <element signature="e#86592#86745#0" expanded="false" />
-                <element signature="e#108363#109144#0" expanded="false" />
+                <element signature="e#75166#75261#0" expanded="false" />
+                <element signature="e#75304#80419#0" expanded="false" />
+                <element signature="e#75690#78210#0" expanded="false" />
+                <element signature="e#75908#78179#0" expanded="false" />
+                <element signature="e#80463#90960#0" expanded="false" />
+                <element signature="e#80664#82240#0" expanded="false" />
+                <element signature="e#82382#82506#0" expanded="false" />
+                <element signature="e#86629#86782#0" expanded="false" />
+                <element signature="e#108400#109181#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -232,16 +231,15 @@
       <workItem from="1510980790702" duration="3474000" />
       <workItem from="1511074518141" duration="420000" />
       <workItem from="1511082841149" duration="3898000" />
-      <workItem from="1511161319446" duration="13438000" />
+      <workItem from="1511161319446" duration="13754000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="248478000" />
+    <option name="totallyTimeSpent" value="248794000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19591261" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -316,19 +314,20 @@
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="e#40466#40702#0" expanded="false" />
-            <element signature="e#40769#43872#0" expanded="false" />
-            <element signature="e#59188#62553#0" expanded="false" />
+            <element signature="n#!!block;n#intention#0" expanded="false" />
+            <element signature="e#40468#40704#0" expanded="false" />
+            <element signature="e#40771#43874#0" expanded="false" />
+            <element signature="e#59225#62590#0" expanded="false" />
             <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#75129#75224#0" expanded="false" />
-            <element signature="e#75267#80382#0" expanded="false" />
-            <element signature="e#75653#78173#0" expanded="false" />
-            <element signature="e#75871#78142#0" expanded="false" />
-            <element signature="e#80426#90923#0" expanded="false" />
-            <element signature="e#80627#82203#0" expanded="false" />
-            <element signature="e#82345#82469#0" expanded="false" />
-            <element signature="e#86592#86745#0" expanded="false" />
-            <element signature="e#108363#109144#0" expanded="false" />
+            <element signature="e#75166#75261#0" expanded="false" />
+            <element signature="e#75304#80419#0" expanded="false" />
+            <element signature="e#75690#78210#0" expanded="false" />
+            <element signature="e#75908#78179#0" expanded="false" />
+            <element signature="e#80463#90960#0" expanded="false" />
+            <element signature="e#80664#82240#0" expanded="false" />
+            <element signature="e#82382#82506#0" expanded="false" />
+            <element signature="e#86629#86782#0" expanded="false" />
+            <element signature="e#108400#109181#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -380,19 +379,20 @@
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="e#40466#40702#0" expanded="false" />
-            <element signature="e#40769#43872#0" expanded="false" />
-            <element signature="e#59188#62553#0" expanded="false" />
+            <element signature="n#!!block;n#intention#0" expanded="false" />
+            <element signature="e#40468#40704#0" expanded="false" />
+            <element signature="e#40771#43874#0" expanded="false" />
+            <element signature="e#59225#62590#0" expanded="false" />
             <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#75129#75224#0" expanded="false" />
-            <element signature="e#75267#80382#0" expanded="false" />
-            <element signature="e#75653#78173#0" expanded="false" />
-            <element signature="e#75871#78142#0" expanded="false" />
-            <element signature="e#80426#90923#0" expanded="false" />
-            <element signature="e#80627#82203#0" expanded="false" />
-            <element signature="e#82345#82469#0" expanded="false" />
-            <element signature="e#86592#86745#0" expanded="false" />
-            <element signature="e#108363#109144#0" expanded="false" />
+            <element signature="e#75166#75261#0" expanded="false" />
+            <element signature="e#75304#80419#0" expanded="false" />
+            <element signature="e#75690#78210#0" expanded="false" />
+            <element signature="e#75908#78179#0" expanded="false" />
+            <element signature="e#80463#90960#0" expanded="false" />
+            <element signature="e#80664#82240#0" expanded="false" />
+            <element signature="e#82382#82506#0" expanded="false" />
+            <element signature="e#86629#86782#0" expanded="false" />
+            <element signature="e#108400#109181#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -428,19 +428,20 @@
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="e#40466#40702#0" expanded="false" />
-            <element signature="e#40769#43872#0" expanded="false" />
-            <element signature="e#59188#62553#0" expanded="false" />
+            <element signature="n#!!block;n#intention#0" expanded="false" />
+            <element signature="e#40468#40704#0" expanded="false" />
+            <element signature="e#40771#43874#0" expanded="false" />
+            <element signature="e#59225#62590#0" expanded="false" />
             <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#75129#75224#0" expanded="false" />
-            <element signature="e#75267#80382#0" expanded="false" />
-            <element signature="e#75653#78173#0" expanded="false" />
-            <element signature="e#75871#78142#0" expanded="false" />
-            <element signature="e#80426#90923#0" expanded="false" />
-            <element signature="e#80627#82203#0" expanded="false" />
-            <element signature="e#82345#82469#0" expanded="false" />
-            <element signature="e#86592#86745#0" expanded="false" />
-            <element signature="e#108363#109144#0" expanded="false" />
+            <element signature="e#75166#75261#0" expanded="false" />
+            <element signature="e#75304#80419#0" expanded="false" />
+            <element signature="e#75690#78210#0" expanded="false" />
+            <element signature="e#75908#78179#0" expanded="false" />
+            <element signature="e#80463#90960#0" expanded="false" />
+            <element signature="e#80664#82240#0" expanded="false" />
+            <element signature="e#82382#82506#0" expanded="false" />
+            <element signature="e#86629#86782#0" expanded="false" />
+            <element signature="e#108400#109181#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -484,19 +485,20 @@
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="e#40466#40702#0" expanded="false" />
-            <element signature="e#40769#43872#0" expanded="false" />
-            <element signature="e#59188#62553#0" expanded="false" />
+            <element signature="n#!!block;n#intention#0" expanded="false" />
+            <element signature="e#40468#40704#0" expanded="false" />
+            <element signature="e#40771#43874#0" expanded="false" />
+            <element signature="e#59225#62590#0" expanded="false" />
             <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#75129#75224#0" expanded="false" />
-            <element signature="e#75267#80382#0" expanded="false" />
-            <element signature="e#75653#78173#0" expanded="false" />
-            <element signature="e#75871#78142#0" expanded="false" />
-            <element signature="e#80426#90923#0" expanded="false" />
-            <element signature="e#80627#82203#0" expanded="false" />
-            <element signature="e#82345#82469#0" expanded="false" />
-            <element signature="e#86592#86745#0" expanded="false" />
-            <element signature="e#108363#109144#0" expanded="false" />
+            <element signature="e#75166#75261#0" expanded="false" />
+            <element signature="e#75304#80419#0" expanded="false" />
+            <element signature="e#75690#78210#0" expanded="false" />
+            <element signature="e#75908#78179#0" expanded="false" />
+            <element signature="e#80463#90960#0" expanded="false" />
+            <element signature="e#80664#82240#0" expanded="false" />
+            <element signature="e#82382#82506#0" expanded="false" />
+            <element signature="e#86629#86782#0" expanded="false" />
+            <element signature="e#108400#109181#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -541,8 +543,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
-          <caret line="1443" column="139" lean-forward="false" selection-start-line="1443" selection-start-column="27" selection-end-line="1443" selection-end-column="139" />
+        <state relative-caret-position="181">
+          <caret line="122" column="22" lean-forward="false" selection-start-line="122" selection-start-column="6" selection-end-line="122" selection-end-column="22" />
           <folding>
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
             <element signature="e#17021#18098#0" expanded="false" />
@@ -554,19 +556,20 @@
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="e#40466#40702#0" expanded="false" />
-            <element signature="e#40769#43872#0" expanded="false" />
-            <element signature="e#59188#62553#0" expanded="false" />
+            <element signature="n#!!block;n#intention#0" expanded="false" />
+            <element signature="e#40468#40704#0" expanded="false" />
+            <element signature="e#40771#43874#0" expanded="false" />
+            <element signature="e#59225#62590#0" expanded="false" />
             <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#75129#75224#0" expanded="false" />
-            <element signature="e#75267#80382#0" expanded="false" />
-            <element signature="e#75653#78173#0" expanded="false" />
-            <element signature="e#75871#78142#0" expanded="false" />
-            <element signature="e#80426#90923#0" expanded="false" />
-            <element signature="e#80627#82203#0" expanded="false" />
-            <element signature="e#82345#82469#0" expanded="false" />
-            <element signature="e#86592#86745#0" expanded="false" />
-            <element signature="e#108363#109144#0" expanded="false" />
+            <element signature="e#75166#75261#0" expanded="false" />
+            <element signature="e#75304#80419#0" expanded="false" />
+            <element signature="e#75690#78210#0" expanded="false" />
+            <element signature="e#75908#78179#0" expanded="false" />
+            <element signature="e#80463#90960#0" expanded="false" />
+            <element signature="e#80664#82240#0" expanded="false" />
+            <element signature="e#82382#82506#0" expanded="false" />
+            <element signature="e#86629#86782#0" expanded="false" />
+            <element signature="e#108400#109181#0" expanded="false" />
           </folding>
         </state>
       </provider>

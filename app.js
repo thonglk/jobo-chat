@@ -1441,7 +1441,7 @@ function intention(payload, senderID, postback, message = {}) {
         'inputLocation': {
 
             if (payload.location) {
-                var url = 'https://maps.google.com/maps/api/geocode/json?address=' + payload.location + '&components=country:VN&sensor=true'
+                var url = 'https://maps.google.com/maps/api/geocode/json?address=' + vietnameseDecode(payload.location) + '&components=country:VN&sensor=true'
                 axios.get(url)
                     .then(result => {
                         if (result.data && result.data.results && result.data.results[0]) {
