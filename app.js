@@ -965,7 +965,6 @@ function matchingPayload(event) {
                         console.log('value', value)
                         payload.location = value
                     }
-
                     resolve({payload, senderID, postback, message})
 
                 })
@@ -981,7 +980,7 @@ function matchingPayload(event) {
                     lng: locationData.long,
                 }
 
-                sendListJobByAddress(location,null,senderID)
+                sendListJobByAddress(location, null, senderID)
 
 
             }
@@ -1445,13 +1444,13 @@ function intention(payload, senderID, postback, message = {}) {
                 var url = 'https://maps.google.com/maps/api/geocode/json?address=' + payload.location + '&components=country:VN&sensor=true'
                 axios.get(url)
                     .then(result => {
-                        if(result.data && result.data.results && result.data.results[0]){
+                        if (result.data && result.data.results && result.data.results[0]) {
                             var list = result.data.results
                             var location = list[0].location
                             var address = list[0].address
-                            sendListJobByAddress(location,address,senderID)
+                            sendListJobByAddress(location, address, senderID)
                         }
-                    })
+                    }).catch(err => console.log(err))
             }
 
 
