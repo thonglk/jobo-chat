@@ -1446,15 +1446,42 @@ function intention(payload, senderID, postback, message = {}) {
                     .then(result => {
                         if (result.data && result.data.results && result.data.results[0]) {
                             var list = result.data.results
-                            var location = list[0].location
-                            var address = list[0].address
-                            sendListJobByAddress(location, address, senderID)
+                            var message = {
+                                attachment: {
+                                    type: "template",
+                                    payload: {
+                                        template_type: "button",
+                                        text: "Ý bạn là?",
+                                        buttons: []
+                                    }
+                                }
+                            }
+                            var a = 0
+                            var button = list.forEach(add => {
+                                a++
+                                if (a < 4){
+                                    message.attachment.payload.buttons.push({
+                                        type: "postback",
+                                        title: add.formatted_address,
+                                        payload: JSON.stringify({
+                                            type: 'selectLocation',
+                                            location: add.location,
+                                            address: add.formatted_address
+                                        })
+                                    })
+                                }
+
+                            })
+                            sendAPI(senderID, message)
                         }
                     }).catch(err => console.log(err))
             }
 
-
             break;
+
+        }
+        case 'selectLocation': {
+            sendListJobByAddress(payload.location, payload.address, senderID)
 
         }
         case
