@@ -1482,6 +1482,7 @@ function intention(payload, senderID, postback, message = {}) {
         }
         case 'selectLocation': {
             sendListJobByAddress(payload.location, payload.address, senderID)
+            break;
 
         }
         case
