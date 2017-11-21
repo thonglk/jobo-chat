@@ -1822,7 +1822,6 @@ app.post('/webhook', function (req, res) {
                         if(messagingEvent.referral) var referral = messagingEvent.referral
                         else if(messagingEvent.postback && messagingEvent.postback.referral) referral = messagingEvent.postback.referral
 
-
                         console.log('senderData', senderData)
 
 
@@ -2921,6 +2920,7 @@ function sendAccountLinking(recipientId) {
  */
 function callSendAPI(messageData, page = 'jobo') {
     return new Promise(function (resolve, reject) {
+        if(messageData.message && messageData.message.text)  console.log('length', messageData.message.text.length)
 
         if (messageData.message && messageData.message.text && messageData.message.text.length > 640) {
             console.log('messageData.message.text.length', messageData.message.text.length)
