@@ -387,10 +387,11 @@ function setDefautMenu(page = 'jobo') {
         "persistent_menu": [
             {
                 "call_to_actions": [
-                    { "title": "💑 Trò chuyện",
+                    {
+                        "title": "💑 Trò chuyện",
                         "type": "nested",
 
-                        "call_to_actions":[
+                        "call_to_actions": [
                             {
                                 "title": "✨ Bắt đầu",
                                 "type": "postback",
@@ -405,8 +406,9 @@ function setDefautMenu(page = 'jobo') {
                                     type: 'stop',
                                 })
                             }
-                        ]},
-                     {
+                        ]
+                    },
+                    {
                         "title": "Xem thêm",
                         "type": "nested",
 
@@ -1783,10 +1785,10 @@ app.post('/webhook', function (req, res) {
             // Iterate over each messaging event
             if (pageEntry.messaging) {
                 pageEntry.messaging.forEach(function (messagingEvent) {
-                    //
-                    // var savedMess = Object({}, messagingEvent)
-                    messagingEvent.messengerId = messagingEvent.sender.id
-                    messagingEvent.type = 'received'
+
+                    messagingEvent.messengerId = messagingEvent.sender.id;
+                    messagingEvent.type = 'received';
+
                     if (pageID == CONFIG.facebookPage['jobo'].id) {
                         conversationRef_new.child(messagingEvent.messengerId + ':' + timeOfEvent).update(messagingEvent).then(() => {
                             matchingPayload(messagingEvent)
@@ -1799,8 +1801,6 @@ app.post('/webhook', function (req, res) {
                                 receivedMessage(messagingEvent);
                             } else if (messagingEvent.delivery) {
                                 receivedDeliveryConfirmation(messagingEvent);
-                            } else if (messagingEvent.postback) {
-                                // receivedPostback(messagingEvent);
                             } else if (messagingEvent.read) {
                                 receivedMessageRead(messagingEvent);
                             } else if (messagingEvent.account_linking) {
@@ -1808,7 +1808,6 @@ app.post('/webhook', function (req, res) {
                             } else {
                                 console.log("Webhook received unknown messagingEvent: ", messagingEvent);
                             }
-
                         })
 
                     }
@@ -1818,16 +1817,17 @@ app.post('/webhook', function (req, res) {
                         var recipientID = messagingEvent.recipient.id;
                         var timeOfMessage = messagingEvent.timestamp;
                         var message = messagingEvent.message;
+                        var postback = messagingEvent.postback
                         var senderData = dataAccount[senderID]
-                        if(messagingEvent.referral) var referral = messagingEvent.referral
-                        else if(messagingEvent.postback && messagingEvent.postback.referral) referral = messagingEvent.postback.referral
 
-                        console.log('senderData', senderData)
+                        if (messagingEvent.referral) var referral = messagingEvent.referral
+                        else if (messagingEvent.postback && messagingEvent.postback.referral) referral = messagingEvent.postback.referral
 
 
                         if (messagingEvent.optin) {
                             receivedAuthentication(messagingEvent);
-                        } else if (message) {
+                        }
+                        else if (message) {
 
                             // You may get a text or attachment but not both
                             var metadata = message.metadata;
@@ -1906,9 +1906,8 @@ app.post('/webhook', function (req, res) {
                                 }, 10, 'dumpling')
                             }
 
-                        } else if (messagingEvent.delivery) {
-                            receivedDeliveryConfirmation(messagingEvent);
-                        } else if (messagingEvent.postback) {
+                        }
+                        else if (postback) {
 
                             var payloadStr = messagingEvent.postback.payload
                             var payload = JSON.parse(payloadStr)
@@ -2055,12 +2054,6 @@ app.post('/webhook', function (req, res) {
                             }
                         }
 
-                    } else if (messagingEvent.read) {
-                        receivedMessageRead(messagingEvent);
-                    } else if (messagingEvent.account_linking) {
-                        receivedAccountLink(messagingEvent);
-                    } else {
-                        console.log("Webhook received unknown messagingEvent: ", messagingEvent);
                     }
 
 
@@ -2418,13 +2411,20 @@ function loadJob(jobId) {
 function receivedMessageRead(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
-
     // All messages before watermark (a timestamp) or sequence have been seen.
     var watermark = event.read.watermark;
     var sequenceNumber = event.read.seq;
 
     console.log("Received message read event for watermark %d and sequence " +
         "number %d", watermark, sequenceNumber);
+
+    var lastMessage = lastMessageData[senderID]
+    if (lastMessage && lastMessage.notiId) {
+        axios.get(CONFIG.AnaURL + '/messengerRead?notiId=' + lastMessage.notiId)
+            .then(result => console.log("messengerRead", lastMessage))
+            .catch(err => console.log(err))
+    }
+
 }
 
 /*
@@ -2920,7 +2920,7 @@ function sendAccountLinking(recipientId) {
  */
 function callSendAPI(messageData, page = 'jobo') {
     return new Promise(function (resolve, reject) {
-        if(messageData.message && messageData.message.text)  console.log('length', messageData.message.text.length)
+        if (messageData.message && messageData.message.text) console.log('length', messageData.message.text.length)
 
         if (messageData.message && messageData.message.text && messageData.message.text.length > 640) {
             console.log('messageData.message.text.length', messageData.message.text.length)
