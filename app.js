@@ -1465,7 +1465,7 @@ function intention(payload, senderID, postback, message = {}) {
                                         title: add.formatted_address,
                                         payload: JSON.stringify({
                                             type: 'selectLocation',
-                                            location: add.location,
+                                            location: add.geometry.location,
                                             address: add.formatted_address
                                         })
                                     })
