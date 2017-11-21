@@ -994,6 +994,7 @@ function sendListJobByAddress(location, address, senderID) {
         lat: location.lat,
         lng: location.lng,
         page: 1,
+        distance:10,
         per_page: 4,
         type: 'premium'
     };
@@ -1019,9 +1020,15 @@ function sendListJobByAddress(location, address, senderID) {
                 address
             })
             .then(result => getJob(data))
-            .then(result => sendAPI(senderID, {
-                text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh địa chỉ ${shortAddress(address)} nè!`
-            }).then(() => sendAPI(senderID, result.message, 3000)))
+            .then(result => {
+                if(result.total > 0) sendAPI(senderID, {
+                    text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh địa chỉ ${shortAddress(address)} nè!`
+                }).then(() => sendAPI(senderID, result.message, 3000))
+                else sendAPI(senderID, {
+                    text: `Hiện tại Jobo chưa có vị trí nào đang tuyển gần bạn, hãy chờ nhé!`
+                })
+            })
+
 
             .catch(err => console.log(err))
 
