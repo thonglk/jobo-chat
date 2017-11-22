@@ -273,16 +273,7 @@ app.get('/dumpling/account', function (req, res) {
             (!query.gender || account.gender == query.gender)
         ) return true
     });
-    var map = _.map(dataAccount, account => {
-        account.ref = 'ftu'
-        if(!a){
-           var a=0
-        }
-        a++
-        setTimeout(function () {
-            accountRef.child('dumpling').child(account.id).update(account).then(result => console.log('done'))
-        }, a * 1000)
-    });
+
     console.log('length', filter.length)
     res.send(filter)
 });
