@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -17,31 +20,10 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="473">
-              <caret line="1485" column="0" lean-forward="false" selection-start-line="1485" selection-start-column="0" selection-end-line="1485" selection-end-column="0" />
+            <state relative-caret-position="117">
+              <caret line="267" column="9" lean-forward="false" selection-start-line="267" selection-start-column="9" selection-end-line="267" selection-end-column="26" />
               <folding>
-                <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-                <element signature="e#17021#18098#0" expanded="false" />
-                <element signature="e#20793#20903#0" expanded="false" />
-                <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-                <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-                <element signature="e#22524#22871#0" expanded="false" />
-                <element signature="n#!!block;n#strTime#0" expanded="false" />
-                <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-                <element signature="n#!!block;n#jobJD#0" expanded="false" />
-                <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-                <element signature="e#40468#40704#0" expanded="false" />
-                <element signature="e#40771#43874#0" expanded="false" />
-                <element signature="e#60539#63904#0" expanded="false" />
-                <element signature="n#!!block;n#loadUser#0" expanded="false" />
-                <element signature="e#76480#76575#0" expanded="false" />
-                <element signature="e#76618#81733#0" expanded="false" />
-                <element signature="e#77004#79524#0" expanded="false" />
-                <element signature="e#77222#79493#0" expanded="false" />
-                <element signature="e#81777#92274#0" expanded="false" />
-                <element signature="e#81978#83554#0" expanded="false" />
-                <element signature="e#83696#83820#0" expanded="false" />
-                <element signature="e#87943#88096#0" expanded="false" />
+                <element signature="e#75234#76517#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -81,7 +63,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>start</find>
       <find>str</find>
       <find>payload.answer == 'yes'</find>
       <find>Hiện tại</find>
@@ -103,7 +84,6 @@
       <find>share</find>
       <find>match</find>
       <find>matching</find>
-      <find>dumpling</find>
       <find>GET_STARTED</find>
       <find>read</find>
       <find>button</find>
@@ -111,6 +91,8 @@
       <find>confirmP</find>
       <find>atta</find>
       <find>payload.lo</find>
+      <find>dumpling</find>
+      <find>account</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -145,9 +127,8 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="y" value="100" />
-    <option name="width" value="1280" />
-    <option name="height" value="740" />
+    <option name="width" value="1440" />
+    <option name="height" value="900" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -229,12 +210,13 @@
       <workItem from="1510980790702" duration="3474000" />
       <workItem from="1511074518141" duration="420000" />
       <workItem from="1511082841149" duration="3898000" />
-      <workItem from="1511161319446" duration="15613000" />
+      <workItem from="1511161319446" duration="17176000" />
+      <workItem from="1511320581626" duration="1060000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="250653000" />
+    <option name="totallyTimeSpent" value="253276000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -243,13 +225,13 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19591261" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25272068" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25272068" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -286,13 +268,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/app.js</url>
-          <line>338</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="4" />
     </breakpoint-manager>
     <watches-manager />
@@ -303,28 +278,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#17021#18098#0" expanded="false" />
-            <element signature="e#20793#20903#0" expanded="false" />
-            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#22524#22871#0" expanded="false" />
-            <element signature="n#!!block;n#strTime#0" expanded="false" />
-            <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="n#!!block;n#jobJD#0" expanded="false" />
-            <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="e#40468#40704#0" expanded="false" />
-            <element signature="e#40771#43874#0" expanded="false" />
-            <element signature="e#60539#63904#0" expanded="false" />
-            <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#76480#76575#0" expanded="false" />
-            <element signature="e#76618#81733#0" expanded="false" />
-            <element signature="e#77004#79524#0" expanded="false" />
-            <element signature="e#77222#79493#0" expanded="false" />
-            <element signature="e#81777#92274#0" expanded="false" />
-            <element signature="e#81978#83554#0" expanded="false" />
-            <element signature="e#83696#83820#0" expanded="false" />
-            <element signature="e#87943#88096#0" expanded="false" />
+            <element signature="e#75234#76517#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -366,28 +320,7 @@
         <state relative-caret-position="8415">
           <caret line="568" column="0" lean-forward="false" selection-start-line="568" selection-start-column="0" selection-end-line="568" selection-end-column="0" />
           <folding>
-            <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#17021#18098#0" expanded="false" />
-            <element signature="e#20793#20903#0" expanded="false" />
-            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#22524#22871#0" expanded="false" />
-            <element signature="n#!!block;n#strTime#0" expanded="false" />
-            <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="n#!!block;n#jobJD#0" expanded="false" />
-            <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="e#40468#40704#0" expanded="false" />
-            <element signature="e#40771#43874#0" expanded="false" />
-            <element signature="e#60539#63904#0" expanded="false" />
-            <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#76480#76575#0" expanded="false" />
-            <element signature="e#76618#81733#0" expanded="false" />
-            <element signature="e#77004#79524#0" expanded="false" />
-            <element signature="e#77222#79493#0" expanded="false" />
-            <element signature="e#81777#92274#0" expanded="false" />
-            <element signature="e#81978#83554#0" expanded="false" />
-            <element signature="e#83696#83820#0" expanded="false" />
-            <element signature="e#87943#88096#0" expanded="false" />
+            <element signature="e#75234#76517#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -413,28 +346,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#17021#18098#0" expanded="false" />
-            <element signature="e#20793#20903#0" expanded="false" />
-            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#22524#22871#0" expanded="false" />
-            <element signature="n#!!block;n#strTime#0" expanded="false" />
-            <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="n#!!block;n#jobJD#0" expanded="false" />
-            <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="e#40468#40704#0" expanded="false" />
-            <element signature="e#40771#43874#0" expanded="false" />
-            <element signature="e#60539#63904#0" expanded="false" />
-            <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#76480#76575#0" expanded="false" />
-            <element signature="e#76618#81733#0" expanded="false" />
-            <element signature="e#77004#79524#0" expanded="false" />
-            <element signature="e#77222#79493#0" expanded="false" />
-            <element signature="e#81777#92274#0" expanded="false" />
-            <element signature="e#81978#83554#0" expanded="false" />
-            <element signature="e#83696#83820#0" expanded="false" />
-            <element signature="e#87943#88096#0" expanded="false" />
+            <element signature="e#75234#76517#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -468,28 +380,7 @@
         <state relative-caret-position="12570">
           <caret line="838" column="42" lean-forward="true" selection-start-line="838" selection-start-column="42" selection-end-line="838" selection-end-column="42" />
           <folding>
-            <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#17021#18098#0" expanded="false" />
-            <element signature="e#20793#20903#0" expanded="false" />
-            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#22524#22871#0" expanded="false" />
-            <element signature="n#!!block;n#strTime#0" expanded="false" />
-            <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="n#!!block;n#jobJD#0" expanded="false" />
-            <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="e#40468#40704#0" expanded="false" />
-            <element signature="e#40771#43874#0" expanded="false" />
-            <element signature="e#60539#63904#0" expanded="false" />
-            <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#76480#76575#0" expanded="false" />
-            <element signature="e#76618#81733#0" expanded="false" />
-            <element signature="e#77004#79524#0" expanded="false" />
-            <element signature="e#77222#79493#0" expanded="false" />
-            <element signature="e#81777#92274#0" expanded="false" />
-            <element signature="e#81978#83554#0" expanded="false" />
-            <element signature="e#83696#83820#0" expanded="false" />
-            <element signature="e#87943#88096#0" expanded="false" />
+            <element signature="e#75234#76517#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -534,31 +425,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="473">
-          <caret line="1485" column="0" lean-forward="false" selection-start-line="1485" selection-start-column="0" selection-end-line="1485" selection-end-column="0" />
+        <state relative-caret-position="117">
+          <caret line="267" column="9" lean-forward="false" selection-start-line="267" selection-start-column="9" selection-end-line="267" selection-end-column="26" />
           <folding>
-            <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#17021#18098#0" expanded="false" />
-            <element signature="e#20793#20903#0" expanded="false" />
-            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#22524#22871#0" expanded="false" />
-            <element signature="n#!!block;n#strTime#0" expanded="false" />
-            <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="n#!!block;n#jobJD#0" expanded="false" />
-            <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="e#40468#40704#0" expanded="false" />
-            <element signature="e#40771#43874#0" expanded="false" />
-            <element signature="e#60539#63904#0" expanded="false" />
-            <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="e#76480#76575#0" expanded="false" />
-            <element signature="e#76618#81733#0" expanded="false" />
-            <element signature="e#77004#79524#0" expanded="false" />
-            <element signature="e#77222#79493#0" expanded="false" />
-            <element signature="e#81777#92274#0" expanded="false" />
-            <element signature="e#81978#83554#0" expanded="false" />
-            <element signature="e#83696#83820#0" expanded="false" />
-            <element signature="e#87943#88096#0" expanded="false" />
+            <element signature="e#75234#76517#0" expanded="false" />
           </folding>
         </state>
       </provider>

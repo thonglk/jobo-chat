@@ -273,6 +273,16 @@ app.get('/dumpling/account', function (req, res) {
             (!query.gender || account.gender == query.gender)
         ) return true
     });
+    var map = _.map(dataAccount, account => {
+        account.ref = 'ftu'
+        if(!a){
+           var a=0
+        }
+        a++
+        setTimeout(function () {
+            accountRef.child('dumpling').child(account.id).update(account).then(result => console.log('done'))
+        }, a * 1000)
+    });
     console.log('length', filter.length)
     res.send(filter)
 });
@@ -409,6 +419,10 @@ function setDefautMenu(page = 'jobo') {
                         ]
                     },
                     {
+                        type: "web_url",
+                        url: "https://docs.google.com/forms/d/e/1FAIpQLSdfrjXEvdx72hpeDeM5KdT-z1DXqaoElfg5MRQM92xBCVzORA/viewform",
+                        title: "📮 Gửi confession"
+                    }, {
                         "title": "Xem thêm",
                         "type": "nested",
 
@@ -994,7 +1008,7 @@ function sendListJobByAddress(location, address, senderID) {
         lat: location.lat,
         lng: location.lng,
         page: 1,
-        distance:10,
+        distance: 10,
         per_page: 4,
         type: 'premium'
     };
@@ -1021,7 +1035,7 @@ function sendListJobByAddress(location, address, senderID) {
             })
             .then(result => getJob(data))
             .then(result => {
-                if(result.total > 0) sendAPI(senderID, {
+                if (result.total > 0) sendAPI(senderID, {
                     text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh địa chỉ ${shortAddress(address)} nè!`
                 }).then(() => sendAPI(senderID, result.message, 3000))
                 else sendAPI(senderID, {
@@ -1466,7 +1480,7 @@ function intention(payload, senderID, postback, message = {}) {
                             var a = 0
                             var button = list.forEach(add => {
                                 a++
-                                if (a < 4){
+                                if (a < 4) {
                                     message.attachment.payload.buttons.push({
                                         type: "postback",
                                         title: add.formatted_address,
@@ -2049,6 +2063,7 @@ app.post('/webhook', function (req, res) {
                                             user.ref = referral.ref
                                         }
 
+                                        user.createdAt = Date.now()
                                         accountRef.child('dumpling').child(senderID).update(user)
                                     })
                                 }
