@@ -2181,9 +2181,8 @@ app.post('/webhook', function (req, res) {
                         if (messagingEvent.optin) {
                             receivedAuthentication(messagingEvent);
                         } else if (messagingEvent.read) {
-                            if(senderData.match) sendingAPI(senderData.match,senderID,{
-                                sender_action: "mark_seen"
-                            },null,'dumpling')
+                            // if(senderData.match) sendingAPI(senderData.match,senderID, sender_action: "mark_seen"
+                            // ,null,'dumpling')
 
                         } else if (message) {
 
