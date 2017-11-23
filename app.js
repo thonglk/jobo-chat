@@ -160,9 +160,9 @@ var db2 = jobo.database();
 var db3 = joboTest.database();
 
 var userRef = db2.ref('user');
-var dataAccount, accountRef = db.ref('account');
-accountRef.child('dumpling').on('value', function (snap) {
-    dataAccount = snap.val() || {}
+var dataAccount = {}, accountRef = db.ref('account');
+accountRef.child('dumpling').on('child_added', function (snap) {
+    dataAccount[snap.key] = snap.val()
 })
 
 var profileRef = db2.ref('profile');
@@ -173,13 +173,86 @@ var lastMessageData, lastMessageRef = db.ref('last_message')
 
 var conversationData_new, conversationRef_new = db3.ref('conversation_temp')
 
-var messageFactory, messageFactoryRef = db.ref('messageFactory')
+var messageFactory = {}, messageFactoryRef = db.ref('messageFactory')
 
 lastMessageRef.on('value', function (snap) {
     lastMessageData = snap.val()
+});
+messageFactoryRef.child('dumpling').on('child_added', function (snap) {
+    messageFactory[snap.key] = snap.val()
+});
+
+app.get('/staticUser', function (req, res) {
+    var userId = req.param('userId')
+
+    var send = _.where(messageFactory, {senderId: userId}).length
+    var receive = _.where(messageFactory, {recipientId: userId}).length
+    var startTime = 0
+    var most = {}
+    var each = _.each(messageFactory, message => {
+        if (message.recipientId == userId) {
+            if (message.message.text == 'Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^') startTime++
+
+            if (!most[message.senderId]) most[message.senderId] = 1
+            else most[message.senderId]++
+        }
+    })
+
+    delete most['493938347612411']
+
+    var staticUser = {send, receive, startTime, most}
+    res.send(staticUser)
+
+})
+app.get('/staticAll', function (req, res) {
+    var {dis = 1,last = 0} = req.query
+    var endTime = Date.now() - last*24 * 60 * 60 * 1000
+    var startTime = endTime - dis * 24 * 60 * 60 * 1000
+    var startNewConversation = 0
+    var newUser = 0
+    var newMessage = 0
+    var each = _.each(messageFactory, message => {
+        if(message.timestamp > startTime && message.timestamp < endTime){
+            if(message.senderId != '493938347612411')newMessage++
+            if (message.message.text == 'Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^') startNewConversation++
+            if (message.message.text == 'đảm bảo 100% bí mật thông tin và nội dung trò chuyện') newUser++
+        }
+
+
+    })
+    var staticAll = {startNewConversation,newUser,newMessage}
+    res.send(staticAll)
+
 })
 
+
 // CONFIG FUNCTION
+function getPaginatedItems(items, page = 1, per_page = 15) {
+    var offset = (page - 1) * per_page,
+        paginatedItems = _.rest(items, offset).slice(0, per_page);
+
+
+    return {
+        page: page,
+        per_page: per_page,
+        total: items.length,
+        total_pages: Math.ceil(items.length / per_page),
+        data: paginatedItems
+    };
+}
+
+app.get('/messageFactory', function (req, res) {
+    var query = req.query
+    var page = query.page || 1
+    var Query = Object.assign({}, query)
+    delete Query.page
+    console.log(Query)
+    var toArray = _.toArray(messageFactory)
+    console.log('toArray.length', toArray.length)
+    var filter = _.where(toArray, Query)
+    var pages = getPaginatedItems(filter, page)
+    res.send(pages)
+})
 
 function shortAddress(fullAddress) {
     if (fullAddress) {
@@ -251,16 +324,12 @@ Dumpling cảm ơn! Chúc các bạn ngủ ngon và mơ đẹp nhé! <3 <3 <3`,
         if (!a) {
             var a = 0
         }
-        if (recipientId == '1962106533816606') {
-            sent = 1
-        }
 
-        if (sent == 1) {
-            a++
-            setTimeout(function () {
-                sendingAPI(recipientId, CONFIG.facebookPage[page].id, message, null, page)
-            }, a * 2000)
-        }
+
+        a++
+        setTimeout(function () {
+            sendingAPI(recipientId, CONFIG.facebookPage[page].id, message, null, page)
+        }, a * 2000)
 
     });
 }
@@ -1244,7 +1313,7 @@ function intention(payload, senderID, postback, message = {}) {
 
 
             } else {
-                sendAPI(senderID, {
+                loadUser(senderID).then(user => sendAPI(senderID, {
                     attachment: {
                         type: "template",
                         payload: {
@@ -1252,12 +1321,12 @@ function intention(payload, senderID, postback, message = {}) {
                             text: "Hãy cập nhật thêm thông tin để chúng tôi giới thiệu công việc phù hợp hơn với bạn!",
                             buttons: [{
                                 type: "web_url",
-                                url: `${CONFIG.WEBURL}/profile?admin=${userId}`,
+                                url: `${CONFIG.WEBURL}/profile?admin=${user.userId}`,
                                 title: "Cập nhật hồ sơ"
                             }]
                         }
                     }
-                })
+                }))
 
             }
             break;
@@ -1880,18 +1949,19 @@ app.post('/webhook', function (req, res) {
                     else if (pageID == CONFIG.facebookPage['dumpling'].id) {
 
                         var senderID = messagingEvent.sender.id;
+                        var senderData = dataAccount[senderID]
+
+
                         var recipientID = messagingEvent.recipient.id;
                         var timeOfMessage = messagingEvent.timestamp;
                         var message = messagingEvent.message;
                         var postback = messagingEvent.postback
-                        if(message && message.quick_reply) var quickReply = messagingEvent.message.quick_reply;
-
-                        var senderData = dataAccount[senderID]
-
+                        if (message && message.quick_reply) var quickReply = messagingEvent.message.quick_reply;
 
                         if (postback && postback.payload) var payloadStr = messagingEvent.postback.payload
-                        else if(quickReply && quickReply.payload) payloadStr = quickReply.payload
-                        if(payloadStr) var payload = JSON.parse(payloadStr)
+                        else if (quickReply && quickReply.payload) payloadStr = quickReply.payload
+
+                        if (payloadStr) var payload = JSON.parse(payloadStr)
                         else payload = {}
 
 
@@ -2040,9 +2110,9 @@ app.post('/webhook', function (req, res) {
 
                             }, 1000, 'dumpling')).catch(err => console.log(err))
                         }
-                        else if(payload.type == 'status'){
+                        else if (payload.type == 'status') {
                             var status = senderData.status
-                            if(status == 0) sendingAPI(senderID, recipientID, {
+                            if (status == 0) sendingAPI(senderID, recipientID, {
                                 text: "[Hệ Thống] Trạng thái: InActive \n Bạn sẽ không nhận được ghép cặp!",
                                 quick_replies: [
                                     {
@@ -2050,7 +2120,7 @@ app.post('/webhook', function (req, res) {
                                         "title": "Bật",
                                         "payload": JSON.stringify({
                                             type: 'confirm_status',
-                                            answer:'on'
+                                            answer: 'on'
                                         })
                                     }
                                 ]
@@ -2063,13 +2133,14 @@ app.post('/webhook', function (req, res) {
                                         "title": "Tắt",
                                         "payload": JSON.stringify({
                                             type: 'confirm_status',
-                                            answer:'off'
+                                            answer: 'off'
                                         })
                                     }
                                 ]
                             }, 1000, 'dumpling')
-                        }else if(payload.type == 'confirm_status') {
-                            if(payload.answer == 'off') accountRef.child('dumpling').child(senderID).update({status:0}).then(result =>  sendingAPI(senderID, recipientID, {
+                        }
+                        else if (payload.type == 'confirm_status') {
+                            if (payload.answer == 'off') accountRef.child('dumpling').child(senderID).update({status: 0}).then(result => sendingAPI(senderID, recipientID, {
                                 text: "[Hệ Thống] Trạng thái: InActive \n Bạn sẽ không nhận được ghép cặp!",
                                 quick_replies: [
                                     {
@@ -2077,12 +2148,12 @@ app.post('/webhook', function (req, res) {
                                         "title": "Bật",
                                         "payload": JSON.stringify({
                                             type: 'confirm_status',
-                                            answer:'on'
+                                            answer: 'on'
                                         })
                                     }
                                 ]
                             }, 1000, 'dumpling'))
-                            else if(payload.answer == 'on') accountRef.child('dumpling').child(senderID).update({status:1}).then(result => sendingAPI(senderID, recipientID, {
+                            else if (payload.answer == 'on') accountRef.child('dumpling').child(senderID).update({status: 1}).then(result => sendingAPI(senderID, recipientID, {
                                 text: "[Hệ Thống] Trạng thái: InActive \n Bạn sẽ không nhận được ghép cặp!",
                                 quick_replies: [
                                     {
@@ -2090,7 +2161,7 @@ app.post('/webhook', function (req, res) {
                                         "title": "Bật",
                                         "payload": JSON.stringify({
                                             type: 'confirm_status',
-                                            answer:'on'
+                                            answer: 'on'
                                         })
                                     }
                                 ]
@@ -2099,13 +2170,8 @@ app.post('/webhook', function (req, res) {
                         }
 
 
-
-
-
                         if (messagingEvent.referral) var referral = messagingEvent.referral
                         else if (messagingEvent.postback && messagingEvent.postback.referral) referral = messagingEvent.postback.referral
-
-
 
 
                         if (messagingEvent.optin) {
@@ -2157,6 +2223,7 @@ app.post('/webhook', function (req, res) {
 
                         }
 
+                        messageFactoryRef.child('dumpling').child(messagingEvent.messengerId + ':' + timeOfEvent).update(messagingEvent)
 
                     }
 
@@ -3016,6 +3083,7 @@ function sendAccountLinking(recipientId) {
 
     callSendAPI(messageData);
 }
+
 /*
  * Call the Send API. The message data goes in the body. If successful, we'll
  * get the message id in a response
