@@ -1029,7 +1029,7 @@ function sendListJobByAddress(location, address, senderID) {
                 if (result.total > 0) sendAPI(senderID, {
                     text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh địa chỉ ${shortAddress(address)} nè!`
                 }).then(() => sendAPI(senderID, result.message, 3000))
-                else  sendAPI(senderID, {
+                else loadUser(senderID).then(user => sendAPI(senderID, {
                     attachment: {
                         type: "template",
                         payload: {
@@ -1042,7 +1042,7 @@ function sendListJobByAddress(location, address, senderID) {
                             }]
                         }
                     }
-                })
+                }))
             })
 
 
@@ -1116,105 +1116,9 @@ function intention(payload, senderID, postback, message = {}) {
         }
         case 'jobseeker': {
 
-            if (payload.state == 'updateProfile') {
+            if (payload.state == 'updateProfile') sendUpdateProfile(senderID)
+            else if (payload.state == 'interview') sendInterviewInfo(senderID)
 
-                var url = `${CONFIG.APIURL}/checkUser?q=${senderID}&type=messengerId`
-                axios.get(url)
-                    .then(result => {
-
-                        var peoples = result.data;
-                        if (peoples.length > 0) {
-                            var user = peoples[0]
-                            console.log('user', user)
-                            sendAPI(senderID, {
-                                attachment: {
-                                    type: "template",
-                                    payload: {
-                                        template_type: "button",
-                                        text: "Hãy cập nhật thêm thông tin để nhà tuyển dụng chọn bạn!",
-                                        buttons: [{
-                                            type: "web_url",
-                                            url: `${CONFIG.WEBURL}/profile?admin=${user.userId}`,
-                                            title: "Cập nhật hồ sơ"
-                                        }]
-                                    }
-                                }
-                            })
-                        } else {
-
-                            sendAPI(senderID, {
-                                text: 'Hãy gửi số điện thoại của bạn',
-                                metadata: JSON.stringify({
-                                    type: 'askPhone',
-                                    case: 'updateProfile'
-                                })
-                            })
-                        }
-
-                    })
-                    .catch(err => {
-                        sendAPI(senderID, {
-                            attachment: {
-                                type: "template",
-                                payload: {
-                                    template_type: "button",
-                                    text: "Hãy cập nhật thêm thông tin để nhà tuyển dụng chọn bạn!",
-                                    buttons: [{
-                                        type: "web_url",
-                                        url: `${CONFIG.WEBURL}/profile?admin=${senderID}`,
-                                        title: "Cập nhật hồ sơ"
-                                    }]
-                                }
-                            }
-                        })
-
-                    })
-
-            } else if (payload.state == 'interview') {
-                sendAPI(senderID, {
-                    text: 'Lịch phỏng vấn của bạn'
-                })
-                    .then(result => loadUser(senderID))
-                    .then(userData => axios.get(CONFIG.APIURL + '/initData?userId=' + userData.userId))
-                    .then(result => {
-                        var data = result.data
-                        var applys = data.reactList.like
-                        var profileData = data.userData
-                        if (applys.length > 0) {
-                            applys.forEach(like => loadJob(like.jobId)
-                                .then(jobData => sendAPI(senderID, {
-                                    attachment: {
-                                        type: "template",
-                                        payload: {
-                                            template_type: "button",
-                                            text: `* ${jobData.jobName} - ${jobData.storeData.storeName} \n ${strTime(like.interviewTime)}`,
-                                            buttons: [{
-                                                type: "web_url",
-                                                url: `https://www.google.com/maps/dir/${(profileData.address) ? (profileData.address) : ''}/${(jobData.storeData.address) ? (jobData.storeData.address) : ('')}`,
-                                                title: "Chỉ đường"
-                                            }, {
-                                                type: "phone_number",
-                                                title: "Gọi cho nhà tuyển dụng",
-                                                payload: jobData.userInfo.phone || '0968269860'
-                                            }, {
-                                                type: "postback",
-                                                title: "Huỷ phỏng vấn",
-                                                payload: JSON.stringify({
-                                                    type: 'cancelInterview',
-                                                    actId: like.actId,
-                                                })
-                                            }]
-                                        }
-                                    }
-                                }))
-                            )
-                        } else sendAPI(senderID, {
-                            text: 'Bạn chưa có lịch phỏng vấn!'
-                        })
-
-                    })
-
-            }
             break;
 
         }
@@ -1726,35 +1630,7 @@ function intention(payload, senderID, postback, message = {}) {
                     interviewTime: time
                 }).then(result => sendAPI(senderID, {text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi trao đổi.\n` + 'Chúc bạn phỏng vấn thành công nhé <3'}))
                     .then(result => sendAPI(senderID, {text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!'}))
-                    .then(result => loadUser(senderID))
-                    .then(userData => loadProfile(userData.userId))
-                    .then(profileData => loadJob(jobId))
-                    .then(jobData => sendAPI(senderID, {
-                        attachment: {
-                            type: "template",
-                            payload: {
-                                template_type: "button",
-                                text: `(Y)Lịch phỏng vấn: \n * ${jobData.jobName} - ${jobData.storeData.storeName}`,
-                                buttons: [{
-                                    type: "web_url",
-                                    url: `https://www.google.com/maps/dir/${(profileData.address) ? (profileData.address) : ''}/${(jobData.storeData.address) ? (jobData.storeData.address) : ('')}`,
-                                    title: "Chỉ đường"
-                                }, {
-                                    type: "phone_number",
-                                    title: "Gọi cho nhà tuyển dụng",
-                                    payload: (jobData.userInfo && jobData.userInfo.phone) ? jobData.userInfo.phone : '0968269860'
-                                }, {
-                                    type: "postback",
-                                    title: "Huỷ phỏng vấn",
-                                    payload: JSON.stringify({
-                                        type: 'cancelInterview',
-                                        actId,
-                                    })
-                                }
-                                ]
-                            }
-                        }
-                    }))
+                    .then(result => sendInterviewInfo(senderID))
                     .catch(err => console.log(err))
 
             }
@@ -1770,6 +1646,8 @@ function intention(payload, senderID, postback, message = {}) {
     }
 }
 
+
+
 function loadUser(senderID) {
     return new Promise(function (resolve, reject) {
 
@@ -1777,11 +1655,43 @@ function loadUser(senderID) {
         axios.get(url)
             .then(result => {
                 if (result.data[0]) resolve(result.data[0])
-                else resolve(null)
+                else reject({err: 'No User'})
             })
             .catch(err => reject(err))
     })
 
+}
+
+function sendUpdateProfile(senderID) {
+
+    loadUser(senderID).then(user => sendAPI(senderID, {
+            attachment: {
+                type: "template",
+                payload: {
+                    template_type: "button",
+                    text: "Tiếp theo, bạn hãy cập nhật thêm thông tin để ứng tuyển vào các công việc phù hợp!",
+                    buttons: [{
+                        type: "web_url",
+                        url: `${CONFIG.WEBURL}/profile?admin=${user.userId}`,
+                        title: "Cập nhật hồ sơ"
+                    }]
+                }
+            }
+        })
+    ).catch(err => sendAPI(senderID, {
+        attachment: {
+            type: "template",
+            payload: {
+                template_type: "button",
+                text: "Tiếp theo, bạn hãy cập nhật thêm thông tin để ứng tuyển vào các công việc phù hợp!",
+                buttons: [{
+                    type: "web_url",
+                    url: `${CONFIG.WEBURL}/profile?admin=${senderID}`,
+                    title: "Cập nhật hồ sơ"
+                }]
+            }
+        }
+    }))
 }
 
 function loadProfile(userId) {
@@ -1794,6 +1704,54 @@ function loadProfile(userId) {
 
 }
 
+function sendInterviewInfo(senderID) {
+    return new Promise(function (resolve,reject) {
+        sendAPI(senderID, {
+            text: 'Lịch phỏng vấn của bạn'
+        }).then(result => loadUser(senderID))
+            .then(userData => axios.get(CONFIG.APIURL + '/initData?userId=' + userData.userId))
+            .then(result => {
+                var data = result.data
+                var applys = data.reactList.like
+                var profileData = data.userData
+                if (applys.length > 0) {
+                    applys.forEach(like => loadJob(like.jobId)
+                        .then(jobData => sendAPI(senderID, {
+                            attachment: {
+                                type: "template",
+                                payload: {
+                                    template_type: "button",
+                                    text: `* ${jobData.jobName} - ${jobData.storeData.storeName} \n ${strTime(like.interviewTime)}`,
+                                    buttons: [{
+                                        type: "web_url",
+                                        url: `https://www.google.com/maps/dir/${(profileData.address) ? (profileData.address) : ''}/${(jobData.storeData.address) ? (jobData.storeData.address) : ('')}`,
+                                        title: "Chỉ đường"
+                                    }, {
+                                        type: "phone_number",
+                                        title: "Gọi cho nhà tuyển dụng",
+                                        payload: jobData.userInfo.phone || '0968269860'
+                                    }, {
+                                        type: "postback",
+                                        title: "Huỷ phỏng vấn",
+                                        payload: JSON.stringify({
+                                            type: 'cancelInterview',
+                                            actId: like.actId,
+                                        })
+                                    }]
+                                }
+                            }
+                        }))
+                    )
+                    resolve(data)
+                } else sendAPI(senderID, {
+                    text: 'Bạn chưa có lịch phỏng vấn!'
+                })
+
+            })
+    })
+
+
+}
 function sendInterviewOption(jobId, senderID, status) {
     loadJob(jobId).then(result => {
         var jobData = result;

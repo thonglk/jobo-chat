@@ -17,10 +17,10 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="1314" column="51" lean-forward="false" selection-start-line="1314" selection-start-column="43" selection-end-line="1314" selection-end-column="51" />
+            <state relative-caret-position="423">
+              <caret line="1348" column="18" lean-forward="true" selection-start-line="1348" selection-start-column="18" selection-end-line="1348" selection-end-column="18" />
               <folding>
-                <element signature="e#75429#76712#0" expanded="false" />
+                <element signature="e#76073#77356#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -60,8 +60,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>gender</find>
-      <find>aff</find>
       <find>send</find>
       <find>attachment</find>
       <find>apply</find>
@@ -90,6 +88,8 @@
       <find>total</find>
       <find>Phỏng vấn</find>
       <find>askPhone</find>
+      <find>job</find>
+      <find>applyJob</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -208,12 +208,12 @@
       <workItem from="1511074518141" duration="420000" />
       <workItem from="1511082841149" duration="3898000" />
       <workItem from="1511161319446" duration="17176000" />
-      <workItem from="1511320581626" duration="3257000" />
+      <workItem from="1511320581626" duration="3364000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="255473000" />
+    <option name="totallyTimeSpent" value="255580000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -275,7 +275,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#75429#76712#0" expanded="false" />
+            <element signature="e#76073#77356#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -317,7 +317,7 @@
         <state relative-caret-position="8415">
           <caret line="568" column="0" lean-forward="false" selection-start-line="568" selection-start-column="0" selection-end-line="568" selection-end-column="0" />
           <folding>
-            <element signature="e#75429#76712#0" expanded="false" />
+            <element signature="e#76073#77356#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -343,7 +343,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#75429#76712#0" expanded="false" />
+            <element signature="e#76073#77356#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -377,7 +377,7 @@
         <state relative-caret-position="12570">
           <caret line="838" column="42" lean-forward="true" selection-start-line="838" selection-start-column="42" selection-end-line="838" selection-end-column="42" />
           <folding>
-            <element signature="e#75429#76712#0" expanded="false" />
+            <element signature="e#76073#77356#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -422,10 +422,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="1314" column="51" lean-forward="false" selection-start-line="1314" selection-start-column="43" selection-end-line="1314" selection-end-column="51" />
+        <state relative-caret-position="423">
+          <caret line="1348" column="18" lean-forward="true" selection-start-line="1348" selection-start-column="18" selection-end-line="1348" selection-end-column="18" />
           <folding>
-            <element signature="e#75429#76712#0" expanded="false" />
+            <element signature="e#76073#77356#0" expanded="false" />
           </folding>
         </state>
       </provider>
