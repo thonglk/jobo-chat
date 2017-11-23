@@ -164,6 +164,10 @@ var dataAccount = {}, accountRef = db.ref('account');
 accountRef.child('dumpling').on('child_added', function (snap) {
     dataAccount[snap.key] = snap.val()
 })
+accountRef.child('dumpling').on('child_changed', function (snap) {
+    dataAccount[snap.key] = snap.val()
+})
+
 
 var profileRef = db2.ref('profile');
 var likeActivityRef = db3.ref('activity/like');
@@ -988,7 +992,7 @@ function matchingPayload(event) {
             var payload = JSON.parse(payloadStr);
             resolve({payload, senderID, postback})
         } else if (message && message.text) {
-            console.log('message.text', message.text)
+            console.log('message.text', message.text);
 
 
             // var conversation = conversationData[senderID];
