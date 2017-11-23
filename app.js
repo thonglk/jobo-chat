@@ -2281,16 +2281,15 @@ function checkAvaible(senderID) {
                                 text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
                             }, null, 'dumpling').then(result => {
                                 var conver_new = _.each(messageFactory, message => {
-                                    if (message.recipientID == current_matched && message.senderID == senderID && message.timestamp > s60){
+                                    if (message.recipientID == current_matched && message.senderID == senderID && message.timestamp > s60) {
                                         sendingAPI(matched, senderID, {
                                             text: message.message.text,
                                         }, null, 'dumpling')
                                     }
                                 })
+                                loop()
                             })
                         )
-
-                        .then(result => loop())
                         .catch(err => console.log(err))
                 }
             }, 60000)
