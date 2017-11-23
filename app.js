@@ -2002,7 +2002,7 @@ app.post('/webhook', function (req, res) {
                             else matchingPeople(senderData, senderID, recipientID)
                                 .then(matched => sendingAPI(matched, recipientID, {
                                     text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
-                                }, null, 'dumpling').then(result => checkAvaible(senderID, matched)))
+                                }, null, 'dumpling').then(result => checkAvaible(senderID)))
                                 .then(result => sendingAPI(senderID, recipientID, {
                                     text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
                                 }, null, 'dumpling'))
@@ -2263,6 +2263,7 @@ function checkAvaible(senderID, recipientID) {
         a++
         if (a < 4) {
             var senderData = dataAccount[senderID]
+            var matched = senderData.match
             setTimeout(function () {
                 var s60 = Date.now() - 60000
                 var conver = _.filter(messageFactory, message => {
