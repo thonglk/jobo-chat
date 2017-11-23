@@ -169,14 +169,14 @@ var profileRef = db2.ref('profile');
 var likeActivityRef = db3.ref('activity/like');
 
 var conversationData, conversationRef = db.ref('conversation')
-var lastMessageData, lastMessageRef = db.ref('last_message')
+var lastMessageData = {}, lastMessageRef = db.ref('last_message')
 
 var conversationData_new, conversationRef_new = db3.ref('conversation_temp')
 
 var messageFactory = {}, messageFactoryRef = db.ref('messageFactory')
 
-lastMessageRef.on('value', function (snap) {
-    lastMessageData = snap.val()
+lastMessageRef.on('child_added', function (snap) {
+    lastMessageData[snap.key] = snap.val()
 });
 messageFactoryRef.child('dumpling').on('child_added', function (snap) {
     messageFactory[snap.key] = snap.val()
@@ -214,8 +214,8 @@ app.get('/staticAll', function (req, res) {
     var each = _.each(messageFactory, message => {
         if(message.timestamp > startTime && message.timestamp < endTime){
             if(message.senderId != '493938347612411')newMessage++
-            if (message.message.text == 'Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^') startNewConversation++
-            if (message.message.text == 'đảm bảo 100% bí mật thông tin và nội dung trò chuyện') newUser++
+            if (message.message && message.message.text == 'Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^') startNewConversation++
+            if (message.message && message.message.text == 'đảm bảo 100% bí mật thông tin và nội dung trò chuyện') newUser++
         }
 
 
