@@ -209,22 +209,22 @@ app.get('/staticUser', function (req, res) {
 
 })
 app.get('/staticAll', function (req, res) {
-    var {dis = 1,last = 0} = req.query
-    var endTime = Date.now() - last*24 * 60 * 60 * 1000
+    var {dis = 1, last = 0} = req.query
+    var endTime = Date.now() - last * 24 * 60 * 60 * 1000
     var startTime = endTime - dis * 24 * 60 * 60 * 1000
     var startNewConversation = 0
     var newUser = 0
     var newMessage = 0
     var each = _.each(messageFactory, message => {
-        if(message.timestamp > startTime && message.timestamp < endTime){
-            if(message.senderId != '493938347612411')newMessage++
+        if (message.timestamp > startTime && message.timestamp < endTime) {
+            if (message.senderId != '493938347612411') newMessage++
             if (message.message && message.message.text == 'Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^') startNewConversation++
             if (message.message && message.message.text == 'đảm bảo 100% bí mật thông tin và nội dung trò chuyện') newUser++
         }
 
 
     })
-    var staticAll = {startNewConversation,newUser,newMessage}
+    var staticAll = {startNewConversation, newUser, newMessage}
     res.send(staticAll)
 
 })
@@ -1977,10 +1977,10 @@ app.post('/webhook', function (req, res) {
                                     .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
                                     .then(result => sendingAPI(senderID, recipientID, {
                                         text: "[Hệ Thống] Bạn đã dừng cuộc trò chuyện",
-                                    }, 1000, 'dumpling'))
+                                    }, null, 'dumpling'))
                                     .then(result => sendingAPI(senderData.match, recipientID, {
                                         text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
-                                    }, 1000, 'dumpling'))
+                                    }, null, 'dumpling'))
 
                             } else if (senderData) sendingAPI(senderID, recipientID, {
                                 text: "[Hệ Thống] Bạn chưa bắt đầu cuộc trò chuyện!",
@@ -1993,12 +1993,12 @@ app.post('/webhook', function (req, res) {
                                         })
                                     }
                                 ]
-                            }, 1000, 'dumpling')
+                            }, null, 'dumpling')
                         }
                         else if (payload.type == 'matching') {
                             if (senderData && senderData.match) sendingAPI(senderID, recipientID, {
                                 text: "[Hệ Thống] Hãy huỷ cuộc hội thoại hiện có !",
-                            }, 1000, 'dumpling');
+                            }, null, 'dumpling');
                             else {
                                 var avaible = _.filter(dataAccount, function (card) {
                                     if (!card.match && card.gender != senderData.gender && card.id != recipientID) return true
@@ -2011,18 +2011,18 @@ app.post('/webhook', function (req, res) {
                                         .then(result => accountRef.child('dumpling').child(random.id).update({match: senderID}))
                                         .then(result => sendingAPI(senderID, recipientID, {
                                             text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
-                                        }, 1000, 'dumpling'))
+                                        }, null, 'dumpling'))
                                         .then(result => sendingAPI(senderID, recipientID, {
                                             text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
-                                        }, 1000, 'dumpling'))
+                                        }, null, 'dumpling'))
                                         .then(result => sendingAPI(matched, recipientID, {
                                             text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
-                                        }, 1000, 'dumpling'))
+                                        }, null, 'dumpling'))
 
                                 } else sendingAPI(senderID, recipientID, {
                                     text: "[Hệ Thống] Chưa tìm đc người phù hợp",
 
-                                }, 1000, 'dumpling')
+                                }, null, 'dumpling')
                             }
                         }
                         else if (payload.type == 'GET_STARTED') {
@@ -2044,10 +2044,10 @@ app.post('/webhook', function (req, res) {
 
                             sendingAPI(senderID, recipientID, {
                                 text: `Dumpling kết nối hai người lạ nói chuyện với nhau bằng một cuộc trò chuyện bí mật`,
-                            }, 1000, 'dumpling')
+                            }, null, 'dumpling')
                                 .then(result => sendingAPI(senderID, recipientID, {
                                     text: `đảm bảo 100% bí mật thông tin và nội dung trò chuyện`,
-                                }, 1000, 'dumpling'))
+                                }, null, 'dumpling'))
                                 .then(result => sendingAPI(senderID, recipientID, {
                                     text: "Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
                                     quick_replies: [
@@ -2059,14 +2059,14 @@ app.post('/webhook', function (req, res) {
                                             })
                                         }
                                     ]
-                                }, 1000, 'dumpling'))
+                                }, null, 'dumpling'))
 
 
                         }
                         else if (payload.type == 'share') {
                             sendingAPI(senderID, recipientID, {
                                 text: 'Chia sẻ Dumpling với bạn bè để giúp họ tìm thấy 1 nữa của đời mình nhé 👇'
-                            }, 1000, 'dumpling').then(result => sendingAPI(senderID, recipientID, {
+                            }, null, 'dumpling').then(result => sendingAPI(senderID, recipientID, {
                                 "attachment": {
                                     "type": "template",
                                     "payload": {
@@ -2112,7 +2112,7 @@ app.post('/webhook', function (req, res) {
                                     }
                                 }
 
-                            }, 1000, 'dumpling')).catch(err => console.log(err))
+                            }, null, 'dumpling')).catch(err => console.log(err))
                         }
                         else if (payload.type == 'status') {
                             var status = senderData.status
@@ -2128,7 +2128,7 @@ app.post('/webhook', function (req, res) {
                                         })
                                     }
                                 ]
-                            }, 1000, 'dumpling')
+                            }, null, 'dumpling')
                             else sendingAPI(senderID, recipientID, {
                                 text: "[Hệ Thống] Trạng thái: Active \n Bạn sẽ nhận được ghép cặp!",
                                 quick_replies: [
@@ -2141,7 +2141,7 @@ app.post('/webhook', function (req, res) {
                                         })
                                     }
                                 ]
-                            }, 1000, 'dumpling')
+                            }, null, 'dumpling')
                         }
                         else if (payload.type == 'confirm_status') {
                             if (payload.answer == 'off') accountRef.child('dumpling').child(senderID).update({status: 0}).then(result => sendingAPI(senderID, recipientID, {
@@ -2156,7 +2156,7 @@ app.post('/webhook', function (req, res) {
                                         })
                                     }
                                 ]
-                            }, 1000, 'dumpling'))
+                            }, null, 'dumpling'))
                             else if (payload.answer == 'on') accountRef.child('dumpling').child(senderID).update({status: 1}).then(result => sendingAPI(senderID, recipientID, {
                                 text: "[Hệ Thống] Trạng thái: InActive \n Bạn sẽ không nhận được ghép cặp!",
                                 quick_replies: [
@@ -2169,7 +2169,7 @@ app.post('/webhook', function (req, res) {
                                         })
                                     }
                                 ]
-                            }, 1000, 'dumpling'))
+                            }, null, 'dumpling'))
 
                         }
 
@@ -2180,8 +2180,12 @@ app.post('/webhook', function (req, res) {
 
                         if (messagingEvent.optin) {
                             receivedAuthentication(messagingEvent);
-                        }
-                        else if (message) {
+                        } else if (messagingEvent.read) {
+                            if(senderData.match) sendingAPI(senderData.match,senderID,{
+                                sender_action: "mark_seen"
+                            },null,'dumpling')
+
+                        } else if (message) {
 
                             // You may get a text or attachment but not both
                             var metadata = message.metadata;
@@ -2193,7 +2197,7 @@ app.post('/webhook', function (req, res) {
                                 if (senderData && senderData.match) {
                                     sendingAPI(senderData.match, senderID, {
                                         text: messageText,
-                                    }, 10, 'dumpling')
+                                    }, null, 'dumpling')
                                 } else sendingAPI(senderID, recipientID, {
                                     text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
                                     quick_replies: [
@@ -2210,7 +2214,7 @@ app.post('/webhook', function (req, res) {
                                 if (senderData && senderData.match) {
                                     sendingAPI(senderData.match, senderID, {
                                         attachment: messageAttachments[0]
-                                    }, 10, 'dumpling')
+                                    }, null, 'dumpling')
                                 } else sendingAPI(senderID, recipientID, {
                                     text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
                                     quick_replies: [
@@ -2222,7 +2226,7 @@ app.post('/webhook', function (req, res) {
                                             })
                                         }
                                     ]
-                                }, 10, 'dumpling')
+                                }, null, 'dumpling')
                             }
 
                         }
@@ -2599,6 +2603,7 @@ function receivedMessageRead(event) {
             .then(result => console.log("messengerRead", lastMessage))
             .catch(err => console.log(err))
     }
+    sendReadReceipt()
 
 }
 
@@ -2758,7 +2763,7 @@ function sendTextMessage(recipientId, messageText, metadata) {
 
 function sendingAPI(recipientId, senderId = CONFIG.facebookPage['jobo'].id, message, typing, page = 'jobo') {
     return new Promise(function (resolve, reject) {
-        if (!typing) typing = 1000
+        if (!typing) typing = 10
         var messageData = {
             recipient: {
                 id: recipientId
