@@ -2002,17 +2002,15 @@ app.post('/webhook', function (req, res) {
                             else matchingPeople(senderID)
                                 .then(matched => sendingAPI(matched, recipientID, {
                                     text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
-                                }, null, 'dumpling').then(result => checkAvaible(senderID)))
+                                }, null, 'dumpling'))
+                                .then(result => checkAvaible(senderID))
                                 .then(result => sendingAPI(senderID, recipientID, {
                                     text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
                                 }, null, 'dumpling'))
                                 .then(result => sendingAPI(senderID, recipientID, {
                                     text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
                                 }, null, 'dumpling'))
-
-                                .catch(err => sendingAPI(senderID, recipientID, {
-                                    text: "[Hệ Thống] Chưa tìm đc người phù hợp",
-                                }, null, 'dumpling'))
+                                .catch(err => console.log(err))
                         }
                         else if (payload.type == 'GET_STARTED') {
                             if (!senderData) {
@@ -2244,14 +2242,16 @@ function matchingPeople(senderID) {
             if (!card.match && card.status != 0 && card.gender != senderData.gender && card.id != CONFIG.facebookPage['dumpling'].id) return true
             else return false
         })
-        if (avaible && avaible.length > 0) {
+        if (avaible.length > 0) {
             var random = _.sample(avaible)
             var matched = random.id
             accountRef.child('dumpling').child(senderID).update({match: matched})
                 .then(result => accountRef.child('dumpling').child(random.id).update({match: senderID}))
                 .then(result => resolve(matched))
 
-        } else reject({err: 'hệ thống'})
+        } else sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
+            text: "[Hệ Thống] Chưa tìm đc người phù hợp",
+        }, null, 'dumpling')
 
     })
 }
