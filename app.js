@@ -2273,6 +2273,9 @@ function checkAvaible(senderID) {
                     console.log('change people')
                     accountRef.child('dumpling').child(senderID).child('match').remove()
                         .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
+                        .then(result => sendingAPI(senderData.match, CONFIG.facebookPage['dumpling'].id, {
+                            text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
+                        }, null, 'dumpling'))
                         .then(result => matchingPeople(senderID))
                         .then(matched => sendingAPI(matched, CONFIG.facebookPage['dumpling'].id, {
                                 text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
