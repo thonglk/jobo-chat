@@ -2267,16 +2267,19 @@ function checkAvaible(senderData, senderID, recipientID) {
                 var conver = _.filter(messageFactory, message => {
                     if (message.recipientID == senderID && message.senderID == matched && message.timestamp > Date.now() - 60000) return true
                 })
-                if (conver.length == 0) accountRef.child('dumpling').child(senderID).child('match').remove()
-                    .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
-                    .then(result => matchingPeople(senderData, senderID, recipientID))
-                    .then(matched => sendingAPI(matched, recipientID, {
-                            text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
-                        }, null, 'dumpling')
-                            .then(result => loop())
-                            .catch(err => console.log(err))
-                    )
+                if (conver.length == 0) {
+                    console.log('change people')
+                    accountRef.child('dumpling').child(senderID).child('match').remove()
+                        .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
+                        .then(result => matchingPeople(senderData, senderID, recipientID))
+                        .then(matched => sendingAPI(matched, recipientID, {
+                                text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
+                            }, null, 'dumpling')
+                                .then(result => loop())
+                                .catch(err => console.log(err))
+                        )
 
+                }
             }, 60000)
 
 
