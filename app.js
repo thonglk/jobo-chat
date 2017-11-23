@@ -1999,31 +1999,30 @@ app.post('/webhook', function (req, res) {
                             if (senderData && senderData.match) sendingAPI(senderID, recipientID, {
                                 text: "[Hệ Thống] Hãy huỷ cuộc hội thoại hiện có !",
                             }, null, 'dumpling');
-                            else {
-                                var avaible = _.filter(dataAccount, function (card) {
-                                    if (!card.match && card.gender != senderData.gender && card.id != recipientID) return true
-                                    else return false
-                                })
-                                if (avaible && avaible.length > 0) {
-                                    var random = _.sample(avaible)
-                                    var matched = random.id
-                                    accountRef.child('dumpling').child(senderID).update({match: matched})
-                                        .then(result => accountRef.child('dumpling').child(random.id).update({match: senderID}))
-                                        .then(result => sendingAPI(senderID, recipientID, {
-                                            text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
-                                        }, null, 'dumpling'))
-                                        .then(result => sendingAPI(senderID, recipientID, {
-                                            text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
-                                        }, null, 'dumpling'))
-                                        .then(result => sendingAPI(matched, recipientID, {
-                                            text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
-                                        }, null, 'dumpling'))
+                            else matchingPeople(senderData, senderID, recipientID)
+                                .then(matched => sendingAPI(matched, recipientID, {
+                                    text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ",
+                                }, null, 'dumpling').then(result => setTimeout(function () {
+                                    var conver = _.filter(messageFactory,message =>{
+                                        if(message.recipientID == senderID && message.senderID ==matched && message.timestamp > Date.now() - 60000) return true
+                                    })
+                                    if(conver.length == 0)  accountRef.child('dumpling').child(senderID).child('match').remove()
+                                        .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
+                                        .then(result => matchingPeople(senderData, senderID, recipientID))
+                                        .then(matched => console.log('next match'))
+                                        .catch(err => console.log(err))
 
-                                } else sendingAPI(senderID, recipientID, {
+                                },60000)))
+                                .then(result => sendingAPI(senderID, recipientID, {
+                                    text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
+                                }, null, 'dumpling'))
+                                .then(result => sendingAPI(senderID, recipientID, {
+                                    text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
+                                }, null, 'dumpling'))
+
+                                .catch(err =>  sendingAPI(senderID, recipientID, {
                                     text: "[Hệ Thống] Chưa tìm đc người phù hợp",
-
-                                }, null, 'dumpling')
-                            }
+                                }, null, 'dumpling'))
                         }
                         else if (payload.type == 'GET_STARTED') {
                             if (!senderData) {
@@ -2183,7 +2182,7 @@ app.post('/webhook', function (req, res) {
                         } else if (messagingEvent.read) {
                             // if(senderData.match) sendingAPI(senderData.match,senderID, sender_action: "mark_seen"
                             // ,null,'dumpling')
-                            sendReadReceipt(senderData.match,'dumpling')
+                            sendReadReceipt(senderData.match, 'dumpling')
                         } else if (message) {
 
                             // You may get a text or attachment but not both
@@ -2250,6 +2249,24 @@ app.post('/webhook', function (req, res) {
 })
 ;
 
+function matchingPeople(senderData, senderID, recipientID) {
+    return new Promise(function (resolve, reject) {
+
+        var avaible = _.filter(dataAccount, function (card) {
+            if (!card.match && card.status != 0 && card.gender != senderData.gender && card.id != recipientID) return true
+            else return false
+        })
+        if (avaible && avaible.length > 0) {
+            var random = _.sample(avaible)
+            var matched = random.id
+            accountRef.child('dumpling').child(senderID).update({match: matched})
+                .then(result => accountRef.child('dumpling').child(random.id).update({match: senderID}))
+                .then(result => resolve(matched))
+
+        } else reject({err: 'hệ thống'})
+
+    })
+}
 
 /*
  * This path is used for account linking. The account linking call-to-action
@@ -2784,7 +2801,8 @@ function sendingAPI(recipientId, senderId = CONFIG.facebookPage['jobo'].id, mess
                         .update(messageData)
                         .then(() => resolve(result))
                         .catch(err => reject(err))
-                })
+                }).catch(err => reject(err))
+
 
             }, typing))
             .catch(err => reject(err))
@@ -3013,7 +3031,7 @@ function sendQuickReply(recipientId) {
  * Send a read receipt to indicate the message has been read
  *
  */
-function sendReadReceipt(recipientId,page) {
+function sendReadReceipt(recipientId, page) {
     console.log("Sending a read receipt to mark message as seen");
 
     var messageData = {
@@ -3023,7 +3041,7 @@ function sendReadReceipt(recipientId,page) {
         sender_action: "mark_seen"
     };
 
-    callSendAPI(messageData,page);
+    callSendAPI(messageData, page);
 }
 
 /*
