@@ -1333,6 +1333,20 @@ function intention(payload, senderID, postback, message = {}) {
 
 
             } else {
+                sendAPI(senderID, {
+                    attachment: {
+                        type: "template",
+                        payload: {
+                            template_type: "button",
+                            text: "Hãy cập nhật thêm thông tin để chúng tôi giới thiệu công việc phù hợp hơn với bạn!",
+                            buttons: [{
+                                type: "web_url",
+                                url: `${CONFIG.WEBURL}/profile?admin=${userId}`,
+                                title: "Cập nhật hồ sơ"
+                            }]
+                        }
+                    }
+                })
 
             }
             break;

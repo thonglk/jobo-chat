@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-    </list>
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -19,10 +17,10 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="335">
-              <caret line="1041" column="30" lean-forward="true" selection-start-line="1041" selection-start-column="30" selection-end-line="1041" selection-end-column="30" />
+            <state relative-caret-position="181">
+              <caret line="1314" column="51" lean-forward="false" selection-start-line="1314" selection-start-column="43" selection-end-line="1314" selection-end-column="51" />
               <folding>
-                <element signature="e#75432#76715#0" expanded="false" />
+                <element signature="e#75429#76712#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -62,7 +60,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>confirmPolicy</find>
       <find>gender</find>
       <find>aff</find>
       <find>send</find>
@@ -71,7 +68,6 @@
       <find>/like</find>
       <find>status</find>
       <find>sendI</find>
-      <find>askPhone</find>
       <find>confirmCheckUser</find>
       <find>sendInterviewOption</find>
       <find>sc</find>
@@ -92,6 +88,8 @@
       <find>accountRe</find>
       <find>updateProfile</find>
       <find>total</find>
+      <find>Phỏng vấn</find>
+      <find>askPhone</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -210,12 +208,12 @@
       <workItem from="1511074518141" duration="420000" />
       <workItem from="1511082841149" duration="3898000" />
       <workItem from="1511161319446" duration="17176000" />
-      <workItem from="1511320581626" duration="2983000" />
+      <workItem from="1511320581626" duration="3257000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="255199000" />
+    <option name="totallyTimeSpent" value="255473000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -277,7 +275,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#75432#76715#0" expanded="false" />
+            <element signature="e#75429#76712#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -319,7 +317,7 @@
         <state relative-caret-position="8415">
           <caret line="568" column="0" lean-forward="false" selection-start-line="568" selection-start-column="0" selection-end-line="568" selection-end-column="0" />
           <folding>
-            <element signature="e#75432#76715#0" expanded="false" />
+            <element signature="e#75429#76712#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -345,7 +343,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#75432#76715#0" expanded="false" />
+            <element signature="e#75429#76712#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -379,7 +377,7 @@
         <state relative-caret-position="12570">
           <caret line="838" column="42" lean-forward="true" selection-start-line="838" selection-start-column="42" selection-end-line="838" selection-end-column="42" />
           <folding>
-            <element signature="e#75432#76715#0" expanded="false" />
+            <element signature="e#75429#76712#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -424,10 +422,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="335">
-          <caret line="1041" column="30" lean-forward="true" selection-start-line="1041" selection-start-column="30" selection-end-line="1041" selection-end-column="30" />
+        <state relative-caret-position="181">
+          <caret line="1314" column="51" lean-forward="false" selection-start-line="1314" selection-start-column="43" selection-end-line="1314" selection-end-column="51" />
           <folding>
-            <element signature="e#75432#76715#0" expanded="false" />
+            <element signature="e#75429#76712#0" expanded="false" />
           </folding>
         </state>
       </provider>
