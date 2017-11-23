@@ -161,13 +161,16 @@ var db3 = joboTest.database();
 
 var userRef = db2.ref('user');
 var dataAccount = {}, accountRef = db.ref('account');
-accountRef.child('dumpling').on('child_added', function (snap) {
-    dataAccount[snap.key] = snap.val()
-})
-accountRef.child('dumpling').on('child_changed', function (snap) {
-    dataAccount[snap.key] = snap.val()
-})
+// accountRef.child('dumpling').on('child_added', function (snap) {
+//     dataAccount[snap.key] = snap.val()
+// })
+// accountRef.child('dumpling').on('child_changed', function (snap) {
+//     dataAccount[snap.key] = snap.val()
+// })
+accountRef.child('dumpling').on('value',function (snap) {
+    dataAccount = snap.val()
 
+})
 
 var profileRef = db2.ref('profile');
 var likeActivityRef = db3.ref('activity/like');
@@ -226,6 +229,59 @@ app.get('/staticAll', function (req, res) {
     })
     var staticAll = {startNewConversation, newUser, newMessage}
     res.send(staticAll)
+
+})
+app.get('/checkAvai', function (req, res) {
+    var i = 0
+    var each = _.each(dataAccount, user => {
+        if (user.match) {
+            i++
+            setTimeout(function () {
+
+
+                var userId = user.id
+                var match = dataAccount[userId].match
+                var filter = _.where(messageFactory, {senderId: userId, recipientId: match})
+                var filtered = _.where(messageFactory, {senderId: match, recipientId: userId})
+                if (filter.length == 0 || filtered == 0)
+                    accountRef.child('dumpling').child(userId).child('match').remove()
+                        .then(result => accountRef.child('dumpling').child(match).child('match').remove())
+                        .then(result => sendingAPI(userId, CONFIG.facebookPage['dumpling'].id, {
+                            text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
+                            quick_replies: [
+                                {
+                                    "content_type": "text",
+                                    "title": "💬 Bắt đầu mới",
+                                    "payload": JSON.stringify({
+                                        type: 'matching'
+                                    })
+                                }
+                            ]
+                        }, null, 'dumpling'))
+                        .then(result => sendingAPI(match, CONFIG.facebookPage['dumpling'].id, {
+                            text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
+                            quick_replies: [
+                                {
+                                    "content_type": "text",
+                                    "title": "💬 Bắt đầu mới",
+                                    "payload": JSON.stringify({
+                                        type: 'matching'
+                                    })
+                                }
+                            ]
+                        }, null, 'dumpling'))
+                        .then(result => console.log(result))
+                        .catch(err => console.log(err))
+
+
+
+            }, 1000 * i)
+
+
+        }
+    })
+    res.send(each)
+
 
 })
 
