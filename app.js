@@ -1977,9 +1977,27 @@ app.post('/webhook', function (req, res) {
                                     .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
                                     .then(result => sendingAPI(senderID, recipientID, {
                                         text: "[Hệ Thống] Bạn đã dừng cuộc trò chuyện",
+                                        quick_replies: [
+                                            {
+                                                "content_type": "text",
+                                                "title": "💬 Bắt đầu mới",
+                                                "payload": JSON.stringify({
+                                                    type: 'matching'
+                                                })
+                                            }
+                                        ]
                                     }, null, 'dumpling'))
                                     .then(result => sendingAPI(senderData.match, recipientID, {
                                         text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
+                                        quick_replies: [
+                                            {
+                                                "content_type": "text",
+                                                "title": "💬 Bắt đầu mới",
+                                                "payload": JSON.stringify({
+                                                    type: 'matching'
+                                                })
+                                            }
+                                        ]
                                     }, null, 'dumpling'))
 
                             } else if (senderData) sendingAPI(senderID, recipientID, {
@@ -2003,13 +2021,13 @@ app.post('/webhook', function (req, res) {
                                 .then(matched => sendingAPI(matched, recipientID, {
                                     text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
                                 }, null, 'dumpling'))
-                                .then(result => checkAvaible(senderID))
                                 .then(result => sendingAPI(senderID, recipientID, {
                                     text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
                                 }, null, 'dumpling'))
                                 .then(result => sendingAPI(senderID, recipientID, {
                                     text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
                                 }, null, 'dumpling'))
+                                .then(result => checkAvaible(senderID))
                                 .catch(err => console.log(err))
                         }
                         else if (payload.type == 'GET_STARTED') {
@@ -2276,9 +2294,27 @@ function checkAvaible(senderID) {
                         .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
                         .then(result => sendingAPI(senderData.match, CONFIG.facebookPage['dumpling'].id, {
                             text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
+                            quick_replies: [
+                                {
+                                    "content_type": "text",
+                                    "title": "💬 Bắt đầu mới",
+                                    "payload": JSON.stringify({
+                                        type: 'matching'
+                                    })
+                                }
+                            ]
                         }, null, 'dumpling'))
                         .then(result => sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
                             text: "[Hệ Thống] Không có phản hồi từ người lạ, hệ thống đã dừng cuộc trò chuyện",
+                            quick_replies: [
+                                {
+                                    "content_type": "text",
+                                    "title": "💬 Bắt đầu mới",
+                                    "payload": JSON.stringify({
+                                        type: 'matching'
+                                    })
+                                }
+                            ]
                         }, null, 'dumpling'))
 
                     // .then(result => matchingPeople(senderID))
