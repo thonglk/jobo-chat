@@ -2069,7 +2069,7 @@ app.post('/webhook', function (req, res) {
                                 ]
                             }, 1000, 'dumpling')
                         }else if(payload.type == 'confirm_status') {
-                            if(payload.answer == 'off') sendingAPI(senderID, recipientID, {
+                            if(payload.answer == 'off') accountRef.child('dumpling').child(senderID).update({status:0}).then(result =>  sendingAPI(senderID, recipientID, {
                                 text: "[Hệ Thống] Trạng thái: InActive \n Bạn sẽ không nhận được ghép cặp!",
                                 quick_replies: [
                                     {
@@ -2081,8 +2081,8 @@ app.post('/webhook', function (req, res) {
                                         })
                                     }
                                 ]
-                            }, 1000, 'dumpling')
-                            else if(payload.answer == 'on') sendingAPI(senderID, recipientID, {
+                            }, 1000, 'dumpling'))
+                            else if(payload.answer == 'on') accountRef.child('dumpling').child(senderID).update({status:1}).then(result => sendingAPI(senderID, recipientID, {
                                 text: "[Hệ Thống] Trạng thái: InActive \n Bạn sẽ không nhận được ghép cặp!",
                                 quick_replies: [
                                     {
@@ -2094,7 +2094,8 @@ app.post('/webhook', function (req, res) {
                                         })
                                     }
                                 ]
-                            }, 1000, 'dumpling')
+                            }, 1000, 'dumpling'))
+
                         }
 
 
@@ -3015,7 +3016,6 @@ function sendAccountLinking(recipientId) {
 
     callSendAPI(messageData);
 }
-
 /*
  * Call the Send API. The message data goes in the body. If successful, we'll
  * get the message id in a response
