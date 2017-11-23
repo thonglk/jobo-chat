@@ -2183,7 +2183,7 @@ app.post('/webhook', function (req, res) {
                         } else if (messagingEvent.read) {
                             // if(senderData.match) sendingAPI(senderData.match,senderID, sender_action: "mark_seen"
                             // ,null,'dumpling')
-
+                            sendReadReceipt(senderData.match,'dumpling')
                         } else if (message) {
 
                             // You may get a text or attachment but not both
@@ -2767,7 +2767,7 @@ function sendingAPI(recipientId, senderId = CONFIG.facebookPage['jobo'].id, mess
             recipient: {
                 id: recipientId
             },
-            message: message
+            message
         };
         sendTypingOn(recipientId, page)
             .then(result => setTimeout(function () {
@@ -3013,7 +3013,7 @@ function sendQuickReply(recipientId) {
  * Send a read receipt to indicate the message has been read
  *
  */
-function sendReadReceipt(recipientId) {
+function sendReadReceipt(recipientId,page) {
     console.log("Sending a read receipt to mark message as seen");
 
     var messageData = {
@@ -3023,7 +3023,7 @@ function sendReadReceipt(recipientId) {
         sender_action: "mark_seen"
     };
 
-    callSendAPI(messageData);
+    callSendAPI(messageData,page);
 }
 
 /*
