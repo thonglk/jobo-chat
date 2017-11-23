@@ -2264,8 +2264,9 @@ function checkAvaible(senderID) {
         if (a < 4) {
             var senderData = dataAccount[senderID]
             var current_matched = senderData.match
+            var s60 = Date.now() - 5* 60000
+
             setTimeout(function () {
-                var s60 = Date.now() - 60000
                 var conver = _.filter(messageFactory, message => {
                     if (message.recipientID == senderID && message.senderID == current_matched && message.timestamp > s60) return true
                 })
@@ -2287,12 +2288,21 @@ function checkAvaible(senderID) {
                                         }, null, 'dumpling')
                                     }
                                 })
-                                loop()
+                                if(a==3){
+                                    accountRef.child('dumpling').child(senderID).child('match').remove()
+                                        .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
+                                        .then(result => sendingAPI(senderData.match, CONFIG.facebookPage['dumpling'].id, {
+                                            text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
+                                        }, null, 'dumpling'))
+                                        .then(result => sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
+                                            text: "[Hệ Thống] Hệ thống đã dừng cuộc trò chuyện",
+                                        }, null, 'dumpling'))
+                                } else loop()
                             })
+                            .catch(err => console.log(err))
                         )
-                        .catch(err => console.log(err))
                 }
-            }, 60000)
+            }, 5* 60000)
 
 
         }
