@@ -1029,8 +1029,19 @@ function sendListJobByAddress(location, address, senderID) {
                 if (result.total > 0) sendAPI(senderID, {
                     text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh địa chỉ ${shortAddress(address)} nè!`
                 }).then(() => sendAPI(senderID, result.message, 3000))
-                else sendAPI(senderID, {
-                    text: `Hiện tại Jobo chưa có vị trí nào đang tuyển gần bạn, hãy chờ nhé!`
+                else  sendAPI(senderID, {
+                    attachment: {
+                        type: "template",
+                        payload: {
+                            template_type: "button",
+                            text: "Tiếp theo, bạn hãy cập nhật thêm thông tin để ứng tuyển vào các công việc phù hợp!",
+                            buttons: [{
+                                type: "web_url",
+                                url: `${CONFIG.WEBURL}/profile?admin=${user.userId}`,
+                                title: "Cập nhật hồ sơ"
+                            }]
+                        }
+                    }
                 })
             })
 
@@ -1660,9 +1671,9 @@ function intention(payload, senderID, postback, message = {}) {
             var time = payload.time
             var jobId = payload.jobId
             sendAPI(senderID, {
-                text: `Oke bạn, vậy bạn sẽ có buổi phỏng vấn vào ${strTime(time)}.`
+                text: `Oke bạn, vậy bạn sẽ có buổi trao đổi vào ${strTime(time)}.`
             }).then(() => sendAPI(senderID, {
-                text: 'Bạn vui lòng xác nhận việc có mặt tại buổi phỏng vấn này ',
+                text: 'Bạn vui lòng xác nhận việc có mặt tại buổi trao đổi này ',
                 metadata: JSON.stringify({
                     type: 'confirmInterview',
                     case: 'setInterview'
@@ -1699,7 +1710,7 @@ function intention(payload, senderID, postback, message = {}) {
                 axios.post(CONFIG.APIURL + '/like', {
                     actId,
                     interviewTime: time
-                }).then(result => sendAPI(senderID, {text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi phỏng vấn.\n` + 'Chúc bạn phỏng vấn thành công nhé <3'}))
+                }).then(result => sendAPI(senderID, {text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi trao đổi.\n` + 'Chúc bạn phỏng vấn thành công nhé <3'}))
                     .then(result => sendAPI(senderID, {text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!'}))
                     .then(result => loadUser(senderID))
                     .then(userData => loadProfile(userData.userId))
