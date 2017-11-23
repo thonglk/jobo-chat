@@ -2001,18 +2001,8 @@ app.post('/webhook', function (req, res) {
                             }, null, 'dumpling');
                             else matchingPeople(senderData, senderID, recipientID)
                                 .then(matched => sendingAPI(matched, recipientID, {
-                                    text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ",
-                                }, null, 'dumpling').then(result => setTimeout(function () {
-                                    var conver = _.filter(messageFactory,message =>{
-                                        if(message.recipientID == senderID && message.senderID ==matched && message.timestamp > Date.now() - 60000) return true
-                                    })
-                                    if(conver.length == 0)  accountRef.child('dumpling').child(senderID).child('match').remove()
-                                        .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
-                                        .then(result => matchingPeople(senderData, senderID, recipientID))
-                                        .then(matched => console.log('next match'))
-                                        .catch(err => console.log(err))
-
-                                },60000)))
+                                    text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
+                                }, null, 'dumpling').then(result => checkAvaible(senderData, senderID, matched)))
                                 .then(result => sendingAPI(senderID, recipientID, {
                                     text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
                                 }, null, 'dumpling'))
@@ -2020,7 +2010,7 @@ app.post('/webhook', function (req, res) {
                                     text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
                                 }, null, 'dumpling'))
 
-                                .catch(err =>  sendingAPI(senderID, recipientID, {
+                                .catch(err => sendingAPI(senderID, recipientID, {
                                     text: "[Hệ Thống] Chưa tìm đc người phù hợp",
                                 }, null, 'dumpling'))
                         }
@@ -2180,8 +2170,6 @@ app.post('/webhook', function (req, res) {
                         if (messagingEvent.optin) {
                             receivedAuthentication(messagingEvent);
                         } else if (messagingEvent.read) {
-                            // if(senderData.match) sendingAPI(senderData.match,senderID, sender_action: "mark_seen"
-                            // ,null,'dumpling')
                             sendReadReceipt(senderData.match, 'dumpling')
                         } else if (message) {
 
@@ -2266,6 +2254,37 @@ function matchingPeople(senderData, senderID, recipientID) {
         } else reject({err: 'hệ thống'})
 
     })
+}
+
+function checkAvaible(senderData, senderID, recipientID) {
+    var a = 0
+
+    function loop() {
+        a++
+        if (a < 4) {
+
+            setTimeout(function () {
+                var conver = _.filter(messageFactory, message => {
+                    if (message.recipientID == senderID && message.senderID == matched && message.timestamp > Date.now() - 60000) return true
+                })
+                if (conver.length == 0) accountRef.child('dumpling').child(senderID).child('match').remove()
+                    .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
+                    .then(result => matchingPeople(senderData, senderID, recipientID))
+                    .then(matched => sendingAPI(matched, recipientID, {
+                            text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
+                        }, null, 'dumpling')
+                            .then(result => loop())
+                            .catch(err => console.log(err))
+                    )
+
+            }, 60000)
+
+
+        }
+    }
+
+    loop()
+
 }
 
 /*
