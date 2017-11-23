@@ -1999,7 +1999,7 @@ app.post('/webhook', function (req, res) {
                             if (senderData && senderData.match) sendingAPI(senderID, recipientID, {
                                 text: "[Hệ Thống] Hãy huỷ cuộc hội thoại hiện có !",
                             }, null, 'dumpling');
-                            else matchingPeople(senderData, senderID, recipientID)
+                            else matchingPeople(senderID)
                                 .then(matched => sendingAPI(matched, recipientID, {
                                     text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
                                 }, null, 'dumpling').then(result => checkAvaible(senderID)))
@@ -2237,11 +2237,11 @@ app.post('/webhook', function (req, res) {
 })
 ;
 
-function matchingPeople(senderData, senderID, recipientID) {
+function matchingPeople(senderID) {
     return new Promise(function (resolve, reject) {
-
+        var senderData = dataAccount[senderID]
         var avaible = _.filter(dataAccount, function (card) {
-            if (!card.match && card.status != 0 && card.gender != senderData.gender && card.id != recipientID) return true
+            if (!card.match && card.status != 0 && card.gender != senderData.gender && card.id != CONFIG.facebookPage['dumpling'].id) return true
             else return false
         })
         if (avaible && avaible.length > 0) {
@@ -2256,14 +2256,14 @@ function matchingPeople(senderData, senderID, recipientID) {
     })
 }
 
-function checkAvaible(senderID, recipientID) {
+function checkAvaible(senderID) {
     var a = 0
 
     function loop() {
         a++
         if (a < 4) {
             var senderData = dataAccount[senderID]
-            var matched = senderData.match
+            var matched = senderData.matched
             setTimeout(function () {
                 var s60 = Date.now() - 60000
                 var conver = _.filter(messageFactory, message => {
@@ -2273,13 +2273,14 @@ function checkAvaible(senderID, recipientID) {
                     console.log('change people')
                     accountRef.child('dumpling').child(senderID).child('match').remove()
                         .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
-                        .then(result => matchingPeople(senderData, senderID, recipientID))
-                        .then(matched => sendingAPI(matched, recipientID, {
+                        .then(result => matchingPeople(senderID))
+                        .then(matched => sendingAPI(matched, CONFIG.facebookPage['dumpling'].id, {
                                 text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
                             }, null, 'dumpling')
                                 .then(result => loop())
                                 .catch(err => console.log(err))
-                        )}
+                        )
+                }
             }, 60000)
 
 
