@@ -2263,11 +2263,11 @@ function checkAvaible(senderID) {
         a++
         if (a < 4) {
             var senderData = dataAccount[senderID]
-            var matched = senderData.matched
+            var current_matched = senderData.match
             setTimeout(function () {
                 var s60 = Date.now() - 60000
                 var conver = _.filter(messageFactory, message => {
-                    if (message.recipientID == senderID && message.senderID == matched && message.timestamp > s60) return true
+                    if (message.recipientID == senderID && message.senderID == current_matched && message.timestamp > s60) return true
                 })
                 if (conver.length == 0) {
                     console.log('change people')
@@ -2279,10 +2279,19 @@ function checkAvaible(senderID) {
                         .then(result => matchingPeople(senderID))
                         .then(matched => sendingAPI(matched, CONFIG.facebookPage['dumpling'].id, {
                                 text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
-                            }, null, 'dumpling')
-                                .then(result => loop())
-                                .catch(err => console.log(err))
+                            }, null, 'dumpling').then(result => {
+                                var conver_new = _.each(messageFactory, message => {
+                                    if (message.recipientID == current_matched && message.senderID == senderID && message.timestamp > s60){
+                                        sendingAPI(matched, senderID, {
+                                            text: message.message.text,
+                                        }, null, 'dumpling')
+                                    }
+                                })
+                            })
                         )
+
+                        .then(result => loop())
+                        .catch(err => console.log(err))
                 }
             }, 60000)
 

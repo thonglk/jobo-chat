@@ -17,14 +17,14 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="2287" column="5" lean-forward="true" selection-start-line="2287" selection-start-column="5" selection-end-line="2287" selection-end-column="5" />
+            <state relative-caret-position="287">
+              <caret line="2273" column="74" lean-forward="false" selection-start-line="2273" selection-start-column="74" selection-end-line="2273" selection-end-column="74" />
               <folding>
                 <element signature="e#81047#83035#0" expanded="false" />
                 <element signature="e#83094#87271#0" expanded="false" />
                 <element signature="e#87331#88906#0" expanded="false" />
                 <element signature="e#88974#90700#0" expanded="false" />
-                <element signature="e#111362#111409#0" expanded="false" />
+                <element signature="e#111596#111643#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -215,12 +215,12 @@
       <workItem from="1511074518141" duration="420000" />
       <workItem from="1511082841149" duration="3898000" />
       <workItem from="1511161319446" duration="17176000" />
-      <workItem from="1511320581626" duration="23106000" />
+      <workItem from="1511320581626" duration="23325000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="275322000" />
+    <option name="totallyTimeSpent" value="275541000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -294,7 +294,7 @@
             <element signature="e#83094#87271#0" expanded="false" />
             <element signature="e#87331#88906#0" expanded="false" />
             <element signature="e#88974#90700#0" expanded="false" />
-            <element signature="e#111362#111409#0" expanded="false" />
+            <element signature="e#111596#111643#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -340,7 +340,7 @@
             <element signature="e#83094#87271#0" expanded="false" />
             <element signature="e#87331#88906#0" expanded="false" />
             <element signature="e#88974#90700#0" expanded="false" />
-            <element signature="e#111362#111409#0" expanded="false" />
+            <element signature="e#111596#111643#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -370,7 +370,7 @@
             <element signature="e#83094#87271#0" expanded="false" />
             <element signature="e#87331#88906#0" expanded="false" />
             <element signature="e#88974#90700#0" expanded="false" />
-            <element signature="e#111362#111409#0" expanded="false" />
+            <element signature="e#111596#111643#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -408,7 +408,7 @@
             <element signature="e#83094#87271#0" expanded="false" />
             <element signature="e#87331#88906#0" expanded="false" />
             <element signature="e#88974#90700#0" expanded="false" />
-            <element signature="e#111362#111409#0" expanded="false" />
+            <element signature="e#111596#111643#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -453,14 +453,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="2287" column="5" lean-forward="true" selection-start-line="2287" selection-start-column="5" selection-end-line="2287" selection-end-column="5" />
+        <state relative-caret-position="287">
+          <caret line="2273" column="74" lean-forward="false" selection-start-line="2273" selection-start-column="74" selection-end-line="2273" selection-end-column="74" />
           <folding>
             <element signature="e#81047#83035#0" expanded="false" />
             <element signature="e#83094#87271#0" expanded="false" />
             <element signature="e#87331#88906#0" expanded="false" />
             <element signature="e#88974#90700#0" expanded="false" />
-            <element signature="e#111362#111409#0" expanded="false" />
+            <element signature="e#111596#111643#0" expanded="false" />
           </folding>
         </state>
       </provider>
