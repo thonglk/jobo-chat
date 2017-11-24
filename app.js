@@ -2130,9 +2130,8 @@ app.post('/webhook', function (req, res) {
                                     var refData = user.ref.split('_');
                                     console.log('refData', refData);
                                     user.topic = {}
-                                    if (refData[0] == 'start') refData[0] = 'ftu'
+                                    if (refData[0] != 'start') user.topic = refData[0]
 
-                                    user.topic = refData[0]
                                 }
 
                                 user.createdAt = Date.now()
@@ -2162,8 +2161,6 @@ app.post('/webhook', function (req, res) {
 
                                     }))
                             })
-
-
                         }
                         else if (payload.type == 'selectTopic') {
                             accountRef.child('dumpling').child(senderID).update({topic: payload.topic})
