@@ -2130,8 +2130,8 @@ app.post('/webhook', function (req, res) {
                                 text: "[Hệ Thống] Hãy huỷ cuộc hội thoại hiện có !",
                             }, null, 'dumpling');
                             else matchingPeople(senderID)
-                                // .then(result => checkAvaible(senderID))
-                                // .catch(err => console.log(err))
+                            // .then(result => checkAvaible(senderID))
+                            // .catch(err => console.log(err))
                         }
                         else if (payload.type == 'GET_STARTED') {
                             if (!senderData) {
@@ -2290,24 +2290,20 @@ app.post('/webhook', function (req, res) {
                                     text: messageText,
                                 }, null, 'dumpling')
                             } else sendingAPI(senderID, recipientID, {
-                                x
-                                text
-                        :
-                            "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
-                                quick_replies
-                        :
-                            [
-                                {
-                                    "content_type": "text",
-                                    "title": "💬 Bắt Đầu",
-                                    "payload": JSON.stringify({
-                                        type: 'matching'
-                                    })
-                                }
-                            ]
-                        },
-                            10, 'dumpling'
-                        )
+
+                                    text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
+                                    quick_replies: [
+                                            {
+                                                "content_type": "text",
+                                                "title": "💬 Bắt Đầu",
+                                                "payload": JSON.stringify({
+                                                    type: 'matching'
+                                                })
+                                            }
+                                        ]
+                                },
+                                10, 'dumpling'
+                            )
                         } else if (messageAttachments) {
                             if (senderData && senderData.match) {
                                 sendingAPI(senderData.match, senderID, {
