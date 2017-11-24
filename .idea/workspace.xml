@@ -19,8 +19,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="2257" column="37" lean-forward="true" selection-start-line="2257" selection-start-column="37" selection-end-line="2257" selection-end-column="37" />
+            <state relative-caret-position="373">
+              <caret line="187" column="32" lean-forward="false" selection-start-line="187" selection-start-column="19" selection-end-line="187" selection-end-column="32" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -62,8 +62,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>tks</find>
-      <find>interviewI</find>
       <find>interview</find>
       <find>setMenu</find>
       <find>dumpling</find>
@@ -92,6 +90,8 @@
       <find>noti</find>
       <find>matching</find>
       <find>confirm_status</find>
+      <find>input</find>
+      <find>lastme</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -214,12 +214,12 @@
       <workItem from="1511082841149" duration="3898000" />
       <workItem from="1511161319446" duration="17176000" />
       <workItem from="1511320581626" duration="27342000" />
-      <workItem from="1511490097535" duration="4339000" />
+      <workItem from="1511490097535" duration="4788000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="283897000" />
+    <option name="totallyTimeSpent" value="284346000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -428,8 +428,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="2257" column="37" lean-forward="true" selection-start-line="2257" selection-start-column="37" selection-end-line="2257" selection-end-column="37" />
+        <state relative-caret-position="373">
+          <caret line="187" column="32" lean-forward="false" selection-start-line="187" selection-start-column="19" selection-end-line="187" selection-end-column="32" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>

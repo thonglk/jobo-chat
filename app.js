@@ -161,16 +161,11 @@ var db3 = joboTest.database();
 
 var userRef = db2.ref('user');
 var dataAccount = {}, accountRef = db.ref('account');
-// accountRef.child('dumpling').on('child_added', function (snap) {
-//     dataAccount[snap.key] = snap.val()
-// })
-// accountRef.child('dumpling').on('child_changed', function (snap) {
-//     dataAccount[snap.key] = snap.val()
-// })
-accountRef.child('dumpling').on('value', function (snap) {
-    dataAccount = snap.val()
 
-})
+// accountRef.child('dumpling').on('value', function (snap) {
+//     dataAccount = snap.val()
+//
+// })
 
 var profileRef = db2.ref('profile');
 var likeActivityRef = db3.ref('activity/like');
@@ -182,10 +177,22 @@ var conversationData_new, conversationRef_new = db3.ref('conversation_temp')
 
 var messageFactory = {}, messageFactoryRef = db.ref('messageFactory')
 
+accountRef.child('dumpling').on('child_added', function (snap) {
+    dataAccount[snap.key] = snap.val()
+})
+accountRef.child('dumpling').on('child_changed', function (snap) {
+    dataAccount[snap.key] = snap.val()
+})
 lastMessageRef.on('child_added', function (snap) {
     lastMessageData[snap.key] = snap.val()
 });
+lastMessageRef.on('child_changed', function (snap) {
+    lastMessageData[snap.key] = snap.val()
+});
 messageFactoryRef.child('dumpling').on('child_added', function (snap) {
+    messageFactory[snap.key] = snap.val()
+});
+messageFactoryRef.child('dumpling').on('child_changed', function (snap) {
     messageFactory[snap.key] = snap.val()
 });
 
