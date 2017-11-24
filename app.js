@@ -2015,6 +2015,9 @@ app.post('/webhook', function (req, res) {
                         var message = messagingEvent.message;
                         var postback = messagingEvent.postback
                         if (message && message.quick_reply) var quickReply = messagingEvent.message.quick_reply;
+                        if (message && message.text) var messageText = message.text;
+                        if (message && message.attachments) var messageAttachments = message.attachments;
+
 
                         if (postback && postback.payload) var payloadStr = messagingEvent.postback.payload
                         else if (quickReply && quickReply.payload) payloadStr = quickReply.payload
@@ -2240,50 +2243,40 @@ app.post('/webhook', function (req, res) {
                             receivedAuthentication(messagingEvent);
                         } else if (messagingEvent.read) {
                             sendReadReceipt(senderData.match, 'dumpling')
-                        } else if (message) {
-
-                            // You may get a text or attachment but not both
-                            var metadata = message.metadata;
-                            var messageText = message.text;
-                            var messageAttachments = message.attachments;
-                            var quickReply = message.quick_reply;
-
-                            if (messageText) {
-                                if (senderData && senderData.match) {
-                                    sendingAPI(senderData.match, senderID, {
-                                        text: messageText,
-                                    }, null, 'dumpling')
-                                } else sendingAPI(senderID, recipientID, {
-                                    text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
-                                    quick_replies: [
-                                        {
-                                            "content_type": "text",
-                                            "title": "💬 Bắt Đầu",
-                                            "payload": JSON.stringify({
-                                                type: 'matching'
-                                            })
-                                        }
-                                    ]
-                                }, 10, 'dumpling')
-                            } else if (messageAttachments) {
-                                if (senderData && senderData.match) {
-                                    sendingAPI(senderData.match, senderID, {
-                                        attachment: messageAttachments[0]
-                                    }, null, 'dumpling')
-                                } else sendingAPI(senderID, recipientID, {
-                                    text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
-                                    quick_replies: [
-                                        {
-                                            "content_type": "text",
-                                            "title": "💬 Bắt Đầu",
-                                            "payload": JSON.stringify({
-                                                type: 'matching'
-                                            })
-                                        }
-                                    ]
+                        } else if (messageText) {
+                            if (senderData && senderData.match) {
+                                sendingAPI(senderData.match, senderID, {
+                                    text: messageText,
                                 }, null, 'dumpling')
-                            }
-
+                            } else sendingAPI(senderID, recipientID, {
+                                text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
+                                quick_replies: [
+                                    {
+                                        "content_type": "text",
+                                        "title": "💬 Bắt Đầu",
+                                        "payload": JSON.stringify({
+                                            type: 'matching'
+                                        })
+                                    }
+                                ]
+                            }, 10, 'dumpling')
+                        } else if (messageAttachments) {
+                            if (senderData && senderData.match) {
+                                sendingAPI(senderData.match, senderID, {
+                                    attachment: messageAttachments[0]
+                                }, null, 'dumpling')
+                            } else sendingAPI(senderID, recipientID, {
+                                text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
+                                quick_replies: [
+                                    {
+                                        "content_type": "text",
+                                        "title": "💬 Bắt Đầu",
+                                        "payload": JSON.stringify({
+                                            type: 'matching'
+                                        })
+                                    }
+                                ]
+                            }, null, 'dumpling')
                         }
 
                         messageFactoryRef.child('dumpling').child(messagingEvent.messengerId + ':' + timeOfEvent).update(messagingEvent)
