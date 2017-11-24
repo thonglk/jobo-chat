@@ -176,9 +176,38 @@ var lastMessageData = {}, lastMessageRef = db.ref('last_message')
 var conversationData_new, conversationRef_new = db3.ref('conversation_temp')
 
 var messageFactory = {}, messageFactoryRef = db.ref('messageFactory')
-
+var quick_topic = []
+var topic = {}
+var a = 0
 accountRef.child('dumpling').on('child_added', function (snap) {
     dataAccount[snap.key] = snap.val()
+    var user = dataAccount[snap.key]
+    // if (user.ref) setTimeout(function () {
+    //     a++
+    //     var refData = user.ref.split('_');
+    //     console.log('refData', refData);
+    //     user.topic = {}
+    //     if (refData[0] == 'start') refData[0] = 'ftu'
+    //
+    //     user.topic = refData[0]
+    //     accountRef.child('dumpling').child(snap.key).update(user)
+    // }, a * 100)
+
+    if (user.topic) {
+        if (!topic[user.topic]) {
+            topic[user.topic] = 1
+            quick_topic.push({
+                "content_type": "text",
+                "title": `#${user.topic}`,
+                "payload": JSON.stringify({
+                    type: 'selectTopic',
+                    topic: user.topic
+                })
+            })
+        }
+        else topic[user.topic]++
+    }
+
 })
 accountRef.child('dumpling').on('child_changed', function (snap) {
     dataAccount[snap.key] = snap.val()
@@ -289,7 +318,9 @@ app.get('/checkAvai', function (req, res) {
 
 
 })
-
+app.get('/quick_topic', function (req, res) {
+    res.send(quick_topic)
+})
 
 // CONFIG FUNCTION
 function getPaginatedItems(items, page = 1, per_page = 15) {
@@ -2141,30 +2172,56 @@ app.post('/webhook', function (req, res) {
                             // .catch(err => console.log(err))
                         }
                         else if (payload.type == 'GET_STARTED') {
-                            if (!senderData) {
-                                graph.get(senderID + '?access_token=' + CONFIG.facebookPage['dumpling'].access_token, (err, result) => {
-                                    if (err) reject(err);
+                            graph.get(senderID + '?access_token=' + CONFIG.facebookPage['dumpling'].access_token, (err, result) => {
+                                if (err) reject(err);
 
-                                    console.log(result);
-                                    var user = result;
+                                console.log(result);
+                                var user = result;
 
-                                    if (referral && referral.ref) {
-                                        user.ref = referral.ref
-                                    }
+                                if (referral && referral.ref) {
+                                    user.ref = referral.ref
+                                    var refData = user.ref.split('_');
+                                    console.log('refData', refData);
+                                    user.topic = {}
+                                    if (refData[0] == 'start') refData[0] = 'ftu'
 
-                                    user.createdAt = Date.now()
-                                    accountRef.child('dumpling').child(senderID).update(user)
-                                })
-                            }
+                                    user.topic = refData[0]
+                                }
 
-                            sendingAPI(senderID, recipientID, {
-                                text: `Dumpling kết nối hai người lạ nói chuyện với nhau bằng một cuộc trò chuyện bí mật`,
-                            }, null, 'dumpling')
+                                user.createdAt = Date.now()
+                                accountRef.child('dumpling').child(senderID).update(user).then(result => sendingAPI(senderID, recipientID, {
+                                    text: `Dumpling kết nối hai người lạ nói chuyện với nhau bằng một cuộc trò chuyện bí mật`,
+                                }, null, 'dumpling')
+                                    .then(result => sendingAPI(senderID, recipientID, {
+                                        text: `đảm bảo 100% bí mật thông tin và nội dung trò chuyện`,
+                                    }, null, 'dumpling'))
+                                    .then(result => {
+                                        if (user.topic) sendingAPI(senderID, recipientID, {
+                                            text: `Bạn đang tham gia Dumpling #${refData[0]}, hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện`,
+                                            quick_replies: [
+                                                {
+                                                    "content_type": "text",
+                                                    "title": "💬 Bắt Đầu",
+                                                    "payload": JSON.stringify({
+                                                        type: 'matching'
+                                                    })
+                                                }
+                                            ]
+                                        }, null, 'dumpling')
+                                        else sendingAPI(senderID, recipientID, {
+                                            text: `Hãy chọn chủ đề liên quan đến bạn nhất?`,
+                                            quick_replies: quick_topic
+                                        }, null, 'dumpling')
+
+                                    }))
+                            })
+
+
+                        }
+                        else if (payload.type == 'selectTopic') {
+                            accountRef.child('dumpling').child(senderID).update({topic:payload.topic})
                                 .then(result => sendingAPI(senderID, recipientID, {
-                                    text: `đảm bảo 100% bí mật thông tin và nội dung trò chuyện`,
-                                }, null, 'dumpling'))
-                                .then(result => sendingAPI(senderID, recipientID, {
-                                    text: "Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
+                                    text: `Bạn đang tham gia Dumpling #${payload.topic}, hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện`,
                                     quick_replies: [
                                         {
                                             "content_type": "text",
@@ -2175,7 +2232,6 @@ app.post('/webhook', function (req, res) {
                                         }
                                     ]
                                 }, null, 'dumpling'))
-
 
                         }
                         else if (payload.type == 'share') {
