@@ -2293,14 +2293,14 @@ app.post('/webhook', function (req, res) {
 
                                     text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
                                     quick_replies: [
-                                            {
-                                                "content_type": "text",
-                                                "title": "💬 Bắt Đầu",
-                                                "payload": JSON.stringify({
-                                                    type: 'matching'
-                                                })
-                                            }
-                                        ]
+                                        {
+                                            "content_type": "text",
+                                            "title": "💬 Bắt Đầu",
+                                            "payload": JSON.stringify({
+                                                type: 'matching'
+                                            })
+                                        }
+                                    ]
                                 },
                                 10, 'dumpling'
                             )
@@ -2394,7 +2394,7 @@ function checkAvaible(senderID) {
 
             setTimeout(function () {
                 var conver = _.filter(messageFactory, message => {
-                    if (message.recipientID == senderID && message.senderID == current_matched && message.timestamp > s60) return true
+                    if (message.recipientID == senderID && message.senderId == current_matched && message.timestamp > s60) return true
                 })
                 if (conver.length == 0) {
                     console.log('change people')
