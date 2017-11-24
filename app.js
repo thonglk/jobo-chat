@@ -952,7 +952,7 @@ function getUserDataAndSave(senderID) {
 function referInital(referral, senderID) {
 
     getUserDataAndSave(senderID).then(profile => {
-
+        console.log('profile',profile)
 
         if (referral && referral.ref) {
             axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user: {ref: referral.ref}})
@@ -1873,6 +1873,8 @@ function loadUser(senderID) {
         var url = `${CONFIG.APIURL}/checkUser?q=${senderID}&type=messengerId`
         axios.get(url)
             .then(result => {
+                console.log('loadUser',result)
+
                 if (result.data[0]) resolve(result.data[0])
                 else reject({err: 'No User'})
             })
@@ -2089,9 +2091,7 @@ app.post('/webhook', function (req, res) {
                                 console.log("Webhook received unknown messagingEvent: ", messagingEvent);
                             }
                         })
-
-                    }
-                    else if (pageID == CONFIG.facebookPage['dumpling'].id) {
+                    } else if (pageID == CONFIG.facebookPage['dumpling'].id) {
 
                         var senderID = messagingEvent.sender.id;
                         var senderData = dataAccount[senderID]
