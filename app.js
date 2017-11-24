@@ -415,7 +415,7 @@ Dumpling update thêm 1 số tính năng:
 - Trạng thái "Bật/Tắt" cho mọi người đỡ bị làm phiền
 Các bạn thấy có vấn đề gì thì feedback lại cho team nhé!
 Happy chatting!`,
-                    buttons: [ {
+                    buttons: [{
                         type: "web_url",
                         url: "https://www.facebook.com/groups/1985734365037855",
                         title: "Thảo luận tại nhóm"
@@ -435,8 +435,8 @@ Happy chatting!`,
 
         a++
         setTimeout(function () {
-            sendingAPI(recipientId, CONFIG.facebookPage[page].id, message, null, page).then(result => console.log('done',recipientId ))
-                .catch(err=> console.log('err',recipientId,err))
+            sendingAPI(recipientId, CONFIG.facebookPage[page].id, message, null, page).then(result => console.log('done', recipientId))
+                .catch(err => console.log('err', recipientId, err))
         }, a * 2000)
 
     });
@@ -2130,9 +2130,6 @@ app.post('/webhook', function (req, res) {
                                 text: "[Hệ Thống] Hãy huỷ cuộc hội thoại hiện có !",
                             }, null, 'dumpling');
                             else matchingPeople(senderID)
-                                .then(matched => sendingAPI(matched, recipientID, {
-                                    text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
-                                }, null, 'dumpling'))
                                 .then(result => sendingAPI(senderID, recipientID, {
                                     text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
                                 }, null, 'dumpling'))
@@ -2353,15 +2350,23 @@ function matchingPeople(senderID) {
     return new Promise(function (resolve, reject) {
         var senderData = dataAccount[senderID]
         var avaible = _.filter(dataAccount, function (card) {
-            if (!card.match && card.status != 0 && card.gender != senderData.gender && card.id != CONFIG.facebookPage['dumpling'].id) return true
+            if (!card.match && card.status != 0 && card.gender != senderData.gender && card.id != CONFIG.facebookPage['dumpling'].id && !card.sent_error) return true
             else return false
         })
         if (avaible.length > 0) {
             var random = _.sample(avaible)
             var matched = random.id
-            accountRef.child('dumpling').child(senderID).update({match: matched})
+            sendingAPI(matched, CONFIG.facebookPage['dumpling'].id, {
+                text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
+            }, null, 'dumpling').then(result => accountRef.child('dumpling').child(senderID).update({match: matched})
                 .then(result => accountRef.child('dumpling').child(random.id).update({match: senderID}))
-                .then(result => resolve(matched))
+                .then(result => resolve(matched)))
+                .catch(err => {
+                    console.log(err)
+                    accountRef.child('dumpling').child(matched).update({sent_error: true})
+                    matchingPeople(senderID)
+                })
+
 
         } else sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
             text: "[Hệ Thống] Chưa tìm đc người phù hợp",
