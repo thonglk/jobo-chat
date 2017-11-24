@@ -392,6 +392,56 @@ Dumpling cảm ơn! Chúc các bạn ngủ ngon và mơ đẹp nhé! <3 <3 <3`,
     });
 }
 
+app.get('/sendUpdate', function (req, res) {
+    sendUpdate()
+    res.send('done')
+})
+
+function sendUpdate() {
+    var sent = 0
+
+    var filter = _.map(dataAccount, account => {
+        var page = 'dumpling';
+        var message = {
+            attachment: {
+                type: "template",
+                payload: {
+                    template_type: "button",
+                    text: `[DUMPLING]
+Dear ${account.last_name} ${account.first_name}
+Dumpling update thêm 1 số tính năng:
+- Cải thiện tốc độ gửi tin
+- Thêm tín hiệu "Đã xem" huyền thoại :)
+- Trạng thái "Bật/Tắt" cho mọi người đỡ bị làm phiền
+Các bạn thấy có vấn đề gì thì feedback lại cho team nhé!
+Happy chatting!`,
+                    buttons: [ {
+                        type: "web_url",
+                        url: "https://www.facebook.com/groups/1985734365037855",
+                        title: "Thảo luận tại nhóm"
+                    }, {
+                        type: "postback",
+                        title: "Chia sẻ",
+                        payload: JSON.stringify({type: 'share'})
+                    }]
+                }
+            }
+        }
+        var recipientId = account.id
+        if (!a) {
+            var a = 0
+        }
+
+
+        a++
+        setTimeout(function () {
+            sendingAPI(recipientId, CONFIG.facebookPage[page].id, message, null, page).then(result => console.log('done',recipientId ))
+                .catch(err=> console.log('err',recipientId,err))
+        }, a * 2000)
+
+    });
+}
+
 app.get('/dumpling/account', function (req, res) {
     var query = req.query
     var filter = _.filter(dataAccount, account => {
