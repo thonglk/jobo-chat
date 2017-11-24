@@ -437,8 +437,9 @@ app.get('/sendUpdate', function (req, res) {
 
 function sendUpdate() {
     var sent = 0
+    var a = 0
 
-    var filter = _.map(dataAccount, account => {
+    var filter = _.each(dataAccount, account => {
         var page = 'dumpling';
         var message = {
             attachment: {
@@ -452,7 +453,9 @@ Dumpling update thêm 1 số tính năng:
 - Thêm tín hiệu "Đã xem" huyền thoại :)
 - Trạng thái "Bật/Tắt" cho mọi người đỡ bị làm phiền
 Các bạn thấy có vấn đề gì thì feedback lại cho team nhé!
-Happy chatting!`,
+Happy chatting!
+${(account.match) ? '(Xin lỗi vì đã làm phiền cuộc nói chuyện của 2 bạn nhé, cứ tiếp tục đi ạ ^^)' : ''}`
+                    ,
                     buttons: [{
                         type: "web_url",
                         url: "https://www.facebook.com/groups/1985734365037855",
@@ -466,15 +469,20 @@ Happy chatting!`,
             }
         }
         var recipientId = account.id
-        if (!a) {
-            var a = 0
-        }
 
 
         a++
+        console.log('a', a)
         setTimeout(function () {
-            sendingAPI(recipientId, CONFIG.facebookPage[page].id, message, null, page).then(result => console.log('done', recipientId))
-                .catch(err => console.log('err', recipientId, err))
+            sendingAPI(recipientId, CONFIG.facebookPage[page].id, message, null, page)
+                .then(result => console.log('done', recipientId))
+                .catch(err => {
+                        console.log(err);
+                        accountRef.child('dumpling')
+                            .child(recipientId)
+                            .update({sent_error: true})
+                    }
+                )
         }, a * 2000)
 
     });
@@ -934,14 +942,11 @@ function getUserDataAndSave(senderID) {
             }
 
             loadUser(senderID)
-                .then(userData => {
-                    resolve(profile)
-                })
+                .then(userData => resolve(profile))
                 .catch(err => axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user, profile})
                     .then(result => resolve(profile))
-                    .catch(err => reject(err)))
-
-
+                    .catch(err => reject(err))
+                )
         })
     })
 
@@ -950,7 +955,7 @@ function getUserDataAndSave(senderID) {
 function referInital(referral, senderID) {
 
     getUserDataAndSave(senderID).then(profile => {
-        console.log('profile',profile)
+        console.log('profile', profile)
 
         if (referral && referral.ref) {
             axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user: {ref: referral.ref}})
@@ -2461,7 +2466,7 @@ function checkAvaible(senderID) {
 
             setTimeout(function () {
                 var conver = _.filter(messageFactory, message => {
-                    if (message.recipientID == senderID && message.senderId == current_matched && message.timestamp > s60) return true
+                    if (message.recipientId == senderID && message.senderId == current_matched && message.timestamp > s60) return true
                 })
                 if (conver.length == 0) {
                     console.log('change people')
