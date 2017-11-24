@@ -2356,15 +2356,19 @@ function matchingPeople(senderID) {
         if (avaible.length > 0) {
             var random = _.sample(avaible)
             var matched = random.id
+            console.log('matched',matched)
+
             sendingAPI(matched, CONFIG.facebookPage['dumpling'].id, {
                 text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
-            }, null, 'dumpling').then(result => accountRef.child('dumpling').child(senderID).update({match: matched})
-                .then(result => accountRef.child('dumpling').child(random.id).update({match: senderID}))
-                .then(result => resolve(matched)))
+            }, null, 'dumpling')
+                .then(result => accountRef.child('dumpling').child(senderID)
+                    .update({match: matched})
+                    .then(result => accountRef.child('dumpling').child(random.id).update({match: senderID}))
+                    .then(result => resolve(matched)))
                 .catch(err => {
                     console.log(err)
-                    accountRef.child('dumpling').child(matched).update({sent_error: true})
-                    matchingPeople(senderID)
+                    accountRef.child('dumpling').child(matched).update({sent_error: true}).then(result => matchingPeople(senderID))
+
                 })
 
 
