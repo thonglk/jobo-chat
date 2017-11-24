@@ -167,7 +167,7 @@ var dataAccount = {}, accountRef = db.ref('account');
 // accountRef.child('dumpling').on('child_changed', function (snap) {
 //     dataAccount[snap.key] = snap.val()
 // })
-accountRef.child('dumpling').on('value',function (snap) {
+accountRef.child('dumpling').on('value', function (snap) {
     dataAccount = snap.val()
 
 })
@@ -238,9 +238,8 @@ app.get('/checkAvai', function (req, res) {
             i++
             setTimeout(function () {
 
-
                 var userId = user.id
-                var match = dataAccount[userId].match
+                var match = user.match
                 var filter = _.where(messageFactory, {senderId: userId, recipientId: match})
                 var filtered = _.where(messageFactory, {senderId: match, recipientId: userId})
                 if (filter.length == 0 || filtered == 0)
@@ -272,7 +271,6 @@ app.get('/checkAvai', function (req, res) {
                         }, null, 'dumpling'))
                         .then(result => console.log(result))
                         .catch(err => console.log(err))
-
 
 
             }, 1000 * i)
@@ -2021,6 +2019,11 @@ app.post('/webhook', function (req, res) {
                         if (postback && postback.payload) var payloadStr = messagingEvent.postback.payload
                         else if (quickReply && quickReply.payload) payloadStr = quickReply.payload
 
+
+                        if (messagingEvent.referral) var referral = messagingEvent.referral
+                        else if (postback && postback.referral) referral = postback.referral
+
+
                         if (payloadStr) var payload = JSON.parse(payloadStr)
                         else payload = {}
 
@@ -2233,13 +2236,7 @@ app.post('/webhook', function (req, res) {
                             }, null, 'dumpling'))
 
                         }
-
-
-                        if (messagingEvent.referral) var referral = messagingEvent.referral
-                        else if (messagingEvent.postback && messagingEvent.postback.referral) referral = messagingEvent.postback.referral
-
-
-                        if (messagingEvent.optin) {
+                        else if (messagingEvent.optin) {
                             receivedAuthentication(messagingEvent);
                         } else if (messagingEvent.read) {
                             sendReadReceipt(senderData.match, 'dumpling')
