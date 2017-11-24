@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -17,13 +19,15 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="318">
-              <caret line="2124" column="52" lean-forward="true" selection-start-line="2124" selection-start-column="52" selection-end-line="2124" selection-end-column="52" />
+            <state relative-caret-position="312">
+              <caret line="2385" column="33" lean-forward="false" selection-start-line="2385" selection-start-column="33" selection-end-line="2385" selection-end-column="33" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#15042#17182#0" expanded="false" />
-                <element signature="e#87802#90358#0" expanded="false" />
-                <element signature="e#90420#90874#0" expanded="false" />
+                <element signature="e#37015#38743#0" expanded="false" />
+                <element signature="e#38810#39770#0" expanded="false" />
+                <element signature="e#87800#90356#0" expanded="false" />
+                <element signature="e#90418#90872#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -63,8 +67,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>admin</find>
-      <find>rece</find>
       <find>recei</find>
       <find>receip</find>
       <find>receipt</find>
@@ -93,6 +95,8 @@
       <find>GET_S</find>
       <find>payload.t</find>
       <find>selectT</find>
+      <find>matchingP</find>
+      <find>GET_STARTED</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -215,12 +219,12 @@
       <workItem from="1511082841149" duration="3898000" />
       <workItem from="1511161319446" duration="17176000" />
       <workItem from="1511320581626" duration="27342000" />
-      <workItem from="1511490097535" duration="7550000" />
+      <workItem from="1511490097535" duration="8319000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="287108000" />
+    <option name="totallyTimeSpent" value="287877000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -284,8 +288,10 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#15042#17182#0" expanded="false" />
-            <element signature="e#87802#90358#0" expanded="false" />
-            <element signature="e#90420#90874#0" expanded="false" />
+            <element signature="e#37015#38743#0" expanded="false" />
+            <element signature="e#38810#39770#0" expanded="false" />
+            <element signature="e#87800#90356#0" expanded="false" />
+            <element signature="e#90418#90872#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -329,8 +335,10 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#15042#17182#0" expanded="false" />
-            <element signature="e#87802#90358#0" expanded="false" />
-            <element signature="e#90420#90874#0" expanded="false" />
+            <element signature="e#37015#38743#0" expanded="false" />
+            <element signature="e#38810#39770#0" expanded="false" />
+            <element signature="e#87800#90356#0" expanded="false" />
+            <element signature="e#90418#90872#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -358,8 +366,10 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#15042#17182#0" expanded="false" />
-            <element signature="e#87802#90358#0" expanded="false" />
-            <element signature="e#90420#90874#0" expanded="false" />
+            <element signature="e#37015#38743#0" expanded="false" />
+            <element signature="e#38810#39770#0" expanded="false" />
+            <element signature="e#87800#90356#0" expanded="false" />
+            <element signature="e#90418#90872#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -395,8 +405,10 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#15042#17182#0" expanded="false" />
-            <element signature="e#87802#90358#0" expanded="false" />
-            <element signature="e#90420#90874#0" expanded="false" />
+            <element signature="e#37015#38743#0" expanded="false" />
+            <element signature="e#38810#39770#0" expanded="false" />
+            <element signature="e#87800#90356#0" expanded="false" />
+            <element signature="e#90418#90872#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -441,13 +453,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="2124" column="52" lean-forward="true" selection-start-line="2124" selection-start-column="52" selection-end-line="2124" selection-end-column="52" />
+        <state relative-caret-position="312">
+          <caret line="2385" column="33" lean-forward="false" selection-start-line="2385" selection-start-column="33" selection-end-line="2385" selection-end-column="33" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#15042#17182#0" expanded="false" />
-            <element signature="e#87802#90358#0" expanded="false" />
-            <element signature="e#90420#90874#0" expanded="false" />
+            <element signature="e#37015#38743#0" expanded="false" />
+            <element signature="e#38810#39770#0" expanded="false" />
+            <element signature="e#87800#90356#0" expanded="false" />
+            <element signature="e#90418#90872#0" expanded="false" />
           </folding>
         </state>
       </provider>

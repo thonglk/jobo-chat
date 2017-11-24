@@ -1022,8 +1022,6 @@ function referInital(referral, senderID) {
                     type: 'confirmEmployer',
                 })
             })
-
-
             else {
 
                 if (refData[1] == 'tailieunhansu') {
@@ -1106,6 +1104,7 @@ function referInital(referral, senderID) {
             ]
         })
     })
+        .catch(err => console.log(err))
 
 
 }
