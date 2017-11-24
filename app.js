@@ -2118,8 +2118,82 @@ app.post('/webhook', function (req, res) {
                         if (payloadStr) var payload = JSON.parse(payloadStr)
                         else payload = {}
 
+                        if (payload.type == 'GET_STARTED') {
+                            graph.get(senderID + '?access_token=' + CONFIG.facebookPage['dumpling'].access_token, (err, result) => {
+                                if (err) reject(err);
 
-                        if (payload.type == 'stop') {
+                                console.log(result);
+                                var user = result;
+
+                                if (referral && referral.ref) {
+                                    user.ref = referral.ref
+                                    var refData = user.ref.split('_');
+                                    console.log('refData', refData);
+                                    user.topic = {}
+                                    if (refData[0] == 'start') refData[0] = 'ftu'
+
+                                    user.topic = refData[0]
+                                }
+
+                                user.createdAt = Date.now()
+                                accountRef.child('dumpling').child(senderID).update(user).then(result => sendingAPI(senderID, recipientID, {
+                                    text: `Dumpling kết nối hai người lạ nói chuyện với nhau bằng một cuộc trò chuyện bí mật`,
+                                }, null, 'dumpling')
+                                    .then(result => sendingAPI(senderID, recipientID, {
+                                        text: `đảm bảo 100% bí mật thông tin và nội dung trò chuyện`,
+                                    }, null, 'dumpling'))
+                                    .then(result => {
+                                        if (user.topic) sendingAPI(senderID, recipientID, {
+                                            text: `Bạn đang tham gia Dumpling #${refData[0]}, hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện`,
+                                            quick_replies: [
+                                                {
+                                                    "content_type": "text",
+                                                    "title": "💬 Bắt Đầu",
+                                                    "payload": JSON.stringify({
+                                                        type: 'matching'
+                                                    })
+                                                }
+                                            ]
+                                        }, null, 'dumpling')
+                                        else sendingAPI(senderID, recipientID, {
+                                            text: `Hãy chọn chủ đề liên quan đến bạn nhất?`,
+                                            quick_replies: quick_topic
+                                        }, null, 'dumpling')
+
+                                    }))
+                            })
+
+
+                        }
+                        else if (payload.type == 'selectTopic') {
+                            accountRef.child('dumpling').child(senderID).update({topic: payload.topic})
+                                .then(result => sendingAPI(senderID, recipientID, {
+                                    text: `Bạn đang tham gia Dumpling #${payload.topic}, hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện`,
+                                    quick_replies: [
+                                        {
+                                            "content_type": "text",
+                                            "title": "💬 Bắt Đầu",
+                                            "payload": JSON.stringify({
+                                                type: 'matching'
+                                            })
+                                        }
+                                    ]
+                                }, null, 'dumpling'))
+                            if (!topic[payload.topic]) {
+                                topic[payload.topic] = 1
+                                quick_topic.push({
+                                    "content_type": "text",
+                                    "title": `#${payload.topic}`,
+                                    "payload": JSON.stringify({
+                                        type: 'selectTopic',
+                                        topic: payload.topic
+                                    })
+                                })
+                            }
+                            else topic[payload.topic]++
+
+                        }
+                        else if (payload.type == 'stop') {
 
                             if (senderData && senderData.match) {
 
@@ -2170,69 +2244,6 @@ app.post('/webhook', function (req, res) {
                             else matchingPeople(senderID)
                             // .then(result => checkAvaible(senderID))
                             // .catch(err => console.log(err))
-                        }
-                        else if (payload.type == 'GET_STARTED') {
-                            graph.get(senderID + '?access_token=' + CONFIG.facebookPage['dumpling'].access_token, (err, result) => {
-                                if (err) reject(err);
-
-                                console.log(result);
-                                var user = result;
-
-                                if (referral && referral.ref) {
-                                    user.ref = referral.ref
-                                    var refData = user.ref.split('_');
-                                    console.log('refData', refData);
-                                    user.topic = {}
-                                    if (refData[0] == 'start') refData[0] = 'ftu'
-
-                                    user.topic = refData[0]
-                                }
-
-                                user.createdAt = Date.now()
-                                accountRef.child('dumpling').child(senderID).update(user).then(result => sendingAPI(senderID, recipientID, {
-                                    text: `Dumpling kết nối hai người lạ nói chuyện với nhau bằng một cuộc trò chuyện bí mật`,
-                                }, null, 'dumpling')
-                                    .then(result => sendingAPI(senderID, recipientID, {
-                                        text: `đảm bảo 100% bí mật thông tin và nội dung trò chuyện`,
-                                    }, null, 'dumpling'))
-                                    .then(result => {
-                                        if (user.topic) sendingAPI(senderID, recipientID, {
-                                            text: `Bạn đang tham gia Dumpling #${refData[0]}, hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện`,
-                                            quick_replies: [
-                                                {
-                                                    "content_type": "text",
-                                                    "title": "💬 Bắt Đầu",
-                                                    "payload": JSON.stringify({
-                                                        type: 'matching'
-                                                    })
-                                                }
-                                            ]
-                                        }, null, 'dumpling')
-                                        else sendingAPI(senderID, recipientID, {
-                                            text: `Hãy chọn chủ đề liên quan đến bạn nhất?`,
-                                            quick_replies: quick_topic
-                                        }, null, 'dumpling')
-
-                                    }))
-                            })
-
-
-                        }
-                        else if (payload.type == 'selectTopic') {
-                            accountRef.child('dumpling').child(senderID).update({topic:payload.topic})
-                                .then(result => sendingAPI(senderID, recipientID, {
-                                    text: `Bạn đang tham gia Dumpling #${payload.topic}, hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện`,
-                                    quick_replies: [
-                                        {
-                                            "content_type": "text",
-                                            "title": "💬 Bắt Đầu",
-                                            "payload": JSON.stringify({
-                                                type: 'matching'
-                                            })
-                                        }
-                                    ]
-                                }, null, 'dumpling'))
-
                         }
                         else if (payload.type == 'share') {
                             sendingAPI(senderID, recipientID, {
