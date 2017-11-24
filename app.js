@@ -37,7 +37,7 @@ app.use(bodyParser.json({verify: verifyRequestSignature}));
 app.use(express.static('public'));
 
 /*
- * Be sure to setup your config values before running this code. You can 
+ * Be sure to setup your config values before running this code. You can
  * set them using environment variables or modifying the config file in /config.
  *
  */
@@ -63,8 +63,8 @@ var graph = require('fbgraph');
 graph.setAccessToken(PAGE_ACCESS_TOKEN);
 
 
-// URL where the app is running (include protocol). Used to point to scripts and 
-// assets located at this address. 
+// URL where the app is running (include protocol). Used to point to scripts and
+// assets located at this address.
 const SERVER_URL = (process.env.SERVER_URL) ?
     (process.env.SERVER_URL) :
     config.get('serverURL');
@@ -714,7 +714,7 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
 }
 
 /*
- * Use your own validation token. Check that the token used in the Webhook 
+ * Use your own validation token. Check that the token used in the Webhook
  * setup is the same token used here.
  *
  */
@@ -733,7 +733,7 @@ app.get('/webhook', function (req, res) {
 /*
  * All callbacks for Messenger are POST-ed. They will be sent to the same
  * webhook. Be sure to subscribe your app to your page to receive callbacks
- * for your page. 
+ * for your page.
  * https://developers.facebook.com/docs/messenger-platform/product-overview/setup#subscribe_app
  *
  */
@@ -2270,10 +2270,10 @@ app.post('/webhook', function (req, res) {
                                 quick_replies: [
                                     {
                                         "content_type": "text",
-                                        "title": "Bật",
+                                        "title": "Tắt",
                                         "payload": JSON.stringify({
                                             type: 'confirm_status',
-                                            answer: 'on'
+                                            answer: 'off'
                                         })
                                     }
                                 ]
@@ -3370,7 +3370,7 @@ function callSendAPI(messageData, page = 'jobo') {
 }
 
 // Start server
-// Webhooks must be available via SSL with a certificate signed by a valid 
+// Webhooks must be available via SSL with a certificate signed by a valid
 // certificate authority.
 app.listen(app.get('port'), function () {
     console.log('Node app is running on port', app.get('port'));
