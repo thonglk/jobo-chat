@@ -935,13 +935,11 @@ function getUserDataAndSave(senderID) {
 
             loadUser(senderID)
                 .then(userData => {
-                    if (!userData) {
-                        axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user, profile})
-                            .then(() => resolve(profile))
-                            .catch(err => reject(err))
-                    } else resolve(profile)
-
+                    resolve(profile)
                 })
+                .catch(err => axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user, profile})
+                    .then(result => resolve(profile))
+                    .catch(err => reject(err)))
 
 
         })
@@ -1873,10 +1871,9 @@ function loadUser(senderID) {
         var url = `${CONFIG.APIURL}/checkUser?q=${senderID}&type=messengerId`
         axios.get(url)
             .then(result => {
-                console.log('loadUser',result)
 
                 if (result.data[0]) resolve(result.data[0])
-                else reject({err: 'No User'})
+                else reject({err: 'No data'})
             })
             .catch(err => reject(err))
     })
