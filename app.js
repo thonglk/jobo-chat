@@ -2130,8 +2130,8 @@ app.post('/webhook', function (req, res) {
                                 text: "[Hệ Thống] Hãy huỷ cuộc hội thoại hiện có !",
                             }, null, 'dumpling');
                             else matchingPeople(senderID)
-                                .then(result => checkAvaible(senderID))
-                                .catch(err => console.log(err))
+                                // .then(result => checkAvaible(senderID))
+                                // .catch(err => console.log(err))
                         }
                         else if (payload.type == 'GET_STARTED') {
                             if (!senderData) {
@@ -2290,17 +2290,24 @@ app.post('/webhook', function (req, res) {
                                     text: messageText,
                                 }, null, 'dumpling')
                             } else sendingAPI(senderID, recipientID, {
-                                text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
-                                quick_replies: [
-                                    {
-                                        "content_type": "text",
-                                        "title": "💬 Bắt Đầu",
-                                        "payload": JSON.stringify({
-                                            type: 'matching'
-                                        })
-                                    }
-                                ]
-                            }, 10, 'dumpling')
+                                x
+                                text
+                        :
+                            "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
+                                quick_replies
+                        :
+                            [
+                                {
+                                    "content_type": "text",
+                                    "title": "💬 Bắt Đầu",
+                                    "payload": JSON.stringify({
+                                        type: 'matching'
+                                    })
+                                }
+                            ]
+                        },
+                            10, 'dumpling'
+                        )
                         } else if (messageAttachments) {
                             if (senderData && senderData.match) {
                                 sendingAPI(senderData.match, senderID, {
@@ -2341,41 +2348,42 @@ app.post('/webhook', function (req, res) {
 ;
 
 function matchingPeople(senderID) {
-    return new Promise(function (resolve, reject) {
-        var senderData = dataAccount[senderID]
-        var avaible = _.filter(dataAccount, function (card) {
-            if (!card.match && card.status != 0 && card.gender != senderData.gender && card.id != CONFIG.facebookPage['dumpling'].id) return true
-            else return false
-        })
-        if (avaible.length > 0) {
-            var random = _.sample(avaible)
-            var matched = random.id
-            console.log('matched',matched)
-            var recipientID = CONFIG.facebookPage['dumpling'].id
-            sendingAPI(matched, recipientID, {
-                text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
-            }, null, 'dumpling')
-                .then(result => accountRef.child('dumpling').child(senderID)
-                    .update({match: matched})
-                    .then(result => accountRef.child('dumpling').child(random.id).update({match: senderID}))
-                    .then(result => sendingAPI(senderID, recipientID, {
-                        text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
-                    }, null, 'dumpling'))
-                    .then(result => sendingAPI(senderID, recipientID, {
-                        text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
-                    }, null, 'dumpling'))
-                    .then(result => resolve(matched)))
-                // .catch(err => {
-                //     console.log(err)
-                //     accountRef.child('dumpling').child(matched).update({sent_error: true}).then(result => matchingPeople(senderID))
-                // })
 
-
-        } else sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
-            text: "[Hệ Thống] Chưa tìm đc người phù hợp",
-        }, null, 'dumpling')
-
+    var senderData = dataAccount[senderID]
+    var avaible = _.filter(dataAccount, function (card) {
+        if (!card.match && card.status != 0 && card.gender != senderData.gender && card.id != CONFIG.facebookPage['dumpling'].id) return true
+        else return false
     })
+    if (avaible.length > 0) {
+        var random = _.sample(avaible)
+        var matched = random.id
+        console.log('matched', matched)
+        var recipientID = CONFIG.facebookPage['dumpling'].id
+        sendingAPI(matched, recipientID, {
+            text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
+        }, null, 'dumpling')
+            .then(result => accountRef.child('dumpling').child(senderID)
+                .update({match: matched})
+                .then(result => accountRef.child('dumpling').child(random.id).update({match: senderID}))
+                .then(result => sendingAPI(senderID, recipientID, {
+                    text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
+                }, null, 'dumpling'))
+                .then(result => sendingAPI(senderID, recipientID, {
+                    text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
+                }, null, 'dumpling'))
+                .then(result => resolve(matched)))
+            .catch(err => {
+                matchingPeople(senderID)
+                console.log(err)
+                accountRef.child('dumpling').child(matched).update({sent_error: true})
+            })
+
+
+    } else sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
+        text: "[Hệ Thống] Chưa tìm đc người phù hợp",
+    }, null, 'dumpling')
+
+
 }
 
 function checkAvaible(senderID) {
