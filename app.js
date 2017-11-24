@@ -2266,7 +2266,7 @@ app.post('/webhook', function (req, res) {
                                 ]
                             }, null, 'dumpling'))
                             else if (payload.answer == 'on') accountRef.child('dumpling').child(senderID).update({status: 1}).then(result => sendingAPI(senderID, recipientID, {
-                                text: "[Hệ Thống] Trạng thái: InActive \n Bạn sẽ không nhận được ghép cặp!",
+                                text: "[Hệ Thống] Trạng thái: Active \n Bạn sẽ nhận được ghép cặp!",
                                 quick_replies: [
                                     {
                                         "content_type": "text",

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -17,18 +19,10 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="2423" column="14" lean-forward="false" selection-start-line="2423" selection-start-column="14" selection-end-line="2423" selection-end-column="14" />
+            <state relative-caret-position="190">
+              <caret line="2257" column="37" lean-forward="true" selection-start-line="2257" selection-start-column="37" selection-end-line="2257" selection-end-column="37" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <marker date="1511495881000" expanded="true" signature="101964:102103" ph="{&quot;text&quot;: &quot;[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu&quot;...}" />
-                <marker date="1511495881000" expanded="true" signature="102138:103538" ph="{...}" />
-                <marker date="1511495881000" expanded="true" signature="102222:102635" ph="{...}" />
-                <marker date="1511495881000" expanded="true" signature="102362:102602" ph="{...}" />
-                <marker date="1511495881000" expanded="true" signature="102433:102546" ph="{&quot;text&quot;: message.message.text...}" />
-                <marker date="1511495881000" expanded="true" signature="102676:103497" ph="{...}" />
-                <marker date="1511495881000" expanded="true" signature="103035:103173" ph="{&quot;text&quot;: &quot;[Hệ Thống] Người lạ đã dừng cuộc trò chuyện&quot;...}" />
-                <marker date="1511495881000" expanded="true" signature="103306:103444" ph="{&quot;text&quot;: &quot;[Hệ Thống] Hệ thống đã dừng cuộc trò chuyện&quot;...}" />
               </folding>
             </state>
           </provider>
@@ -68,7 +62,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>jobseeker</find>
       <find>tks</find>
       <find>interviewI</find>
       <find>interview</find>
@@ -98,6 +91,7 @@
       <find>/webhook</find>
       <find>noti</find>
       <find>matching</find>
+      <find>confirm_status</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -220,12 +214,12 @@
       <workItem from="1511082841149" duration="3898000" />
       <workItem from="1511161319446" duration="17176000" />
       <workItem from="1511320581626" duration="27342000" />
-      <workItem from="1511490097535" duration="4198000" />
+      <workItem from="1511490097535" duration="4339000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="283756000" />
+    <option name="totallyTimeSpent" value="283897000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -288,14 +282,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1511495881000" expanded="true" signature="101964:102103" ph="{&quot;text&quot;: &quot;[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu&quot;...}" />
-            <marker date="1511495881000" expanded="true" signature="102138:103538" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="102222:102635" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="102362:102602" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="102433:102546" ph="{&quot;text&quot;: message.message.text...}" />
-            <marker date="1511495881000" expanded="true" signature="102676:103497" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="103035:103173" ph="{&quot;text&quot;: &quot;[Hệ Thống] Người lạ đã dừng cuộc trò chuyện&quot;...}" />
-            <marker date="1511495881000" expanded="true" signature="103306:103444" ph="{&quot;text&quot;: &quot;[Hệ Thống] Hệ thống đã dừng cuộc trò chuyện&quot;...}" />
           </folding>
         </state>
       </provider>
@@ -338,14 +324,6 @@
           <caret line="568" column="0" lean-forward="false" selection-start-line="568" selection-start-column="0" selection-end-line="568" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1511495881000" expanded="true" signature="101964:102103" ph="{&quot;text&quot;: &quot;[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu&quot;...}" />
-            <marker date="1511495881000" expanded="true" signature="102138:103538" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="102222:102635" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="102362:102602" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="102433:102546" ph="{&quot;text&quot;: message.message.text...}" />
-            <marker date="1511495881000" expanded="true" signature="102676:103497" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="103035:103173" ph="{&quot;text&quot;: &quot;[Hệ Thống] Người lạ đã dừng cuộc trò chuyện&quot;...}" />
-            <marker date="1511495881000" expanded="true" signature="103306:103444" ph="{&quot;text&quot;: &quot;[Hệ Thống] Hệ thống đã dừng cuộc trò chuyện&quot;...}" />
           </folding>
         </state>
       </provider>
@@ -372,14 +350,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1511495881000" expanded="true" signature="101964:102103" ph="{&quot;text&quot;: &quot;[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu&quot;...}" />
-            <marker date="1511495881000" expanded="true" signature="102138:103538" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="102222:102635" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="102362:102602" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="102433:102546" ph="{&quot;text&quot;: message.message.text...}" />
-            <marker date="1511495881000" expanded="true" signature="102676:103497" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="103035:103173" ph="{&quot;text&quot;: &quot;[Hệ Thống] Người lạ đã dừng cuộc trò chuyện&quot;...}" />
-            <marker date="1511495881000" expanded="true" signature="103306:103444" ph="{&quot;text&quot;: &quot;[Hệ Thống] Hệ thống đã dừng cuộc trò chuyện&quot;...}" />
           </folding>
         </state>
       </provider>
@@ -414,14 +384,6 @@
           <caret line="838" column="42" lean-forward="true" selection-start-line="838" selection-start-column="42" selection-end-line="838" selection-end-column="42" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1511495881000" expanded="true" signature="101964:102103" ph="{&quot;text&quot;: &quot;[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu&quot;...}" />
-            <marker date="1511495881000" expanded="true" signature="102138:103538" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="102222:102635" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="102362:102602" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="102433:102546" ph="{&quot;text&quot;: message.message.text...}" />
-            <marker date="1511495881000" expanded="true" signature="102676:103497" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="103035:103173" ph="{&quot;text&quot;: &quot;[Hệ Thống] Người lạ đã dừng cuộc trò chuyện&quot;...}" />
-            <marker date="1511495881000" expanded="true" signature="103306:103444" ph="{&quot;text&quot;: &quot;[Hệ Thống] Hệ thống đã dừng cuộc trò chuyện&quot;...}" />
           </folding>
         </state>
       </provider>
@@ -466,18 +428,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="2423" column="14" lean-forward="false" selection-start-line="2423" selection-start-column="14" selection-end-line="2423" selection-end-column="14" />
+        <state relative-caret-position="190">
+          <caret line="2257" column="37" lean-forward="true" selection-start-line="2257" selection-start-column="37" selection-end-line="2257" selection-end-column="37" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1511495881000" expanded="true" signature="101964:102103" ph="{&quot;text&quot;: &quot;[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu&quot;...}" />
-            <marker date="1511495881000" expanded="true" signature="102138:103538" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="102222:102635" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="102362:102602" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="102433:102546" ph="{&quot;text&quot;: message.message.text...}" />
-            <marker date="1511495881000" expanded="true" signature="102676:103497" ph="{...}" />
-            <marker date="1511495881000" expanded="true" signature="103035:103173" ph="{&quot;text&quot;: &quot;[Hệ Thống] Người lạ đã dừng cuộc trò chuyện&quot;...}" />
-            <marker date="1511495881000" expanded="true" signature="103306:103444" ph="{&quot;text&quot;: &quot;[Hệ Thống] Hệ thống đã dừng cuộc trò chuyện&quot;...}" />
           </folding>
         </state>
       </provider>
