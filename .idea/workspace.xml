@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-    </list>
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -19,14 +17,13 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="305">
+            <state relative-caret-position="318">
               <caret line="2124" column="52" lean-forward="true" selection-start-line="2124" selection-start-column="52" selection-end-line="2124" selection-end-column="52" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#15042#17182#0" expanded="false" />
-                <element signature="e#86254#87164#0" expanded="false" />
-                <element signature="e#87222#89778#0" expanded="false" />
-                <element signature="e#89840#90294#0" expanded="false" />
+                <element signature="e#87802#90358#0" expanded="false" />
+                <element signature="e#90420#90874#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -66,7 +63,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>messen</find>
       <find>admin</find>
       <find>rece</find>
       <find>recei</find>
@@ -96,6 +92,7 @@
       <find>accountR</find>
       <find>GET_S</find>
       <find>payload.t</find>
+      <find>selectT</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -218,12 +215,12 @@
       <workItem from="1511082841149" duration="3898000" />
       <workItem from="1511161319446" duration="17176000" />
       <workItem from="1511320581626" duration="27342000" />
-      <workItem from="1511490097535" duration="7112000" />
+      <workItem from="1511490097535" duration="7550000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="286670000" />
+    <option name="totallyTimeSpent" value="287108000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -287,9 +284,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#15042#17182#0" expanded="false" />
-            <element signature="e#86254#87164#0" expanded="false" />
-            <element signature="e#87222#89778#0" expanded="false" />
-            <element signature="e#89840#90294#0" expanded="false" />
+            <element signature="e#87802#90358#0" expanded="false" />
+            <element signature="e#90420#90874#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -333,9 +329,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#15042#17182#0" expanded="false" />
-            <element signature="e#86254#87164#0" expanded="false" />
-            <element signature="e#87222#89778#0" expanded="false" />
-            <element signature="e#89840#90294#0" expanded="false" />
+            <element signature="e#87802#90358#0" expanded="false" />
+            <element signature="e#90420#90874#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -363,9 +358,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#15042#17182#0" expanded="false" />
-            <element signature="e#86254#87164#0" expanded="false" />
-            <element signature="e#87222#89778#0" expanded="false" />
-            <element signature="e#89840#90294#0" expanded="false" />
+            <element signature="e#87802#90358#0" expanded="false" />
+            <element signature="e#90420#90874#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -401,9 +395,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#15042#17182#0" expanded="false" />
-            <element signature="e#86254#87164#0" expanded="false" />
-            <element signature="e#87222#89778#0" expanded="false" />
-            <element signature="e#89840#90294#0" expanded="false" />
+            <element signature="e#87802#90358#0" expanded="false" />
+            <element signature="e#90420#90874#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -448,14 +441,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
+        <state relative-caret-position="318">
           <caret line="2124" column="52" lean-forward="true" selection-start-line="2124" selection-start-column="52" selection-end-line="2124" selection-end-column="52" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#15042#17182#0" expanded="false" />
-            <element signature="e#86254#87164#0" expanded="false" />
-            <element signature="e#87222#89778#0" expanded="false" />
-            <element signature="e#89840#90294#0" expanded="false" />
+            <element signature="e#87802#90358#0" expanded="false" />
+            <element signature="e#90420#90874#0" expanded="false" />
           </folding>
         </state>
       </provider>

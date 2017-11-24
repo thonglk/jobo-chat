@@ -2427,13 +2427,13 @@ function matchingPeople(senderID) {
         console.log('matched', matched)
         var recipientID = CONFIG.facebookPage['dumpling'].id
         sendingAPI(matched, recipientID, {
-            text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
+            text: `[Hệ Thống] Bạn đã được ghép với 1 người lạ ở Dumpling_${senderData.topic}, hãy nói gì đó đề bắt đầu`,
         }, null, 'dumpling')
             .then(result => accountRef.child('dumpling').child(senderID)
                 .update({match: matched})
                 .then(result => accountRef.child('dumpling').child(random.id).update({match: senderID}))
                 .then(result => sendingAPI(senderID, recipientID, {
-                    text: "[Hệ Thống] Đã ghép bạn với 1 người lạ thành công",
+                    text: `[Hệ Thống] Đã ghép bạn với 1 người lạ ở Dumpling_${random.topic} thành công`,
                 }, null, 'dumpling'))
                 .then(result => sendingAPI(senderID, recipientID, {
                     text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
