@@ -2371,7 +2371,7 @@ function matchingPeople(senderID) {
                 .then(result => sendingAPI(senderID, recipientID, {
                     text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
                 }, null, 'dumpling'))
-                .then(result => resolve(matched)))
+                .then(result => checkAvaible(senderID)))
             .catch(err => {
                 matchingPeople(senderID)
                 console.log(err)
