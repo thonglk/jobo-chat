@@ -2466,6 +2466,44 @@ function checkAvaible(senderID) {
             var senderData = dataAccount[senderID]
             var current_matched = senderData.match
             var s60 = Date.now() - 5 * 60000
+            var s30 = Date.now() - 30000
+            setTimeout(function () {
+                var convera = _.filter(messageFactory, message => {
+                    if (message.recipientId == current_matched && message.senderId == senderID && message.timestamp > s30) return true
+                })
+                if (conver.length == 0) {
+                    console.log('push people')
+
+                    sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
+                        text: "[Hệ Thống] Bạn đã chủ động tìm người lạ, hãy mở lời chào với họ trước^^",
+                    }, null, 'dumpling')
+
+                    // .then(result => matchingPeople(senderID))
+                    // .then(matched => sendingAPI(matched, CONFIG.facebookPage['dumpling'].id, {
+                    //         text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
+                    //     }, null, 'dumpling').then(result => {
+                    //         var conver_new = _.each(messageFactory, message => {
+                    //             if (message.recipientID == current_matched && message.senderID == senderID && message.timestamp > s60) {
+                    //                 sendingAPI(matched, senderID, {
+                    //                     text: message.message.text,
+                    //                 }, null, 'dumpling')
+                    //             }
+                    //         })
+                    //         if(a==3){
+                    //             accountRef.child('dumpling').child(senderID).child('match').remove()
+                    //                 .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
+                    //                 .then(result => sendingAPI(senderData.match, CONFIG.facebookPage['dumpling'].id, {
+                    //                     text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
+                    //                 }, null, 'dumpling'))
+                    //                 .then(result => sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
+                    //                     text: "[Hệ Thống] Hệ thống đã dừng cuộc trò chuyện",
+                    //                 }, null, 'dumpling'))
+                    //         } else loop()
+                    //     })
+                    //     .catch(err => console.log(err))
+                    // )
+                }
+            },30000)
 
             setTimeout(function () {
                 var conver = _.filter(messageFactory, message => {
