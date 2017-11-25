@@ -235,7 +235,7 @@ lastMessageRef.on('child_added', function (snap) {
 lastMessageRef.on('child_changed', function (snap) {
     lastMessageData[snap.key] = snap.val()
 });
-var a = 0
+// var a = 0
 // messageFactoryRef.child('dumpling').once('value', function (snap) {
 //     messageFactory = snap.val()
 //     var messageFactoryArray = _.toArray(messageFactory)
@@ -2515,88 +2515,88 @@ function checkAvaible(senderID) {
     var current_matched = senderData.match
     var s60 = Date.now() - 5 * 60000
     var s30 = Date.now() - 30000
-    setTimeout(function () {
-        dumpling_messageFactoryCol.find({
-            recipientId: current_matched,
-            senderId: senderID,
-            timestamp: {$gt: s30}
-        }).toArray((err,conver) => {
-            if (conver.length == 0) {
-                console.log('push people')
-
-                sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
-                    text: "[Hệ Thống] Bạn đã chủ động tìm người lạ, hãy mở lời chào với họ trước^^",
-                }, null, 'dumpling')
-
-            }
-        })
-
-    }, 30000)
-
-    setTimeout(function () {
-
-        dumpling_messageFactoryCol.find({
-            recipientId: senderID,
-            senderId: current_matched,
-            timestamp: {$gt: s60}
-        }).toArray((err,conver) => {
-            if(err) return
-            if (conver.length == 0) {
-                console.log('change people')
-                accountRef.child('dumpling').child(senderID).child('match').remove()
-                    .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
-                    .then(result => sendingAPI(senderData.match, CONFIG.facebookPage['dumpling'].id, {
-                        text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
-                        quick_replies: [
-                            {
-                                "content_type": "text",
-                                "title": "💬 Bắt đầu mới",
-                                "payload": JSON.stringify({
-                                    type: 'matching'
-                                })
-                            }
-                        ]
-                    }, null, 'dumpling'))
-                    .then(result => sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
-                        text: "[Hệ Thống] Không có phản hồi từ người lạ, hệ thống đã dừng cuộc trò chuyện",
-                        quick_replies: [
-                            {
-                                "content_type": "text",
-                                "title": "💬 Bắt đầu mới",
-                                "payload": JSON.stringify({
-                                    type: 'matching'
-                                })
-                            }
-                        ]
-                    }, null, 'dumpling'))
-
-                // .then(result => matchingPeople(senderID))
-                // .then(matched => sendingAPI(matched, CONFIG.facebookPage['dumpling'].id, {
-                //         text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
-                //     }, null, 'dumpling').then(result => {
-                //         var conver_new = _.each(messageFactory, message => {
-                //             if (message.recipientID == current_matched && message.senderID == senderID && message.timestamp > s60) {
-                //                 sendingAPI(matched, senderID, {
-                //                     text: message.message.text,
-                //                 }, null, 'dumpling')
-                //             }
-                //         })
-                //         if(a==3){
-                //             accountRef.child('dumpling').child(senderID).child('match').remove()
-                //                 .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
-                //                 .then(result => sendingAPI(senderData.match, CONFIG.facebookPage['dumpling'].id, {
-                //                     text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
-                //                 }, null, 'dumpling'))
-                //                 .then(result => sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
-                //                     text: "[Hệ Thống] Hệ thống đã dừng cuộc trò chuyện",
-                //                 }, null, 'dumpling'))
-                //         } else loop()
-                //     })
-                //     .catch(err => console.log(err))
-                // )
-            }
-        })
-    }, 5 * 60000)
+    // setTimeout(function () {
+    //     dumpling_messageFactoryCol.find({
+    //         recipientId: current_matched,
+    //         senderId: senderID,
+    //         timestamp: {$gt: s30}
+    //     }).toArray((err,conver) => {
+    //         if (conver.length == 0) {
+    //             console.log('push people')
+    //
+    //             sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
+    //                 text: "[Hệ Thống] Bạn đã chủ động tìm người lạ, hãy mở lời chào với họ trước^^",
+    //             }, null, 'dumpling')
+    //
+    //         }
+    //     })
+    //
+    // }, 30000)
+    //
+    // setTimeout(function () {
+    //
+    //     dumpling_messageFactoryCol.find({
+    //         recipientId: senderID,
+    //         senderId: current_matched,
+    //         timestamp: {$gt: s60}
+    //     }).toArray((err,conver) => {
+    //         if(err) return
+    //         if (conver.length == 0) {
+    //             console.log('change people')
+    //             accountRef.child('dumpling').child(senderID).child('match').remove()
+    //                 .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
+    //                 .then(result => sendingAPI(senderData.match, CONFIG.facebookPage['dumpling'].id, {
+    //                     text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
+    //                     quick_replies: [
+    //                         {
+    //                             "content_type": "text",
+    //                             "title": "💬 Bắt đầu mới",
+    //                             "payload": JSON.stringify({
+    //                                 type: 'matching'
+    //                             })
+    //                         }
+    //                     ]
+    //                 }, null, 'dumpling'))
+    //                 .then(result => sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
+    //                     text: "[Hệ Thống] Không có phản hồi từ người lạ, hệ thống đã dừng cuộc trò chuyện",
+    //                     quick_replies: [
+    //                         {
+    //                             "content_type": "text",
+    //                             "title": "💬 Bắt đầu mới",
+    //                             "payload": JSON.stringify({
+    //                                 type: 'matching'
+    //                             })
+    //                         }
+    //                     ]
+    //                 }, null, 'dumpling'))
+    //
+    //             // .then(result => matchingPeople(senderID))
+    //             // .then(matched => sendingAPI(matched, CONFIG.facebookPage['dumpling'].id, {
+    //             //         text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
+    //             //     }, null, 'dumpling').then(result => {
+    //             //         var conver_new = _.each(messageFactory, message => {
+    //             //             if (message.recipientID == current_matched && message.senderID == senderID && message.timestamp > s60) {
+    //             //                 sendingAPI(matched, senderID, {
+    //             //                     text: message.message.text,
+    //             //                 }, null, 'dumpling')
+    //             //             }
+    //             //         })
+    //             //         if(a==3){
+    //             //             accountRef.child('dumpling').child(senderID).child('match').remove()
+    //             //                 .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
+    //             //                 .then(result => sendingAPI(senderData.match, CONFIG.facebookPage['dumpling'].id, {
+    //             //                     text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
+    //             //                 }, null, 'dumpling'))
+    //             //                 .then(result => sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
+    //             //                     text: "[Hệ Thống] Hệ thống đã dừng cuộc trò chuyện",
+    //             //                 }, null, 'dumpling'))
+    //             //         } else loop()
+    //             //     })
+    //             //     .catch(err => console.log(err))
+    //             // )
+    //         }
+    //     })
+    // }, 5 * 60000)
 
 }
 
