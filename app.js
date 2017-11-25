@@ -2099,21 +2099,16 @@ app.post('/webhook', function (req, res) {
                     } else if (pageID == CONFIG.facebookPage['dumpling'].id) {
 
                         var senderID = messagingEvent.sender.id;
-                        var senderData = dataAccount[senderID]
-
-
                         var recipientID = messagingEvent.recipient.id;
                         var timeOfMessage = messagingEvent.timestamp;
                         var message = messagingEvent.message;
                         var postback = messagingEvent.postback
+
                         if (message && message.quick_reply) var quickReply = messagingEvent.message.quick_reply;
                         if (message && message.text) var messageText = message.text;
                         if (message && message.attachments) var messageAttachments = message.attachments;
-
-
                         if (postback && postback.payload) var payloadStr = messagingEvent.postback.payload
                         else if (quickReply && quickReply.payload) payloadStr = quickReply.payload
-
 
                         if (messagingEvent.referral) var referral = messagingEvent.referral
                         else if (postback && postback.referral) referral = postback.referral
@@ -2122,54 +2117,105 @@ app.post('/webhook', function (req, res) {
                         if (payloadStr) var payload = JSON.parse(payloadStr)
                         else payload = {}
 
-                        if (payload.type == 'GET_STARTED') {
-                            graph.get(senderID + '?access_token=' + CONFIG.facebookPage['dumpling'].access_token, (err, result) => {
-                                if (err) reject(err);
+                        loadsenderData(senderID).then(senderData => {
 
-                                console.log(result);
-                                var user = result;
-
+                            if (payload.type == 'GET_STARTED') {
                                 if (referral && referral.ref) {
-                                    user.ref = referral.ref
-                                    var refData = user.ref.split('_');
+                                    senderData.ref = referral.ref
+                                    var refData = senderData.ref.split('_');
                                     console.log('refData', refData);
-                                    user.topic = {}
-                                    if (refData[0] != 'start') user.topic = refData[0]
-
+                                    senderData.topic = {}
+                                    if (refData[0] != 'start') senderData.topic = refData[0]
                                 }
 
-                                user.createdAt = Date.now()
-                                accountRef.child('dumpling').child(senderID).update(user).then(result => sendingAPI(senderID, recipientID, {
-                                    text: `Dumpling kết nối hai người lạ nói chuyện với nhau bằng một cuộc trò chuyện bí mật`,
-                                }, null, 'dumpling')
+                                accountRef.child('dumpling').child(senderID).update(senderData).then(result =>  sendingAPI(senderID, recipientID, {
+                                        text: `Dumpling kết nối hai người lạ nói chuyện với nhau bằng một cuộc trò chuyện bí mật`,
+                                    }, null, 'dumpling')
+                                        .then(result => sendingAPI(senderID, recipientID, {
+                                            text: `đảm bảo 100% bí mật thông tin và nội dung trò chuyện`,
+                                        }, null, 'dumpling'))
+                                        .then(result => {
+                                            if (senderData.topic) sendingAPI(senderID, recipientID, {
+                                                text: `Bạn đang tham gia Dumpling #${refData[0]}, hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện`,
+                                                quick_replies: [
+                                                    {
+                                                        "content_type": "text",
+                                                        "title": "💬 Bắt Đầu",
+                                                        "payload": JSON.stringify({
+                                                            type: 'matching'
+                                                        })
+                                                    }
+                                                ]
+                                            }, null, 'dumpling')
+                                            else sendingAPI(senderID, recipientID, {
+                                                text: `Hãy chọn chủ đề liên quan đến bạn nhất?`,
+                                                quick_replies: quick_topic
+                                            }, null, 'dumpling')
+
+                                        })
+                                )
+                            }
+                            else if (payload.type == 'selectTopic') {
+                                accountRef.child('dumpling').child(senderID).update({topic: payload.topic})
                                     .then(result => sendingAPI(senderID, recipientID, {
-                                        text: `đảm bảo 100% bí mật thông tin và nội dung trò chuyện`,
+                                        text: `Bạn đang tham gia Dumpling #${payload.topic}, hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện`,
+                                        quick_replies: [
+                                            {
+                                                "content_type": "text",
+                                                "title": "💬 Bắt Đầu",
+                                                "payload": JSON.stringify({
+                                                    type: 'matching'
+                                                })
+                                            }
+                                        ]
                                     }, null, 'dumpling'))
-                                    .then(result => {
-                                        if (user.topic) sendingAPI(senderID, recipientID, {
-                                            text: `Bạn đang tham gia Dumpling #${refData[0]}, hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện`,
+                                if (!topic[payload.topic]) {
+                                    topic[payload.topic] = 1
+                                    quick_topic.push({
+                                        "content_type": "text",
+                                        "title": `#${payload.topic}`,
+                                        "payload": JSON.stringify({
+                                            type: 'selectTopic',
+                                            topic: payload.topic
+                                        })
+                                    })
+                                }
+                                else topic[payload.topic]++
+
+                            }
+                            else if (payload.type == 'stop') {
+
+                                if (senderData && senderData.match) {
+
+                                    accountRef.child('dumpling').child(senderID).child('match').remove()
+                                        .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
+                                        .then(result => sendingAPI(senderID, recipientID, {
+                                            text: "[Hệ Thống] Bạn đã dừng cuộc trò chuyện",
                                             quick_replies: [
                                                 {
                                                     "content_type": "text",
-                                                    "title": "💬 Bắt Đầu",
+                                                    "title": "💬 Bắt đầu mới",
                                                     "payload": JSON.stringify({
                                                         type: 'matching'
                                                     })
                                                 }
                                             ]
-                                        }, null, 'dumpling')
-                                        else sendingAPI(senderID, recipientID, {
-                                            text: `Hãy chọn chủ đề liên quan đến bạn nhất?`,
-                                            quick_replies: quick_topic
-                                        }, null, 'dumpling')
+                                        }, null, 'dumpling'))
+                                        .then(result => sendingAPI(senderData.match, recipientID, {
+                                            text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
+                                            quick_replies: [
+                                                {
+                                                    "content_type": "text",
+                                                    "title": "💬 Bắt đầu mới",
+                                                    "payload": JSON.stringify({
+                                                        type: 'matching'
+                                                    })
+                                                }
+                                            ]
+                                        }, null, 'dumpling'))
 
-                                    }))
-                            })
-                        }
-                        else if (payload.type == 'selectTopic') {
-                            accountRef.child('dumpling').child(senderID).update({topic: payload.topic})
-                                .then(result => sendingAPI(senderID, recipientID, {
-                                    text: `Bạn đang tham gia Dumpling #${payload.topic}, hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện`,
+                                } else if (senderData) sendingAPI(senderID, recipientID, {
+                                    text: "[Hệ Thống] Bạn chưa bắt đầu cuộc trò chuyện!",
                                     quick_replies: [
                                         {
                                             "content_type": "text",
@@ -2179,193 +2225,156 @@ app.post('/webhook', function (req, res) {
                                             })
                                         }
                                     ]
-                                }, null, 'dumpling'))
-                            if (!topic[payload.topic]) {
-                                topic[payload.topic] = 1
-                                quick_topic.push({
-                                    "content_type": "text",
-                                    "title": `#${payload.topic}`,
-                                    "payload": JSON.stringify({
-                                        type: 'selectTopic',
-                                        topic: payload.topic
-                                    })
-                                })
+                                }, null, 'dumpling')
                             }
-                            else topic[payload.topic]++
-
-                        }
-                        else if (payload.type == 'stop') {
-
-                            if (senderData && senderData.match) {
-
-                                accountRef.child('dumpling').child(senderID).child('match').remove()
-                                    .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
-                                    .then(result => sendingAPI(senderID, recipientID, {
-                                        text: "[Hệ Thống] Bạn đã dừng cuộc trò chuyện",
-                                        quick_replies: [
-                                            {
-                                                "content_type": "text",
-                                                "title": "💬 Bắt đầu mới",
-                                                "payload": JSON.stringify({
-                                                    type: 'matching'
-                                                })
-                                            }
-                                        ]
-                                    }, null, 'dumpling'))
-                                    .then(result => sendingAPI(senderData.match, recipientID, {
-                                        text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
-                                        quick_replies: [
-                                            {
-                                                "content_type": "text",
-                                                "title": "💬 Bắt đầu mới",
-                                                "payload": JSON.stringify({
-                                                    type: 'matching'
-                                                })
-                                            }
-                                        ]
-                                    }, null, 'dumpling'))
-
-                            } else if (senderData) sendingAPI(senderID, recipientID, {
-                                text: "[Hệ Thống] Bạn chưa bắt đầu cuộc trò chuyện!",
-                                quick_replies: [
-                                    {
-                                        "content_type": "text",
-                                        "title": "💬 Bắt Đầu",
-                                        "payload": JSON.stringify({
-                                            type: 'matching'
-                                        })
-                                    }
-                                ]
-                            }, null, 'dumpling')
-                        }
-                        else if (payload.type == 'matching') {
-                            if (senderData && senderData.match) sendingAPI(senderID, recipientID, {
-                                text: "[Hệ Thống] Hãy huỷ cuộc hội thoại hiện có !",
-                            }, null, 'dumpling');
-                            else matchingPeople(senderID)
-                            // .then(result => checkAvaible(senderID))
-                            // .catch(err => console.log(err))
-                        }
-                        else if (payload.type == 'share') {
-                            sendingAPI(senderID, recipientID, {
-                                text: 'Chia sẻ Dumpling với bạn bè để giúp họ tìm thấy 1 nữa của đời mình nhé 👇'
-                            }, null, 'dumpling').then(result => sendingAPI(senderID, recipientID, {
-                                "attachment": {
-                                    "type": "template",
-                                    "payload": {
-                                        "template_type": "generic",
-                                        "elements": [
-                                            {
-                                                "title": "Dumpling Bot <3 <3 <3!",
-                                                "subtitle": "Mình là Dumpling Xanh Dương cực dễ thương. Mình đến với trái đất với mục đích kết duyên mọi người.",
-                                                "image_url": "https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/23659623_558217007851211_9187684244656643971_n.jpg?oh=7f6099d65ee108a021a2818c369777c5&oe=5AA8F1BD",
-                                                "buttons": [
-                                                    {
-                                                        "type": "element_share",
-                                                        "share_contents": {
-                                                            "attachment": {
-                                                                "type": "template",
-                                                                "payload": {
-                                                                    "template_type": "generic",
-                                                                    "elements": [
-                                                                        {
-                                                                            "title": "Dumpling Bot <3 <3 <3!",
-                                                                            "subtitle": "Mình là Dumpling Xanh Dương cực dễ thương. Mình đến với trái đất với mục đích kết duyên mọi người.",
-                                                                            "image_url": "https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/23659623_558217007851211_9187684244656643971_n.jpg?oh=7f6099d65ee108a021a2818c369777c5&oe=5AA8F1BD",
-                                                                            "default_action": {
-                                                                                "type": "web_url",
-                                                                                "url": "https://m.me/dumpling.bot?ref=start_invitedby:" + senderID
-                                                                            },
-                                                                            "buttons": [
-                                                                                {
+                            else if (payload.type == 'matching') {
+                                if (senderData && senderData.match) sendingAPI(senderID, recipientID, {
+                                    text: "[Hệ Thống] Hãy huỷ cuộc hội thoại hiện có !",
+                                }, null, 'dumpling');
+                                else matchingPeople(senderID)
+                            }
+                            else if (payload.type == 'share') {
+                                sendingAPI(senderID, recipientID, {
+                                    text: 'Chia sẻ Dumpling với bạn bè để giúp họ tìm thấy 1 nữa của đời mình nhé 👇'
+                                }, null, 'dumpling').then(result => sendingAPI(senderID, recipientID, {
+                                    "attachment": {
+                                        "type": "template",
+                                        "payload": {
+                                            "template_type": "generic",
+                                            "elements": [
+                                                {
+                                                    "title": "Dumpling Bot <3 <3 <3!",
+                                                    "subtitle": "Mình là Dumpling Xanh Dương cực dễ thương. Mình đến với trái đất với mục đích kết duyên mọi người.",
+                                                    "image_url": "https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/23659623_558217007851211_9187684244656643971_n.jpg?oh=7f6099d65ee108a021a2818c369777c5&oe=5AA8F1BD",
+                                                    "buttons": [
+                                                        {
+                                                            "type": "element_share",
+                                                            "share_contents": {
+                                                                "attachment": {
+                                                                    "type": "template",
+                                                                    "payload": {
+                                                                        "template_type": "generic",
+                                                                        "elements": [
+                                                                            {
+                                                                                "title": "Dumpling Bot <3 <3 <3!",
+                                                                                "subtitle": "Mình là Dumpling Xanh Dương cực dễ thương. Mình đến với trái đất với mục đích kết duyên mọi người.",
+                                                                                "image_url": "https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/23659623_558217007851211_9187684244656643971_n.jpg?oh=7f6099d65ee108a021a2818c369777c5&oe=5AA8F1BD",
+                                                                                "default_action": {
                                                                                     "type": "web_url",
-                                                                                    "url": "https://m.me/dumpling.bot?ref=start_invitedby:" + senderID,
-                                                                                    "title": "Bắt đầu tìm gấu"
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
+                                                                                    "url": "https://m.me/dumpling.bot?ref=start_invitedby:" + senderID
+                                                                                },
+                                                                                "buttons": [
+                                                                                    {
+                                                                                        "type": "web_url",
+                                                                                        "url": "https://m.me/dumpling.bot?ref=start_invitedby:" + senderID,
+                                                                                        "title": "Bắt đầu tìm gấu"
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        ]
+                                                                    }
                                                                 }
                                                             }
                                                         }
-                                                    }
-                                                ]
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    }
+
+                                }, null, 'dumpling')).catch(err => console.log(err))
+                            }
+                            else if (payload.type == 'status') {
+                                var status = senderData.status
+                                if (status == 0) sendingAPI(senderID, recipientID, {
+                                    text: "[Hệ Thống] Trạng thái: InActive \n Bạn sẽ không nhận được ghép cặp!",
+                                    quick_replies: [
+                                        {
+                                            "content_type": "text",
+                                            "title": "Bật",
+                                            "payload": JSON.stringify({
+                                                type: 'confirm_status',
+                                                answer: 'on'
+                                            })
+                                        }
+                                    ]
+                                }, null, 'dumpling')
+                                else sendingAPI(senderID, recipientID, {
+                                    text: "[Hệ Thống] Trạng thái: Active \n Bạn sẽ nhận được ghép cặp!",
+                                    quick_replies: [
+                                        {
+                                            "content_type": "text",
+                                            "title": "Tắt",
+                                            "payload": JSON.stringify({
+                                                type: 'confirm_status',
+                                                answer: 'off'
+                                            })
+                                        }
+                                    ]
+                                }, null, 'dumpling')
+                            }
+                            else if (payload.type == 'confirm_status') {
+                                if (payload.answer == 'off') accountRef.child('dumpling').child(senderID).update({status: 0}).then(result => sendingAPI(senderID, recipientID, {
+                                    text: "[Hệ Thống] Trạng thái: InActive \n Bạn sẽ không nhận được ghép cặp!",
+                                    quick_replies: [
+                                        {
+                                            "content_type": "text",
+                                            "title": "Bật",
+                                            "payload": JSON.stringify({
+                                                type: 'confirm_status',
+                                                answer: 'on'
+                                            })
+                                        }
+                                    ]
+                                }, null, 'dumpling'))
+                                else if (payload.answer == 'on') accountRef.child('dumpling').child(senderID).update({status: 1}).then(result => sendingAPI(senderID, recipientID, {
+                                    text: "[Hệ Thống] Trạng thái: Active \n Bạn sẽ nhận được ghép cặp!",
+                                    quick_replies: [
+                                        {
+                                            "content_type": "text",
+                                            "title": "Tắt",
+                                            "payload": JSON.stringify({
+                                                type: 'confirm_status',
+                                                answer: 'off'
+                                            })
+                                        }
+                                    ]
+                                }, null, 'dumpling'))
+
+                            }
+                            else if (messagingEvent.optin) {
+                                receivedAuthentication(messagingEvent);
+                            }
+                            else if (messagingEvent.read) {
+                                sendReadReceipt(senderData.match, 'dumpling')
+                            }
+                            else if (messageText) {
+                                if (senderData && senderData.match) {
+                                    sendingAPI(senderData.match, senderID, {
+                                        text: messageText,
+                                    }, null, 'dumpling')
+                                } else sendingAPI(senderID, recipientID, {
+
+                                        text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
+                                        quick_replies: [
+                                            {
+                                                "content_type": "text",
+                                                "title": "💬 Bắt Đầu",
+                                                "payload": JSON.stringify({
+                                                    type: 'matching'
+                                                })
                                             }
                                         ]
-                                    }
-                                }
-
-                            }, null, 'dumpling')).catch(err => console.log(err))
-                        }
-                        else if (payload.type == 'status') {
-                            var status = senderData.status
-                            if (status == 0) sendingAPI(senderID, recipientID, {
-                                text: "[Hệ Thống] Trạng thái: InActive \n Bạn sẽ không nhận được ghép cặp!",
-                                quick_replies: [
-                                    {
-                                        "content_type": "text",
-                                        "title": "Bật",
-                                        "payload": JSON.stringify({
-                                            type: 'confirm_status',
-                                            answer: 'on'
-                                        })
-                                    }
-                                ]
-                            }, null, 'dumpling')
-                            else sendingAPI(senderID, recipientID, {
-                                text: "[Hệ Thống] Trạng thái: Active \n Bạn sẽ nhận được ghép cặp!",
-                                quick_replies: [
-                                    {
-                                        "content_type": "text",
-                                        "title": "Tắt",
-                                        "payload": JSON.stringify({
-                                            type: 'confirm_status',
-                                            answer: 'off'
-                                        })
-                                    }
-                                ]
-                            }, null, 'dumpling')
-                        }
-                        else if (payload.type == 'confirm_status') {
-                            if (payload.answer == 'off') accountRef.child('dumpling').child(senderID).update({status: 0}).then(result => sendingAPI(senderID, recipientID, {
-                                text: "[Hệ Thống] Trạng thái: InActive \n Bạn sẽ không nhận được ghép cặp!",
-                                quick_replies: [
-                                    {
-                                        "content_type": "text",
-                                        "title": "Bật",
-                                        "payload": JSON.stringify({
-                                            type: 'confirm_status',
-                                            answer: 'on'
-                                        })
-                                    }
-                                ]
-                            }, null, 'dumpling'))
-                            else if (payload.answer == 'on') accountRef.child('dumpling').child(senderID).update({status: 1}).then(result => sendingAPI(senderID, recipientID, {
-                                text: "[Hệ Thống] Trạng thái: Active \n Bạn sẽ nhận được ghép cặp!",
-                                quick_replies: [
-                                    {
-                                        "content_type": "text",
-                                        "title": "Tắt",
-                                        "payload": JSON.stringify({
-                                            type: 'confirm_status',
-                                            answer: 'off'
-                                        })
-                                    }
-                                ]
-                            }, null, 'dumpling'))
-
-                        }
-                        else if (messagingEvent.optin) {
-                            receivedAuthentication(messagingEvent);
-                        } else if (messagingEvent.read) {
-                            sendReadReceipt(senderData.match, 'dumpling')
-                        } else if (messageText) {
-                            if (senderData && senderData.match) {
-                                sendingAPI(senderData.match, senderID, {
-                                    text: messageText,
-                                }, null, 'dumpling')
-                            } else sendingAPI(senderID, recipientID, {
-
+                                    },
+                                    10, 'dumpling'
+                                )
+                            }
+                            else if (messageAttachments) {
+                                if (senderData && senderData.match) {
+                                    sendingAPI(senderData.match, senderID, {
+                                        attachment: messageAttachments[0]
+                                    }, null, 'dumpling')
+                                } else sendingAPI(senderID, recipientID, {
                                     text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
                                     quick_replies: [
                                         {
@@ -2376,33 +2385,12 @@ app.post('/webhook', function (req, res) {
                                             })
                                         }
                                     ]
-                                },
-                                10, 'dumpling'
-                            )
-                        } else if (messageAttachments) {
-                            if (senderData && senderData.match) {
-                                sendingAPI(senderData.match, senderID, {
-                                    attachment: messageAttachments[0]
                                 }, null, 'dumpling')
-                            } else sendingAPI(senderID, recipientID, {
-                                text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
-                                quick_replies: [
-                                    {
-                                        "content_type": "text",
-                                        "title": "💬 Bắt Đầu",
-                                        "payload": JSON.stringify({
-                                            type: 'matching'
-                                        })
-                                    }
-                                ]
-                            }, null, 'dumpling')
-                        }
+                            }
 
+                        })
                         messageFactoryRef.child('dumpling').child(messagingEvent.messengerId + ':' + timeOfEvent).update(messagingEvent)
-
                     }
-
-
                 })
 
             }
@@ -2416,7 +2404,23 @@ app.post('/webhook', function (req, res) {
         res.sendStatus(200);
     }
 })
-;
+
+function loadsenderData(senderID) {
+    return new Promise(function (resolve, reject) {
+        if (dataAccount[senderID]) resolve(dataAccount[senderID])
+        else graph.get(senderID + '?access_token=' + CONFIG.facebookPage['dumpling'].access_token, (err, result) => {
+            if (err) reject(err);
+            console.log(result);
+            var user = result;
+            user.createdAt = Date.now()
+            accountRef.child('dumpling').child(senderID).update(user)
+                .then(result => resolve(user))
+                .catch(err => reject(err))
+        })
+
+
+    })
+}
 
 function matchingPeople(senderID) {
 
@@ -2425,6 +2429,7 @@ function matchingPeople(senderID) {
         if (!card.match && card.status != 0 && card.gender != senderData.gender && card.id != CONFIG.facebookPage['dumpling'].id) return true
         else return false
     })
+
     if (avaible.length > 0) {
         var random = _.sample(avaible)
         var matched = random.id
@@ -2503,7 +2508,7 @@ function checkAvaible(senderID) {
                     //     .catch(err => console.log(err))
                     // )
                 }
-            },30000)
+            }, 30000)
 
             setTimeout(function () {
                 var conver = _.filter(messageFactory, message => {
