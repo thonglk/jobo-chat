@@ -321,6 +321,9 @@ app.get('/checkAvai', function (req, res) {
 app.get('/quick_topic', function (req, res) {
     res.send(quick_topic)
 })
+app.get('/topic', function (req, res) {
+    res.send(topic)
+})
 
 // CONFIG FUNCTION
 function getPaginatedItems(items, page = 1, per_page = 15) {
