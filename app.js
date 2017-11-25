@@ -2096,7 +2096,8 @@ app.post('/webhook', function (req, res) {
                                 console.log("Webhook received unknown messagingEvent: ", messagingEvent);
                             }
                         })
-                    } else if (pageID == CONFIG.facebookPage['dumpling'].id) {
+                    }
+                    else if (pageID == CONFIG.facebookPage['dumpling'].id) {
 
                         var senderID = messagingEvent.sender.id;
                         var recipientID = messagingEvent.recipient.id;
@@ -2128,7 +2129,7 @@ app.post('/webhook', function (req, res) {
                                     if (refData[0] != 'start') senderData.topic = refData[0]
                                 }
 
-                                accountRef.child('dumpling').child(senderID).update(senderData).then(result =>  sendingAPI(senderID, recipientID, {
+                                accountRef.child('dumpling').child(senderID).update(senderData).then(result => sendingAPI(senderID, recipientID, {
                                         text: `Dumpling kết nối hai người lạ nói chuyện với nhau bằng một cuộc trò chuyện bí mật`,
                                     }, null, 'dumpling')
                                         .then(result => sendingAPI(senderID, recipientID, {
@@ -2395,12 +2396,6 @@ app.post('/webhook', function (req, res) {
 
             }
         });
-
-
-// Assume all went well.
-//
-// You must send back a 200, within 20 seconds, to let us know you've
-// successfully received the callback. Otherwise, the request will time out.
         res.sendStatus(200);
     }
 })
@@ -2476,7 +2471,7 @@ function checkAvaible(senderID) {
                 var convera = _.filter(messageFactory, message => {
                     if (message.recipientId == current_matched && message.senderId == senderID && message.timestamp > s30) return true
                 })
-                if (conver.length == 0) {
+                if (convera.length == 0) {
                     console.log('push people')
 
                     sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
