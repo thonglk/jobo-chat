@@ -235,23 +235,33 @@ lastMessageRef.on('child_added', function (snap) {
 lastMessageRef.on('child_changed', function (snap) {
     lastMessageData[snap.key] = snap.val()
 });
-// var a = 0
-// messageFactoryRef.child('dumpling').on('child_added', function (snap) {
-//     messageFactory[snap.key] = snap.val()
-//     a++
-//     setTimeout(function () {
-//         var noti = messageFactory[snap.key]
-//         dumpling_messageFactoryCol.insert(noti, function (err, data) {
-//             if (err) {
-//                 console.log(err)
-//             } else {
-//                 console.log('done')
-//
-//             }
-//         })
-//     }, a * 100)
-//
-// });
+var a = 0
+messageFactoryRef.child('dumpling').once('value', function (snap) {
+    messageFactory = snap.val()
+    var messageFactoryArray = _.toArray(messageFactory)
+    var a = -1
+    function loop_a() {
+        a++
+        if (a < messageFactoryArray.length) {
+            var noti = messageFactoryArray[a]
+            dumpling_messageFactoryCol.insert(noti, function (err, data) {
+                loop_a()
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log('done')
+
+                }
+            })
+
+        } else console.log('done')
+
+    }
+    loop_a()
+
+
+
+});
 // messageFactoryRef.child('dumpling').on('child_changed', function (snap) {
 //     messageFactory[snap.key] = snap.val()
 // });
@@ -2506,10 +2516,10 @@ function checkAvaible(senderID) {
     var s30 = Date.now() - 30000
     setTimeout(function () {
         dumpling_messageFactoryCol.find({
-            recipientId:current_matched,
-            senderId:senderID,
-            timestamp:{$gt: s30}
-        }).toArray(convera =>{
+            recipientId: current_matched,
+            senderId: senderID,
+            timestamp: {$gt: s30}
+        }).toArray(convera => {
             if (convera.length == 0) {
                 console.log('push people')
 
@@ -2550,9 +2560,9 @@ function checkAvaible(senderID) {
 
         dumpling_messageFactoryCol.find({
             recipientId: senderID,
-            senderId:current_matched,
-            timestamp:{$gt: s60}
-        }).toArray(conver =>{
+            senderId: current_matched,
+            timestamp: {$gt: s60}
+        }).toArray(conver => {
             if (conver.length == 0) {
                 console.log('change people')
                 accountRef.child('dumpling').child(senderID).child('match').remove()
