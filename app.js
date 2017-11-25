@@ -236,32 +236,33 @@ lastMessageRef.on('child_changed', function (snap) {
     lastMessageData[snap.key] = snap.val()
 });
 var a = 0
-messageFactoryRef.child('dumpling').once('value', function (snap) {
-    messageFactory = snap.val()
-    var messageFactoryArray = _.toArray(messageFactory)
-    var a = -1
-    function loop_a() {
-        a++
-        if (a < messageFactoryArray.length) {
-            var noti = messageFactoryArray[a]
-            dumpling_messageFactoryCol.insert(noti, function (err, data) {
-                loop_a()
-                if (err) {
-                    console.log(err)
-                } else {
-                    console.log('done')
-
-                }
-            })
-
-        } else console.log('done')
-
-    }
-    loop_a()
-
-
-
-});
+// messageFactoryRef.child('dumpling').once('value', function (snap) {
+//     messageFactory = snap.val()
+//     var messageFactoryArray = _.toArray(messageFactory)
+//     var a = -1
+//
+//     function loop_a() {
+//         a++
+//         if (a < messageFactoryArray.length) {
+//             var noti = messageFactoryArray[a]
+//             dumpling_messageFactoryCol.insert(noti, function (err, data) {
+//                 loop_a()
+//                 if (err) {
+//                     console.log(err)
+//                 } else {
+//                     console.log('done')
+//
+//                 }
+//             })
+//
+//         } else console.log('done')
+//
+//     }
+//
+//     loop_a()
+//
+//
+// });
 // messageFactoryRef.child('dumpling').on('child_changed', function (snap) {
 //     messageFactory[snap.key] = snap.val()
 // });
@@ -2519,38 +2520,14 @@ function checkAvaible(senderID) {
             recipientId: current_matched,
             senderId: senderID,
             timestamp: {$gt: s30}
-        }).toArray(convera => {
-            if (convera.length == 0) {
+        }).toArray((err,conver) => {
+            if (conver.length == 0) {
                 console.log('push people')
 
                 sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
                     text: "[Hệ Thống] Bạn đã chủ động tìm người lạ, hãy mở lời chào với họ trước^^",
                 }, null, 'dumpling')
 
-                // .then(result => matchingPeople(senderID))
-                // .then(matched => sendingAPI(matched, CONFIG.facebookPage['dumpling'].id, {
-                //         text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
-                //     }, null, 'dumpling').then(result => {
-                //         var conver_new = _.each(messageFactory, message => {
-                //             if (message.recipientID == current_matched && message.senderID == senderID && message.timestamp > s60) {
-                //                 sendingAPI(matched, senderID, {
-                //                     text: message.message.text,
-                //                 }, null, 'dumpling')
-                //             }
-                //         })
-                //         if(a==3){
-                //             accountRef.child('dumpling').child(senderID).child('match').remove()
-                //                 .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
-                //                 .then(result => sendingAPI(senderData.match, CONFIG.facebookPage['dumpling'].id, {
-                //                     text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
-                //                 }, null, 'dumpling'))
-                //                 .then(result => sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
-                //                     text: "[Hệ Thống] Hệ thống đã dừng cuộc trò chuyện",
-                //                 }, null, 'dumpling'))
-                //         } else loop()
-                //     })
-                //     .catch(err => console.log(err))
-                // )
             }
         })
 
@@ -2562,7 +2539,8 @@ function checkAvaible(senderID) {
             recipientId: senderID,
             senderId: current_matched,
             timestamp: {$gt: s60}
-        }).toArray(conver => {
+        }).toArray((err,conver) => {
+            if(err) return
             if (conver.length == 0) {
                 console.log('change people')
                 accountRef.child('dumpling').child(senderID).child('match').remove()
