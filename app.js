@@ -27,6 +27,23 @@ const client = new Wit({
     logger: new log.Logger(log.DEBUG) // optional
 });
 
+var uri = 'mongodb://joboapp:joboApp.1234@ec2-54-157-20-214.compute-1.amazonaws.com:27017/joboapp';
+
+
+const MongoClient = require('mongodb');
+
+
+var md, dumpling_messageFactoryCol
+
+MongoClient.connect(uri, function (err, db) {
+    console.log(err);
+
+    md = db;
+    dumpling_messageFactoryCol = md.collection('dumpling_messageFactory');
+    console.log("Connected correctly to server.");
+
+});
+
 
 var app = express();
 
@@ -218,106 +235,120 @@ lastMessageRef.on('child_added', function (snap) {
 lastMessageRef.on('child_changed', function (snap) {
     lastMessageData[snap.key] = snap.val()
 });
-messageFactoryRef.child('dumpling').on('child_added', function (snap) {
-    messageFactory[snap.key] = snap.val()
-});
-messageFactoryRef.child('dumpling').on('child_changed', function (snap) {
-    messageFactory[snap.key] = snap.val()
-});
+// var a = 0
+// messageFactoryRef.child('dumpling').on('child_added', function (snap) {
+//     messageFactory[snap.key] = snap.val()
+//     a++
+//     setTimeout(function () {
+//         var noti = messageFactory[snap.key]
+//         dumpling_messageFactoryCol.insert(noti, function (err, data) {
+//             if (err) {
+//                 console.log(err)
+//             } else {
+//                 console.log('done')
+//
+//             }
+//         })
+//     }, a * 100)
+//
+// });
+// messageFactoryRef.child('dumpling').on('child_changed', function (snap) {
+//     messageFactory[snap.key] = snap.val()
+// });
 
-app.get('/staticUser', function (req, res) {
-    var userId = req.param('userId')
-
-    var send = _.where(messageFactory, {senderId: userId}).length
-    var receive = _.where(messageFactory, {recipientId: userId}).length
-    var startTime = 0
-    var most = {}
-    var each = _.each(messageFactory, message => {
-        if (message.recipientId == userId) {
-            if (message.message.text == 'Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^') startTime++
-
-            if (!most[message.senderId]) most[message.senderId] = 1
-            else most[message.senderId]++
-        }
-    })
-
-    delete most['493938347612411']
-
-    var staticUser = {send, receive, startTime, most}
-    res.send(staticUser)
-
-})
-app.get('/staticAll', function (req, res) {
-    var {dis = 1, last = 0} = req.query
-    var endTime = Date.now() - last * 24 * 60 * 60 * 1000
-    var startTime = endTime - dis * 24 * 60 * 60 * 1000
-    var startNewConversation = 0
-    var newUser = 0
-    var newMessage = 0
-    var each = _.each(messageFactory, message => {
-        if (message.timestamp > startTime && message.timestamp < endTime) {
-            if (message.senderId != '493938347612411') newMessage++
-            if (message.message && message.message.text == 'Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^') startNewConversation++
-            if (message.message && message.message.text == 'đảm bảo 100% bí mật thông tin và nội dung trò chuyện') newUser++
-        }
-
-
-    })
-    var staticAll = {startNewConversation, newUser, newMessage}
-    res.send(staticAll)
-
-})
-app.get('/checkAvai', function (req, res) {
-    var i = 0
-    var each = _.each(dataAccount, user => {
-        if (user.match) {
-            i++
-            setTimeout(function () {
-
-                var userId = user.id
-                var match = user.match
-                var filter = _.where(messageFactory, {senderId: userId, recipientId: match})
-                var filtered = _.where(messageFactory, {senderId: match, recipientId: userId})
-                if (filter.length == 0 || filtered == 0)
-                    accountRef.child('dumpling').child(userId).child('match').remove()
-                        .then(result => accountRef.child('dumpling').child(match).child('match').remove())
-                        .then(result => sendingAPI(userId, CONFIG.facebookPage['dumpling'].id, {
-                            text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
-                            quick_replies: [
-                                {
-                                    "content_type": "text",
-                                    "title": "💬 Bắt đầu mới",
-                                    "payload": JSON.stringify({
-                                        type: 'matching'
-                                    })
-                                }
-                            ]
-                        }, null, 'dumpling'))
-                        .then(result => sendingAPI(match, CONFIG.facebookPage['dumpling'].id, {
-                            text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
-                            quick_replies: [
-                                {
-                                    "content_type": "text",
-                                    "title": "💬 Bắt đầu mới",
-                                    "payload": JSON.stringify({
-                                        type: 'matching'
-                                    })
-                                }
-                            ]
-                        }, null, 'dumpling'))
-                        .then(result => console.log(result))
-                        .catch(err => console.log(err))
-
-
-            }, 1000 * i)
-
-
-        }
-    })
-    res.send(each)
-
-
-})
+// app.get('/staticUser', function (req, res) {
+//     var userId = req.param('userId')
+//
+//     var send = _.where(messageFactory, {senderId: userId}).length
+//     var receive = _.where(messageFactory, {recipientId: userId}).length
+//     var startTime = 0
+//     var most = {}
+//     var each = _.each(messageFactory, message => {
+//         if (message.recipientId == userId) {
+//             if (message.message.text == 'Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^') startTime++
+//
+//             if (!most[message.senderId]) most[message.senderId] = 1
+//             else most[message.senderId]++
+//         }
+//     })
+//
+//     delete most['493938347612411']
+//
+//     var staticUser = {send, receive, startTime, most}
+//     res.send(staticUser)
+//
+// })
+// app.get('/staticAll', function (req, res) {
+//     var {dis = 1, last = 0} = req.query
+//     var endTime = Date.now() - last * 24 * 60 * 60 * 1000
+//     var startTime = endTime - dis * 24 * 60 * 60 * 1000
+//     var startNewConversation = 0
+//     var newUser = 0
+//     var newMessage = 0
+//     var each = _.each(messageFactory, message => {
+//         if (message.timestamp > startTime && message.timestamp < endTime) {
+//             if (message.senderId != '493938347612411') newMessage++
+//             if (message.message && message.message.text == 'Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^') startNewConversation++
+//             if (message.message && message.message.text == 'đảm bảo 100% bí mật thông tin và nội dung trò chuyện') newUser++
+//         }
+//
+//
+//     })
+//     var staticAll = {startNewConversation, newUser, newMessage}
+//     res.send(staticAll)
+//
+// })
+// app.get('/checkAvai', function (req, res) {
+//     var i = 0
+//     var each = _.each(dataAccount, user => {
+//         if (user.match) {
+//             i++
+//             setTimeout(function () {
+//
+//                 var userId = user.id
+//                 var match = user.match
+//                 var filter = _.where(messageFactory, {senderId: userId, recipientId: match})
+//                 var filtered = _.where(messageFactory, {senderId: match, recipientId: userId})
+//                 if (filter.length == 0 || filtered == 0)
+//                     accountRef.child('dumpling').child(userId).child('match').remove()
+//                         .then(result => accountRef.child('dumpling').child(match).child('match').remove())
+//                         .then(result => sendingAPI(userId, CONFIG.facebookPage['dumpling'].id, {
+//                             text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
+//                             quick_replies: [
+//                                 {
+//                                     "content_type": "text",
+//                                     "title": "💬 Bắt đầu mới",
+//                                     "payload": JSON.stringify({
+//                                         type: 'matching'
+//                                     })
+//                                 }
+//                             ]
+//                         }, null, 'dumpling'))
+//                         .then(result => sendingAPI(match, CONFIG.facebookPage['dumpling'].id, {
+//                             text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
+//                             quick_replies: [
+//                                 {
+//                                     "content_type": "text",
+//                                     "title": "💬 Bắt đầu mới",
+//                                     "payload": JSON.stringify({
+//                                         type: 'matching'
+//                                     })
+//                                 }
+//                             ]
+//                         }, null, 'dumpling'))
+//                         .then(result => console.log(result))
+//                         .catch(err => console.log(err))
+//
+//
+//             }, 1000 * i)
+//
+//
+//         }
+//     })
+//     res.send(each)
+//
+//
+// })
 app.get('/quick_topic', function (req, res) {
     res.send(quick_topic)
 })
@@ -340,18 +371,18 @@ function getPaginatedItems(items, page = 1, per_page = 15) {
     };
 }
 
-app.get('/messageFactory', function (req, res) {
-    var query = req.query
-    var page = query.page || 1
-    var Query = Object.assign({}, query)
-    delete Query.page
-    console.log(Query)
-    var toArray = _.toArray(messageFactory)
-    console.log('toArray.length', toArray.length)
-    var filter = _.where(toArray, Query)
-    var pages = getPaginatedItems(filter, page)
-    res.send(pages)
-})
+// app.get('/messageFactory', function (req, res) {
+//     var query = req.query
+//     var page = query.page || 1
+//     var Query = Object.assign({}, query)
+//     delete Query.page
+//     console.log(Query)
+//     var toArray = _.toArray(messageFactory)
+//     console.log('toArray.length', toArray.length)
+//     var filter = _.where(toArray, Query)
+//     var pages = getPaginatedItems(filter, page)
+//     res.send(pages)
+// })
 
 function shortAddress(fullAddress) {
     if (fullAddress) {
@@ -2389,8 +2420,8 @@ app.post('/webhook', function (req, res) {
                                 }, null, 'dumpling')
                             }
 
-                        })
-                        messageFactoryRef.child('dumpling').child(messagingEvent.messengerId + ':' + timeOfEvent).update(messagingEvent)
+                        });
+                        dumpling_messageFactoryCol.insert(messagingEvent)
                     }
                 })
 
@@ -2458,118 +2489,126 @@ function matchingPeople(senderID) {
 }
 
 function checkAvaible(senderID) {
-    var a = 0
+    // var a = 0
+    //
+    // function loop() {
+    //     a++
+    //     if (a < 4) {
+    //
+    //     }
+    // }
+    //
+    // loop()
 
-    function loop() {
-        a++
-        if (a < 4) {
-            var senderData = dataAccount[senderID]
-            var current_matched = senderData.match
-            var s60 = Date.now() - 5 * 60000
-            var s30 = Date.now() - 30000
-            setTimeout(function () {
-                var convera = _.filter(messageFactory, message => {
-                    if (message.recipientId == current_matched && message.senderId == senderID && message.timestamp > s30) return true
-                })
-                if (convera.length == 0) {
-                    console.log('push people')
+    var senderData = dataAccount[senderID]
+    var current_matched = senderData.match
+    var s60 = Date.now() - 5 * 60000
+    var s30 = Date.now() - 30000
+    setTimeout(function () {
+        dumpling_messageFactoryCol.find({
+            recipientId:current_matched,
+            senderId:senderID,
+            timestamp:{$gt: s30}
+        }).toArray(convera =>{
+            if (convera.length == 0) {
+                console.log('push people')
 
-                    sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
-                        text: "[Hệ Thống] Bạn đã chủ động tìm người lạ, hãy mở lời chào với họ trước^^",
-                    }, null, 'dumpling')
+                sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
+                    text: "[Hệ Thống] Bạn đã chủ động tìm người lạ, hãy mở lời chào với họ trước^^",
+                }, null, 'dumpling')
 
-                    // .then(result => matchingPeople(senderID))
-                    // .then(matched => sendingAPI(matched, CONFIG.facebookPage['dumpling'].id, {
-                    //         text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
-                    //     }, null, 'dumpling').then(result => {
-                    //         var conver_new = _.each(messageFactory, message => {
-                    //             if (message.recipientID == current_matched && message.senderID == senderID && message.timestamp > s60) {
-                    //                 sendingAPI(matched, senderID, {
-                    //                     text: message.message.text,
-                    //                 }, null, 'dumpling')
-                    //             }
-                    //         })
-                    //         if(a==3){
-                    //             accountRef.child('dumpling').child(senderID).child('match').remove()
-                    //                 .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
-                    //                 .then(result => sendingAPI(senderData.match, CONFIG.facebookPage['dumpling'].id, {
-                    //                     text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
-                    //                 }, null, 'dumpling'))
-                    //                 .then(result => sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
-                    //                     text: "[Hệ Thống] Hệ thống đã dừng cuộc trò chuyện",
-                    //                 }, null, 'dumpling'))
-                    //         } else loop()
-                    //     })
-                    //     .catch(err => console.log(err))
-                    // )
-                }
-            }, 30000)
+                // .then(result => matchingPeople(senderID))
+                // .then(matched => sendingAPI(matched, CONFIG.facebookPage['dumpling'].id, {
+                //         text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
+                //     }, null, 'dumpling').then(result => {
+                //         var conver_new = _.each(messageFactory, message => {
+                //             if (message.recipientID == current_matched && message.senderID == senderID && message.timestamp > s60) {
+                //                 sendingAPI(matched, senderID, {
+                //                     text: message.message.text,
+                //                 }, null, 'dumpling')
+                //             }
+                //         })
+                //         if(a==3){
+                //             accountRef.child('dumpling').child(senderID).child('match').remove()
+                //                 .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
+                //                 .then(result => sendingAPI(senderData.match, CONFIG.facebookPage['dumpling'].id, {
+                //                     text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
+                //                 }, null, 'dumpling'))
+                //                 .then(result => sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
+                //                     text: "[Hệ Thống] Hệ thống đã dừng cuộc trò chuyện",
+                //                 }, null, 'dumpling'))
+                //         } else loop()
+                //     })
+                //     .catch(err => console.log(err))
+                // )
+            }
+        })
 
-            setTimeout(function () {
-                var conver = _.filter(messageFactory, message => {
-                    if (message.recipientId == senderID && message.senderId == current_matched && message.timestamp > s60) return true
-                })
-                if (conver.length == 0) {
-                    console.log('change people')
-                    accountRef.child('dumpling').child(senderID).child('match').remove()
-                        .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
-                        .then(result => sendingAPI(senderData.match, CONFIG.facebookPage['dumpling'].id, {
-                            text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
-                            quick_replies: [
-                                {
-                                    "content_type": "text",
-                                    "title": "💬 Bắt đầu mới",
-                                    "payload": JSON.stringify({
-                                        type: 'matching'
-                                    })
-                                }
-                            ]
-                        }, null, 'dumpling'))
-                        .then(result => sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
-                            text: "[Hệ Thống] Không có phản hồi từ người lạ, hệ thống đã dừng cuộc trò chuyện",
-                            quick_replies: [
-                                {
-                                    "content_type": "text",
-                                    "title": "💬 Bắt đầu mới",
-                                    "payload": JSON.stringify({
-                                        type: 'matching'
-                                    })
-                                }
-                            ]
-                        }, null, 'dumpling'))
+    }, 30000)
 
-                    // .then(result => matchingPeople(senderID))
-                    // .then(matched => sendingAPI(matched, CONFIG.facebookPage['dumpling'].id, {
-                    //         text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
-                    //     }, null, 'dumpling').then(result => {
-                    //         var conver_new = _.each(messageFactory, message => {
-                    //             if (message.recipientID == current_matched && message.senderID == senderID && message.timestamp > s60) {
-                    //                 sendingAPI(matched, senderID, {
-                    //                     text: message.message.text,
-                    //                 }, null, 'dumpling')
-                    //             }
-                    //         })
-                    //         if(a==3){
-                    //             accountRef.child('dumpling').child(senderID).child('match').remove()
-                    //                 .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
-                    //                 .then(result => sendingAPI(senderData.match, CONFIG.facebookPage['dumpling'].id, {
-                    //                     text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
-                    //                 }, null, 'dumpling'))
-                    //                 .then(result => sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
-                    //                     text: "[Hệ Thống] Hệ thống đã dừng cuộc trò chuyện",
-                    //                 }, null, 'dumpling'))
-                    //         } else loop()
-                    //     })
-                    //     .catch(err => console.log(err))
-                    // )
-                }
-            }, 5 * 60000)
+    setTimeout(function () {
 
+        dumpling_messageFactoryCol.find({
+            recipientId: senderID,
+            senderId:current_matched,
+            timestamp:{$gt: s60}
+        }).toArray(conver =>{
+            if (conver.length == 0) {
+                console.log('change people')
+                accountRef.child('dumpling').child(senderID).child('match').remove()
+                    .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
+                    .then(result => sendingAPI(senderData.match, CONFIG.facebookPage['dumpling'].id, {
+                        text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
+                        quick_replies: [
+                            {
+                                "content_type": "text",
+                                "title": "💬 Bắt đầu mới",
+                                "payload": JSON.stringify({
+                                    type: 'matching'
+                                })
+                            }
+                        ]
+                    }, null, 'dumpling'))
+                    .then(result => sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
+                        text: "[Hệ Thống] Không có phản hồi từ người lạ, hệ thống đã dừng cuộc trò chuyện",
+                        quick_replies: [
+                            {
+                                "content_type": "text",
+                                "title": "💬 Bắt đầu mới",
+                                "payload": JSON.stringify({
+                                    type: 'matching'
+                                })
+                            }
+                        ]
+                    }, null, 'dumpling'))
 
-        }
-    }
-
-    loop()
+                // .then(result => matchingPeople(senderID))
+                // .then(matched => sendingAPI(matched, CONFIG.facebookPage['dumpling'].id, {
+                //         text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
+                //     }, null, 'dumpling').then(result => {
+                //         var conver_new = _.each(messageFactory, message => {
+                //             if (message.recipientID == current_matched && message.senderID == senderID && message.timestamp > s60) {
+                //                 sendingAPI(matched, senderID, {
+                //                     text: message.message.text,
+                //                 }, null, 'dumpling')
+                //             }
+                //         })
+                //         if(a==3){
+                //             accountRef.child('dumpling').child(senderID).child('match').remove()
+                //                 .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
+                //                 .then(result => sendingAPI(senderData.match, CONFIG.facebookPage['dumpling'].id, {
+                //                     text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
+                //                 }, null, 'dumpling'))
+                //                 .then(result => sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
+                //                     text: "[Hệ Thống] Hệ thống đã dừng cuộc trò chuyện",
+                //                 }, null, 'dumpling'))
+                //         } else loop()
+                //     })
+                //     .catch(err => console.log(err))
+                // )
+            }
+        })
+    }, 5 * 60000)
 
 }
 
@@ -3100,10 +3139,8 @@ function sendingAPI(recipientId, senderId = CONFIG.facebookPage['jobo'].id, mess
                     messageData.type = 'sent'
                     messageData.timestamp = Date.now()
 
-                    messageFactoryRef
-                        .child(page)
-                        .child(messageData.timestamp)
-                        .update(messageData)
+                    dumpling_messageFactoryCol
+                        .insert(messageData)
                         .then(() => resolve(result))
                         .catch(err => reject(err))
                 }).catch(err => reject(err))
