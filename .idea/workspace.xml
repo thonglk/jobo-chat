@@ -19,8 +19,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="2529" column="62" lean-forward="true" selection-start-line="2529" selection-start-column="62" selection-end-line="2529" selection-end-column="62" />
+            <state relative-caret-position="345">
+              <caret line="2551" column="42" lean-forward="false" selection-start-line="2551" selection-start-column="42" selection-end-line="2551" selection-end-column="42" />
               <folding>
                 <element signature="e#82507#83789#0" expanded="false" />
                 <element signature="e#85152#87622#0" expanded="false" />
@@ -45,9 +45,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="345">
               <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
-              <folding>
-                <marker date="1511610696000" expanded="true" signature="472:765" ph="{&quot;axios&quot;: &quot;^0.17.0&quot;...}" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -163,8 +161,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -186,6 +182,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -230,15 +228,17 @@
       <workItem from="1511161319446" duration="17176000" />
       <workItem from="1511320581626" duration="27342000" />
       <workItem from="1511490097535" duration="16593000" />
-      <workItem from="1511597281534" duration="5437000" />
+      <workItem from="1511597281534" duration="5720000" />
+      <workItem from="1511630021362" duration="40000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="301588000" />
+    <option name="totallyTimeSpent" value="301911000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19591261" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -317,9 +317,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
           <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
-          <folding>
-            <marker date="1511610696000" expanded="true" signature="472:765" ph="{&quot;axios&quot;: &quot;^0.17.0&quot;...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -343,9 +341,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
           <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
-          <folding>
-            <marker date="1511610696000" expanded="true" signature="472:765" ph="{&quot;axios&quot;: &quot;^0.17.0&quot;...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -413,9 +409,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
           <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
-          <folding>
-            <marker date="1511610696000" expanded="true" signature="472:765" ph="{&quot;axios&quot;: &quot;^0.17.0&quot;...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -461,9 +455,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
           <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
-          <folding>
-            <marker date="1511610696000" expanded="true" signature="472:765" ph="{&quot;axios&quot;: &quot;^0.17.0&quot;...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -499,8 +491,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="2529" column="62" lean-forward="true" selection-start-line="2529" selection-start-column="62" selection-end-line="2529" selection-end-column="62" />
+        <state relative-caret-position="345">
+          <caret line="2551" column="42" lean-forward="false" selection-start-line="2551" selection-start-column="42" selection-end-line="2551" selection-end-column="42" />
           <folding>
             <element signature="e#82507#83789#0" expanded="false" />
             <element signature="e#85152#87622#0" expanded="false" />
@@ -523,9 +515,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
           <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
-          <folding>
-            <marker date="1511610696000" expanded="true" signature="472:765" ph="{&quot;axios&quot;: &quot;^0.17.0&quot;...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
