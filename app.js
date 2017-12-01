@@ -4758,7 +4758,22 @@ function intention(payload, senderID, postback, message = {}) {
                             sendAPI(senderID, message)
                         }
                     }).catch(err => console.log(err))
-            }
+            } else sendAPI(senderID, {
+                text: "Xin lỗi mình không hiểu địa chỉ của bạn?, hãy nhập tên đường hoặc tên quận nhé!",
+                quick_replies: [{
+                    "content_type": "location",
+                    "payload": JSON.stringify({
+                        type: 'inputLocation',
+                    })
+                }],
+                metadata: JSON.stringify({
+                    type: 'inputLocation',
+                    case: 'confirmPolicy'
+                })
+
+            })
+
+
 
             break;
 
@@ -4774,7 +4789,7 @@ function intention(payload, senderID, postback, message = {}) {
             var jobId = payload.jobId
 
             if (payload.phone_number) {
-                var url = `${CONFIG.APIURL}/checkUser?q=${payload.phone_number}`
+                var url = `${CONFIG.APIURL}/checkUser?q=${payload.phone_number}`;
                 axios.get(url)
                     .then(result => {
 
@@ -4791,7 +4806,6 @@ function intention(payload, senderID, postback, message = {}) {
                             } else (
                                 text = 'Có phải bạn từng đăng ký sử dụng Jobo cách đây ' + timeAgo(user.createdAt) + ' ?'
                             )
-
 
                             sendAPI(senderID, {
                                 text,
@@ -4821,28 +4835,18 @@ function intention(payload, senderID, postback, message = {}) {
 
                                     })
                                 }],
-
                             })
-
-
                         } else {
                             if (jobId) {
                                 //appy job
                                 sendInterviewOption(jobId, senderID, payload.status)
-
                             } else {
                                 sendAPI(senderID, {
                                     text: "Ok, hiện tại mình đang bận một chút việc, lát nữa mình sẽ trao đổi tiếp với bạn nhé, pp"
                                 })
                             }
-
-
                         }
-
-
                     })
-
-
             } else sendAPI(senderID, {
                 text: `${message.text}? \n Xin lỗi, số điện thoại của bạn là gì nhỉ?`,
                 metadata: JSON.stringify({
@@ -4852,8 +4856,6 @@ function intention(payload, senderID, postback, message = {}) {
                     again: true,
                 })
             });
-
-
             break;
 
         }
@@ -4874,7 +4876,7 @@ function intention(payload, senderID, postback, message = {}) {
                                 type: 'employer_job',
                                 case: 'askPhone'
                             })
-                        })
+                        });
                         else if (payload.case == 'updateProfile') {
                             sendAPI(senderID, {
                                 attachment: {
@@ -4940,7 +4942,7 @@ function intention(payload, senderID, postback, message = {}) {
                 }),
                 quick_replies: [{
                     "content_type": "text",
-                    "title": 'Mình xác nhận',
+                    "title": 'Mình xác nhận <3',
                     "payload": JSON.stringify({
                         type: 'confirmInterview',
                         answer: 'yes',
@@ -4971,7 +4973,7 @@ function intention(payload, senderID, postback, message = {}) {
                     actId,
                     interviewTime: time
                 }).then(result => sendAPI(senderID, {text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi trao đổi.\n` + 'Chúc bạn phỏng vấn thành công nhé <3'}))
-                    .then(result => sendAPI(senderID, {text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!'}))
+                    .then(result => sendAPI(senderID, {text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!,\n - Hãy chủ động gọi cho nhà tuyển dụng để xác nhận lịch trước khi đến, hãy nhớ báo rằng bạn đã ứng tuyển qua JOBO để được gặp nhà tuyển dụng'}))
                     .then(result => sendInterviewInfo(senderID))
                     .catch(err => console.log(err))
             }
@@ -6578,16 +6580,16 @@ function callSendAPI(messageData, page = 'jobo') {
 
                 console.log("Successfully sent message with id %s to recipient %s", messageId, recipientId);
                 resolve(messageData)
-
             } else {
                 console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
                 reject(response)
-
             }
         });
     })
 
 }
+
+
 
 // Start server
 // Webhooks must be available via SSL with a certificate signed by a valid
