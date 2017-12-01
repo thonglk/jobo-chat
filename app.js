@@ -3267,30 +3267,24 @@ setInterval(function () {
     sendNewWord()
 }, 60 * 60 * 1000)
 
-function sendVocalRes() {
-    var a = 0
-    var map = _.map(dataAccount, account => {
-        a++
-        setTimeout(function () {
-            sendingAPI(account.id, CONFIG.facebookPage['dumpling'].id, {
+function sendVocalRes(senderID) {
+    sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
 
-                attachment: {
-                    type: "template",
-                    payload: {
-                        template_type: "button",
-                        text: `[Hệ thống] Tính năng học từ vựng cùng Dumpling,
+        attachment: {
+            type: "template",
+            payload: {
+                template_type: "button",
+                text: `[Hệ thống] Tính năng học từ vựng cùng Dumpling,
 Cách 1h, Dumpling sẽ gửi 1 từ vựng tiếng anh có liên quan đến bạn ^^
 VD: Dumpling(n) Bánh bao`,
-                        buttons: [{
-                            type: "postback",
-                            title: "Đăng ký tham gia",
-                            payload: "dumpling_english"
-                        }]
-                    }
-                }
-            }, null, 'dumpling')
-        }, a * 200)
-    })
+                buttons: [{
+                    type: "postback",
+                    title: "Đăng ký tham gia",
+                    payload: "dumpling_english"
+                }]
+            }
+        }
+    }, null, 'dumpling')
 }
 
 function sendVocal(vocal) {
@@ -3767,6 +3761,11 @@ function setDefautMenu(page = 'jobo') {
                         "type": "nested",
 
                         "call_to_actions": [
+                            {
+                                type: "postback",
+                                title: "Từ vựng tiếng anh",
+                                payload: JSON.stringify({type: 'learn_english'})
+                            },
                             {
                                 type: "web_url",
                                 url: "https://www.facebook.com/dumpling.bot",
@@ -5458,6 +5457,9 @@ app.post('/webhook', function (req, res) {
                                     ]
                                 }, null, 'dumpling'))
 
+                            }
+                            else if(payload.type == 'learn_english'){
+                                sendVocalRes(senderID)
                             }
                             else if (messagingEvent.optin) {
                                 receivedAuthentication(messagingEvent);
