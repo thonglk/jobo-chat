@@ -3262,10 +3262,10 @@ function sendNewWord() {
     })
 
 }
-
-setInterval(function () {
-    sendNewWord()
-}, 60 * 60 * 1000)
+//
+// setInterval(function () {
+//     sendNewWord()
+// }, 60 * 60 * 1000)
 
 function sendVocalRes(senderID) {
     sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
