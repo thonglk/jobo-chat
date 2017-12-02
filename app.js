@@ -3243,8 +3243,9 @@ app.get('/sendNewWord', (req, res) => {
         .then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 })
+
 function sendNewWord() {
-    return new Promise(function (resolve,reject) {
+    return new Promise(function (resolve, reject) {
         var vocal = _.sample(vocalArray)
         console.log('push ', vocal)
         var url = `https://glosbe.com/gapi/translate?from=eng&dest=vi&format=json&phrase=${vocal}&pretty=true`
@@ -3252,8 +3253,8 @@ function sendNewWord() {
             .then(data => {
                 var result = data.data
                 if (result.tuc && result.tuc[0] && result.tuc[0].phrase && result.tuc[0].phrase.text && result.tuc[2].phrase.text) {
-                    var mean = vocal + ' : ' + result.tuc[0].phrase.text +', '+result.tuc[1].phrase.text + ', '+result.tuc[2].phrase.text
-                    console.log('mean',mean)
+                    var mean = vocal + ' : ' + result.tuc[0].phrase.text + ', ' + result.tuc[1].phrase.text + ', ' + result.tuc[2].phrase.text
+                    console.log('mean', mean)
                     sendVocal(mean)
                     resolve(mean)
                 }
@@ -3262,6 +3263,7 @@ function sendNewWord() {
     })
 
 }
+
 //
 // setInterval(function () {
 //     sendNewWord()
@@ -3293,11 +3295,11 @@ function sendVocal(vocal) {
 
     var map = _.each(dataAccount, account => {
         a++
-        console.log('account',account.id)
+        console.log('account', account.id)
         setTimeout(function () {
             sendingAPI(account.id, CONFIG.facebookPage['dumpling'].id, {
                 text: `[English] ${vocal}`
-            },null,'dumpling')
+            }, null, 'dumpling')
         }, a * 200)
     })
     return map
@@ -3924,10 +3926,10 @@ function strTime(time) {
         5: 'Thứ 6',
         6: 'Thứ 7',
         7: 'Chủ nhật'
-    }
+    };
 
     var newtime = new Date(time);
-    return newtime.getHours() + 'h ' + vietnamDay[newtime.getDay()] + ' ' + newtime.getDate() + '/' + newtime.getMonth()
+    return newtime.getHours() + 'h ' + vietnamDay[newtime.getDay()] + ' ' + newtime.getDate() + '/' + newtime.getMonth() + 1
 
 }
 
@@ -4774,7 +4776,6 @@ function intention(payload, senderID, postback, message = {}) {
             })
 
 
-
             break;
 
         }
@@ -5460,7 +5461,7 @@ app.post('/webhook', function (req, res) {
                                 }, null, 'dumpling'))
 
                             }
-                            else if(payload.type == 'learn_english'){
+                            else if (payload.type == 'learn_english') {
                                 sendVocalRes(senderID)
                             }
                             else if (messagingEvent.optin) {
@@ -5510,8 +5511,8 @@ app.post('/webhook', function (req, res) {
                             }
 
                         });
-                        dumpling_messageFactoryCol.insert(messagingEvent).then(result =>{
-                            console.log('save receive',result)
+                        dumpling_messageFactoryCol.insert(messagingEvent).then(result => {
+                            console.log('save receive', result)
                         })
                     }
                 })
@@ -5600,8 +5601,8 @@ function checkAvaible(senderID) {
             recipientId: current_matched,
             senderId: senderID,
             timestamp: {$gt: s30}
-        }).toArray((err,conver) => {
-            console.log('push people hihi',err,conver)
+        }).toArray((err, conver) => {
+            console.log('push people hihi', err, conver)
             if (conver.length == 0) {
                 console.log('push people')
 
@@ -5620,8 +5621,8 @@ function checkAvaible(senderID) {
             recipientId: senderID,
             senderId: current_matched,
             timestamp: {$gt: s60}
-        }).toArray((err,conver) => {
-            if(err) return
+        }).toArray((err, conver) => {
+            if (err) return
             if (conver.length == 0) {
                 console.log('change people')
                 accountRef.child('dumpling').child(senderID).child('match').remove()
@@ -6211,7 +6212,7 @@ function sendingAPI(recipientId, senderId = CONFIG.facebookPage['jobo'].id, mess
                     dumpling_messageFactoryCol
                         .insert(messageData)
                         .then(result => {
-                            console.log('save sent',result)
+                            console.log('save sent', result)
                             resolve(result)
                         })
                         .catch(err => reject(err))
@@ -6588,7 +6589,6 @@ function callSendAPI(messageData, page = 'jobo') {
     })
 
 }
-
 
 
 // Start server
