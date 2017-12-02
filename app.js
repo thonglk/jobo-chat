@@ -3929,8 +3929,8 @@ function strTime(time) {
     };
 
     var newtime = new Date(time);
-    return newtime.getHours() + 'h ' + vietnamDay[newtime.getDay()] + ' ' + newtime.getDate() + '/' + newtime.getMonth() + 1
-
+    var month = Number(newtime.getMonth()) + 1
+    return newtime.getHours() + 'h ' + vietnamDay[newtime.getDay()] + ' ' + newtime.getDate() + '/' + month
 }
 
 function timeAgo(timestamp) {
@@ -4052,8 +4052,6 @@ function getUserDataAndSave(senderID) {
                 platform: 'messenger',
 
             }
-
-
             var profile = {
                 name: user.name,
                 avatar: user.profile_pic,
@@ -4456,8 +4454,8 @@ function intention(payload, senderID, postback, message = {}) {
 
             })).catch(err => console.log(err))
             break;
-
         }
+
         case 'jobseeker': {
 
             if (payload.state == 'updateProfile') sendUpdateProfile(senderID)
