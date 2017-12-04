@@ -3305,6 +3305,34 @@ function sendVocal(vocal) {
     return map
 }
 
+function sendVocalC(vocal) {
+    var a = 0
+    console.log('start')
+
+    var map = _.each(dataAccount, account => {
+        a++
+        console.log('account', account.id)
+        setTimeout(function () {
+            sendingAPI(account.id, CONFIG.facebookPage['dumpling'].id, {
+                attachment: {
+                    type: "template",
+                    payload: {
+                        template_type: "button",
+                        text: `[ Dumpling_tâm_sự ]
+5 lý do vì sao con gái bây giờ không thích có người yêu
+Đừng ai hỏi vì sao con gái ế, đơn giản là họ tự thích thế mà thôi!...`,
+                        buttons: [{
+                            type: "web_url",
+                            url: "https://www.facebook.com/dumpling.bot",
+                            title: "Đọc tiếp"
+                        }]
+                    }
+                }            }, null, 'dumpling')
+        }, a * 200)
+    })
+    return map
+}
+
 // var a = 0
 // messageFactoryRef.child('dumpling').once('value', function (snap) {
 //     messageFactory = snap.val()
@@ -5054,7 +5082,7 @@ function sendInterviewInfo(senderID) {
             .then(userData => axios.get(CONFIG.APIURL + '/initData?userId=' + userData.userId))
             .then(result => {
                 var data = result.data
-                var applys = data.reactList.like
+                var applys = data.reactList.match
                 var profileData = data.userData
                 if (applys.length > 0) {
                     applys.forEach(like => loadJob(like.jobId)
