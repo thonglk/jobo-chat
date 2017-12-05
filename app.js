@@ -199,16 +199,6 @@ var a = 0
 accountRef.child('dumpling').on('child_added', function (snap) {
     dataAccount[snap.key] = snap.val()
     var user = dataAccount[snap.key]
-    // if (user.ref) setTimeout(function () {
-    //     a++
-    //     var refData = user.ref.split('_');
-    //     console.log('refData', refData);
-    //     user.topic = {}
-    //     if (refData[0] == 'start') refData[0] = 'ftu'
-    //
-    //     user.topic = refData[0]
-    //     accountRef.child('dumpling').child(snap.key).update(user)
-    // }, a * 100)
 
     if (user.topic) {
         if (!topic[user.topic]) {
@@ -3327,7 +3317,8 @@ function sendVocalC(vocal) {
                             title: "Đọc tiếp"
                         }]
                     }
-                }            }, null, 'dumpling')
+                }
+            }, null, 'dumpling')
         }, a * 200)
     })
     return map
@@ -4075,185 +4066,182 @@ function getUserDataAndSave(senderID) {
             console.log(result);
             var user = {
                 name: result.first_name + ' ' + result.last_name,
+                fbname: true,
                 messengerId: senderID,
                 createdAt: Date.now(),
                 platform: 'messenger',
 
-            }
+            };
             var profile = {
                 name: user.name,
                 avatar: user.profile_pic,
                 sex: user.gender,
                 updatedAt: Date.now(),
-            }
+            };
 
             loadUser(senderID)
-                .then(userData => resolve(profile))
+                .then(userData => resolve(user))
                 .catch(err => axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user, profile})
-                    .then(result => resolve(profile))
-                    .catch(err => reject(err))
-                )
+                    .then(result => resolve(user))
+                    .catch(err => reject(err)))
         })
     })
 
 }
 
-function referInital(referral, senderID) {
+function referInital(referral, senderID, user) {
 
-    getUserDataAndSave(senderID).then(profile => {
-        console.log('profile', profile)
+    console.log('user', user);
 
-        if (referral && referral.ref) {
-            axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user: {ref: referral.ref}})
+    if (referral && referral.ref) {
+        axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user: {ref: referral.ref}})
 
-            var refstr = referral.ref;
-            var refData = refstr.split('_');
-            console.log('refData', refData);
-            if (refData[0] != 'start' && refData[0] != 'tuyendung') {
-                var jobId = refData[0]
-                loadJob(jobId).then(jobData => {
-                    var messageData = {
-                        recipient: {
-                            id: senderID
-                        },
-                        message: {
-                            text: `Có phải bạn đang muốn ứng tuyển vào vị trí ${jobData.jobName} của ${jobData.storeData.storeName} ?`,
-                            metadata: JSON.stringify({
-                                type: 'confirmJob',
-                            }),
-                            quick_replies: [
-                                {
-                                    "content_type": "text",
-                                    "title": "Đúng rồi (Y)",
-                                    "payload": JSON.stringify({
-                                        type: 'confirmJob',
-                                        answer: 'yes',
-                                        jobId: jobId
-                                    })
-                                },
-                                {
-                                    "content_type": "text",
-                                    "title": "Không phải",
-                                    "payload": JSON.stringify({
-                                        type: 'confirmJob',
-                                        answer: 'no',
-                                        jobId: jobId
-                                    })
-                                },
-                            ]
-                        }
-                    };
-
-                    callSendAPI(messageData);
-                }).catch(err => sendTextMessage(senderID, JSON.stringify(err)))
-            }
-            else if (refData[0] == 'tuyendung') sendAPI(senderID, {
-                text: `Chào ${(profile.sex == 'male' ? 'anh' : 'chị')}, có phải ${(profile.sex == 'male' ? 'anh' : 'chị')} đang cần tuyển nhân viên không ạ?`,
-                quick_replies: [
-                    {
-                        "content_type": "text",
-                        "title": "Đúng vậy",
-                        "payload": JSON.stringify({
-                            type: 'confirmEmployer',
-                            answer: 'yes',
-                        })
+        var refstr = referral.ref;
+        var refData = refstr.split('_');
+        console.log('refData', refData);
+        if (refData[0] != 'start' && refData[0] != 'tuyendung') {
+            var jobId = refData[0]
+            loadJob(jobId).then(jobData => {
+                var messageData = {
+                    recipient: {
+                        id: senderID
                     },
-                    {
-                        "content_type": "text",
-                        "title": "Không phải",
-                        "payload": JSON.stringify({
-                            type: 'confirmEmployer',
-                            answer: 'no',
-                        })
-                    },
-                ],
-                metadata: JSON.stringify({
-                    type: 'confirmEmployer',
-                })
-            })
-            else {
-
-                if (refData[1] == 'tailieunhansu') {
-                    sendAPI(senderID, {
-                        text: `Jobo xin gửi link tài liệu " Toàn bộ quy trình liên quan đến lương,thưởng và quản lý nhân sự "`,
-                    }).then(() => {
-                        sendAPI(senderID, {
-                            text: `Mình đang tải tài liệu lên, bạn chờ một chút nhé... "`,
-                        }).then(() => {
-                            sendAPI(senderID, {
-                                attachment: {
-                                    type: "file",
-                                    payload: {
-                                        url: "https://jobo.asia/file/NhanSu.zip"
-                                    }
-                                }
-                            })
-                        })
-                    })
-                }
-
-                else if (refData[1] == 'account')
-                    sendAPI(senderID, {
-                        text: 'Hãy gửi số điện thoại của bạn',
+                    message: {
+                        text: `Có phải bạn đang muốn ứng tuyển vào vị trí ${jobData.jobName} của ${jobData.storeData.storeName} ?`,
                         metadata: JSON.stringify({
-                            type: 'askPhone'
-                        })
-                    })
-
-                else sendAPI(senderID, {
-                        text: `Có phải bạn đang muốn tham gia Jobo để tìm việc làm thêm?`,
+                            type: 'confirmJob',
+                        }),
                         quick_replies: [
                             {
                                 "content_type": "text",
-                                "title": "Đúng vậy",
+                                "title": "Đúng rồi (Y)",
                                 "payload": JSON.stringify({
-                                    type: 'confirmJobSeeker',
+                                    type: 'confirmJob',
                                     answer: 'yes',
+                                    jobId: jobId
                                 })
                             },
                             {
                                 "content_type": "text",
                                 "title": "Không phải",
                                 "payload": JSON.stringify({
-                                    type: 'confirmJobSeeker',
+                                    type: 'confirmJob',
                                     answer: 'no',
+                                    jobId: jobId
                                 })
                             },
-                        ],
-                        metadata: JSON.stringify({
-                            type: 'confirmJobSeeker',
-                        })
-                    })
-            }
+                        ]
+                    }
+                };
 
-
-        } else sendAPI(senderID, {
-            text: `Chào ${profile.name}, Jobo có thể giúp gì cho bạn nhỉ?`,
-            metadata: JSON.stringify({
-                type: 'welcome',
-                case: 'GET_STARTED'
-            }),
+                callSendAPI(messageData);
+            }).catch(err => sendTextMessage(senderID, JSON.stringify(err)))
+        }
+        else if (refData[0] == 'tuyendung') sendAPI(senderID, {
+            text: `Chào bạn, có phải bạn đang cần tuyển nhân viên không ạ?`,
             quick_replies: [
                 {
                     "content_type": "text",
-                    "title": "Tôi muốn tìm việc",
+                    "title": "Đúng vậy",
                     "payload": JSON.stringify({
-                        type: 'confirmJobSeeker',
+                        type: 'confirmEmployer',
                         answer: 'yes',
                     })
                 },
                 {
                     "content_type": "text",
-                    "title": "Tôi muốn tuyển dụng",
+                    "title": "Không phải",
                     "payload": JSON.stringify({
                         type: 'confirmEmployer',
-                        answer: 'yes',
+                        answer: 'no',
                     })
-                }
-            ]
+                },
+            ],
+            metadata: JSON.stringify({
+                type: 'confirmEmployer',
+            })
         })
+        else {
+
+            if (refData[1] == 'tailieunhansu') {
+                sendAPI(senderID, {
+                    text: `Jobo xin gửi link tài liệu " Toàn bộ quy trình liên quan đến lương,thưởng và quản lý nhân sự "`,
+                }).then(() => {
+                    sendAPI(senderID, {
+                        text: `Mình đang tải tài liệu lên, bạn chờ một chút nhé... "`,
+                    }).then(() => {
+                        sendAPI(senderID, {
+                            attachment: {
+                                type: "file",
+                                payload: {
+                                    url: "https://jobo.asia/file/NhanSu.zip"
+                                }
+                            }
+                        })
+                    })
+                })
+            }
+
+            else if (refData[1] == 'account')
+                sendAPI(senderID, {
+                    text: 'Hãy gửi số điện thoại của bạn',
+                    metadata: JSON.stringify({
+                        type: 'askPhone'
+                    })
+                })
+
+            else sendAPI(senderID, {
+                    text: `Có phải bạn đang muốn tham gia Jobo để tìm việc làm thêm?`,
+                    quick_replies: [
+                        {
+                            "content_type": "text",
+                            "title": "Đúng vậy",
+                            "payload": JSON.stringify({
+                                type: 'confirmJobSeeker',
+                                answer: 'yes',
+                            })
+                        },
+                        {
+                            "content_type": "text",
+                            "title": "Không phải",
+                            "payload": JSON.stringify({
+                                type: 'confirmJobSeeker',
+                                answer: 'no',
+                            })
+                        },
+                    ],
+                    metadata: JSON.stringify({
+                        type: 'confirmJobSeeker',
+                    })
+                })
+        }
+
+
+    } else sendAPI(senderID, {
+        text: `Chào ${user.name}, Jobo có thể giúp gì cho bạn nhỉ?`,
+        metadata: JSON.stringify({
+            type: 'welcome',
+            case: 'GET_STARTED'
+        }),
+        quick_replies: [
+            {
+                "content_type": "text",
+                "title": "Tôi muốn tìm việc",
+                "payload": JSON.stringify({
+                    type: 'confirmJobSeeker',
+                    answer: 'yes',
+                })
+            },
+            {
+                "content_type": "text",
+                "title": "Tôi muốn tuyển dụng",
+                "payload": JSON.stringify({
+                    type: 'confirmEmployer',
+                    answer: 'yes',
+                })
+            }
+        ]
     })
-        .catch(err => console.log(err))
 
 
 }
@@ -4283,19 +4271,6 @@ function matchingPayload(event) {
             resolve({payload, senderID, postback})
         } else if (message && message.text) {
             console.log('message.text', message.text);
-
-
-            // var conversation = conversationData[senderID];
-            // if (conversation) var listSentMessage = _.filter(conversation, function (card) {
-            //     return card.type == 'sent';
-            // });
-            // var indexCurrent = _.sortedIndex(listSentMessage, {timestamp: timeOfPostback}, 'timestamp');
-            //
-            //
-            // if (indexCurrent > 1) {
-            //     var previousCurrent = indexCurrent - 1
-            //     var lastMessage = listSentMessage[previousCurrent]
-            // }
 
             var lastMessage = lastMessageData[senderID]
             console.log('lastMessage', lastMessage)
@@ -4421,179 +4396,593 @@ function sendListJobByAddress(location, address, senderID) {
     })
 }
 
-
 function intention(payload, senderID, postback, message = {}) {
     console.log('payload', payload, senderID, postback, message);
 
-    switch (payload.type) {
-        case 'GET_STARTED': {
-            referInital(postback.referral, senderID)
-            break;
-        }
-        case 'affiliate': {
-            sendAPI(senderID, {
-                text: 'Giới thiệu việc làm cho bạn bè, nhận hoa hồng từ 50,000đ đến 1,000,000đ cho mỗi người bạn giới thiệu nhận việc thành công!🙌\n' +
-                'Nhấn "Chia sẻ" để bắt đầu giúp bạn bè tìm việc 👇'
-            }).then(result => sendAPI(senderID, {
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "generic",
-                        "elements": [
-                            {
-                                "title": "Tìm việc cho bạn bè, người thân và nhận hoa hồng!",
-                                "subtitle": "Hơn 1000+ đối tác nhà hàng, cafe, shop đang tuyển dụng trên Jobo. Hãy giới thiệu nó tới bạn bè nhé!.",
-                                "image_url": "https://scontent.fhan1-1.fna.fbcdn.net/v/t31.0-8/20451785_560611627663205_769548871451838527_o.png?oh=9b46638692186f9b5c3c24dfe883f983&oe=5A992075",
-                                "buttons": [
+    loadUser(senderID).then(user => {
+
+            switch (payload.type) {
+                case 'GET_STARTED': {
+                    referInital(postback.referral, senderID, user)
+                    break;
+                }
+                case 'affiliate': {
+                    sendAPI(senderID, {
+                        text: 'Giới thiệu việc làm cho bạn bè, nhận hoa hồng từ 50,000đ đến 1,000,000đ cho mỗi người bạn giới thiệu nhận việc thành công!🙌\n' +
+                        'Nhấn "Chia sẻ" để bắt đầu giúp bạn bè tìm việc 👇'
+                    }).then(result => sendAPI(senderID, {
+                        "attachment": {
+                            "type": "template",
+                            "payload": {
+                                "template_type": "generic",
+                                "elements": [
                                     {
-                                        "type": "element_share",
-                                        "share_contents": {
-                                            "attachment": {
-                                                "type": "template",
-                                                "payload": {
-                                                    "template_type": "generic",
-                                                    "elements": [
-                                                        {
-                                                            "title": "Tìm việc nhanh theo ca xung quanh bạn!",
-                                                            "subtitle": "Hơn 1000+ đối tác nhà hàng, cafe, shop đang tìm bạn trên Jobo nè. Hãy đặt lịch nhận việc và đi làm ngay!.",
-                                                            "image_url": "https://scontent.fhan1-1.fna.fbcdn.net/v/t31.0-8/15975027_432312730493096_8750211388245957528_o.jpg?oh=4e4f55391114b3b3c8c6e12755cd385b&oe=5AABE512",
-                                                            "default_action": {
-                                                                "type": "web_url",
-                                                                "url": "https://m.me/jobo.asia?ref=start_invitedby:" + senderID
-                                                            },
-                                                            "buttons": [
+                                        "title": "Tìm việc cho bạn bè, người thân và nhận hoa hồng!",
+                                        "subtitle": "Hơn 1000+ đối tác nhà hàng, cafe, shop đang tuyển dụng trên Jobo. Hãy giới thiệu nó tới bạn bè nhé!.",
+                                        "image_url": "https://scontent.fhan1-1.fna.fbcdn.net/v/t31.0-8/20451785_560611627663205_769548871451838527_o.png?oh=9b46638692186f9b5c3c24dfe883f983&oe=5A992075",
+                                        "buttons": [
+                                            {
+                                                "type": "element_share",
+                                                "share_contents": {
+                                                    "attachment": {
+                                                        "type": "template",
+                                                        "payload": {
+                                                            "template_type": "generic",
+                                                            "elements": [
                                                                 {
-                                                                    "type": "web_url",
-                                                                    "url": "https://m.me/jobo.asia?ref=start_invitedby:" + senderID,
-                                                                    "title": "Bắt đầu tìm việc"
+                                                                    "title": "Tìm việc nhanh theo ca xung quanh bạn!",
+                                                                    "subtitle": "Hơn 1000+ đối tác nhà hàng, cafe, shop đang tìm bạn trên Jobo nè. Hãy đặt lịch nhận việc và đi làm ngay!.",
+                                                                    "image_url": "https://scontent.fhan1-1.fna.fbcdn.net/v/t31.0-8/15975027_432312730493096_8750211388245957528_o.jpg?oh=4e4f55391114b3b3c8c6e12755cd385b&oe=5AABE512",
+                                                                    "default_action": {
+                                                                        "type": "web_url",
+                                                                        "url": "https://m.me/jobo.asia?ref=start_invitedby:" + senderID
+                                                                    },
+                                                                    "buttons": [
+                                                                        {
+                                                                            "type": "web_url",
+                                                                            "url": "https://m.me/jobo.asia?ref=start_invitedby:" + senderID,
+                                                                            "title": "Bắt đầu tìm việc"
+                                                                        }
+                                                                    ]
                                                                 }
                                                             ]
                                                         }
-                                                    ]
+                                                    }
                                                 }
                                             }
-                                        }
+                                        ]
                                     }
                                 ]
                             }
-                        ]
-                    }
+                        }
+
+                    })).catch(err => console.log(err))
+                    break;
                 }
 
-            })).catch(err => console.log(err))
-            break;
-        }
+                case 'jobseeker': {
 
-        case 'jobseeker': {
+                    if (payload.state == 'updateProfile') sendUpdateProfile(senderID)
+                    else if (payload.state == 'interview') sendInterviewInfo(senderID, user)
 
-            if (payload.state == 'updateProfile') sendUpdateProfile(senderID)
-            else if (payload.state == 'interview') sendInterviewInfo(senderID)
+                    break;
 
-            break;
+                }
 
-        }
+                case
+                'confirmJob': {
+                    if (payload.answer == 'yes') {
+                        console.log('Response confirmJob:', payload)
+                        var jobId = payload.jobId;
+                        loadJob(jobId)
+                            .then(result => {
+                                var jobData = result;
+                                jobData.storeName = result.storeData.storeName;
+                                jobData.address = result.storeData.address;
 
-        case
-        'confirmJob': {
-            if (payload.answer == 'yes') {
-                console.log('Response confirmJob:', payload)
-                var jobId = payload.jobId;
-                loadJob(jobId)
-                    .then(result => {
-                        var jobData = result;
-                        jobData.storeName = result.storeData.storeName;
-                        jobData.address = result.storeData.address;
+                                var text = jobJD(jobData);
 
-                        var text = jobJD(jobData);
+                                sendAPI(senderID, {
+                                    text, metadata: JSON.stringify({
+                                        case: 'confirmJob',
+                                        type: 'jd'
+                                    })
+                                }, 2000)
+                                    .then(() => sendAPI(senderID, {
+                                        text: jobData.description || '(Y) (Y) (Y)',
+                                        metadata: JSON.stringify({
+                                            case: 'confirmJob',
+                                            type: 'description'
+                                        })
+                                    }, 5000))
+                                    .then(() => sendAPI(senderID, {
+                                        text: 'Bạn có muốn ứng tuyển vào công việc này không?',
+                                        quick_replies: [
+                                            {
+                                                "content_type": "text",
+                                                "title": "Ứng tuyển",
+                                                "payload": JSON.stringify({
+                                                    type: 'applyJob',
+                                                    answer: 'yes',
+                                                    jobId: jobId
+                                                })
+                                            },
+                                            {
+                                                "content_type": "text",
+                                                "title": "Từ chối ",
+                                                "payload": JSON.stringify({
+                                                    type: 'applyJob',
+                                                    answer: 'no',
+                                                    jobId: jobId
+                                                })
+                                            }
+                                        ],
+                                        metadata: JSON.stringify({
+                                            case: 'confirmJob',
+                                            type: 'applyJob'
+                                        })
+                                    }, 2000))
+
+                            })
+
+                    } else {
+
+                    }
+                    break;
+
+                }
+                case
+                'applyJob': {
+                    if (payload.answer == 'yes') {
+
+                        var jobId = payload.jobId
+
+                        loadJob(jobId).then(jobData => {
+                                if (jobData.deadline > Date.now()) {
+                                    var status = 1
+                                } else status = 0;
+
+
+                                var actId = jobId + ':' + user.userId
+                                axios.post(CONFIG.APIURL + '/like', {
+                                    actId,
+                                    userId: senderID,
+                                    jobId,
+                                    likeAt: Date.now(),
+                                    type: 2,
+                                    status,
+                                    platform: 'messenger'
+                                });
+                                checkRequiment(senderID, user, jobId, status)
+                            }
+                        )
+                    } else sendAPI(senderID, {
+                        attachment: {
+                            type: "template",
+                            payload: {
+                                template_type: "button",
+                                text: "Hãy cập nhật thêm thông tin để chúng tôi giới thiệu công việc phù hợp hơn với bạn!",
+                                buttons: [{
+                                    type: "web_url",
+                                    url: `${CONFIG.WEBURL}/profile?admin=${user.userId}`,
+                                    title: "Cập nhật hồ sơ"
+                                }]
+                            }
+                        }
+                    })
+                    break;
+                }
+                case 'askName': {
+                    if (message && message.text) profileRef.child(user.userId).update({name: message.text}).then(result => userRef.child(user.userId).child('fbname').remove(result => {
+                        checkRequiment(senderID, user, payload.jobId, payload.status)
+                    }))
+                }
+                case 'confirmJobSeeker'
+                : {
+                    if (payload.answer == 'yes') {
+                        userRef.child(senderID).update({type: 2})
+                        sendAPI(senderID, {
+                            text: "Okie, chào mừng bạn đến với Jobo <3",
+                            metadata: JSON.stringify({
+                                type: 'welcome',
+                                case: 'confirmJobSeeker',
+                            })
+                        }).then(() => {
+
+                            sendAPI(senderID, {
+                                text: "Bạn vui lòng lưu ý 1 số thứ sau trước khi bắt đầu đi làm nhé!",
+                                metadata: JSON.stringify({
+                                    type: 'welcome_note',
+                                    case: 'confirmJobSeeker',
+                                })
+                            }).then(() => {
+
+                                sendAPI(senderID, {
+                                    text: "* Bạn sẽ được:\n" +
+                                    "- Chọn ca linh hoạt theo lịch của bạn\n" +
+                                    "- Làm việc với các thương hiệu lớn\n" +
+                                    "- Không cần CV\n" +
+                                    "- Thu nhập từ 6-8tr",
+                                    metadata: JSON.stringify({
+                                        type: 'welcome_note_benefit',
+                                        case: 'confirmJobSeeker',
+                                    })
+                                }, 4000).then(() => {
+                                    sendAPI(senderID, {
+                                        text: "Bạn đã nắm rõ chưa nhỉ???",
+                                        quick_replies: [{
+                                            "content_type": "text",
+                                            "title": "Mình đồng ý (Y)",
+                                            "payload": JSON.stringify({
+                                                type: 'confirmPolicy',
+                                                answer: 'yes',
+                                            })
+                                        }, {
+                                            "content_type": "text",
+                                            "title": "Không đồng ý đâu :(",
+                                            "payload": JSON.stringify({
+                                                type: 'confirmPolicy',
+                                                answer: 'no',
+                                            })
+                                        }],
+                                        metadata: JSON.stringify({
+                                            type: 'confirmPolicy',
+                                            case: 'confirmJobSeeker',
+                                        })
+                                    })
+                                    // sendAPI(senderID, {
+                                    //     text: "* Lưu ý khi nhận việc\n " +
+                                    //     "- Xem kỹ yêu câu công việc trước khi ứng tuyển\n" +
+                                    //     "- Vui lòng đi phỏng vấn đúng giờ, theo như lịch đã hẹn\n" +
+                                    //     "- Nếu có việc đột xuất không tham gia được, bạn phải báo lại cho mình ngay\n",
+                                    //     metadata: JSON.stringify({
+                                    //         type: 'welcome_note_requirement',
+                                    //         case: 'confirmJobSeeker',
+                                    //     })
+                                    // }, 3000)
+
+                                })
+
+                            })
+
+                        })
+
+
+                    } else {
+
+                    }
+                    break;
+
+
+                }
+                case
+                'confirmEmployer'
+                : {
+                    if (payload.answer == 'yes') {
+                        userRef.child(senderID).update({type: 1});
 
                         sendAPI(senderID, {
-                            text, metadata: JSON.stringify({
-                                case: 'confirmJob',
-                                type: 'jd'
+                            text: "Dạ. Bạn vui lòng cho ad xin số điện thoại để bộ phận tư vấn liên hệ nhé ạ",
+                            metadata: JSON.stringify({
+                                type: 'askPhone',
+                                case: 'confirmEmployer'
                             })
-                        }, 2000)
-                            .then(() => sendAPI(senderID, {
-                                text: jobData.description || '(Y) (Y) (Y)',
-                                metadata: JSON.stringify({
-                                    case: 'confirmJob',
-                                    type: 'description'
+                        });
+
+                    } else {
+
+                    }
+                    break;
+
+
+                }
+                case
+                'confirmPolicy'
+                : {
+                    if (payload.answer == 'yes') {
+                        sendAPI(senderID, {
+                            text: "Hiện tại đang có một số công việc đang tuyển gấp, hãy gửi địa chỉ để xem nó có gần bạn không nhé",
+                            quick_replies: [{
+                                "content_type": "location",
+                                "payload": JSON.stringify({
+                                    type: 'inputLocation',
                                 })
-                            }, 5000))
-                            .then(() => sendAPI(senderID, {
-                                text: 'Bạn có muốn ứng tuyển vào công việc này không?',
-                                quick_replies: [
-                                    {
-                                        "content_type": "text",
-                                        "title": "Ứng tuyển",
-                                        "payload": JSON.stringify({
-                                            type: 'applyJob',
-                                            answer: 'yes',
-                                            jobId: jobId
-                                        })
-                                    },
-                                    {
-                                        "content_type": "text",
-                                        "title": "Từ chối ",
-                                        "payload": JSON.stringify({
-                                            type: 'applyJob',
-                                            answer: 'no',
-                                            jobId: jobId
+                            }],
+                            metadata: JSON.stringify({
+                                type: 'inputLocation',
+                                case: 'confirmPolicy'
+                            })
+
+                        })
+                    }
+                    break;
+
+                }
+                case
+                'inputLocation'
+                : {
+
+                    if (payload.location) {
+                        var url = `https://maps.google.com/maps/api/geocode/json?address='${vietnameseDecode(payload.location)}'&components=country:VN&sensor=true&apiKey=''`
+                        axios.get(url)
+                            .then(result => {
+                                if (result.data && result.data.results && result.data.results[0]) {
+                                    var list = result.data.results
+                                    var message = {
+                                        attachment: {
+                                            type: "template",
+                                            payload: {
+                                                template_type: "button",
+                                                text: "Ý bạn là?",
+                                                buttons: []
+                                            }
+                                        }
+                                    }
+                                    var a = 0
+                                    var button = list.forEach(add => {
+                                        a++
+                                        if (a < 4) {
+                                            message.attachment.payload.buttons.push({
+                                                type: "postback",
+                                                title: add.formatted_address,
+                                                payload: JSON.stringify({
+                                                    type: 'selectLocation',
+                                                    location: add.geometry.location,
+                                                    address: add.formatted_address
+                                                })
+                                            })
+                                        }
+
+                                    })
+                                    sendAPI(senderID, message)
+                                }
+                            }).catch(err => console.log(err))
+                    } else sendAPI(senderID, {
+                        text: "Xin lỗi mình không hiểu địa chỉ của bạn?, hãy nhập tên đường hoặc tên quận nhé!",
+                        quick_replies: [{
+                            "content_type": "location",
+                            "payload": JSON.stringify({
+                                type: 'inputLocation',
+                            })
+                        }],
+                        metadata: JSON.stringify({
+                            type: 'inputLocation',
+                            case: 'confirmPolicy'
+                        })
+
+                    })
+
+
+                    break;
+
+                }
+                case
+                'selectLocation'
+                : {
+                    sendListJobByAddress(payload.location, payload.address, senderID)
+                    break;
+
+                }
+                case
+                'askPhone'
+                : {
+
+                    var jobId = payload.jobId
+
+                    if (payload.phone_number) {
+                        var url = `${CONFIG.APIURL}/checkUser?q=${payload.phone_number}`;
+                        axios.get(url)
+                            .then(result => {
+
+                                var peoples = result.data
+                                if (peoples.length > 0) {
+
+                                    var user = peoples[0]
+
+                                    var text = ''
+                                    if (user.name) {
+                                        text = 'Có phải bạn tên là ' + user.name + ' ?'
+                                    } else if (user.email) {
+                                        text = 'Có phải bạn từng đăng ký sử dụng Jobo với email là ' + user.email + ' ?'
+                                    } else (
+                                        text = 'Có phải bạn từng đăng ký sử dụng Jobo cách đây ' + timeAgo(user.createdAt) + ' ?'
+                                    )
+
+                                    sendAPI(senderID, {
+                                        text,
+                                        quick_replies: [{
+                                            "content_type": "text",
+                                            "title": 'Đúng vậy',
+                                            "payload": JSON.stringify({
+                                                type: 'confirmCheckUser',
+                                                answer: 'yes',
+                                                phone_number: payload.phone_number,
+                                                case: payload.case,
+                                                userId: user.userId,
+                                                jobId,
+                                                status: payload.status
+                                            })
+                                        }, {
+                                            "content_type": "text",
+                                            "title": 'Không phải',
+                                            "payload": JSON.stringify({
+                                                type: 'confirmCheckUser',
+                                                answer: 'no',
+                                                phone_number: payload.phone_number,
+                                                case: payload.case,
+                                                userId: user.userId,
+                                                jobId,
+                                                status: payload.status
+
+                                            })
+                                        }],
+                                    })
+                                } else {
+                                    if (jobId) {
+                                        //appy job
+                                        sendInterviewOption(jobId, senderID, payload.status)
+                                    } else {
+                                        sendAPI(senderID, {
+                                            text: "Ok, hiện tại mình đang bận một chút việc, lát nữa mình sẽ trao đổi tiếp với bạn nhé, pp"
                                         })
                                     }
-                                ],
-                                metadata: JSON.stringify({
-                                    case: 'confirmJob',
-                                    type: 'applyJob'
-                                })
-                            }, 2000))
+                                }
+                            })
+                    } else sendAPI(senderID, {
+                        text: `${message.text}? \n Xin lỗi, số điện thoại của bạn là gì nhỉ?`,
+                        metadata: JSON.stringify({
+                            type: 'askPhone',
+                            case: 'applyJob',
+                            jobId,
+                            again: true,
+                        })
+                    });
+                    break;
 
-                    })
+                }
+                case
+                'confirmCheckUser'
+                : {
+                    var userId = payload.userId;
+                    var jobId = payload.jobId;
+                    var phone = payload.phone_number;
 
-            } else {
+                    if (payload.answer = 'yes') {
 
-            }
-            break;
+                        //update messageId
+                        userRef.child(userId).update({messengerId: senderID})
+                            .then(result => {
+                                if (payload.case == 'confirmEmployer') sendAPI(senderID, {
+                                    text: "Okie, bạn đang cần tuyển vị trí gì nhỉ?",
+                                    metadata: JSON.stringify({
+                                        type: 'employer_job',
+                                        case: 'askPhone'
+                                    })
+                                });
+                                else if (payload.case == 'updateProfile') {
+                                    sendAPI(senderID, {
+                                        attachment: {
+                                            type: "template",
+                                            payload: {
+                                                template_type: "button",
+                                                text: "Hãy cập nhật thêm thông tin để nhà tuyển dụng chọn bạn!",
+                                                buttons: [{
+                                                    type: "web_url",
+                                                    url: `${CONFIG.WEBURL}/profile?admin=${userId}`,
+                                                    title: "Cập nhật hồ sơ"
+                                                }]
+                                            }
+                                        }
+                                    })
 
-        }
-        case
-        'applyJob': {
-            if (payload.answer == 'yes') {
 
-                var jobId = payload.jobId
+                                } else {
+                                    if (jobId) {
+                                        //appy job
+                                        sendInterviewOption(jobId, senderID, payload.status)
 
-                loadJob(jobId).then(jobData => {
-                    if (jobData.deadline > Date.now()) {
-                        var status = 1
+                                    } else {
+                                        sendAPI(senderID, {
+                                            text: "Ok, hiện tại mình đang bận một chút việc, lát nữa mình sẽ trao đổi tiếp với bạn nhé, pp"
+                                        })
+                                    }
+                                }
+                            })
+
+                        if (userId != senderID) {
+                            userRef
+                                .child(senderID)
+                                .remove(result => profileRef
+                                    .child(senderID)
+                                    .remove(result =>
+                                        console.log('merge profile', senderID)
+                                    ))
+                        }
+
+
                     } else {
-                        status = 0
+
+
+                        console.log('phone', phone)
+                        userRef.child(senderID).update({phone}).then(result => sendInterviewOption(jobId, senderID, payload.status))
+
+                    }
+                    break
+                }
+
+                case
+                'setInterview'
+                : {
+                    var time = payload.time
+                    var jobId = payload.jobId
+                    sendAPI(senderID, {
+                        text: `Oke bạn, vậy bạn sẽ có buổi trao đổi vào ${strTime(time)}.`
+                    }).then(() => sendAPI(senderID, {
+                        text: 'Bạn vui lòng xác nhận việc có mặt tại buổi trao đổi này ',
+                        metadata: JSON.stringify({
+                            type: 'confirmInterview',
+                            case: 'setInterview'
+                        }),
+                        quick_replies: [{
+                            "content_type": "text",
+                            "title": 'Mình xác nhận <3',
+                            "payload": JSON.stringify({
+                                type: 'confirmInterview',
+                                answer: 'yes',
+                                time: time,
+                                jobId
+                            })
+                        }, {
+                            "content_type": "text",
+                            "title": 'Từ chối tham gia',
+                            "payload": JSON.stringify({
+                                type: 'confirmInterview',
+                                answer: 'no',
+                                time: time,
+                                jobId
+                            })
+                        }],
+                    }))
+                    break;
+                }
+                case
+                'confirmInterview'
+                : {
+                    if (payload.answer == 'yes') {
+                        var time = payload.time
+                        var jobId = payload.jobId
+
+                        var actId = jobId + ':' + senderID
+                        console.log('actId', actId)
+                        axios.post(CONFIG.APIURL + '/like', {
+                            actId,
+                            interviewTime: time
+                        }).then(result => sendAPI(senderID, {text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi trao đổi.\n` + 'Chúc bạn phỏng vấn thành công nhé <3'}))
+                            .then(result => sendAPI(senderID, {text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!,\n - Hãy chủ động gọi cho nhà tuyển dụng để xác nhận lịch trước khi đến, hãy nhớ báo rằng bạn đã ứng tuyển qua JOBO để được gặp nhà tuyển dụng'}))
+                            .then(result => sendInterviewInfo(senderID, user))
+                            .catch(err => console.log(err))
                     }
 
-                    var actId = jobId + ':' + senderID
-                    axios.post(CONFIG.APIURL + '/like', {
-                        actId,
-                        userId: senderID,
-                        jobId,
-                        likeAt: Date.now(),
-                        type: 2,
-                        status,
-                        platform: 'messenger'
-                    })
+                    break;
+                }
+                case
+                'viewMoreJob'
+                : {
+                    var data = payload.data
+                    getJob(data).then(result => sendAPI(senderID, result.message, 3000))
+                }
+            }
 
-                    axios.get(CONFIG.APIURL + '/on/profile?userId=' + senderID)
-                        .then(result => {
-                            var profileData = result.data
-                            if (profileData.userInfo && profileData.userInfo.phone) sendInterviewOption(jobId, senderID, status)
-                            else sendAPI(senderID, {
-                                text: 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé',
-                                metadata: JSON.stringify({
-                                    type: 'askPhone',
-                                    case: 'applyJob',
-                                    jobId,
-                                    status
-                                })
-                            });
+        }
+    )
 
-                        }).catch(err => sendAPI(senderID, {
+}
+
+function checkRequiment(senderID, user, jobId, status) {
+    loadJob(jobId)
+        .then(jobData => loadProfile(user.userId)
+            .then(profile => {
+                if (!user.phone) sendAPI(senderID, {
                         text: 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé',
                         metadata: JSON.stringify({
                             type: 'askPhone',
@@ -4601,421 +4990,18 @@ function intention(payload, senderID, postback, message = {}) {
                             jobId,
                             status
                         })
-                    }))
-
-                })
-
-
-            } else {
-                loadUser(senderID).then(user => sendAPI(senderID, {
-                    attachment: {
-                        type: "template",
-                        payload: {
-                            template_type: "button",
-                            text: "Hãy cập nhật thêm thông tin để chúng tôi giới thiệu công việc phù hợp hơn với bạn!",
-                            buttons: [{
-                                type: "web_url",
-                                url: `${CONFIG.WEBURL}/profile?admin=${user.userId}`,
-                                title: "Cập nhật hồ sơ"
-                            }]
-                        }
                     }
-                }))
-
-            }
-            break;
-
-        }
-        case
-        'confirmJobSeeker'
-        : {
-            if (payload.answer == 'yes') {
-                userRef.child(senderID).update({type: 2})
-                sendAPI(senderID, {
-                    text: "Okie, chào mừng bạn đến với Jobo <3",
+                ) else if (user.fbname) sendAPI(senderID, {
+                    text: 'Cho mình họ tên đầy đủ của bạn?',
                     metadata: JSON.stringify({
-                        type: 'welcome',
-                        case: 'confirmJobSeeker',
+                        type: 'askName',
+                        case: 'applyJob',
+                        jobId,
+                        status
                     })
-                }).then(() => {
-
-                    sendAPI(senderID, {
-                        text: "Bạn vui lòng lưu ý 1 số thứ sau trước khi bắt đầu đi làm nhé!",
-                        metadata: JSON.stringify({
-                            type: 'welcome_note',
-                            case: 'confirmJobSeeker',
-                        })
-                    }).then(() => {
-
-                        sendAPI(senderID, {
-                            text: "* Bạn sẽ được:\n" +
-                            "- Chọn ca linh hoạt theo lịch của bạn\n" +
-                            "- Làm việc với các thương hiệu lớn\n" +
-                            "- Không cần CV\n" +
-                            "- Thu nhập từ 6-8tr",
-                            metadata: JSON.stringify({
-                                type: 'welcome_note_benefit',
-                                case: 'confirmJobSeeker',
-                            })
-                        }, 4000).then(() => {
-                            sendAPI(senderID, {
-                                text: "Bạn đã nắm rõ chưa nhỉ???",
-                                quick_replies: [{
-                                    "content_type": "text",
-                                    "title": "Mình đồng ý (Y)",
-                                    "payload": JSON.stringify({
-                                        type: 'confirmPolicy',
-                                        answer: 'yes',
-                                    })
-                                }, {
-                                    "content_type": "text",
-                                    "title": "Không đồng ý đâu :(",
-                                    "payload": JSON.stringify({
-                                        type: 'confirmPolicy',
-                                        answer: 'no',
-                                    })
-                                }],
-                                metadata: JSON.stringify({
-                                    type: 'confirmPolicy',
-                                    case: 'confirmJobSeeker',
-                                })
-                            })
-                            // sendAPI(senderID, {
-                            //     text: "* Lưu ý khi nhận việc\n " +
-                            //     "- Xem kỹ yêu câu công việc trước khi ứng tuyển\n" +
-                            //     "- Vui lòng đi phỏng vấn đúng giờ, theo như lịch đã hẹn\n" +
-                            //     "- Nếu có việc đột xuất không tham gia được, bạn phải báo lại cho mình ngay\n",
-                            //     metadata: JSON.stringify({
-                            //         type: 'welcome_note_requirement',
-                            //         case: 'confirmJobSeeker',
-                            //     })
-                            // }, 3000)
-
-                        })
-
-                    })
-
-                })
-
-
-            } else {
-
-            }
-            break;
-
-
-        }
-        case
-        'confirmEmployer'
-        : {
-            if (payload.answer == 'yes') {
-                userRef.child(senderID).update({type: 1});
-
-                sendAPI(senderID, {
-                    text: "Dạ. Bạn vui lòng cho ad xin số điện thoại để bộ phận tư vấn liên hệ nhé ạ",
-                    metadata: JSON.stringify({
-                        type: 'askPhone',
-                        case: 'confirmEmployer'
-                    })
-                });
-
-            } else {
-
-            }
-            break;
-
-
-        }
-        case
-        'confirmPolicy'
-        : {
-            if (payload.answer == 'yes') {
-                sendAPI(senderID, {
-                    text: "Hiện tại đang có một số công việc đang tuyển gấp, hãy gửi địa chỉ để xem nó có gần bạn không nhé",
-                    quick_replies: [{
-                        "content_type": "location",
-                        "payload": JSON.stringify({
-                            type: 'inputLocation',
-                        })
-                    }],
-                    metadata: JSON.stringify({
-                        type: 'inputLocation',
-                        case: 'confirmPolicy'
-                    })
-
-                })
-            }
-            break;
-
-        }
-        case
-        'inputLocation': {
-
-            if (payload.location) {
-                var url = `https://maps.google.com/maps/api/geocode/json?address='${vietnameseDecode(payload.location)}'&components=country:VN&sensor=true&apiKey=''`
-                axios.get(url)
-                    .then(result => {
-                        if (result.data && result.data.results && result.data.results[0]) {
-                            var list = result.data.results
-                            var message = {
-                                attachment: {
-                                    type: "template",
-                                    payload: {
-                                        template_type: "button",
-                                        text: "Ý bạn là?",
-                                        buttons: []
-                                    }
-                                }
-                            }
-                            var a = 0
-                            var button = list.forEach(add => {
-                                a++
-                                if (a < 4) {
-                                    message.attachment.payload.buttons.push({
-                                        type: "postback",
-                                        title: add.formatted_address,
-                                        payload: JSON.stringify({
-                                            type: 'selectLocation',
-                                            location: add.geometry.location,
-                                            address: add.formatted_address
-                                        })
-                                    })
-                                }
-
-                            })
-                            sendAPI(senderID, message)
-                        }
-                    }).catch(err => console.log(err))
-            } else sendAPI(senderID, {
-                text: "Xin lỗi mình không hiểu địa chỉ của bạn?, hãy nhập tên đường hoặc tên quận nhé!",
-                quick_replies: [{
-                    "content_type": "location",
-                    "payload": JSON.stringify({
-                        type: 'inputLocation',
-                    })
-                }],
-                metadata: JSON.stringify({
-                    type: 'inputLocation',
-                    case: 'confirmPolicy'
-                })
-
-            })
-
-
-            break;
-
-        }
-        case 'selectLocation': {
-            sendListJobByAddress(payload.location, payload.address, senderID)
-            break;
-
-        }
-        case
-        'askPhone': {
-
-            var jobId = payload.jobId
-
-            if (payload.phone_number) {
-                var url = `${CONFIG.APIURL}/checkUser?q=${payload.phone_number}`;
-                axios.get(url)
-                    .then(result => {
-
-                        var peoples = result.data
-                        if (peoples.length > 0) {
-
-                            var user = peoples[0]
-
-                            var text = ''
-                            if (user.name) {
-                                text = 'Có phải bạn tên là ' + user.name + ' ?'
-                            } else if (user.email) {
-                                text = 'Có phải bạn từng đăng ký sử dụng Jobo với email là ' + user.email + ' ?'
-                            } else (
-                                text = 'Có phải bạn từng đăng ký sử dụng Jobo cách đây ' + timeAgo(user.createdAt) + ' ?'
-                            )
-
-                            sendAPI(senderID, {
-                                text,
-                                quick_replies: [{
-                                    "content_type": "text",
-                                    "title": 'Đúng vậy',
-                                    "payload": JSON.stringify({
-                                        type: 'confirmCheckUser',
-                                        answer: 'yes',
-                                        phone_number: payload.phone_number,
-                                        case: payload.case,
-                                        userId: user.userId,
-                                        jobId,
-                                        status: payload.status
-                                    })
-                                }, {
-                                    "content_type": "text",
-                                    "title": 'Không phải',
-                                    "payload": JSON.stringify({
-                                        type: 'confirmCheckUser',
-                                        answer: 'no',
-                                        phone_number: payload.phone_number,
-                                        case: payload.case,
-                                        userId: user.userId,
-                                        jobId,
-                                        status: payload.status
-
-                                    })
-                                }],
-                            })
-                        } else {
-                            if (jobId) {
-                                //appy job
-                                sendInterviewOption(jobId, senderID, payload.status)
-                            } else {
-                                sendAPI(senderID, {
-                                    text: "Ok, hiện tại mình đang bận một chút việc, lát nữa mình sẽ trao đổi tiếp với bạn nhé, pp"
-                                })
-                            }
-                        }
-                    })
-            } else sendAPI(senderID, {
-                text: `${message.text}? \n Xin lỗi, số điện thoại của bạn là gì nhỉ?`,
-                metadata: JSON.stringify({
-                    type: 'askPhone',
-                    case: 'applyJob',
-                    jobId,
-                    again: true,
-                })
-            });
-            break;
-
-        }
-        case
-        'confirmCheckUser': {
-            var userId = payload.userId;
-            var jobId = payload.jobId;
-            var phone = payload.phone_number;
-
-            if (payload.answer = 'yes') {
-
-                //update messageId
-                userRef.child(userId).update({messengerId: senderID})
-                    .then(result => {
-                        if (payload.case == 'confirmEmployer') sendAPI(senderID, {
-                            text: "Okie, bạn đang cần tuyển vị trí gì nhỉ?",
-                            metadata: JSON.stringify({
-                                type: 'employer_job',
-                                case: 'askPhone'
-                            })
-                        });
-                        else if (payload.case == 'updateProfile') {
-                            sendAPI(senderID, {
-                                attachment: {
-                                    type: "template",
-                                    payload: {
-                                        template_type: "button",
-                                        text: "Hãy cập nhật thêm thông tin để nhà tuyển dụng chọn bạn!",
-                                        buttons: [{
-                                            type: "web_url",
-                                            url: `${CONFIG.WEBURL}/profile?admin=${userId}`,
-                                            title: "Cập nhật hồ sơ"
-                                        }]
-                                    }
-                                }
-                            })
-
-
-                        } else {
-                            if (jobId) {
-                                //appy job
-                                sendInterviewOption(jobId, senderID, payload.status)
-
-                            } else {
-                                sendAPI(senderID, {
-                                    text: "Ok, hiện tại mình đang bận một chút việc, lát nữa mình sẽ trao đổi tiếp với bạn nhé, pp"
-                                })
-                            }
-                        }
-                    })
-
-                if (userId != senderID) {
-                    userRef
-                        .child(senderID)
-                        .remove(result => profileRef
-                            .child(senderID)
-                            .remove(result =>
-                                console.log('merge profile', senderID)
-                            ))
-                }
-
-
-            } else {
-
-
-                console.log('phone', phone)
-                userRef.child(senderID).update({phone}).then(result => sendInterviewOption(jobId, senderID, payload.status))
-
-            }
-            break
-        }
-
-        case
-        'setInterview': {
-            var time = payload.time
-            var jobId = payload.jobId
-            sendAPI(senderID, {
-                text: `Oke bạn, vậy bạn sẽ có buổi trao đổi vào ${strTime(time)}.`
-            }).then(() => sendAPI(senderID, {
-                text: 'Bạn vui lòng xác nhận việc có mặt tại buổi trao đổi này ',
-                metadata: JSON.stringify({
-                    type: 'confirmInterview',
-                    case: 'setInterview'
-                }),
-                quick_replies: [{
-                    "content_type": "text",
-                    "title": 'Mình xác nhận <3',
-                    "payload": JSON.stringify({
-                        type: 'confirmInterview',
-                        answer: 'yes',
-                        time: time,
-                        jobId
-                    })
-                }, {
-                    "content_type": "text",
-                    "title": 'Từ chối tham gia',
-                    "payload": JSON.stringify({
-                        type: 'confirmInterview',
-                        answer: 'no',
-                        time: time,
-                        jobId
-                    })
-                }],
+                }) else sendInterviewOption(jobData.jobId, senderID, status)
             }))
-            break;
-        }
-        case'confirmInterview': {
-            if (payload.answer == 'yes') {
-                var time = payload.time
-                var jobId = payload.jobId
-
-                var actId = jobId + ':' + senderID
-                console.log('actId', actId)
-                axios.post(CONFIG.APIURL + '/like', {
-                    actId,
-                    interviewTime: time
-                }).then(result => sendAPI(senderID, {text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi trao đổi.\n` + 'Chúc bạn phỏng vấn thành công nhé <3'}))
-                    .then(result => sendAPI(senderID, {text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!,\n - Hãy chủ động gọi cho nhà tuyển dụng để xác nhận lịch trước khi đến, hãy nhớ báo rằng bạn đã ứng tuyển qua JOBO để được gặp nhà tuyển dụng'}))
-                    .then(result => sendInterviewInfo(senderID))
-                    .catch(err => console.log(err))
-            }
-
-            break;
-        }
-        case
-        'viewMoreJob'
-        : {
-            var data = payload.data
-            getJob(data).then(result => sendAPI(senderID, result.message, 3000))
-        }
-    }
 }
-
 
 function loadUser(senderID) {
     return new Promise(function (resolve, reject) {
@@ -5025,30 +5011,17 @@ function loadUser(senderID) {
             .then(result => {
 
                 if (result.data[0]) resolve(result.data[0])
-                else reject({err: 'No data'})
+                else getUserDataAndSave(senderID).then(user => resolve(user))
+                    .catch(err => reject(err))
             })
             .catch(err => reject(err))
     })
 
 }
 
-function sendUpdateProfile(senderID) {
+function sendUpdateProfile(senderID, user) {
 
-    loadUser(senderID).then(user => sendAPI(senderID, {
-            attachment: {
-                type: "template",
-                payload: {
-                    template_type: "button",
-                    text: "Tiếp theo, bạn hãy cập nhật thêm thông tin để ứng tuyển vào các công việc phù hợp!",
-                    buttons: [{
-                        type: "web_url",
-                        url: `${CONFIG.WEBURL}/profile?admin=${user.userId}`,
-                        title: "Cập nhật hồ sơ"
-                    }]
-                }
-            }
-        })
-    ).catch(err => sendAPI(senderID, {
+    sendAPI(senderID, {
         attachment: {
             type: "template",
             payload: {
@@ -5056,12 +5029,12 @@ function sendUpdateProfile(senderID) {
                 text: "Tiếp theo, bạn hãy cập nhật thêm thông tin để ứng tuyển vào các công việc phù hợp!",
                 buttons: [{
                     type: "web_url",
-                    url: `${CONFIG.WEBURL}/profile?admin=${senderID}`,
+                    url: `${CONFIG.WEBURL}/profile?admin=${user.userId}`,
                     title: "Cập nhật hồ sơ"
                 }]
             }
         }
-    }))
+    })
 }
 
 function loadProfile(userId) {
@@ -5074,12 +5047,11 @@ function loadProfile(userId) {
 
 }
 
-function sendInterviewInfo(senderID) {
+function sendInterviewInfo(senderID, user) {
     return new Promise(function (resolve, reject) {
         sendAPI(senderID, {
             text: 'Lịch phỏng vấn của bạn'
-        }).then(result => loadUser(senderID))
-            .then(userData => axios.get(CONFIG.APIURL + '/initData?userId=' + userData.userId))
+        }).then(result => axios.get(CONFIG.APIURL + '/initData?userId=' + user.userId))
             .then(result => {
                 var data = result.data
                 var applys = data.reactList.match
@@ -5966,7 +5938,6 @@ function getJob(data) {
 
 }
 
-
 /*
  * Delivery Confirmation Event
  *
@@ -5974,6 +5945,7 @@ function getJob(data) {
  * these fields at https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-delivered
  *
  */
+
 function receivedDeliveryConfirmation(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
@@ -5992,7 +5964,6 @@ function receivedDeliveryConfirmation(event) {
     console.log("All message before %d were delivered.", watermark);
 }
 
-
 /*
  * Postback Event
  *
@@ -6000,7 +5971,6 @@ function receivedDeliveryConfirmation(event) {
  * https://developers.facebook.com/docs/messenger-platform/webhook-reference/postback-received
  *
  */
-
 
 // function receivedPostback(event) {
 //     var senderID = event.sender.id;
@@ -6071,6 +6041,7 @@ function receivedMessageRead(event) {
  * https://developers.facebook.com/docs/messenger-platform/webhook-reference/account-linking
  *
  */
+
 function receivedAccountLink(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
