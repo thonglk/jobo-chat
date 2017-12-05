@@ -4991,7 +4991,8 @@ function checkRequiment(senderID, user, jobId, status) {
                             status
                         })
                     }
-                ) else if (user.fbname) sendAPI(senderID, {
+                )
+                else if (user.fbname) sendAPI(senderID, {
                     text: 'Cho mình họ tên đầy đủ của bạn?',
                     metadata: JSON.stringify({
                         type: 'askName',
@@ -4999,7 +5000,8 @@ function checkRequiment(senderID, user, jobId, status) {
                         jobId,
                         status
                     })
-                }) else sendInterviewOption(jobData.jobId, senderID, status)
+                })
+                else sendInterviewOption(jobData.jobId, senderID, status)
             }))
 }
 
