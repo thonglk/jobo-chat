@@ -4573,9 +4573,11 @@ function intention(payload, senderID, postback, message = {}) {
                     break;
                 }
                 case 'askName': {
-                    if (message && message.text) profileRef.child(user.userId).update({name: message.text}).then(result => userRef.child(user.userId).child('fbname').remove(result => {
-                        checkRequiment(senderID, user, payload.jobId, payload.status)
-                    }))
+                    if (message && message.text) profileRef.child(user.userId).update({name: message.text})
+                        .then(result => userRef.child(user.userId).update({name: message.text, confirmName: true})
+                            .then(result => {
+                                checkRequiment(senderID, user, payload.jobId, payload.status)
+                            }))
                 }
                 case 'confirmJobSeeker'
                 : {
@@ -4992,7 +4994,7 @@ function checkRequiment(senderID, user, jobId, status) {
                         })
                     }
                 )
-                else if (user.fbname) sendAPI(senderID, {
+                else if (!user.confirmName) sendAPI(senderID, {
                     text: 'Cho mình họ tên đầy đủ của bạn?',
                     metadata: JSON.stringify({
                         type: 'askName',
