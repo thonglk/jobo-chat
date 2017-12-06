@@ -1585,7 +1585,7 @@ function intention(payload, senderID, postback, message = {}) {
 
                 case 'jobseeker': {
 
-                    if (payload.state == 'updateProfile') sendUpdateProfile(senderID)
+                    if (payload.state == 'updateProfile') sendUpdateProfile(senderID,user)
                     else if (payload.state == 'interview') sendInterviewInfo(senderID, user)
 
                     break;
@@ -2070,9 +2070,7 @@ function intention(payload, senderID, postback, message = {}) {
                     }))
                     break;
                 }
-                case
-                'confirmInterview'
-                : {
+                case'confirmInterview': {
                     if (payload.answer == 'yes') {
                         var time = payload.time
                         var jobId = payload.jobId
@@ -2090,14 +2088,12 @@ function intention(payload, senderID, postback, message = {}) {
 
                     break;
                 }
-                case
-                'viewMoreJob'
-                : {
+                case 'viewMoreJob': {
                     var data = payload.data
                     getJob(data).then(result => sendAPI(senderID, result.message, 3000))
+                    break;
                 }
             }
-
         }
     )
 
@@ -2107,6 +2103,7 @@ function checkRequiment(senderID, user, jobId, status) {
     loadJob(jobId)
         .then(jobData => loadProfile(user.userId)
             .then(profile => {
+
                 if (!user.phone) sendAPI(senderID, {
                         text: 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé',
                         metadata: JSON.stringify({
@@ -2152,7 +2149,7 @@ function sendUpdateProfile(senderID, user) {
             type: "template",
             payload: {
                 template_type: "button",
-                text: "Tiếp theo, bạn hãy cập nhật thêm thông tin để ứng tuyển vào các công việc phù hợp!",
+                text: "Bạn hãy cập nhật thêm thông tin để ứng tuyển vào các công việc phù hợp!",
                 buttons: [{
                     type: "web_url",
                     url: `${CONFIG.WEBURL}/profile?admin=${user.userId}`,
