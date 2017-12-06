@@ -1994,7 +1994,9 @@ function intention(payload, senderID, postback, message = {}) {
                     if (payload.answer == 'yes') {
                         console.log('phone', phone)
                         //update messageId
-                        userRef.child(userId).update({messengerId: senderID, phone})
+                        user.messengerId = senderID
+                        user.phone = phone
+                        userRef.child(userId).update(user)
                             .then(() => {
                                 if (payload.case == 'confirmEmployer') sendAPI(senderID, {
                                     text: "Okie, bạn đang cần tuyển vị trí gì nhỉ?",
@@ -2003,8 +2005,7 @@ function intention(payload, senderID, postback, message = {}) {
                                         case: 'askPhone'
                                     })
                                 });
-                                else if (payload.case == 'updateProfile') {
-                                    sendAPI(senderID, {
+                                else if (payload.case == 'updateProfile') sendAPI(senderID, {
                                         attachment: {
                                             type: "template",
                                             payload: {
@@ -2019,8 +2020,7 @@ function intention(payload, senderID, postback, message = {}) {
                                         }
                                     })
 
-
-                                } else if (jobId) checkRequiment(senderID, user, jobId, payload.status)
+                                else if (jobId) checkRequiment(senderID, user, jobId, payload.status)
                                 else sendDefautMessage(senderID)
 
 
