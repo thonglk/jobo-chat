@@ -338,9 +338,10 @@ function sendNewWord() {
     return new Promise(function (resolve, reject) {
         var vocal = _.sample(vocalobject)
         console.log('push ', vocal)
-        var mean = vocal.word + ' : ' + vocal.meaning +'\n Ex: ' + vocal.ex
+        var mean = vocal.word + ' : ' + vocal.meaning + '\n Ex: ' + vocal.ex
         console.log('mean', mean)
         sendVocal(mean)
+        resolve(mean)
         // var url = `https://glosbe.com/gapi/translate?from=eng&dest=vi&format=json&phrase=${vocal}&pretty=true`
         // axios.get(url)
         //     .then(data => {
@@ -1180,11 +1181,9 @@ function getUserDataAndSave(senderID) {
                 updatedAt: Date.now(),
             };
 
-            loadUser(senderID)
-                .then(userData => resolve(user))
-                .catch(err => axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user, profile})
-                    .then(result => resolve(user))
-                    .catch(err => reject(err)))
+            axios.post(CONFIG.APIURL + '/update/user?userId=' + senderID, {user, profile})
+                .then(result => resolve(user))
+                .catch(err => reject(err))
         })
     })
 
@@ -1372,7 +1371,6 @@ function matchingPayload(event) {
             resolve({payload, senderID, postback})
         } else if (message && message.text) {
             console.log('message.text', message.text);
-
             var lastMessage = lastMessageData[senderID]
             console.log('lastMessage', lastMessage)
             if (lastMessage) {
@@ -2114,7 +2112,6 @@ function loadUser(senderID) {
         var url = `${CONFIG.APIURL}/checkUser?q=${senderID}&type=messengerId`
         axios.get(url)
             .then(result => {
-
                 if (result.data[0]) resolve(result.data[0])
                 else getUserDataAndSave(senderID).then(user => resolve(user))
                     .catch(err => reject(err))
