@@ -1585,7 +1585,7 @@ function intention(payload, senderID, postback, message = {}) {
 
                 case 'jobseeker': {
 
-                    if (payload.state == 'updateProfile') sendUpdateProfile(senderID,user)
+                    if (payload.state == 'updateProfile') sendUpdateProfile(senderID, user)
                     else if (payload.state == 'interview') sendInterviewInfo(senderID, user)
 
                     break;
@@ -1902,15 +1902,15 @@ function intention(payload, senderID, postback, message = {}) {
                                 var peoples = result.data
                                 if (peoples.length > 0) {
 
-                                    var user = peoples[0]
+                                    var people = peoples[0]
 
                                     var text = ''
-                                    if (user.name) {
-                                        text = 'Có phải bạn tên là ' + user.name + ' ?'
-                                    } else if (user.email) {
-                                        text = 'Có phải bạn từng đăng ký sử dụng Jobo với email là ' + user.email + ' ?'
+                                    if (people.name) {
+                                        text = 'Có phải bạn tên là ' + people.name + ' ?'
+                                    } else if (people.email) {
+                                        text = 'Có phải bạn từng đăng ký sử dụng Jobo với email là ' + people.email + ' ?'
                                     } else (
-                                        text = 'Có phải bạn từng đăng ký sử dụng Jobo cách đây ' + timeAgo(user.createdAt) + ' ?'
+                                        text = 'Có phải bạn từng đăng ký sử dụng Jobo cách đây ' + timeAgo(people.createdAt) + ' ?'
                                     )
 
                                     sendAPI(senderID, {
@@ -1923,7 +1923,7 @@ function intention(payload, senderID, postback, message = {}) {
                                                 answer: 'yes',
                                                 phone_number: payload.phone_number,
                                                 case: payload.case,
-                                                userId: user.userId,
+                                                userId: people.userId,
                                                 jobId,
                                                 status: payload.status
                                             })
@@ -1935,26 +1935,45 @@ function intention(payload, senderID, postback, message = {}) {
                                                 answer: 'no',
                                                 phone_number: payload.phone_number,
                                                 case: payload.case,
-                                                userId: user.userId,
+                                                userId: people.userId,
                                                 jobId,
                                                 status: payload.status
 
                                             })
                                         }],
                                     })
-                                } else {
-                                    if (jobId) {
-                                        //appy job
-                                        sendInterviewOption(jobId, senderID, payload.status)
-                                    } else {
-                                        sendAPI(senderID, {
-                                            text: "Ok, hiện tại mình đang bận một chút việc, lát nữa mình sẽ trao đổi tiếp với bạn nhé, pp"
+                                } else sendAPI(senderID, {
+                                    text: `Có phải số điện thoại của bạn là: ${payload.phone_number} ?`,
+                                    quick_replies: [{
+                                        "content_type": "text",
+                                        "title": 'Đúng vậy',
+                                        "payload": JSON.stringify({
+                                            type: 'confirmCheckUser',
+                                            answer: 'yes',
+                                            phone_number: payload.phone_number,
+                                            case: payload.case,
+                                            userId: user.userId,
+                                            jobId,
+                                            status: payload.status
                                         })
-                                    }
-                                }
+                                    }, {
+                                        "content_type": "text",
+                                        "title": 'Không phải',
+                                        "payload": JSON.stringify({
+                                            type: 'confirmCheckUser',
+                                            answer: 'no',
+                                            phone_number: payload.phone_number,
+                                            case: payload.case,
+                                            userId: user.userId,
+                                            jobId,
+                                            status: payload.status
+
+                                        })
+                                    }],
+                                })
                             })
                     } else sendAPI(senderID, {
-                        text: `${message.text}? \n Xin lỗi, số điện thoại của bạn là gì nhỉ?`,
+                        text: `Xin lỗi, số điện thoại của bạn là gì nhỉ?`,
                         metadata: JSON.stringify({
                             type: 'askPhone',
                             case: 'applyJob',
@@ -1972,7 +1991,7 @@ function intention(payload, senderID, postback, message = {}) {
                     var jobId = payload.jobId;
                     var phone = payload.phone_number;
 
-                    if (payload.answer = 'yes') {
+                    if (payload.answer == 'yes') {
 
                         //update messageId
                         userRef.child(userId).update({messengerId: senderID})
@@ -2001,17 +2020,10 @@ function intention(payload, senderID, postback, message = {}) {
                                     })
 
 
-                                } else {
-                                    if (jobId) {
-                                        //appy job
-                                        sendInterviewOption(jobId, senderID, payload.status)
+                                } else if (jobId) checkRequiment(senderID, user, jobId, payload.status)
+                                else sendDefautMessage(senderID)
 
-                                    } else {
-                                        sendAPI(senderID, {
-                                            text: "Ok, hiện tại mình đang bận một chút việc, lát nữa mình sẽ trao đổi tiếp với bạn nhé, pp"
-                                        })
-                                    }
-                                }
+
                             })
 
                         if (userId != senderID) {
@@ -2026,7 +2038,6 @@ function intention(payload, senderID, postback, message = {}) {
 
 
                     } else {
-
 
                         console.log('phone', phone)
                         userRef.child(senderID).update({phone}).then(result => sendInterviewOption(jobId, senderID, payload.status))
@@ -2083,6 +2094,7 @@ function intention(payload, senderID, postback, message = {}) {
                         }).then(result => sendAPI(senderID, {text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi trao đổi.\n` + 'Chúc bạn phỏng vấn thành công nhé <3'}))
                             .then(result => sendAPI(senderID, {text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!,\n - Hãy chủ động gọi cho nhà tuyển dụng để xác nhận lịch trước khi đến, hãy nhớ báo rằng bạn đã ứng tuyển qua JOBO để được gặp nhà tuyển dụng'}))
                             .then(result => sendInterviewInfo(senderID, user))
+                            .then(result => sendUpdateProfile(senderID,user,'Tiếp theo, bạn hãy cập nhật hồ sơ để hoàn tất ứng tuyển nhé!'))
                             .catch(err => console.log(err))
                     }
 
@@ -2097,6 +2109,12 @@ function intention(payload, senderID, postback, message = {}) {
         }
     )
 
+}
+
+function sendDefautMessage(senderID) {
+    sendAPI(senderID, {
+        text: "Okie"
+    })
 }
 
 function checkRequiment(senderID, user, jobId, status) {
@@ -2142,14 +2160,14 @@ function loadUser(senderID) {
 
 }
 
-function sendUpdateProfile(senderID, user) {
+function sendUpdateProfile(senderID, user, text = "Bạn hãy cập nhật thêm thông tin để ứng tuyển vào các công việc phù hợp!") {
 
     sendAPI(senderID, {
         attachment: {
             type: "template",
             payload: {
                 template_type: "button",
-                text: "Bạn hãy cập nhật thêm thông tin để ứng tuyển vào các công việc phù hợp!",
+                text,
                 buttons: [{
                     type: "web_url",
                     url: `${CONFIG.WEBURL}/profile?admin=${user.userId}`,
