@@ -2006,19 +2006,19 @@ function intention(payload, senderID, postback, message = {}) {
                                     })
                                 });
                                 else if (payload.case == 'updateProfile') sendAPI(senderID, {
-                                        attachment: {
-                                            type: "template",
-                                            payload: {
-                                                template_type: "button",
-                                                text: "Hãy cập nhật thêm thông tin để nhà tuyển dụng chọn bạn!",
-                                                buttons: [{
-                                                    type: "web_url",
-                                                    url: `${CONFIG.WEBURL}/profile?admin=${user.userId}`,
-                                                    title: "Cập nhật hồ sơ"
-                                                }]
-                                            }
+                                    attachment: {
+                                        type: "template",
+                                        payload: {
+                                            template_type: "button",
+                                            text: "Hãy cập nhật thêm thông tin để nhà tuyển dụng chọn bạn!",
+                                            buttons: [{
+                                                type: "web_url",
+                                                url: `${CONFIG.WEBURL}/profile?admin=${user.userId}`,
+                                                title: "Cập nhật hồ sơ"
+                                            }]
                                         }
-                                    })
+                                    }
+                                })
 
                                 else if (jobId) checkRequiment(senderID, user, jobId, payload.status)
                                 else sendDefautMessage(senderID)
@@ -2111,31 +2111,33 @@ function sendDefautMessage(senderID) {
 }
 
 function checkRequiment(senderID, user, jobId, status) {
-    loadJob(jobId)
-        .then(jobData => loadProfile(user.userId)
-            .then(profile => {
-
-                if (!user.phone) sendAPI(senderID, {
-                        text: 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé',
+    loadUser(senderID)
+        .then(user => loadJob(jobId)
+            .then(jobData => loadProfile(user.userId)
+                .then(profile => {
+                    if (!user.phone) sendAPI(senderID, {
+                            text: 'Hãy gửi số điện thoại của bạn để mình liên lạc nhé',
+                            metadata: JSON.stringify({
+                                type: 'askPhone',
+                                case: 'applyJob',
+                                jobId,
+                                status
+                            })
+                        }
+                    )
+                    else if (!user.confirmName) sendAPI(senderID, {
+                        text: 'Cho mình họ tên đầy đủ của bạn? (VD: Lê Khánh Thông)',
                         metadata: JSON.stringify({
-                            type: 'askPhone',
+                            type: 'askName',
                             case: 'applyJob',
                             jobId,
                             status
                         })
-                    }
-                )
-                else if (!user.confirmName) sendAPI(senderID, {
-                    text: 'Cho mình họ tên đầy đủ của bạn? (VD: Lê Khánh Thông)',
-                    metadata: JSON.stringify({
-                        type: 'askName',
-                        case: 'applyJob',
-                        jobId,
-                        status
                     })
-                })
-                else sendInterviewOption(jobData.jobId, senderID, status)
-            }))
+                    else sendInterviewOption(jobData.jobId, senderID, status)
+                })))
+
+
 }
 
 function loadUser(senderID) {
