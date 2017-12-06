@@ -836,7 +836,32 @@ function setDefautMenu(page = 'jobo') {
                             })
                         }
                     ]
-                }
+                },
+                    {
+                        "title": "Xem thêm",
+                        "type": "nested",
+
+                        "call_to_actions": [
+                            {
+                                "title": "🍔 Tôi muốn tuyển dụng",
+                                "type": "postback",
+                                "payload": JSON.stringify({
+                                    type: 'confirmEmployer',
+                                    answer: 'yes',
+                                })
+                            },
+                            {
+                                "title": "🍇 Cộng đồng tìm việc",
+                                type: "web_url",
+                                url: "https://docs.google.com/forms/d/e/1FAIpQLSdfrjXEvdx72hpeDeM5KdT-z1DXqaoElfg5MRQM92xBCVzORA/viewform",
+                            },
+                            {
+                                "title": "🍇 Kinh nghiệm quản trị",
+                                type: "web_url",
+                                url: "https://docs.google.com/forms/d/e/1FAIpQLSdfrjXEvdx72hpeDeM5KdT-z1DXqaoElfg5MRQM92xBCVzORA/viewform",
+                            }
+                        ]
+                    }
                 ],
                 "locale": "default",
 
@@ -1168,7 +1193,6 @@ function getUserDataAndSave(senderID) {
             console.log(result);
             var user = {
                 name: result.first_name + ' ' + result.last_name,
-                fbname: true,
                 messengerId: senderID,
                 createdAt: Date.now(),
                 platform: 'messenger',
@@ -2094,7 +2118,7 @@ function checkRequiment(senderID, user, jobId, status) {
                     }
                 )
                 else if (!user.confirmName) sendAPI(senderID, {
-                    text: 'Cho mình họ tên đầy đủ của bạn?',
+                    text: 'Cho mình họ tên đầy đủ của bạn? (VD: Lê Khánh Thông)',
                     metadata: JSON.stringify({
                         type: 'askName',
                         case: 'applyJob',
