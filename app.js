@@ -1992,10 +1992,10 @@ function intention(payload, senderID, postback, message = {}) {
                     var phone = payload.phone_number;
 
                     if (payload.answer == 'yes') {
-
+                        console.log('phone', phone)
                         //update messageId
-                        userRef.child(userId).update({messengerId: senderID})
-                            .then(result => {
+                        userRef.child(userId).update({messengerId: senderID,phone})
+                            .then(() => {
                                 if (payload.case == 'confirmEmployer') sendAPI(senderID, {
                                     text: "Okie, bạn đang cần tuyển vị trí gì nhỉ?",
                                     metadata: JSON.stringify({
@@ -2037,13 +2037,8 @@ function intention(payload, senderID, postback, message = {}) {
                         }
 
 
-                    } else {
-
-                        console.log('phone', phone)
-                        userRef.child(senderID).update({phone}).then(result => sendInterviewOption(jobId, senderID, payload.status))
-
                     }
-                    break
+                    break;
                 }
 
                 case
