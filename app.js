@@ -374,7 +374,9 @@ VD: Dumpling(n) Bánh bao`,
                 buttons: [{
                     type: "postback",
                     title: "Đăng ký tham gia",
-                    payload: "dumpling_english"
+                    payload: JSON.stringify({
+                        type: 'dumpling_english'
+                    })
                 }]
             }
         }
@@ -386,13 +388,16 @@ function sendVocal(vocal) {
     console.log('start')
 
     var map = _.each(dataAccount, account => {
-        a++
-        console.log('account', account.id)
-        setTimeout(function () {
-            sendingAPI(account.id, CONFIG.facebookPage['dumpling'].id, {
-                text: `[English] ${vocal}`
-            }, null, 'dumpling')
-        }, a * 200)
+        if (!account.match && !account.vocal_off) {
+            a++
+            console.log('account', account.id)
+            setTimeout(function () {
+                sendingAPI(account.id, CONFIG.facebookPage['dumpling'].id, {
+                    text: `[English] ${vocal}`
+                }, null, 'dumpling')
+            }, a * 200)
+        }
+
     })
     return map
 }
@@ -2596,7 +2601,26 @@ app.post('/webhook', function (req, res) {
 
                             }
                             else if (payload.type == 'learn_english') {
-                                sendVocalRes(senderID)
+                                if(senderData.vocal_off) sendVocalRes(senderID)
+                                else sendingAPI(senderID,recipientID,{
+                                    text: '[Hệ thống] Bạn đang mở tính năng từ vựng tiếng anh của Dumpling',
+                                    quick_replies: [
+                                        {
+                                            "content_type": "text",
+                                            "title": "Tắt",
+                                            "payload": JSON.stringify({
+                                                type: 'learn_english_off',
+                                            })
+                                        }
+                                    ]
+                                }, null, 'dumpling')
+                            }
+                            else if (payload.type == 'learn_english_off') {
+                              accountRef.child(senderID).update({vocal_off: true})
+                                  .then(result => sendingAPI(senderID,recipientID,{
+                                      text: '[Hệ thống] Đã tắt tính năng từ vựng tiếng anh',
+
+                                  }, null, 'dumpling'))
                             }
                             else if (messagingEvent.optin) {
                                 receivedAuthentication(messagingEvent);
