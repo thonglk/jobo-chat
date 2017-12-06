@@ -1994,7 +1994,7 @@ function intention(payload, senderID, postback, message = {}) {
                     if (payload.answer == 'yes') {
                         console.log('phone', phone)
                         //update messageId
-                        userRef.child(userId).update({messengerId: senderID,phone})
+                        userRef.child(userId).update({messengerId: senderID, phone})
                             .then(() => {
                                 if (payload.case == 'confirmEmployer') sendAPI(senderID, {
                                     text: "Okie, bạn đang cần tuyển vị trí gì nhỉ?",
@@ -2027,10 +2027,8 @@ function intention(payload, senderID, postback, message = {}) {
                             })
 
                         if (userId != senderID) {
-                            userRef
-                                .child(senderID)
-                                .remove(result => profileRef
-                                    .child(senderID)
+                            userRef.child(senderID)
+                                .remove(result => profileRef.child(senderID)
                                     .remove(result =>
                                         console.log('merge profile', senderID)
                                     ))
@@ -2089,7 +2087,7 @@ function intention(payload, senderID, postback, message = {}) {
                         }).then(result => sendAPI(senderID, {text: `Tks bạn!, ${timeAgo(time)} nữa sẽ diễn ra buổi trao đổi.\n` + 'Chúc bạn phỏng vấn thành công nhé <3'}))
                             .then(result => sendAPI(senderID, {text: 'Ngoài ra nếu có vấn đề gì hoặc muốn hủy buổi phỏng vấn thì chat ngay lại cho mình nhé!,\n - Hãy chủ động gọi cho nhà tuyển dụng để xác nhận lịch trước khi đến, hãy nhớ báo rằng bạn đã ứng tuyển qua JOBO để được gặp nhà tuyển dụng'}))
                             .then(result => sendInterviewInfo(senderID, user))
-                            .then(result => sendUpdateProfile(senderID,user,'Tiếp theo, bạn hãy cập nhật hồ sơ để hoàn tất ứng tuyển nhé!'))
+                            .then(result => sendUpdateProfile(senderID, user, 'Tiếp theo, bạn hãy cập nhật hồ sơ để hoàn tất ứng tuyển nhé!'))
                             .catch(err => console.log(err))
                     }
 
