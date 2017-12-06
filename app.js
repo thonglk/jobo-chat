@@ -1473,7 +1473,7 @@ function sendListJobByAddress(location, address, senderID) {
                 if (result.total > 0) sendAPI(senderID, {
                     text: `Mình tìm thấy ${result.total} công việc đang tuyển xung quanh địa chỉ ${shortAddress(address)} nè!`
                 }).then(() => sendAPI(senderID, result.message, 3000))
-                else loadUser(senderID).then(user => sendAPI(senderID, {
+                else sendAPI(senderID, {
                     attachment: {
                         type: "template",
                         payload: {
@@ -1486,7 +1486,7 @@ function sendListJobByAddress(location, address, senderID) {
                             }]
                         }
                     }
-                }))
+                })
             })
 
 
@@ -1969,7 +1969,7 @@ function intention(payload, senderID, postback, message = {}) {
                                                 text: "Hãy cập nhật thêm thông tin để nhà tuyển dụng chọn bạn!",
                                                 buttons: [{
                                                     type: "web_url",
-                                                    url: `${CONFIG.WEBURL}/profile?admin=${userId}`,
+                                                    url: `${CONFIG.WEBURL}/profile?admin=${user.userId}`,
                                                     title: "Cập nhật hồ sơ"
                                                 }]
                                             }
