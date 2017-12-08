@@ -2744,10 +2744,9 @@ app.post('/webhook', function (req, res) {
                                 var refData = senderData.ref.split('_');
                                 console.log('refData', refData);
                                 senderData.flow = refData[0]
-                                var page = pageID
-                                ladiBotCol.findOne({flow: 0, page})
+                                ladiBotCol.findOne({flow: 0, page: pageID})
                                     .then(result => {
-                                        console.log('result',result)
+                                        console.log('result', result)
                                         if (result) ladiResCol.findOne({
                                             flow: 0,
                                             page,
