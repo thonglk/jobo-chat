@@ -33,13 +33,16 @@ var uri = 'mongodb://joboapp:joboApp.1234@ec2-54-157-20-214.compute-1.amazonaws.
 const MongoClient = require('mongodb');
 
 
-var md, dumpling_messageFactoryCol
+var md, dumpling_messageFactoryCol, ladiBotCol, ladiResCol
 
 MongoClient.connect(uri, function (err, db) {
     console.log(err);
 
     md = db;
     dumpling_messageFactoryCol = md.collection('dumpling_messageFactory');
+    ladiBotCol = md.collection('ladiBot_flow')
+    ladiResCol = md.collection('ladiBot_response')
+
     console.log("Connected correctly to server.");
 
 });
@@ -178,11 +181,12 @@ var db3 = joboTest.database();
 
 var userRef = db2.ref('user');
 var dataAccount = {}, accountRef = db.ref('account');
-
+var landBotAccount = {}
 // accountRef.child('dumpling').on('value', function (snap) {
 //     dataAccount = snap.val()
 //
 // })
+
 
 var profileRef = db2.ref('profile');
 var likeActivityRef = db3.ref('activity/like');
@@ -219,6 +223,14 @@ accountRef.child('dumpling').on('child_added', function (snap) {
 accountRef.child('dumpling').on('child_changed', function (snap) {
     dataAccount[snap.key] = snap.val()
 })
+
+accountRef.child('ambius').on('child_added', function (snap) {
+    landBotAccount[snap.key] = snap.val()
+})
+accountRef.child('ambius').on('child_changed', function (snap) {
+    landBotAccount[snap.key] = snap.val()
+})
+
 lastMessageRef.on('child_added', function (snap) {
     lastMessageData[snap.key] = snap.val()
 });
@@ -561,6 +573,38 @@ app.get('/quick_topic', function (req, res) {
 })
 app.get('/topic', function (req, res) {
     res.send(topic)
+})
+
+app.get('/getchat', function (req, res) {
+    var {id = '1FAIpQLSchC5kv_FlJh0e1bfwv0TP4nrhe4E_dqW2mNQBQ5ErPOUz_rw'} = req.query
+    axios.get('https://docs.google.com/forms/d/e/' + id + '/viewform')
+        .then(result => {
+            var splitFirst = result.data.split('FB_PUBLIC_LOAD_DATA_ = ');
+            var two = splitFirst[1]
+            var right = two.split(`;</script>`)
+            var it = right[0]
+
+
+            var array = JSON.parse(it)
+            var data = array[1];
+            ladiBotCol.findOneAndUpdate({page: CONFIG.facebookPage['ambius'].id, id}, {
+                $set: {
+                    page: CONFIG.facebookPage['ambius'].id,
+                    flow: 0,
+                    id,
+                    data
+                }
+            }, {upsert: true})
+                .then(result => res.send(array))
+            var title = data[8]
+            var subtitle = data[0]
+            var questions = data[1]
+
+
+        })
+        .catch(err => res.status(500).json(err))
+
+
 })
 
 // CONFIG FUNCTION
@@ -2601,8 +2645,8 @@ app.post('/webhook', function (req, res) {
 
                             }
                             else if (payload.type == 'learn_english') {
-                                if(senderData.vocal_off) sendVocalRes(senderID)
-                                else sendingAPI(senderID,recipientID,{
+                                if (senderData.vocal_off) sendVocalRes(senderID)
+                                else sendingAPI(senderID, recipientID, {
                                     text: '[Hệ thống] Bạn đang mở tính năng từ vựng tiếng anh của Dumpling',
                                     quick_replies: [
                                         {
@@ -2616,11 +2660,11 @@ app.post('/webhook', function (req, res) {
                                 }, null, 'dumpling')
                             }
                             else if (payload.type == 'learn_english_off') {
-                              accountRef.child(senderID).update({vocal_off: true})
-                                  .then(result => sendingAPI(senderID,recipientID,{
-                                      text: '[Hệ thống] Đã tắt tính năng từ vựng tiếng anh',
+                                accountRef.child(senderID).update({vocal_off: true})
+                                    .then(result => sendingAPI(senderID, recipientID, {
+                                        text: '[Hệ thống] Đã tắt tính năng từ vựng tiếng anh',
 
-                                  }, null, 'dumpling'))
+                                    }, null, 'dumpling'))
                             }
                             else if (messagingEvent.optin) {
                                 receivedAuthentication(messagingEvent);
@@ -2673,6 +2717,55 @@ app.post('/webhook', function (req, res) {
                             console.log('save receive', result)
                         })
                     }
+                    else if (pageID == CONFIG.facebookPage['ambius'].id) {
+                        var senderID = messagingEvent.sender.id;
+                        var recipientID = messagingEvent.recipient.id;
+                        var timeOfMessage = messagingEvent.timestamp;
+                        var message = messagingEvent.message;
+                        var postback = messagingEvent.postback
+
+                        if (message && message.quick_reply) var quickReply = messagingEvent.message.quick_reply;
+                        if (message && message.text) var messageText = message.text;
+                        if (message && message.attachments) var messageAttachments = message.attachments;
+                        if (postback && postback.payload) var payloadStr = messagingEvent.postback.payload
+                        else if (quickReply && quickReply.payload) payloadStr = quickReply.payload
+
+                        if (messagingEvent.referral) var referral = messagingEvent.referral
+                        else if (postback && postback.referral) referral = postback.referral
+
+
+                        if (payloadStr) var payload = JSON.parse(payloadStr)
+                        else payload = {}
+
+                        loadsenderData(senderID).then(senderData => {
+
+                            if (referral && referral.ref) {
+                                senderData.ref = referral.ref
+                                var refData = senderData.ref.split('_');
+                                console.log('refData', refData);
+                                senderData.flow = refData[0]
+                                var page = pageID
+                                ladiBotCol.findOne({flow: 0, page})
+                                    .then(result => ladiResCol.findOne({
+                                            flow: 0,
+                                            page,
+                                            senderID
+                                        })
+                                            .then(response => {
+                                                if(!response) response = {}
+                                                var flow = result.data
+                                                if (!response.start) sendingAPI(senderID, pageID, {
+                                                    text: flow[8] + '\n' + flow[0]
+                                                }, null, 'ambius')
+                                            })
+                                    )
+
+                            }
+
+                        })
+
+
+                    }
                 })
 
             }
@@ -2690,6 +2783,26 @@ function loadsenderData(senderID) {
             var user = result;
             user.createdAt = Date.now()
             accountRef.child('dumpling').child(senderID).update(user)
+                .then(result => resolve(user))
+                .catch(err => reject(err))
+        })
+
+
+    })
+}
+
+function loadLandBotData(senderID, page = 'ambius') {
+    return new Promise(function (resolve, reject) {
+        if (landBotAccount[senderID]) {
+
+            resolve(landBotAccount[senderID])
+        }
+        else graph.get(senderID + '?access_token=' + CONFIG.facebookPage[page].access_token, (err, result) => {
+            if (err) reject(err);
+            console.log(result);
+            var user = result;
+            user.createdAt = Date.now()
+            accountRef.child('ambius').child(senderID).update(user)
                 .then(result => resolve(user))
                 .catch(err => reject(err))
         })
