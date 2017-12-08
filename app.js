@@ -2746,19 +2746,20 @@ app.post('/webhook', function (req, res) {
                                 senderData.flow = refData[0]
                                 var page = pageID
                                 ladiBotCol.findOne({flow: 0, page})
-                                    .then(result => ladiResCol.findOne({
+                                    .then(result => {
+                                        console.log('result',result)
+                                        if (result) ladiResCol.findOne({
                                             flow: 0,
                                             page,
                                             senderID
+                                        }).then(response => {
+                                            if (!response) response = {}
+                                            var flow = result.data
+                                            if (!response.start) sendingAPI(senderID, pageID, {
+                                                text: flow[8] + '\n' + flow[0]
+                                            }, null, 'ambius')
                                         })
-                                            .then(response => {
-                                                if(!response) response = {}
-                                                var flow = result.data
-                                                if (!response.start) sendingAPI(senderID, pageID, {
-                                                    text: flow[8] + '\n' + flow[0]
-                                                }, null, 'ambius')
-                                            })
-                                    )
+                                    })
 
                             }
 

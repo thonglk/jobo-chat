@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-    </list>
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -19,8 +17,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="2748" column="51" lean-forward="true" selection-start-line="2748" selection-start-column="0" selection-end-line="2749" selection-end-column="0" />
+            <state relative-caret-position="323">
+              <caret line="2749" column="52" lean-forward="true" selection-start-line="2749" selection-start-column="52" selection-end-line="2749" selection-end-column="52" />
               <folding>
                 <element signature="e#12656#13045#0" expanded="false" />
                 <element signature="e#13595#18926#0" expanded="false" />
@@ -60,7 +58,7 @@
                 <element signature="e#117567#117795#0" expanded="false" />
                 <element signature="e#118728#119804#0" expanded="false" />
                 <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-                <element signature="e#130482#131064#0" expanded="false" />
+                <element signature="e#130408#130990#0" expanded="false" />
                 <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
                 <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
                 <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
@@ -325,12 +323,12 @@
       <workItem from="1511597281534" duration="5720000" />
       <workItem from="1511630021362" duration="552000" />
       <workItem from="1512122207231" duration="12708000" />
-      <workItem from="1512317255488" duration="31096000" />
+      <workItem from="1512317255488" duration="31528000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="346227000" />
+    <option name="totallyTimeSpent" value="346659000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -430,7 +428,7 @@
             <element signature="e#117567#117795#0" expanded="false" />
             <element signature="e#118728#119804#0" expanded="false" />
             <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#130482#131064#0" expanded="false" />
+            <element signature="e#130408#130990#0" expanded="false" />
             <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
@@ -511,7 +509,7 @@
             <element signature="e#117567#117795#0" expanded="false" />
             <element signature="e#118728#119804#0" expanded="false" />
             <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#130482#131064#0" expanded="false" />
+            <element signature="e#130408#130990#0" expanded="false" />
             <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
@@ -600,7 +598,7 @@
             <element signature="e#117567#117795#0" expanded="false" />
             <element signature="e#118728#119804#0" expanded="false" />
             <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#130482#131064#0" expanded="false" />
+            <element signature="e#130408#130990#0" expanded="false" />
             <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
@@ -673,7 +671,7 @@
             <element signature="e#117567#117795#0" expanded="false" />
             <element signature="e#118728#119804#0" expanded="false" />
             <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#130482#131064#0" expanded="false" />
+            <element signature="e#130408#130990#0" expanded="false" />
             <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
@@ -754,7 +752,7 @@
             <element signature="e#117567#117795#0" expanded="false" />
             <element signature="e#118728#119804#0" expanded="false" />
             <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#130482#131064#0" expanded="false" />
+            <element signature="e#130408#130990#0" expanded="false" />
             <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
@@ -904,8 +902,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="2748" column="51" lean-forward="true" selection-start-line="2748" selection-start-column="0" selection-end-line="2749" selection-end-column="0" />
+        <state relative-caret-position="323">
+          <caret line="2749" column="52" lean-forward="true" selection-start-line="2749" selection-start-column="52" selection-end-line="2749" selection-end-column="52" />
           <folding>
             <element signature="e#12656#13045#0" expanded="false" />
             <element signature="e#13595#18926#0" expanded="false" />
@@ -945,7 +943,7 @@
             <element signature="e#117567#117795#0" expanded="false" />
             <element signature="e#118728#119804#0" expanded="false" />
             <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#130482#131064#0" expanded="false" />
+            <element signature="e#130408#130990#0" expanded="false" />
             <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
