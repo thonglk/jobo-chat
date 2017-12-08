@@ -587,9 +587,9 @@ app.get('/getchat', function (req, res) {
 
             var array = JSON.parse(it)
             var data = array[1];
-            ladiBotCol.findOneAndUpdate({page: CONFIG.facebookPage['ambius'].id, id}, {
+            ladiBotCol.findOneAndUpdate({page: `${CONFIG.facebookPage['ambius'].id}`, id}, {
                 $set: {
-                    page: CONFIG.facebookPage['ambius'].id,
+                    page: `${CONFIG.facebookPage['ambius'].id}`,
                     flow: 0,
                     id,
                     data
@@ -2343,6 +2343,15 @@ function sendInterviewOption(jobId, senderID, status) {
     });
 }
 
+app.get('/findOne', function (req, res) {
+    ladiBotCol.findOne({flow: 0, page: 148767772152908})
+        .then(result => {
+            console.log('result', result)
+            res.send(result)
+        })
+        .catch(err => res.status(500).json(err))
+})
+
 app.get('/initconversation', function (req, res) {
 
     for (var a in conversationData) {
@@ -2744,9 +2753,8 @@ app.post('/webhook', function (req, res) {
                                 var refData = senderData.ref.split('_');
                                 console.log('refData', refData);
                                 senderData.flow = refData[0]
-                                ladiBotCol.find({flow: 0, page: pageID})
-                                    .toArray(array => {
-                                        var result =array[0]
+                                ladiBotCol.findOne({flow: 0, page: pageID})
+                                    .then(result => {
                                         console.log('result', result)
                                         if (result) ladiResCol.findOne({
                                             flow: 0,
