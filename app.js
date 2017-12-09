@@ -1428,7 +1428,6 @@ function matchingPayload(event) {
         var message = event.message
         var postback = event.postback
         var referral = event.referral
-
         var payloadStr = '';
 
         if (message && message.quick_reply && message.quick_reply.payload) payloadStr = message.quick_reply.payload
@@ -1436,7 +1435,10 @@ function matchingPayload(event) {
         else if (postback && postback.payload) payloadStr = postback.payload
         else if (referral) {
             console.log('referral', referral)
-            referInital(referral, senderID)
+            if (recipientID == CONFIG.facebookPage['jobo'].id) referInital(referral, senderID)
+
+            resolve({payload, senderID, referral, message})
+
         }
 
         if (payloadStr.length > 0) {
@@ -1445,16 +1447,13 @@ function matchingPayload(event) {
         } else if (message && message.text) {
             console.log('message.text', message.text);
             var lastMessage = lastMessageData[senderID]
-            console.log('lastMessage', lastMessage)
-            if (lastMessage) {
-                if (lastMessage.message && lastMessage.message.metadata) {
-                    payloadStr = lastMessage.message.metadata
-                }
-            }
+            console.log('lastMessage', lastMessage);
+            if (lastMessage && lastMessage.message && lastMessage.message.metadata) payloadStr = lastMessage.message.metadata
 
             if (payloadStr.length > 0) var payload = JSON.parse(payloadStr)
-            else payload = {type: 'default'}
+            else payload = {type: 'default'};
 
+            payload.text = message.text
 
             client.message(message.text, {})
                 .then(data => {
@@ -1502,8 +1501,8 @@ function matchingPayload(event) {
                     lng: locationData.long,
                 }
 
-                sendListJobByAddress(location, null, senderID)
-
+                if (recipientID == CONFIG.facebookPage['jobo'].id) sendListJobByAddress(location, null, senderID)
+                resolve({payload, senderID, attachments: message.attachments, message})
 
             }
         }
@@ -2746,39 +2745,153 @@ app.post('/webhook', function (req, res) {
                         if (payloadStr) var payload = JSON.parse(payloadStr)
                         else payload = {}
 
-                        loadsenderData(senderID).then(senderData => {
+                        loadsenderData(senderID)
+                            .then(senderData => matchingPayload(messagingEvent)
+                                .then(result => {
+                                    // analytic anwser
+                                    var payload = result.payload
+                                    var message = result.message
 
-                            if (referral && referral.ref) {
-                                senderData.ref = referral.ref
-                                var refData = senderData.ref.split('_');
-                                console.log('refData', refData);
-                                senderData.flow = refData[0]
-                                ladiBotCol.findOne({flow: 0, page: pageID})
-                                    .then(result => {
-                                        console.log('result', result)
-                                        if (result) ladiResCol.findOne({
-                                            flow: 0,
-                                            page: pageID,
-                                            senderID
-                                        }).then(response => {
-                                            if (!response) response = {}
-                                            var flow = result.data
-                                            if (!response.start) sendingAPI(senderID, pageID, {
-                                                text: flow[8] + '\n' + flow[0]
-                                            }, null, 'ambius')
-                                        })
-                                    })
 
-                            }
+                                    if (referral && referral.ref) {
+                                        senderData.ref = referral.ref
+                                        var refData = senderData.ref.split('_');
+                                        console.log('refData', refData);
+                                        senderData.flow = refData[0]
+                                    }
+                                    if (!senderData.flow) {
+                                        if (payload.state == 'setFlow') {
+                                            senderData.flow = payload.flow
+                                        }
+                                        else ladiBotCol.find({page: pageID})
+                                            .toArray(flowList => {
+                                                if (flowList.length > 0) {
+                                                    var quick_replies = []
 
-                        })
+                                                    var each = _.each(flowList, flow => {
+                                                        quick_replies.push({
+                                                            "content_type": "text",
+                                                            "title": flow.data[8],
+                                                            "payload": JSON.stringify({
+                                                                state: 'setFlow',
+                                                                flow: flow.flow
+                                                            })
+                                                        })
+                                                    })
+                                                    sendingAPI(senderID, pageID, {
+                                                        text: 'Bạn cần giúp gì nhỉ?',
+                                                        quick_replies
+                                                    }, null, 'ambius')
+                                                } else sendingAPI(senderID, pageID, {
+                                                    text: 'Chào bạn, Bạn cần giúp gì nhỉ?',
+                                                }, null, 'ambius')
+                                            })
+                                    }
+
+                                    if (senderData.flow) ladiBotCol.findOne({flow: senderData.flow, page: pageID})
+                                        .then(result => {
+
+                                                console.log('result', result);
+                                                if (result) ladiResCol.findOne({
+                                                    flow: senderData.flow,
+                                                    page: pageID,
+                                                    senderID
+                                                }).then(response => {
+                                                        if (!response) response = {}
+
+                                                        if (message && payload.type == 'ask' && payload.questionId) {
+                                                            if (payload.text) {
+                                                                response[payload.questionId] = payload.text
+                                                            }
+                                                        }
+
+                                                        var flow = result.data
+                                                        var questions = flow[1]
+
+
+                                                        if (!response.start) {
+                                                            sendingAPI(senderID, pageID, {
+                                                                text: flow[8] + '\n' + flow[0],
+                                                            }, null, 'ambius').then(result => {
+                                                                response.start = true
+                                                                loop()
+                                                            })
+                                                        }
+                                                        else loop()
+
+                                                        function loop() {
+                                                            if (!i) i = -1
+                                                            i++
+                                                            if (i < questions.length) {
+                                                                console.log('current', i)
+                                                                var currentQuestion = questions[i];
+                                                                var currentQuestionId = currentQuestion[0];
+                                                                if (!response[currentQuestionId]) {
+                                                                    var messageSend = {
+                                                                        text: currentQuestion[1],
+                                                                    }
+                                                                    var metadata = {
+                                                                        questionId: currentQuestionId
+                                                                    }
+
+                                                                    var ask = currentQuestion[4]
+
+                                                                    if (ask) {
+                                                                        metadata.type = 'ask'
+                                                                        var askOption = ask[0][1]
+                                                                        if (askOption) {
+                                                                            var quick_replies = []
+                                                                            var map = _.map(askOption, option => {
+                                                                                metadata.text = option[0]
+                                                                                quick_replies.push({
+                                                                                    "content_type": "text",
+                                                                                    "title": option[0],
+                                                                                    "payload": JSON.stringify(metadata)
+
+                                                                                })
+                                                                            });
+                                                                            messageSend.quick_replies = quick_replies
+                                                                        } else {
+                                                                            messageSend.metadata = metadata
+                                                                        }
+
+                                                                        sendingAPI(senderID, pageID, messageSend, null, 'ambius')
+                                                                    } else {
+                                                                        metadata.type = 'info'
+                                                                        sendingAPI(senderID, pageID, message, null, 'ambius').then(result => {
+                                                                            response[currentQuestionId] = true
+                                                                            setTimeout(loop(), 1000)
+                                                                        })
+
+                                                                    }
+                                                                } else
+                                                                    loop()
+
+                                                            } else {
+                                                                if (!response.end) {
+                                                                } else sendingAPI(senderID, pageID, {
+                                                                    text: 'Bạn đã hoàn thành rồi, chúng tôi sẽ liên hệ lại cho bạn sớm!',
+                                                                }, null, 'ambius')
+                                                            }
+
+                                                        }
+
+
+                                                    }
+                                                )
+                                            }
+                                        )
+
+                                })
+                            )
 
 
                     }
                 })
 
             }
-        });
+        })
+        ;
         res.sendStatus(200);
     }
 })

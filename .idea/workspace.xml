@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -19,56 +20,14 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="421">
-              <caret line="2757" column="0" lean-forward="false" selection-start-line="2757" selection-start-column="0" selection-end-line="2757" selection-end-column="0" />
+            <state relative-caret-position="458">
+              <caret line="2858" column="94" lean-forward="false" selection-start-line="2858" selection-start-column="94" selection-end-line="2858" selection-end-column="94" />
               <folding>
-                <element signature="e#12656#13045#0" expanded="false" />
-                <element signature="e#13595#18926#0" expanded="false" />
-                <element signature="e#19226#19338#0" expanded="false" />
-                <element signature="e#22328#22340#0" expanded="false" />
-                <element signature="e#23171#23218#0" expanded="false" />
-                <element signature="n#!!block;n#getPaginatedItems#0" expanded="false" />
-                <element signature="e#28730#28781#0" expanded="false" />
-                <element signature="n#!!block;n#shortAddress#0" expanded="false" />
-                <element signature="n#!!block;n#sendUpdate#0" expanded="false" />
-                <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-                <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-                <element signature="e#43446#43793#0" expanded="false" />
-                <element signature="n#!!block;n#shortAddress#1" expanded="false" />
-                <element signature="n#!!block;n#strTime#0" expanded="false" />
-                <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-                <element signature="n#!!block;n#jobJD#0" expanded="false" />
-                <element signature="e#48298#48485#0" expanded="false" />
-                <element signature="n#!!block;n#referInital#0" expanded="false" />
-                <element signature="e#56588#57996#0" expanded="false" />
-                <element signature="n#!!block;n#sendListJobByAddress#0" expanded="false" />
-                <element signature="e#96754#97161#0" expanded="false" />
-                <element signature="e#97932#99214#0" expanded="false" />
-                <element signature="e#100577#103047#0" expanded="false" />
-                <element signature="e#103116#104767#0" expanded="false" />
-                <element signature="e#104829#107545#0" expanded="false" />
-                <element signature="e#107611#107951#0" expanded="false" />
-                <element signature="e#108014#112387#0" expanded="false" />
-                <element signature="e#112451#114138#0" expanded="false" />
-                <element signature="e#114210#116037#0" expanded="false" />
-                <element signature="e#116108#116952#0" expanded="false" />
-                <element signature="e#117027#117385#0" expanded="false" />
-                <element signature="e#117445#117548#0" expanded="false" />
-                <element signature="e#117607#117716#0" expanded="false" />
-                <element signature="e#117767#118940#0" expanded="false" />
-                <element signature="e#117837#118065#0" expanded="false" />
-                <element signature="e#118998#120074#0" expanded="false" />
-                <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-                <element signature="e#130693#131275#0" expanded="false" />
-                <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
-                <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-                <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
-                <element signature="n#!!block;n#getJob#0" expanded="false" />
-                <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-                <element signature="n#!!block;n#loadJob#0" expanded="false" />
-                <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
-                <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
-                <element signature="n#!!block;n#sendGenericMessage#0" expanded="false" />
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#99467#120484#0" expanded="false" />
+                <element signature="e#108191#112564#0" expanded="false" />
+                <element signature="e#122533#124421#0" expanded="false" />
+                <element signature="e#128081#129255#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -163,7 +122,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>applys</find>
       <find>phỏng vấn</find>
       <find>name</find>
       <find>getUserDataAndSave</find>
@@ -193,6 +151,7 @@
       <find>/webh</find>
       <find>/webhook</find>
       <find>ambius</find>
+      <find>matchingP</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -324,15 +283,16 @@
       <workItem from="1511597281534" duration="5720000" />
       <workItem from="1511630021362" duration="552000" />
       <workItem from="1512122207231" duration="12708000" />
-      <workItem from="1512317255488" duration="32655000" />
+      <workItem from="1512317255488" duration="42045000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="347786000" />
+    <option name="totallyTimeSpent" value="357176000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19591261" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -341,7 +301,7 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25272068" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25272068" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -390,53 +350,11 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#12656#13045#0" expanded="false" />
-            <element signature="e#13595#18926#0" expanded="false" />
-            <element signature="e#19226#19338#0" expanded="false" />
-            <element signature="e#22328#22340#0" expanded="false" />
-            <element signature="e#23171#23218#0" expanded="false" />
-            <element signature="n#!!block;n#getPaginatedItems#0" expanded="false" />
-            <element signature="e#28730#28781#0" expanded="false" />
-            <element signature="n#!!block;n#shortAddress#0" expanded="false" />
-            <element signature="n#!!block;n#sendUpdate#0" expanded="false" />
-            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#43446#43793#0" expanded="false" />
-            <element signature="n#!!block;n#shortAddress#1" expanded="false" />
-            <element signature="n#!!block;n#strTime#0" expanded="false" />
-            <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="n#!!block;n#jobJD#0" expanded="false" />
-            <element signature="e#48298#48485#0" expanded="false" />
-            <element signature="n#!!block;n#referInital#0" expanded="false" />
-            <element signature="e#56588#57996#0" expanded="false" />
-            <element signature="n#!!block;n#sendListJobByAddress#0" expanded="false" />
-            <element signature="e#96754#97161#0" expanded="false" />
-            <element signature="e#97932#99214#0" expanded="false" />
-            <element signature="e#100577#103047#0" expanded="false" />
-            <element signature="e#103116#104767#0" expanded="false" />
-            <element signature="e#104829#107545#0" expanded="false" />
-            <element signature="e#107611#107951#0" expanded="false" />
-            <element signature="e#108014#112387#0" expanded="false" />
-            <element signature="e#112451#114138#0" expanded="false" />
-            <element signature="e#114210#116037#0" expanded="false" />
-            <element signature="e#116108#116952#0" expanded="false" />
-            <element signature="e#117027#117385#0" expanded="false" />
-            <element signature="e#117445#117548#0" expanded="false" />
-            <element signature="e#117607#117716#0" expanded="false" />
-            <element signature="e#117767#118940#0" expanded="false" />
-            <element signature="e#117837#118065#0" expanded="false" />
-            <element signature="e#118998#120074#0" expanded="false" />
-            <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#130693#131275#0" expanded="false" />
-            <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
-            <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
-            <element signature="n#!!block;n#getJob#0" expanded="false" />
-            <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-            <element signature="n#!!block;n#loadJob#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
-            <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
-            <element signature="n#!!block;n#sendGenericMessage#0" expanded="false" />
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#99467#120484#0" expanded="false" />
+            <element signature="e#108191#112564#0" expanded="false" />
+            <element signature="e#122533#124421#0" expanded="false" />
+            <element signature="e#128081#129255#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -470,53 +388,11 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#12656#13045#0" expanded="false" />
-            <element signature="e#13595#18926#0" expanded="false" />
-            <element signature="e#19226#19338#0" expanded="false" />
-            <element signature="e#22328#22340#0" expanded="false" />
-            <element signature="e#23171#23218#0" expanded="false" />
-            <element signature="n#!!block;n#getPaginatedItems#0" expanded="false" />
-            <element signature="e#28730#28781#0" expanded="false" />
-            <element signature="n#!!block;n#shortAddress#0" expanded="false" />
-            <element signature="n#!!block;n#sendUpdate#0" expanded="false" />
-            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#43446#43793#0" expanded="false" />
-            <element signature="n#!!block;n#shortAddress#1" expanded="false" />
-            <element signature="n#!!block;n#strTime#0" expanded="false" />
-            <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="n#!!block;n#jobJD#0" expanded="false" />
-            <element signature="e#48298#48485#0" expanded="false" />
-            <element signature="n#!!block;n#referInital#0" expanded="false" />
-            <element signature="e#56588#57996#0" expanded="false" />
-            <element signature="n#!!block;n#sendListJobByAddress#0" expanded="false" />
-            <element signature="e#96754#97161#0" expanded="false" />
-            <element signature="e#97932#99214#0" expanded="false" />
-            <element signature="e#100577#103047#0" expanded="false" />
-            <element signature="e#103116#104767#0" expanded="false" />
-            <element signature="e#104829#107545#0" expanded="false" />
-            <element signature="e#107611#107951#0" expanded="false" />
-            <element signature="e#108014#112387#0" expanded="false" />
-            <element signature="e#112451#114138#0" expanded="false" />
-            <element signature="e#114210#116037#0" expanded="false" />
-            <element signature="e#116108#116952#0" expanded="false" />
-            <element signature="e#117027#117385#0" expanded="false" />
-            <element signature="e#117445#117548#0" expanded="false" />
-            <element signature="e#117607#117716#0" expanded="false" />
-            <element signature="e#117767#118940#0" expanded="false" />
-            <element signature="e#117837#118065#0" expanded="false" />
-            <element signature="e#118998#120074#0" expanded="false" />
-            <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#130693#131275#0" expanded="false" />
-            <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
-            <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
-            <element signature="n#!!block;n#getJob#0" expanded="false" />
-            <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-            <element signature="n#!!block;n#loadJob#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
-            <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
-            <element signature="n#!!block;n#sendGenericMessage#0" expanded="false" />
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#99467#120484#0" expanded="false" />
+            <element signature="e#108191#112564#0" expanded="false" />
+            <element signature="e#122533#124421#0" expanded="false" />
+            <element signature="e#128081#129255#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -558,53 +434,11 @@
         <state relative-caret-position="8415">
           <caret line="568" column="0" lean-forward="false" selection-start-line="568" selection-start-column="0" selection-end-line="568" selection-end-column="0" />
           <folding>
-            <element signature="e#12656#13045#0" expanded="false" />
-            <element signature="e#13595#18926#0" expanded="false" />
-            <element signature="e#19226#19338#0" expanded="false" />
-            <element signature="e#22328#22340#0" expanded="false" />
-            <element signature="e#23171#23218#0" expanded="false" />
-            <element signature="n#!!block;n#getPaginatedItems#0" expanded="false" />
-            <element signature="e#28730#28781#0" expanded="false" />
-            <element signature="n#!!block;n#shortAddress#0" expanded="false" />
-            <element signature="n#!!block;n#sendUpdate#0" expanded="false" />
-            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#43446#43793#0" expanded="false" />
-            <element signature="n#!!block;n#shortAddress#1" expanded="false" />
-            <element signature="n#!!block;n#strTime#0" expanded="false" />
-            <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="n#!!block;n#jobJD#0" expanded="false" />
-            <element signature="e#48298#48485#0" expanded="false" />
-            <element signature="n#!!block;n#referInital#0" expanded="false" />
-            <element signature="e#56588#57996#0" expanded="false" />
-            <element signature="n#!!block;n#sendListJobByAddress#0" expanded="false" />
-            <element signature="e#96754#97161#0" expanded="false" />
-            <element signature="e#97932#99214#0" expanded="false" />
-            <element signature="e#100577#103047#0" expanded="false" />
-            <element signature="e#103116#104767#0" expanded="false" />
-            <element signature="e#104829#107545#0" expanded="false" />
-            <element signature="e#107611#107951#0" expanded="false" />
-            <element signature="e#108014#112387#0" expanded="false" />
-            <element signature="e#112451#114138#0" expanded="false" />
-            <element signature="e#114210#116037#0" expanded="false" />
-            <element signature="e#116108#116952#0" expanded="false" />
-            <element signature="e#117027#117385#0" expanded="false" />
-            <element signature="e#117445#117548#0" expanded="false" />
-            <element signature="e#117607#117716#0" expanded="false" />
-            <element signature="e#117767#118940#0" expanded="false" />
-            <element signature="e#117837#118065#0" expanded="false" />
-            <element signature="e#118998#120074#0" expanded="false" />
-            <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#130693#131275#0" expanded="false" />
-            <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
-            <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
-            <element signature="n#!!block;n#getJob#0" expanded="false" />
-            <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-            <element signature="n#!!block;n#loadJob#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
-            <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
-            <element signature="n#!!block;n#sendGenericMessage#0" expanded="false" />
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#99467#120484#0" expanded="false" />
+            <element signature="e#108191#112564#0" expanded="false" />
+            <element signature="e#122533#124421#0" expanded="false" />
+            <element signature="e#128081#129255#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -630,53 +464,11 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#12656#13045#0" expanded="false" />
-            <element signature="e#13595#18926#0" expanded="false" />
-            <element signature="e#19226#19338#0" expanded="false" />
-            <element signature="e#22328#22340#0" expanded="false" />
-            <element signature="e#23171#23218#0" expanded="false" />
-            <element signature="n#!!block;n#getPaginatedItems#0" expanded="false" />
-            <element signature="e#28730#28781#0" expanded="false" />
-            <element signature="n#!!block;n#shortAddress#0" expanded="false" />
-            <element signature="n#!!block;n#sendUpdate#0" expanded="false" />
-            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#43446#43793#0" expanded="false" />
-            <element signature="n#!!block;n#shortAddress#1" expanded="false" />
-            <element signature="n#!!block;n#strTime#0" expanded="false" />
-            <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="n#!!block;n#jobJD#0" expanded="false" />
-            <element signature="e#48298#48485#0" expanded="false" />
-            <element signature="n#!!block;n#referInital#0" expanded="false" />
-            <element signature="e#56588#57996#0" expanded="false" />
-            <element signature="n#!!block;n#sendListJobByAddress#0" expanded="false" />
-            <element signature="e#96754#97161#0" expanded="false" />
-            <element signature="e#97932#99214#0" expanded="false" />
-            <element signature="e#100577#103047#0" expanded="false" />
-            <element signature="e#103116#104767#0" expanded="false" />
-            <element signature="e#104829#107545#0" expanded="false" />
-            <element signature="e#107611#107951#0" expanded="false" />
-            <element signature="e#108014#112387#0" expanded="false" />
-            <element signature="e#112451#114138#0" expanded="false" />
-            <element signature="e#114210#116037#0" expanded="false" />
-            <element signature="e#116108#116952#0" expanded="false" />
-            <element signature="e#117027#117385#0" expanded="false" />
-            <element signature="e#117445#117548#0" expanded="false" />
-            <element signature="e#117607#117716#0" expanded="false" />
-            <element signature="e#117767#118940#0" expanded="false" />
-            <element signature="e#117837#118065#0" expanded="false" />
-            <element signature="e#118998#120074#0" expanded="false" />
-            <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#130693#131275#0" expanded="false" />
-            <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
-            <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
-            <element signature="n#!!block;n#getJob#0" expanded="false" />
-            <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-            <element signature="n#!!block;n#loadJob#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
-            <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
-            <element signature="n#!!block;n#sendGenericMessage#0" expanded="false" />
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#99467#120484#0" expanded="false" />
+            <element signature="e#108191#112564#0" expanded="false" />
+            <element signature="e#122533#124421#0" expanded="false" />
+            <element signature="e#128081#129255#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -710,53 +502,11 @@
         <state relative-caret-position="12570">
           <caret line="838" column="42" lean-forward="true" selection-start-line="838" selection-start-column="42" selection-end-line="838" selection-end-column="42" />
           <folding>
-            <element signature="e#12656#13045#0" expanded="false" />
-            <element signature="e#13595#18926#0" expanded="false" />
-            <element signature="e#19226#19338#0" expanded="false" />
-            <element signature="e#22328#22340#0" expanded="false" />
-            <element signature="e#23171#23218#0" expanded="false" />
-            <element signature="n#!!block;n#getPaginatedItems#0" expanded="false" />
-            <element signature="e#28730#28781#0" expanded="false" />
-            <element signature="n#!!block;n#shortAddress#0" expanded="false" />
-            <element signature="n#!!block;n#sendUpdate#0" expanded="false" />
-            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#43446#43793#0" expanded="false" />
-            <element signature="n#!!block;n#shortAddress#1" expanded="false" />
-            <element signature="n#!!block;n#strTime#0" expanded="false" />
-            <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="n#!!block;n#jobJD#0" expanded="false" />
-            <element signature="e#48298#48485#0" expanded="false" />
-            <element signature="n#!!block;n#referInital#0" expanded="false" />
-            <element signature="e#56588#57996#0" expanded="false" />
-            <element signature="n#!!block;n#sendListJobByAddress#0" expanded="false" />
-            <element signature="e#96754#97161#0" expanded="false" />
-            <element signature="e#97932#99214#0" expanded="false" />
-            <element signature="e#100577#103047#0" expanded="false" />
-            <element signature="e#103116#104767#0" expanded="false" />
-            <element signature="e#104829#107545#0" expanded="false" />
-            <element signature="e#107611#107951#0" expanded="false" />
-            <element signature="e#108014#112387#0" expanded="false" />
-            <element signature="e#112451#114138#0" expanded="false" />
-            <element signature="e#114210#116037#0" expanded="false" />
-            <element signature="e#116108#116952#0" expanded="false" />
-            <element signature="e#117027#117385#0" expanded="false" />
-            <element signature="e#117445#117548#0" expanded="false" />
-            <element signature="e#117607#117716#0" expanded="false" />
-            <element signature="e#117767#118940#0" expanded="false" />
-            <element signature="e#117837#118065#0" expanded="false" />
-            <element signature="e#118998#120074#0" expanded="false" />
-            <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#130693#131275#0" expanded="false" />
-            <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
-            <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
-            <element signature="n#!!block;n#getJob#0" expanded="false" />
-            <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-            <element signature="n#!!block;n#loadJob#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
-            <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
-            <element signature="n#!!block;n#sendGenericMessage#0" expanded="false" />
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#99467#120484#0" expanded="false" />
+            <element signature="e#108191#112564#0" expanded="false" />
+            <element signature="e#122533#124421#0" expanded="false" />
+            <element signature="e#128081#129255#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -897,56 +647,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="421">
-          <caret line="2757" column="0" lean-forward="false" selection-start-line="2757" selection-start-column="0" selection-end-line="2757" selection-end-column="0" />
+        <state relative-caret-position="458">
+          <caret line="2858" column="94" lean-forward="false" selection-start-line="2858" selection-start-column="94" selection-end-line="2858" selection-end-column="94" />
           <folding>
-            <element signature="e#12656#13045#0" expanded="false" />
-            <element signature="e#13595#18926#0" expanded="false" />
-            <element signature="e#19226#19338#0" expanded="false" />
-            <element signature="e#22328#22340#0" expanded="false" />
-            <element signature="e#23171#23218#0" expanded="false" />
-            <element signature="n#!!block;n#getPaginatedItems#0" expanded="false" />
-            <element signature="e#28730#28781#0" expanded="false" />
-            <element signature="n#!!block;n#shortAddress#0" expanded="false" />
-            <element signature="n#!!block;n#sendUpdate#0" expanded="false" />
-            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="n#!!block;n#sendHalloWeenMessage#0" expanded="false" />
-            <element signature="e#43446#43793#0" expanded="false" />
-            <element signature="n#!!block;n#shortAddress#1" expanded="false" />
-            <element signature="n#!!block;n#strTime#0" expanded="false" />
-            <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="n#!!block;n#jobJD#0" expanded="false" />
-            <element signature="e#48298#48485#0" expanded="false" />
-            <element signature="n#!!block;n#referInital#0" expanded="false" />
-            <element signature="e#56588#57996#0" expanded="false" />
-            <element signature="n#!!block;n#sendListJobByAddress#0" expanded="false" />
-            <element signature="e#96754#97161#0" expanded="false" />
-            <element signature="e#97932#99214#0" expanded="false" />
-            <element signature="e#100577#103047#0" expanded="false" />
-            <element signature="e#103116#104767#0" expanded="false" />
-            <element signature="e#104829#107545#0" expanded="false" />
-            <element signature="e#107611#107951#0" expanded="false" />
-            <element signature="e#108014#112387#0" expanded="false" />
-            <element signature="e#112451#114138#0" expanded="false" />
-            <element signature="e#114210#116037#0" expanded="false" />
-            <element signature="e#116108#116952#0" expanded="false" />
-            <element signature="e#117027#117385#0" expanded="false" />
-            <element signature="e#117445#117548#0" expanded="false" />
-            <element signature="e#117607#117716#0" expanded="false" />
-            <element signature="e#117767#118940#0" expanded="false" />
-            <element signature="e#117837#118065#0" expanded="false" />
-            <element signature="e#118998#120074#0" expanded="false" />
-            <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#130693#131275#0" expanded="false" />
-            <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
-            <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
-            <element signature="n#!!block;n#getJob#0" expanded="false" />
-            <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-            <element signature="n#!!block;n#loadJob#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
-            <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
-            <element signature="n#!!block;n#sendGenericMessage#0" expanded="false" />
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#99467#120484#0" expanded="false" />
+            <element signature="e#108191#112564#0" expanded="false" />
+            <element signature="e#122533#124421#0" expanded="false" />
+            <element signature="e#128081#129255#0" expanded="false" />
           </folding>
         </state>
       </provider>
