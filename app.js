@@ -1425,9 +1425,9 @@ function matchingPayload(event) {
         var senderID = event.sender.id;
         var recipientID = event.recipient.id;
         var timeOfPostback = event.timestamp;
-        var message = event.message
-        var postback = event.postback
-        var referral = event.referral
+        var message = event.message;
+        var postback = event.postback;
+        var referral = event.referral;
         var payloadStr = '';
 
         if (message && message.quick_reply && message.quick_reply.payload) payloadStr = message.quick_reply.payload
@@ -1448,12 +1448,12 @@ function matchingPayload(event) {
             console.log('message.text', message.text);
             var lastMessage = lastMessageData[senderID]
             console.log('lastMessage', lastMessage);
-            if (lastMessage && lastMessage.message && lastMessage.message.metadata) payloadStr = lastMessage.message.metadata
+            if (lastMessage && lastMessage.message && lastMessage.message.metadata) payloadStr = lastMessage.message.metadata;
 
             if (payloadStr.length > 0) var payload = JSON.parse(payloadStr)
             else payload = {type: 'default'};
 
-            payload.text = message.text
+            payload.text = message.text;
 
             client.message(message.text, {})
                 .then(data => {
@@ -2749,9 +2749,9 @@ app.post('/webhook', function (req, res) {
                             .then(senderData => matchingPayload(messagingEvent)
                                 .then(result => {
                                     // analytic anwser
-                                    var payload = result.payload
-                                    var message = result.message
 
+                                    var payload = result.payload;
+                                    var message = result.message;
 
                                     if (referral && referral.ref) {
                                         senderData.ref = referral.ref
@@ -2790,7 +2790,6 @@ app.post('/webhook', function (req, res) {
 
                                     if (senderData.flow) ladiBotCol.findOne({flow: senderData.flow, page: pageID})
                                         .then(result => {
-
                                                 console.log('result', result);
                                                 if (result) ladiResCol.findOne({
                                                     flow: senderData.flow,
@@ -2802,21 +2801,26 @@ app.post('/webhook', function (req, res) {
                                                         if (message && payload.type == 'ask' && payload.questionId) {
                                                             if (payload.text) {
                                                                 response[payload.questionId] = payload.text
+
+                                                                ladiResCol.findOneAndUpdate({
+                                                                    flow: senderData.flow,
+                                                                    page: pageID,
+                                                                    senderID
+                                                                }, {$set: response}).then(result => {
+                                                                    console.log('save response', response)
+                                                                })
                                                             }
                                                         }
 
                                                         var flow = result.data
                                                         var questions = flow[1]
 
-
-                                                        if (!response.start) {
-                                                            sendingAPI(senderID, pageID, {
-                                                                text: flow[8] + '\n' + flow[0],
-                                                            }, null, 'ambius').then(result => {
-                                                                response.start = true
-                                                                loop()
-                                                            })
-                                                        }
+                                                        if (!response.start) sendingAPI(senderID, pageID, {
+                                                            text: flow[8] + '\n' + flow[0],
+                                                        }, null, 'ambius').then(result => {
+                                                            response.start = true
+                                                            loop()
+                                                        });
                                                         else loop()
 
                                                         function loop() {
@@ -2860,6 +2864,13 @@ app.post('/webhook', function (req, res) {
                                                                         metadata.type = 'info'
                                                                         sendingAPI(senderID, pageID, message, null, 'ambius').then(result => {
                                                                             response[currentQuestionId] = true
+                                                                            ladiResCol.findOneAndUpdate({
+                                                                                flow: senderData.flow,
+                                                                                page: pageID,
+                                                                                senderID
+                                                                            }, {$set: response}).then(result => {
+                                                                                console.log('save response', response)
+                                                                            })
                                                                             setTimeout(loop(), 1000)
                                                                         })
 
@@ -2869,11 +2880,11 @@ app.post('/webhook', function (req, res) {
 
                                                             } else {
                                                                 if (!response.end) {
+
                                                                 } else sendingAPI(senderID, pageID, {
                                                                     text: 'Bạn đã hoàn thành rồi, chúng tôi sẽ liên hệ lại cho bạn sớm!',
                                                                 }, null, 'ambius')
                                                             }
-
                                                         }
 
 
