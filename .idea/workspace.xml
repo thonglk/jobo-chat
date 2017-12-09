@@ -17,13 +17,13 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1020">
-              <caret line="2366" column="2" lean-forward="true" selection-start-line="2366" selection-start-column="2" selection-end-line="2366" selection-end-column="2" />
+            <state relative-caret-position="331">
+              <caret line="182" column="38" lean-forward="false" selection-start-line="182" selection-start-column="35" selection-end-line="182" selection-end-column="38" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#99513#120530#0" expanded="false" />
                 <element signature="e#108237#112610#0" expanded="false" />
-                <element signature="e#122916#124430#0" expanded="false" />
+                <element signature="e#123028#124542#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -118,7 +118,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getUserDataAndSave</find>
       <find>intention</find>
       <find>applyJob</find>
       <find>on/profil</find>
@@ -148,6 +147,7 @@
       <find>matchingP</find>
       <find>matchingPayload</find>
       <find>findOneAndUpdate</find>
+      <find>db.</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -279,12 +279,12 @@
       <workItem from="1511597281534" duration="5720000" />
       <workItem from="1511630021362" duration="552000" />
       <workItem from="1512122207231" duration="12708000" />
-      <workItem from="1512317255488" duration="46661000" />
+      <workItem from="1512317255488" duration="47069000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="361792000" />
+    <option name="totallyTimeSpent" value="362200000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -349,7 +349,7 @@
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#99513#120530#0" expanded="false" />
             <element signature="e#108237#112610#0" expanded="false" />
-            <element signature="e#122916#124430#0" expanded="false" />
+            <element signature="e#123028#124542#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -386,7 +386,7 @@
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#99513#120530#0" expanded="false" />
             <element signature="e#108237#112610#0" expanded="false" />
-            <element signature="e#122916#124430#0" expanded="false" />
+            <element signature="e#123028#124542#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -431,7 +431,7 @@
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#99513#120530#0" expanded="false" />
             <element signature="e#108237#112610#0" expanded="false" />
-            <element signature="e#122916#124430#0" expanded="false" />
+            <element signature="e#123028#124542#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -460,7 +460,7 @@
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#99513#120530#0" expanded="false" />
             <element signature="e#108237#112610#0" expanded="false" />
-            <element signature="e#122916#124430#0" expanded="false" />
+            <element signature="e#123028#124542#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -497,7 +497,7 @@
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#99513#120530#0" expanded="false" />
             <element signature="e#108237#112610#0" expanded="false" />
-            <element signature="e#122916#124430#0" expanded="false" />
+            <element signature="e#123028#124542#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -638,13 +638,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
-          <caret line="2366" column="2" lean-forward="true" selection-start-line="2366" selection-start-column="2" selection-end-line="2366" selection-end-column="2" />
+        <state relative-caret-position="331">
+          <caret line="182" column="38" lean-forward="false" selection-start-line="182" selection-start-column="35" selection-end-line="182" selection-end-column="38" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#99513#120530#0" expanded="false" />
             <element signature="e#108237#112610#0" expanded="false" />
-            <element signature="e#122916#124430#0" expanded="false" />
+            <element signature="e#123028#124542#0" expanded="false" />
           </folding>
         </state>
       </provider>
