@@ -2726,6 +2726,10 @@ app.post('/webhook', function (req, res) {
                         })
                     }
                     else if (pageID == CONFIG.facebookPage['ambius'].id) {
+                        db.ref('tempEvent').push(messagingEvent)
+                        res.sendStatus(200);
+
+
                         var senderID = messagingEvent.sender.id;
                         var recipientID = messagingEvent.recipient.id;
                         var timeOfMessage = messagingEvent.timestamp;
