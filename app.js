@@ -149,9 +149,9 @@ const vietnameseDecode = (str) => {
     str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
     str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
     str = str.replace(/đ/g, "d");
-    //str= str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'| |\"|\&|\#|\[|\]|~|$|_/g,"-");
+    str= str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'| |\"|\&|\#|\[|\]|~|$|_/g,"-");
     /* tìm và thay thế các kí tự đặc biệt trong chuỗi sang kí tự - */
-    //str= str.replace(/-+-/g,"-"); //thay thế 2- thành 1-
+    str= str.replace(/-+-/g,"-"); //thay thế 2- thành 1-
     str = str.replace(/^\-+|\-+$/g, "");
     //cắt bỏ ký tự - ở đầu và cuối chuỗi
     return str;
