@@ -593,7 +593,7 @@ function getLongLiveToken(shortLiveToken) {
 }
 
 app.get('/getchat', function (req, res) {
-    var {url = 'https://docs.google.com/forms/d/e/1FAIpQLSchC5kv_FlJh0e1bfwv0TP4nrhe4E_dqW2mNQBQ5ErPOUz_rw/viewform', page = 'ambius', access_token, name, pageID} = req.query
+    var {url = 'https://docs.google.com/forms/d/e/1FAIpQLSchC5kv_FlJh0e1bfwv0TP4nrhe4E_dqW2mNQBQ5ErPOUz_rw/viewform', page, access_token, name, pageID} = req.query
 
     var urlArray = url.split('/')
     var each = _.filter(urlArray, per => {
@@ -601,135 +601,146 @@ app.get('/getchat', function (req, res) {
     })
     if (each.length == 1) {
         var id = each[0]
+        console.log('id', id)
+
         axios.get('https://docs.google.com/forms/d/e/' + id + '/viewform')
             .then(result => {
-                var splitFirst = result.data.split('FB_PUBLIC_LOAD_DATA_ = ');
-                var two = splitFirst[1]
-                var right = two.split(`;</script>`)
-                var it = right[0]
 
-                var array = JSON.parse(it)
-                var data = array[1];
+                if (result.data.match('FB_PUBLIC_LOAD_DATA_ = ')) {
+                    var splitFirst = result.data.split('FB_PUBLIC_LOAD_DATA_ = ');
 
-                var save = {
-                    id,
-                    data
-                }
-                if (dataLadiBot[id]) {
-                    //update
-                    save.flow = dataLadiBot[id].flow
-                }
-                if (access_token && name && pageID) {
-                    page = pageID
+                    var two = splitFirst[1]
 
-                    getLongLiveToken(access_token).then(data => {
-                        var new_access_token = data.access_token
-                        var pageData = {
-                            access_token: new_access_token, name, id: pageID
-                        }
-                        db3.ref('config/facebookPage').child(page).update(pageData).then(result => {
-                            CONFIG.facebookPage[page] = pageData
-                            save.page = `${CONFIG.facebookPage[page].id}`;
-                            console.log('dataLadiBot', dataLadiBot)
-                            var flowList = _.where(dataLadiBot, {page: CONFIG.facebookPage[page].id})
-                            console.log(flowList)
-                            if (flowList.length != 0) save.flow = flowList.length + 1
-                            else save.flow = 1
+                    var right = two.split(`;</script>`);
+                    var it = right[0]
 
-                            flowList.push(save)
+                    var array = JSON.parse(it)
+                    var data = array[1];
 
-                            var call_to_actions = []
-                            var each = _.each(flowList, fl => {
-                                call_to_actions.push({
-                                    "title": fl.data[8],
-                                    "type": "postback",
-                                    "payload": JSON.stringify({
-                                        state: 'setFlow',
-                                        flow: fl.flow
+                    var save = {
+                        id, data
+                    }
+                    if (dataLadiBot[id]) {
+                        save.flow = dataLadiBot[id].flow
+                    }
+                    console.log('save', save)
+
+
+                    if (access_token && name && pageID) {
+                        page = pageID
+
+                        getLongLiveToken(access_token).then(data => {
+                            var new_access_token = data.access_token
+                            var pageData = {
+                                access_token: new_access_token, name, id: pageID
+                            }
+                            db3.ref('config/facebookPage').child(page).update(pageData).then(result => {
+                                CONFIG.facebookPage[page] = pageData
+                                save.page = `${CONFIG.facebookPage[page].id}`;
+                                console.log('dataLadiBot', dataLadiBot)
+                                var flowList = _.where(dataLadiBot, {page: CONFIG.facebookPage[page].id})
+                                console.log(flowList)
+                                if (flowList.length != 0) save.flow = flowList.length + 1
+                                else save.flow = 1
+
+                                flowList.push(save)
+
+                                var call_to_actions = []
+                                var each = _.each(flowList, fl => {
+                                    call_to_actions.push({
+                                        "title": fl.data[8],
+                                        "type": "postback",
+                                        "payload": JSON.stringify({
+                                            state: 'setFlow',
+                                            flow: fl.flow
+                                        })
                                     })
                                 })
-                            })
-                            var menu = {
-                                "persistent_menu": [
-                                    {
-                                        "call_to_actions": [{
-                                            "title": "👑 Get started",
-                                            "type": "nested",
-                                            call_to_actions
-                                        }, {
-                                            "title": "💸 Power by Ladi.bot",
-                                            "type": "postback",
-                                            "payload": JSON.stringify({
-                                                type: 'affiliate',
-                                            })
+                                var menu = {
+                                    "persistent_menu": [
+                                        {
+                                            "call_to_actions": [{
+                                                "title": "👑 Get started",
+                                                "type": "nested",
+                                                call_to_actions
+                                            }, {
+                                                "title": "💸 Power by Ladi.bot",
+                                                "type": "postback",
+                                                "payload": JSON.stringify({
+                                                    type: 'affiliate',
+                                                })
+                                            }
+                                            ],
+                                            "locale": "default",
+
                                         }
-                                        ],
-                                        "locale": "default",
-
-                                    }
-                                ]
-                            }
+                                    ]
+                                }
 
 
-                            setGetstarted(page)
-                                .then(result => setDefautMenu(page, menu)
-                                    .then(result => db.ref('ladiBot').child(id).update(save)
-                                        .then(result => res.send(save))))
+                                setGetstarted(page)
+                                    .then(result => setDefautMenu(page, menu)
+                                        .then(result => db.ref('ladiBot').child(id).update(save)
+                                            .then(result => res.send(save))))
+                            })
+
+
                         })
 
 
-                    })
+                    }
+                    else if (page) {
 
+                        save.page = `${CONFIG.facebookPage[page].id}`;
 
-                } else if (page) {
+                        var flowList = _.where(dataLadiBot, {page: CONFIG.facebookPage[page].id})
+                        if (flowList.length != 0) save.flow = flowList.length + 1
+                        else save.flow = 1
 
-                    save.page = `${CONFIG.facebookPage[page].id}`;
-                    console.log('dataLadiBot', dataLadiBot)
-                    var flowList = _.where(dataLadiBot, {page: CONFIG.facebookPage[page].id})
-                    console.log(flowList)
-                    if (flowList.length != 0) save.flow = flowList.length + 1
-                    else save.flow = 1
+                        flowList.push(save)
 
-                    flowList.push(save)
-
-                    var call_to_actions = []
-                    var each = _.each(flowList, fl => {
-                        call_to_actions.push({
-                            "title": fl.data[8],
-                            "type": "postback",
-                            "payload": JSON.stringify({
-                                state: 'setFlow',
-                                flow: fl.flow
+                        var call_to_actions = []
+                        var each = _.each(flowList, fl => {
+                            call_to_actions.push({
+                                "title": fl.data[8],
+                                "type": "postback",
+                                "payload": JSON.stringify({
+                                    state: 'setFlow',
+                                    flow: fl.flow
+                                })
                             })
                         })
-                    })
-                    var menu = {
-                        "persistent_menu": [
-                            {
-                                "call_to_actions": [{
-                                    "title": "👑 Get started",
-                                    "type": "nested",
-                                    call_to_actions
-                                }, {
-                                    "title": "💸 Power by Ladi.bot",
-                                    "type": "postback",
-                                    "payload": JSON.stringify({
-                                        type: 'affiliate',
-                                    })
+                        var menu = {
+                            "persistent_menu": [
+                                {
+                                    "call_to_actions": [{
+                                        "title": "👑 Get started",
+                                        "type": "nested",
+                                        call_to_actions
+                                    }, {
+                                        "title": "💸 Power by Ladi.bot",
+                                        "type": "postback",
+                                        "payload": JSON.stringify({
+                                            type: 'affiliate',
+                                        })
+                                    }
+                                    ],
+                                    "locale": "default",
+
                                 }
-                                ],
-                                "locale": "default",
+                            ]
+                        }
 
-                            }
-                        ]
+                        setGetstarted(page)
+                            .then(result => setDefautMenu(page, menu)
+                                .then(result => db.ref('ladiBot').child(id).update(save)
+                                    .then(result => res.send(save))))
+
                     }
+                    else db.ref('ladiBot').child(id).update(save)
+                            .then(result => res.send(save))
 
-                    setGetstarted(page)
-                        .then(result => setDefautMenu(page, menu)
-                            .then(result => db.ref('ladiBot').child(id).update(save)
-                                .then(result => res.send(save))))
-
-                } else db.ref('ladiBot').child(id).update(save).then(result => res.send(save))
+                } else res.status(500).json({err: 'This form was not public'})
 
 
             })
@@ -2875,7 +2886,7 @@ app.post('/webhook', function (req, res) {
                             console.log('save receive', result)
                         })
                     }
-                    else if (pageID == CONFIG.facebookPage['ambius'].id) {
+                    else {
                         db.ref('tempEvent').push(messagingEvent)
                     }
                 })
