@@ -581,8 +581,19 @@ app.get('/topic', function (req, res) {
     res.send(topic)
 })
 
+function getLongLiveToken(shortLiveToken) {
+    return new Promise((resolve, reject) => {
+        const url = `https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=295208480879128&client_secret=4450decf6ea88c391f4100b5740792ae&fb_exchange_token=${shortLiveToken}`;
+        axios.get(url)
+            .then(res => resolve(res.data))
+            .catch(err => {
+                reject(err.response);
+            });
+    });
+}
+
 app.get('/getchat', function (req, res) {
-    var {url = 'https://docs.google.com/forms/d/e/1FAIpQLSchC5kv_FlJh0e1bfwv0TP4nrhe4E_dqW2mNQBQ5ErPOUz_rw/viewform', page = 'ambius'} = req.query
+    var {url = 'https://docs.google.com/forms/d/e/1FAIpQLSchC5kv_FlJh0e1bfwv0TP4nrhe4E_dqW2mNQBQ5ErPOUz_rw/viewform', page = 'ambius', access_token, name, pageID} = req.query
 
     var urlArray = url.split('/')
     var each = _.filter(urlArray, per => {
@@ -608,8 +619,70 @@ app.get('/getchat', function (req, res) {
                     //update
                     save.flow = dataLadiBot[id].flow
                 }
+                if (access_token && name && pageID) {
+                    page = pageID
 
-                if (page) {
+                    getLongLiveToken(access_token).then(data => {
+                        var new_access_token = data.access_token
+                        var pageData = {
+                            access_token: new_access_token, name, id: pageID
+                        }
+                        db3.ref('config/facebookPage').child(page).update(pageData).then(result => {
+                            CONFIG.facebookPage[page] = pageData
+                            save.page = `${CONFIG.facebookPage[page].id}`;
+                            console.log('dataLadiBot', dataLadiBot)
+                            var flowList = _.where(dataLadiBot, {page: CONFIG.facebookPage[page].id})
+                            console.log(flowList)
+                            if (flowList.length != 0) save.flow = flowList.length + 1
+                            else save.flow = 1
+
+                            flowList.push(save)
+
+                            var call_to_actions = []
+                            var each = _.each(flowList, fl => {
+                                call_to_actions.push({
+                                    "title": fl.data[8],
+                                    "type": "postback",
+                                    "payload": JSON.stringify({
+                                        state: 'setFlow',
+                                        flow: fl.flow
+                                    })
+                                })
+                            })
+                            var menu = {
+                                "persistent_menu": [
+                                    {
+                                        "call_to_actions": [{
+                                            "title": "👑 Get started",
+                                            "type": "nested",
+                                            call_to_actions
+                                        }, {
+                                            "title": "💸 Power by Ladi.bot",
+                                            "type": "postback",
+                                            "payload": JSON.stringify({
+                                                type: 'affiliate',
+                                            })
+                                        }
+                                        ],
+                                        "locale": "default",
+
+                                    }
+                                ]
+                            }
+
+
+                            setGetstarted(page)
+                                .then(result => setDefautMenu(page, menu)
+                                    .then(result => db.ref('ladiBot').child(id).update(save)
+                                        .then(result => res.send(save))))
+                        })
+
+
+                    })
+
+
+                } else if (page) {
+
                     save.page = `${CONFIG.facebookPage[page].id}`;
                     console.log('dataLadiBot', dataLadiBot)
                     var flowList = _.where(dataLadiBot, {page: CONFIG.facebookPage[page].id})
@@ -652,20 +725,11 @@ app.get('/getchat', function (req, res) {
                     }
 
                     setGetstarted(page)
-                        .then(result => setDefautMenu(page, menu))
-                }
+                        .then(result => setDefautMenu(page, menu)
+                            .then(result => db.ref('ladiBot').child(id).update(save)
+                                .then(result => res.send(save))))
 
-                db.ref('ladiBot').child(id).update(save).then(result => res.send(save))
-
-                // ladiBotCol.findOneAndUpdate({page: `${CONFIG.facebookPage['ambius'].id}`, id}, {
-                //     $set: {
-                //         page: `${CONFIG.facebookPage['ambius'].id}`,
-                //         flow: "0",
-                //         id,
-                //         data
-                //     }
-                // }, {upsert: true})
-                //
+                } else db.ref('ladiBot').child(id).update(save).then(result => res.send(save))
 
 
             })
