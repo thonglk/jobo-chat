@@ -154,7 +154,7 @@ const vietnameseDecode = (str) => {
     //str= str.replace(/-+-/g,"-"); //thay thế 2- thành 1-
     str = str.replace(/^\-+|\-+$/g, "");
     //cắt bỏ ký tự - ở đầu và cuối chuỗi
-    return str.toUpperCase();
+    return str;
 }
 var CONFIG;
 axios.get(API_URL + '/config')
@@ -594,161 +594,175 @@ function getLongLiveToken(shortLiveToken) {
 
 app.get('/getchat', function (req, res) {
     var {url = 'https://docs.google.com/forms/d/e/1FAIpQLSchC5kv_FlJh0e1bfwv0TP4nrhe4E_dqW2mNQBQ5ErPOUz_rw/viewform', page, access_token, name, pageID} = req.query
-
-    var urlArray = url.split('/')
-    var each = _.filter(urlArray, per => {
-        if (per.length > 40) return true
-    })
-    if (each.length == 1) {
-        var id = each[0]
-        console.log('id', id)
-
-        axios.get('https://docs.google.com/forms/d/e/' + id + '/viewform')
-            .then(result => {
-
-                if (result.data.match('FB_PUBLIC_LOAD_DATA_ = ')) {
-                    var splitFirst = result.data.split('FB_PUBLIC_LOAD_DATA_ = ');
-
-                    var two = splitFirst[1]
-
-                    var right = two.split(`;</script>`);
-                    var it = right[0]
-
-                    var array = JSON.parse(it)
-                    var data = array[1];
-
-                    var save = {
-                        id, data
-                    }
-                    if (dataLadiBot[id]) {
-                        save.flow = dataLadiBot[id].flow
-                    }
-                    console.log('save', save)
-
-
-                    if (access_token && name && pageID) {
-                        page = pageID
-
-                        getLongLiveToken(access_token).then(data => {
-                            var new_access_token = data.access_token
-                            var pageData = {
-                                access_token: new_access_token, name, id: pageID
-                            }
-                            db3.ref('config/facebookPage').child(page).update(pageData).then(result => {
-                                CONFIG.facebookPage[page] = pageData
-                                save.page = `${CONFIG.facebookPage[page].id}`;
-                                console.log('dataLadiBot', dataLadiBot)
-                                var flowList = _.where(dataLadiBot, {page: CONFIG.facebookPage[page].id})
-                                console.log(flowList)
-                                if (flowList.length != 0) save.flow = flowList.length + 1
-                                else save.flow = 1
-
-                                flowList.push(save)
-
-                                var call_to_actions = []
-                                var each = _.each(flowList, fl => {
-                                    call_to_actions.push({
-                                        "title": fl.data[8],
-                                        "type": "postback",
-                                        "payload": JSON.stringify({
-                                            state: 'setFlow',
-                                            flow: fl.flow
-                                        })
-                                    })
-                                })
-                                var menu = {
-                                    "persistent_menu": [
-                                        {
-                                            "call_to_actions": [{
-                                                "title": "👑 Get started",
-                                                "type": "nested",
-                                                call_to_actions
-                                            }, {
-                                                "title": "💸 Power by Ladi.bot",
-                                                "type": "postback",
-                                                "payload": JSON.stringify({
-                                                    type: 'affiliate',
-                                                })
-                                            }
-                                            ],
-                                            "locale": "default",
-
-                                        }
-                                    ]
-                                }
-
-
-                                setGetstarted(page)
-                                    .then(result => setDefautMenu(page, menu)
-                                        .then(result => db.ref('ladiBot').child(id).update(save)
-                                            .then(result => res.send(save))))
-                            })
-
-
-                        })
-
-
-                    }
-                    else if (page) {
-
-                        save.page = `${CONFIG.facebookPage[page].id}`;
-
-                        var flowList = _.where(dataLadiBot, {page: CONFIG.facebookPage[page].id})
-                        if (flowList.length != 0) save.flow = flowList.length + 1
-                        else save.flow = 1
-
-                        flowList.push(save)
-
-                        var call_to_actions = []
-                        var each = _.each(flowList, fl => {
-                            call_to_actions.push({
-                                "title": fl.data[8],
-                                "type": "postback",
-                                "payload": JSON.stringify({
-                                    state: 'setFlow',
-                                    flow: fl.flow
-                                })
-                            })
-                        })
-                        var menu = {
-                            "persistent_menu": [
-                                {
-                                    "call_to_actions": [{
-                                        "title": "👑 Get started",
-                                        "type": "nested",
-                                        call_to_actions
-                                    }, {
-                                        "title": "💸 Power by Ladi.bot",
-                                        "type": "postback",
-                                        "payload": JSON.stringify({
-                                            type: 'affiliate',
-                                        })
-                                    }
-                                    ],
-                                    "locale": "default",
-
-                                }
-                            ]
-                        }
-
-                        setGetstarted(page)
-                            .then(result => setDefautMenu(page, menu)
-                                .then(result => db.ref('ladiBot').child(id).update(save)
-                                    .then(result => res.send(save))))
-
-                    }
-                    else db.ref('ladiBot').child(id).update(save)
-                            .then(result => res.send(save))
-
-                } else res.status(500).json({err: 'This form was not public'})
-
-
-            })
-            .catch(err => res.status(500).json(err))
-    } else res.status(500).json({err: 'there are more than one Id'})
+    getChat(req.query).then(result => res.send(result))
+        .catch(err => res.status(500).json(err))
 
 
 })
+
+function getChat({url, page, access_token, name, pageID}) {
+    return new Promise(function (resolve, reject) {
+
+        var urlArray = url.split('/')
+        var each = _.filter(urlArray, per => {
+            if (per.length > 40) return true
+        })
+        if (each.length == 1) {
+            var id = each[0]
+            console.log('id', id)
+
+            axios.get('https://docs.google.com/forms/d/e/' + id + '/viewform')
+                .then(result => {
+
+                    if (result.data.match('FB_PUBLIC_LOAD_DATA_ = ')) {
+                        var splitFirst = result.data.split('FB_PUBLIC_LOAD_DATA_ = ');
+
+                        var two = splitFirst[1] //certain
+                        console.log('two', two)
+
+                        if (two.match(`;</script>`)) {
+                            var right = two.split(`;</script>`);
+                            var it = right[0]//certain
+                            if (JSON.parse(it) && JSON.parse(it)[1]) {
+                                var array = JSON.parse(it)
+                                var data = array[1]
+
+                                var save = {
+                                    id, data
+                                }
+                                if (dataLadiBot[id] && dataLadiBot[id].flow) {
+                                    save.flow = dataLadiBot[id].flow
+                                } else {
+                                    save.flow = vietnameseDecode(data[8])
+                                }
+                                console.log('save', save)
+
+
+                                if (access_token && name && pageID) {
+                                    page = pageID
+
+                                    getLongLiveToken(access_token).then(data => {
+                                        var new_access_token = data.access_token
+                                        var pageData = {
+                                            access_token: new_access_token, name, id: pageID
+                                        };
+                                        db3.ref('config/facebookPage').child(page).update(pageData).then(result => {
+                                            CONFIG.facebookPage[page] = pageData
+                                            save.page = `${CONFIG.facebookPage[page].id}`;
+
+                                            var flowList = _.where(dataLadiBot, {page: CONFIG.facebookPage[page].id})
+                                            console.log(flowList);
+
+                                            flowList.push(save);
+
+                                            var call_to_actions = []
+                                            var each = _.each(flowList, fl => {
+                                                call_to_actions.push({
+                                                    "title": fl.data[8],
+                                                    "type": "postback",
+                                                    "payload": JSON.stringify({
+                                                        state: 'setFlow',
+                                                        flow: fl.flow
+                                                    })
+                                                })
+                                            })
+                                            var menu = {
+                                                "persistent_menu": [
+                                                    {
+                                                        "call_to_actions": [{
+                                                            "title": "👑 Get started",
+                                                            "type": "nested",
+                                                            call_to_actions
+                                                        }, {
+                                                            "title": "💸 Power by Ladi.bot",
+                                                            "type": "postback",
+                                                            "payload": JSON.stringify({
+                                                                type: 'affiliate',
+                                                            })
+                                                        }
+                                                        ],
+                                                        "locale": "default",
+
+                                                    }
+                                                ]
+                                            }
+
+
+                                            setGetstarted(page)
+                                                .then(result => setDefautMenu(page, menu)
+                                                    .then(result => db.ref('ladiBot').child(id).update(save)
+                                                        .then(result => resolve(save))))
+                                        })
+
+
+                                    })
+
+
+                                }
+                                else if (page) {
+
+                                    save.page = `${CONFIG.facebookPage[page].id}`;
+
+                                    var flowList = _.where(dataLadiBot, {page: CONFIG.facebookPage[page].id})
+
+
+                                    flowList.push(save)
+
+                                    var call_to_actions = []
+                                    var each = _.each(flowList, fl => {
+                                        call_to_actions.push({
+                                            "title": fl.data[8],
+                                            "type": "postback",
+                                            "payload": JSON.stringify({
+                                                state: 'setFlow',
+                                                flow: fl.flow
+                                            })
+                                        })
+                                    })
+                                    var menu = {
+                                        "persistent_menu": [
+                                            {
+                                                "call_to_actions": [{
+                                                    "title": "👑 Get started",
+                                                    "type": "nested",
+                                                    call_to_actions
+                                                }, {
+                                                    "title": "💸 Power by Ladi.bot",
+                                                    "type": "postback",
+                                                    "payload": JSON.stringify({
+                                                        type: 'affiliate',
+                                                    })
+                                                }
+                                                ],
+                                                "locale": "default",
+
+                                            }
+                                        ]
+                                    }
+
+                                    setGetstarted(page)
+                                        .then(result => setDefautMenu(page, menu)
+                                            .then(result => db.ref('ladiBot').child(id).update(save)
+                                                .then(result => resolve(save))))
+
+                                }
+                                else db.ref('ladiBot').child(id).update(save)
+                                        .then(result => resolve(save))
+                            }
+
+                        }
+
+
+                    } else reject({err: 'This form was not public'})
+
+
+                })
+                .catch(err => reject(err))
+        }
+        else reject({err: 'there are more than one Id'})
+    })
+
+}
 
 // CONFIG FUNCTION
 function getPaginatedItems(items, page = 1, per_page = 15) {
@@ -942,7 +956,7 @@ app.get('/initUser', function () {
 
 app.get('/setMenu', function (req, res) {
     var page = req.param('page')
-    setDefautMenu(page).then(result => res.send(result))
+    setDefautMenu(page, menu[page]).then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 })
 
@@ -2904,6 +2918,8 @@ db.ref('tempEvent').on('child_added', function (snap) {
     var senderID = `${messagingEvent.sender.id}`;
     var recipientID = `${messagingEvent.recipient.id}`;
     var pageID = `${recipientID}`;
+
+
     var timeOfMessage = messagingEvent.timestamp;
     var message = messagingEvent.message;
     var postback = messagingEvent.postback
@@ -2932,197 +2948,91 @@ db.ref('tempEvent').on('child_added', function (snap) {
                 var payload = result.payload;
                 var message = result.message;
                 var referral = result.referral;
+                if (pageID == '206881183192113') {
+                    if (referral && referral.ref) {
+                        senderData.ref = referral.ref
+                        if (senderData.ref.match('_')) {
+                            var refData = senderData.ref.split('_');
+                            console.log('refData', refData);
 
-                if (referral && referral.ref) {
-                    senderData.ref = referral.ref
-                    var refData = senderData.ref.split('_');
-                    console.log('Number(refData[0])', Number(refData[0]));
-                    senderData.flow = Number(refData[0])
-                    db.ref(pageID + '_account').child(senderID).update(senderData)
-                }
-                if (payload && payload.state == 'setFlow') {
-                    senderData.flow = payload.flow;
-                    db.ref(pageID + '_account').child(senderID).update(senderData)
-                }
+                        } else refData = [senderData.ref]
 
-                if (!senderData.flow) {
-                    var flowList = _.where(dataLadiBot, {page: pageID})
-                    if (flowList && flowList.length > 0) {
-                        var quick_replies = []
+                        if (refData[0] == 'create') {
+                            var url = senderData.ref.slice(7);
 
-                        var each = _.each(flowList, flow => {
-                            quick_replies.push({
-                                "content_type": "text",
-                                "title": flow.data[8],
-                                "payload": JSON.stringify({
-                                    state: 'setFlow',
-                                    flow: flow.flow
-                                })
-                            })
-                        })
-                        sendingAPI(senderID, pageID, {
-                            text: 'Bạn cần giúp gì nhỉ?',
-                            quick_replies
-                        }, null, 'ambius')
-                    } else sendingAPI(senderID, pageID, {
-                        text: 'Chào bạn, Bạn cần giúp gì nhỉ?',
-                    }, null, 'ambius')
-                }
+                            sendingAPI(senderID, pageID, {
+                                text: `Welcome ${senderData.first_name}! \n Your form is being converted`
+                            }, null, pageID)
 
-                if (senderData.flow) {
-                    console.log('flow', senderData.flow)
-
-                    var result = _.findWhere(dataLadiBot, {flow: senderData.flow, page: pageID});
-
-                    if (result) ladiResCol.findOne({
-                        flow: senderData.flow,
-                        page: pageID,
-                        senderID
-                    }).then(response => {
-                        console.log('response', response)
-
-                        if (!response) response = {
-                            flow: senderData.flow,
-                            page: pageID,
-                            senderID
-                        }
-
-
-                        if (payload && payload.type == 'ask' && payload.questionId) {
-                            if (payload.text) {
-                                response[payload.questionId] = payload.text
-
-                                ladiResCol.findOneAndUpdate({
-                                    flow: senderData.flow,
-                                    page: pageID,
-                                    senderID
-                                }, {$set: response}).then(result => {
-                                    console.log('save response', response)
-                                })
-                            }
-                        }
-
-                        var flow = result.data
-                        var questions = flow[1]
-                        var q = -1
-
-                        function loop() {
-                            q++
-                            console.log('current', q)
-
-                            if (q < questions.length) {
-                                var currentQuestion = questions[q];
-                                console.log(currentQuestion)
-                                var currentQuestionId = currentQuestion[0];
-                                if (!response[currentQuestionId]) {
-                                    var messageSend = {
-                                        text: currentQuestion[1],
-                                    }
-                                    var metadata = {
-                                        questionId: currentQuestionId
-                                    }
-                                    var askStringStr = `0,1,7,8,9,10,13`
-                                    var askOptionStr = `2,3,4,5`
-                                    var askType = currentQuestion[3]
-                                    console.log('askType', askType)
-                                    if (currentQuestion[4]) {
-                                        metadata.askType = askType
-                                        metadata.type = 'ask'
-
-                                        if (askOptionStr.match(askType)) {
-                                            var askOption = currentQuestion[4][0][1]
-
-                                            var quick_replies = []
-                                            var map = _.map(askOption, option => {
-                                                metadata.text = option[0]
-                                                quick_replies.push({
-                                                    "content_type": "text",
-                                                    "title": option[0],
-                                                    "payload": JSON.stringify(metadata)
-
+                            getChat({url})
+                                .then(form => sendingAPI(senderID, pageID, {
+                                    attachment: {
+                                        type: "template",
+                                        payload: {
+                                            template_type: "button",
+                                            text: `Done <3! \n We had just turn your "${form.data[8]}" form into chatbot to help you convert more leads! \n Here are link: m.me/206881183192113?ref=${form.flow}`,
+                                            buttons: [{
+                                                type: "web_url",
+                                                url: `https://m.me/206881183192113?ref=${form.flow}`,
+                                                title: "Test your chatbot"
+                                            }, {
+                                                type: "postback",
+                                                title: "View response & edit form",
+                                                payload: JSON.stringify({
+                                                    state: 'editForm'
                                                 })
-                                            });
-                                            messageSend.quick_replies = quick_replies
-
-                                        } else if (askStringStr.match(askType)) {
-
-                                            messageSend.metadata = JSON.stringify(metadata)
+                                            }]
                                         }
-                                        console.log('messageSend', messageSend)
-                                        sendingAPI(senderID, pageID, messageSend, null, 'ambius')
-
-                                    } else {
-                                        metadata.type = 'info'
-                                        sendingAPI(senderID, pageID, messageSend, null, 'ambius').then(result => {
-                                            response[currentQuestionId] = true
-
-                                            ladiResCol.findOneAndUpdate({
-                                                flow: senderData.flow,
-                                                page: pageID,
-                                                senderID
-                                            }, {$set: response}).then(result => {
-                                                console.log('save response', response)
-                                                if (currentQuestion[3] == 11 && currentQuestion[2]) sendingAPI(senderID, pageID, {
-                                                    attachment: {
-                                                        type: "image",
-                                                        payload: {
-                                                            url: currentQuestion[2]
-                                                        }
-                                                    }
-                                                }, null, 'ambius').then(result => setTimeout(loop(), 1000))
-                                                else if (currentQuestion[3] == 12 && currentQuestion[6][3]) sendingAPI(senderID, pageID, {
-                                                    text: `https://www.youtube.com/watch?v=${currentQuestion[6][3]}`
-                                                }, null, 'ambius').then(result => setTimeout(loop(), 1000))
-                                                else setTimeout(loop(), 1000)
-
-
-                                            })
-
-                                        })
-
                                     }
-                                } else
-                                    loop()
+                                }, null, pageID)
+                                    .then(result => sendingAPI(senderID, pageID, {
+                                        attachment: {
+                                            type: "template",
+                                            payload: {
+                                                template_type: "button",
+                                                text: `Step 2: \n You want to build forms in your Facebook Page. Let's connect your facebook account!`,
+                                                buttons: [{
+                                                    type: "web_url",
+                                                    url: `https://jobo.asia/ladibot/create?url=${url}`,
+                                                    title: "Connect to my Facebook"
+                                                }]
+                                            }
+                                        }
+                                    }, null, pageID))
+                                    .catch(err => sendingAPI(senderID, pageID, {
+                                        text: JSON.stringify(err)
+                                    }, null, pageID)))
 
-                            } else {
-                                if (!response.end) sendingAPI(senderID, pageID, {
-                                    text: `${(flow[2] && flow[2][0]) ? (flow[2][0]) : ('Thanks for your time!')}`
-                                }, null, 'ambius').then(result => {
-                                    response.end = true
-                                    ladiResCol.findOneAndUpdate({
-                                        flow: senderData.flow,
-                                        page: pageID,
-                                        senderID
-                                    }, {$set: response}).then(result => {
-                                        console.log('save response', response)
-                                    })
-                                })
-                                else sendingAPI(senderID, pageID, {
-                                    text: 'Thank you again! See ya <3',
-                                }, null, 'ambius')
-                            }
+                                .catch(err => sendingAPI(senderID, pageID, {
+                                    text: JSON.stringify(err)
+                                }, null, pageID))
+
                         }
 
-                        if (!response.start) sendingAPI(senderID, pageID, {
-                            text: flow[8] || '' + '\n' + flow[0] || '',
-                        }, null, 'ambius').then(result => {
-                            response.start = true
-                            console.log(result)
 
-                            ladiResCol.findOneAndUpdate({
-                                flow: senderData.flow,
-                                page: pageID,
-                                senderID
-                            }, {$set: response}, {upsert: true}).then(result => {
-                                console.log('save response', result, response)
-                            })
-                            loop()
-                        })
-                        else loop()
+                        db.ref(pageID + '_account').child(senderID).update(senderData)
 
-                    })
-                    else {
-                        console.log('non-result')
+                        /// case create
+
+
+                    }
+
+
+                }
+                else {
+                    if (referral && referral.ref) {
+                        senderData.ref = referral.ref
+                        var refData = senderData.ref.split('_');
+                        console.log('Number(refData[0])', Number(refData[0]));
+                        senderData.flow = Number(refData[0])
+                        db.ref(pageID + '_account').child(senderID).update(senderData)
+                    }
+                    if (payload && payload.state == 'setFlow') {
+                        senderData.flow = payload.flow;
+                        db.ref(pageID + '_account').child(senderID).update(senderData)
+                    }
+
+                    if (!senderData.flow) {
                         var flowList = _.where(dataLadiBot, {page: pageID})
                         if (flowList && flowList.length > 0) {
                             var quick_replies = []
@@ -3140,12 +3050,191 @@ db.ref('tempEvent').on('child_added', function (snap) {
                             sendingAPI(senderID, pageID, {
                                 text: 'Bạn cần giúp gì nhỉ?',
                                 quick_replies
-                            }, null, 'ambius')
+                            }, null, pageID)
                         } else sendingAPI(senderID, pageID, {
                             text: 'Chào bạn, Bạn cần giúp gì nhỉ?',
-                        }, null, 'ambius')
+                        }, null, pageID)
+                    }
+
+                    if (senderData.flow) {
+                        console.log('flow', senderData.flow)
+
+                        var result = _.findWhere(dataLadiBot, {flow: senderData.flow, page: pageID});
+
+                        if (result) ladiResCol.findOne({
+                            flow: senderData.flow,
+                            page: pageID,
+                            senderID
+                        }).then(response => {
+                            console.log('response', response)
+
+                            if (!response) response = {
+                                flow: senderData.flow,
+                                page: pageID,
+                                senderID
+                            }
+
+
+                            if (payload && payload.type == 'ask' && payload.questionId) {
+                                if (payload.text) {
+                                    response[payload.questionId] = payload.text
+
+                                    ladiResCol.findOneAndUpdate({
+                                        flow: senderData.flow,
+                                        page: pageID,
+                                        senderID
+                                    }, {$set: response}).then(result => {
+                                        console.log('save response', response)
+                                    })
+                                }
+                            }
+
+                            var flow = result.data
+                            var questions = flow[1]
+                            var q = -1
+
+                            function loop() {
+                                q++
+                                console.log('current', q)
+
+                                if (q < questions.length) {
+                                    var currentQuestion = questions[q];
+                                    console.log(currentQuestion)
+                                    var currentQuestionId = currentQuestion[0];
+                                    if (!response[currentQuestionId]) {
+                                        var messageSend = {
+                                            text: currentQuestion[1],
+                                        }
+                                        var metadata = {
+                                            questionId: currentQuestionId
+                                        }
+                                        var askStringStr = `0,1,7,8,9,10,13`
+                                        var askOptionStr = `2,3,4,5`
+                                        var askType = currentQuestion[3]
+                                        console.log('askType', askType)
+                                        if (currentQuestion[4]) {
+                                            metadata.askType = askType
+                                            metadata.type = 'ask'
+
+                                            if (askOptionStr.match(askType)) {
+                                                var askOption = currentQuestion[4][0][1]
+
+                                                var quick_replies = []
+                                                var map = _.map(askOption, option => {
+                                                    metadata.text = option[0]
+                                                    quick_replies.push({
+                                                        "content_type": "text",
+                                                        "title": option[0],
+                                                        "payload": JSON.stringify(metadata)
+
+                                                    })
+                                                });
+                                                messageSend.quick_replies = quick_replies
+
+                                            } else if (askStringStr.match(askType)) {
+
+                                                messageSend.metadata = JSON.stringify(metadata)
+                                            }
+                                            console.log('messageSend', messageSend)
+                                            sendingAPI(senderID, pageID, messageSend, null, pageID)
+
+                                        } else {
+                                            metadata.type = 'info'
+                                            sendingAPI(senderID, pageID, messageSend, null, pageID).then(result => {
+                                                response[currentQuestionId] = true
+
+                                                ladiResCol.findOneAndUpdate({
+                                                    flow: senderData.flow,
+                                                    page: pageID,
+                                                    senderID
+                                                }, {$set: response}).then(result => {
+                                                    console.log('save response', response)
+                                                    if (currentQuestion[3] == 11 && currentQuestion[2]) sendingAPI(senderID, pageID, {
+                                                        attachment: {
+                                                            type: "image",
+                                                            payload: {
+                                                                url: currentQuestion[2]
+                                                            }
+                                                        }
+                                                    }, null, pageID).then(result => setTimeout(loop(), 1000))
+                                                    else if (currentQuestion[3] == 12 && currentQuestion[6][3]) sendingAPI(senderID, pageID, {
+                                                        text: `https://www.youtube.com/watch?v=${currentQuestion[6][3]}`
+                                                    }, null, pageID).then(result => setTimeout(loop(), 1000))
+                                                    else setTimeout(loop(), 1000)
+
+
+                                                })
+
+                                            })
+
+                                        }
+                                    } else
+                                        loop()
+
+                                } else {
+                                    if (!response.end) sendingAPI(senderID, pageID, {
+                                        text: `${(flow[2] && flow[2][0]) ? (flow[2][0]) : ('Thanks for your time!')}`
+                                    }, null, pageID).then(result => {
+                                        response.end = true
+                                        ladiResCol.findOneAndUpdate({
+                                            flow: senderData.flow,
+                                            page: pageID,
+                                            senderID
+                                        }, {$set: response}).then(result => {
+                                            console.log('save response', response)
+                                        })
+                                    })
+                                    else sendingAPI(senderID, pageID, {
+                                        text: 'Thank you again! See ya <3',
+                                    }, null, pageID)
+                                }
+                            }
+
+                            if (!response.start) sendingAPI(senderID, pageID, {
+                                text: flow[8] || '' + '\n' + flow[0] || '',
+                            }, null, pageID).then(result => {
+                                response.start = true
+                                console.log(result)
+
+                                ladiResCol.findOneAndUpdate({
+                                    flow: senderData.flow,
+                                    page: pageID,
+                                    senderID
+                                }, {$set: response}, {upsert: true}).then(result => {
+                                    console.log('save response', result, response)
+                                })
+                                loop()
+                            })
+                            else loop()
+
+                        })
+                        else {
+                            console.log('non-result')
+                            var flowList = _.where(dataLadiBot, {page: pageID})
+                            if (flowList && flowList.length > 0) {
+                                var quick_replies = []
+
+                                var each = _.each(flowList, flow => {
+                                    quick_replies.push({
+                                        "content_type": "text",
+                                        "title": flow.data[8],
+                                        "payload": JSON.stringify({
+                                            state: 'setFlow',
+                                            flow: flow.flow
+                                        })
+                                    })
+                                })
+                                sendingAPI(senderID, pageID, {
+                                    text: 'Bạn cần giúp gì nhỉ?',
+                                    quick_replies
+                                }, null, pageID)
+                            } else sendingAPI(senderID, pageID, {
+                                text: 'Chào bạn, Bạn cần giúp gì nhỉ?',
+                            }, null, pageID)
+                        }
                     }
                 }
+
             })
         )
     db.ref('tempEvent').child(snap.key).remove()
