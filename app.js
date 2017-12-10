@@ -237,7 +237,13 @@ lastMessageRef.on('child_added', function (snap) {
 lastMessageRef.on('child_changed', function (snap) {
     lastMessageData[snap.key] = snap.val()
 });
-
+var dataLadiBot = {}
+db.ref('ladiBot').on('child_added', function (snap) {
+    dataLadiBot[snap.key] = snap.val()
+});
+db.ref('ladiBot').on('child_changed', function (snap) {
+    dataLadiBot[snap.key] = snap.val()
+});
 var vocalArray = [
     "utter",
     "without qualification",
@@ -576,33 +582,95 @@ app.get('/topic', function (req, res) {
 })
 
 app.get('/getchat', function (req, res) {
-    var {id = '1FAIpQLSchC5kv_FlJh0e1bfwv0TP4nrhe4E_dqW2mNQBQ5ErPOUz_rw'} = req.query
-    axios.get('https://docs.google.com/forms/d/e/' + id + '/viewform')
-        .then(result => {
-            var splitFirst = result.data.split('FB_PUBLIC_LOAD_DATA_ = ');
-            var two = splitFirst[1]
-            var right = two.split(`;</script>`)
-            var it = right[0]
+    var {url = 'https://docs.google.com/forms/d/e/1FAIpQLSchC5kv_FlJh0e1bfwv0TP4nrhe4E_dqW2mNQBQ5ErPOUz_rw/viewform', page = 'ambius'} = req.query
 
+    var urlArray = url.split('/')
+    var each = _.filter(urlArray, per => {
+        if (per.length > 40) return true
+    })
+    if (each.length == 1) {
+        var id = each[0]
+        axios.get('https://docs.google.com/forms/d/e/' + id + '/viewform')
+            .then(result => {
+                var splitFirst = result.data.split('FB_PUBLIC_LOAD_DATA_ = ');
+                var two = splitFirst[1]
+                var right = two.split(`;</script>`)
+                var it = right[0]
 
-            var array = JSON.parse(it)
-            var data = array[1];
-            ladiBotCol.findOneAndUpdate({page: `${CONFIG.facebookPage['ambius'].id}`, id}, {
-                $set: {
-                    page: `${CONFIG.facebookPage['ambius'].id}`,
-                    flow: 0,
+                var array = JSON.parse(it)
+                var data = array[1];
+
+                var save = {
                     id,
                     data
                 }
-            }, {upsert: true})
-                .then(result => res.send(array))
-            var title = data[8]
-            var subtitle = data[0]
-            var questions = data[1]
+                if (dataLadiBot[id]) {
+                    //update
+                    save.flow = dataLadiBot[id].flow
+                }
+
+                if (page) {
+                    save.page = `${CONFIG.facebookPage[page].id}`;
+                    console.log('dataLadiBot', dataLadiBot)
+                    var flowList = _.where(dataLadiBot, {page: CONFIG.facebookPage[page].id})
+                    console.log(flowList)
+                    if (flowList.length != 0) save.flow = flowList.length + 1
+                    else save.flow = 1
+
+                    flowList.push(save)
+
+                    var call_to_actions = []
+                    var each = _.each(flowList, fl => {
+                        call_to_actions.push({
+                            "title": fl.data[8],
+                            "type": "postback",
+                            "payload": JSON.stringify({
+                                state: 'setFlow',
+                                flow: fl.flow
+                            })
+                        })
+                    })
+                    var menu = {
+                        "persistent_menu": [
+                            {
+                                "call_to_actions": [{
+                                    "title": "👑 Get started",
+                                    "type": "nested",
+                                    call_to_actions
+                                }, {
+                                    "title": "💸 Power by Ladi.bot",
+                                    "type": "postback",
+                                    "payload": JSON.stringify({
+                                        type: 'affiliate',
+                                    })
+                                }
+                                ],
+                                "locale": "default",
+
+                            }
+                        ]
+                    }
+
+                    setGetstarted(page)
+                        .then(result => setDefautMenu(page, menu))
+                }
+
+                db.ref('ladiBot').child(id).update(save).then(result => res.send(save))
+
+                // ladiBotCol.findOneAndUpdate({page: `${CONFIG.facebookPage['ambius'].id}`, id}, {
+                //     $set: {
+                //         page: `${CONFIG.facebookPage['ambius'].id}`,
+                //         flow: "0",
+                //         id,
+                //         data
+                //     }
+                // }, {upsert: true})
+                //
 
 
-        })
-        .catch(err => res.status(500).json(err))
+            })
+            .catch(err => res.status(500).json(err))
+    } else res.status(500).json({err: 'there are more than one Id'})
 
 
 })
@@ -843,156 +911,157 @@ function setGetstarted(page = 'jobo') {
     })
 }
 
-function setDefautMenu(page = 'jobo') {
-    var menu = {}
-    menu['jobo'] = {
-        "persistent_menu": [
-            {
-                "call_to_actions": [{
-                    "title": "💸 Nhận phần thưởng",
-                    "type": "postback",
-                    "payload": JSON.stringify({
-                        type: 'affiliate',
-                    })
-                }, {
-                    "title": "👑 Tìm việc",
+var menu = {}
+menu['jobo'] = {
+    "persistent_menu": [
+        {
+            "call_to_actions": [{
+                "title": "💸 Nhận phần thưởng",
+                "type": "postback",
+                "payload": JSON.stringify({
+                    type: 'affiliate',
+                })
+            }, {
+                "title": "👑 Tìm việc",
+                "type": "nested",
+
+                "call_to_actions": [
+                    {
+                        "title": "🍔 Tìm việc xung quanh",
+                        "type": "postback",
+                        "payload": JSON.stringify({
+                            type: 'confirmPolicy',
+                            answer: 'yes',
+                        })
+                    },
+                    {
+                        "title": "🍇 Lịch phỏng vấn",
+                        "type": "postback",
+                        "payload": JSON.stringify({
+                            type: 'jobseeker',
+                            state: 'interview',
+                        })
+                    },
+                    {
+                        "title": "🍋 Cập nhật hồ sơ",
+                        "type": "postback",
+                        "payload": JSON.stringify({
+                            type: 'jobseeker',
+                            state: 'updateProfile'
+
+                        })
+                    }
+                ]
+            },
+                {
+                    "title": "Xem thêm",
                     "type": "nested",
 
                     "call_to_actions": [
                         {
-                            "title": "🍔 Tìm việc xung quanh",
+                            "title": "🍔 Tôi muốn tuyển dụng",
                             "type": "postback",
                             "payload": JSON.stringify({
-                                type: 'confirmPolicy',
+                                type: 'confirmEmployer',
                                 answer: 'yes',
                             })
                         },
                         {
-                            "title": "🍇 Lịch phỏng vấn",
+                            "title": "🍇 Cộng đồng tìm việc",
+                            type: "web_url",
+                            url: "https://docs.google.com/forms/d/e/1FAIpQLSdfrjXEvdx72hpeDeM5KdT-z1DXqaoElfg5MRQM92xBCVzORA/viewform",
+                        },
+                        {
+                            "title": "🍇 Kinh nghiệm quản trị",
+                            type: "web_url",
+                            url: "https://docs.google.com/forms/d/e/1FAIpQLSdfrjXEvdx72hpeDeM5KdT-z1DXqaoElfg5MRQM92xBCVzORA/viewform",
+                        }
+                    ]
+                }
+            ],
+            "locale": "default",
+
+        }
+    ]
+}
+menu['dumpling'] = {
+    "persistent_menu": [
+        {
+            "call_to_actions": [
+                {
+                    "title": "💑 Trò chuyện",
+                    "type": "nested",
+
+                    "call_to_actions": [
+                        {
+                            "title": "✨ Bắt đầu",
                             "type": "postback",
                             "payload": JSON.stringify({
-                                type: 'jobseeker',
-                                state: 'interview',
+                                type: 'matching',
                             })
                         },
                         {
-                            "title": "🍋 Cập nhật hồ sơ",
+                            "title": "❎ Dừng chat",
                             "type": "postback",
                             "payload": JSON.stringify({
-                                type: 'jobseeker',
-                                state: 'updateProfile'
-
+                                type: 'stop',
+                            })
+                        },
+                        {
+                            "title": "Trạng thái",
+                            "type": "postback",
+                            "payload": JSON.stringify({
+                                type: 'status',
                             })
                         }
                     ]
                 },
-                    {
-                        "title": "Xem thêm",
-                        "type": "nested",
+                {
+                    type: "web_url",
+                    url: "https://docs.google.com/forms/d/e/1FAIpQLSdfrjXEvdx72hpeDeM5KdT-z1DXqaoElfg5MRQM92xBCVzORA/viewform",
+                    title: "📮 Gửi confession"
+                }, {
+                    "title": "Xem thêm",
+                    "type": "nested",
 
-                        "call_to_actions": [
-                            {
-                                "title": "🍔 Tôi muốn tuyển dụng",
-                                "type": "postback",
-                                "payload": JSON.stringify({
-                                    type: 'confirmEmployer',
-                                    answer: 'yes',
-                                })
-                            },
-                            {
-                                "title": "🍇 Cộng đồng tìm việc",
-                                type: "web_url",
-                                url: "https://docs.google.com/forms/d/e/1FAIpQLSdfrjXEvdx72hpeDeM5KdT-z1DXqaoElfg5MRQM92xBCVzORA/viewform",
-                            },
-                            {
-                                "title": "🍇 Kinh nghiệm quản trị",
-                                type: "web_url",
-                                url: "https://docs.google.com/forms/d/e/1FAIpQLSdfrjXEvdx72hpeDeM5KdT-z1DXqaoElfg5MRQM92xBCVzORA/viewform",
-                            }
-                        ]
-                    }
-                ],
-                "locale": "default",
+                    "call_to_actions": [
+                        {
+                            type: "postback",
+                            title: "Từ vựng tiếng anh",
+                            payload: JSON.stringify({type: 'learn_english'})
+                        },
+                        {
+                            type: "web_url",
+                            url: "https://www.facebook.com/dumpling.bot",
+                            title: "Fanpage Dumpling"
+                        }, {
+                            type: "web_url",
+                            url: "https://www.facebook.com/groups/1985734365037855",
+                            title: "Tham gia nhóm"
+                        }, {
+                            type: "postback",
+                            title: "Chia sẻ Dumpling",
+                            payload: JSON.stringify({type: 'share'})
+                        }
+                    ]
+                },
 
-            }
-        ]
-    }
-    menu['dumpling'] = {
-        "persistent_menu": [
-            {
-                "call_to_actions": [
-                    {
-                        "title": "💑 Trò chuyện",
-                        "type": "nested",
+            ],
+            "locale": "default",
 
-                        "call_to_actions": [
-                            {
-                                "title": "✨ Bắt đầu",
-                                "type": "postback",
-                                "payload": JSON.stringify({
-                                    type: 'matching',
-                                })
-                            },
-                            {
-                                "title": "❎ Dừng chat",
-                                "type": "postback",
-                                "payload": JSON.stringify({
-                                    type: 'stop',
-                                })
-                            },
-                            {
-                                "title": "Trạng thái",
-                                "type": "postback",
-                                "payload": JSON.stringify({
-                                    type: 'status',
-                                })
-                            }
-                        ]
-                    },
-                    {
-                        type: "web_url",
-                        url: "https://docs.google.com/forms/d/e/1FAIpQLSdfrjXEvdx72hpeDeM5KdT-z1DXqaoElfg5MRQM92xBCVzORA/viewform",
-                        title: "📮 Gửi confession"
-                    }, {
-                        "title": "Xem thêm",
-                        "type": "nested",
+        }
+    ]
+}
 
-                        "call_to_actions": [
-                            {
-                                type: "postback",
-                                title: "Từ vựng tiếng anh",
-                                payload: JSON.stringify({type: 'learn_english'})
-                            },
-                            {
-                                type: "web_url",
-                                url: "https://www.facebook.com/dumpling.bot",
-                                title: "Fanpage Dumpling"
-                            }, {
-                                type: "web_url",
-                                url: "https://www.facebook.com/groups/1985734365037855",
-                                title: "Tham gia nhóm"
-                            }, {
-                                type: "postback",
-                                title: "Chia sẻ Dumpling",
-                                payload: JSON.stringify({type: 'share'})
-                            }
-                        ]
-                    },
 
-                ],
-                "locale": "default",
-
-            }
-        ]
-    }
-
+function setDefautMenu(page = 'jobo', menu) {
 
     return new Promise(function (resolve, reject) {
         request({
             uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
             qs: {access_token: CONFIG.facebookPage[page].access_token},
             method: 'POST',
-            json: menu[page]
+            json: menu
 
         }, function (error, response, body) {
             if (!error && response.statusCode == 200) {
@@ -1421,6 +1490,7 @@ function referInital(referral, senderID, user) {
 
 function matchingPayload(event) {
     return new Promise(function (resolve, reject) {
+        console.log('event', JSON.stringify(event))
 
         var senderID = event.sender.id;
         var recipientID = event.recipient.id;
@@ -1444,8 +1514,7 @@ function matchingPayload(event) {
         if (payloadStr.length > 0) {
             var payload = JSON.parse(payloadStr);
             resolve({payload, senderID, postback})
-        } else if (message && message.text) {
-            console.log('message.text', message.text);
+        } else if (message) {
             var lastMessage = lastMessageData[senderID]
             console.log('lastMessage', lastMessage);
             if (lastMessage && lastMessage.message && lastMessage.message.metadata) payloadStr = lastMessage.message.metadata;
@@ -1453,58 +1522,75 @@ function matchingPayload(event) {
             if (payloadStr.length > 0) var payload = JSON.parse(payloadStr)
             else payload = {type: 'default'};
 
-            payload.text = message.text;
-
-            client.message(message.text, {})
-                .then(data => {
-                    console.log('Yay, got Wit.ai response: ', data);
-                    var entities = data.entities
-
-                    if (entities.yes_no) {
-                        var most = _.max(entities.yes_no, function (card) {
-                            return card.confidence;
-                        });
-                        var value = most.value
-                        console.log('value', value)
-                        if (value == 'yes') {
-                            payload.answer = 'yes'
-                        }
+            if (message.attachments) {
+                if (message.attachments[0].payload.coordinates) {
+                    var attachments = message.attachments[0]
+                    var locationData = attachments.payload.coordinates;
+                    console.log('locationData', locationData);
+                    var location = {
+                        lat: locationData.lat,
+                        lng: locationData.long,
                     }
-                    if (entities.phone_number) {
-                        var most = _.max(entities.phone_number, function (card) {
-                            return card.confidence;
-                        });
-                        var value = most.value
-                        console.log('value', value)
-                        payload.phone_number = value
-                    }
-                    if (entities.location) {
-                        var most = _.max(entities.location, function (card) {
-                            return card.confidence;
-                        });
-                        var value = most.value
-                        console.log('value', value)
-                        payload.location = value
-                    }
-                    resolve({payload, senderID, postback, message})
 
-                })
-                .catch(console.error);
+                    if (recipientID == CONFIG.facebookPage['jobo'].id) sendListJobByAddress(location, null, senderID)
 
+                } else if (message.attachments[0].payload.url) {
+                    var url = message.attachments[0].payload.url;
+                    console.log('url', url)
+                    payload.text = url
+                } else {
+                    console.log('something donnt know', event)
 
-        } else if (message && message.attachments) {
-            if (message.attachments[0].payload.coordinates) {
-                var locationData = message.attachments[0].payload.coordinates;
-                console.log('locationData', locationData);
-                var location = {
-                    lat: locationData.lat,
-                    lng: locationData.long,
                 }
 
-                if (recipientID == CONFIG.facebookPage['jobo'].id) sendListJobByAddress(location, null, senderID)
-                resolve({payload, senderID, attachments: message.attachments, message})
+                resolve({payload, senderID, message})
+
+            } else if (message.text) {
+                console.log('message.text', message.text);
+
+                payload.text = message.text;
+
+                client.message(message.text, {})
+                    .then(data => {
+                        console.log('Yay, got Wit.ai response: ', data);
+                        var entities = data.entities
+
+                        if (entities.yes_no) {
+                            var most = _.max(entities.yes_no, function (card) {
+                                return card.confidence;
+                            });
+                            var value = most.value
+                            console.log('value', value)
+                            if (value == 'yes') {
+                                payload.answer = 'yes'
+                            }
+                        }
+                        if (entities.phone_number) {
+                            var most = _.max(entities.phone_number, function (card) {
+                                return card.confidence;
+                            });
+                            var value = most.value
+                            console.log('value', value)
+                            payload.phone_number = value
+                        }
+                        if (entities.location) {
+                            var most = _.max(entities.location, function (card) {
+                                return card.confidence;
+                            });
+                            var value = most.value
+                            console.log('value', value)
+                            payload.location = value
+                        }
+                        resolve({payload, senderID, postback, message})
+
+                    })
+                    .catch(console.error);
 
             }
+
+        } else {
+
+            console.log('something donnt know', event)
         }
 
     })
@@ -2668,7 +2754,7 @@ app.post('/webhook', function (req, res) {
                                 }, null, 'dumpling')
                             }
                             else if (payload.type == 'learn_english_off') {
-                                accountRef.child(senderID).update({vocal_off: true})
+                                accountRef.child('dumpling').child(senderID).update({vocal_off: true})
                                     .then(result => sendingAPI(senderID, recipientID, {
                                         text: '[Hệ thống] Đã tắt tính năng từ vựng tiếng anh',
 
@@ -2737,195 +2823,273 @@ app.post('/webhook', function (req, res) {
     }
 })
 
-// db.ref('tempEvent').on('child_added', function (snap) {
-//     var messagingEvent = snap.val()
-//     var pageID = recipientID;
-//
-//     var senderID = messagingEvent.sender.id;
-//     var recipientID = messagingEvent.recipient.id;
-//     var timeOfMessage = messagingEvent.timestamp;
-//     var message = messagingEvent.message;
-//     var postback = messagingEvent.postback
-//
-//     if (message && message.quick_reply) var quickReply = messagingEvent.message.quick_reply;
-//     if (message && message.text) var messageText = message.text;
-//     if (message && message.attachments) var messageAttachments = message.attachments;
-//     if (postback && postback.payload) var payloadStr = messagingEvent.postback.payload
-//     else if (quickReply && quickReply.payload) payloadStr = quickReply.payload
-//
-//     if (messagingEvent.referral) var referral = messagingEvent.referral
-//     else if (postback && postback.referral) referral = postback.referral
-//
-//
-//     if (payloadStr) var payload = JSON.parse(payloadStr)
-//     else payload = {}
-//
-//     loadsenderData(senderID)
-//         .then(senderData => matchingPayload(messagingEvent)
-//             .then(result => {
-//                 // analytic anwser
-//
-//                 var payload = result.payload;
-//                 var message = result.message;
-//
-//                 if (referral && referral.ref) {
-//                     senderData.ref = referral.ref
-//                     var refData = senderData.ref.split('_');
-//                     console.log('refData', refData);
-//                     senderData.flow = refData[0]
-//                 }
-//                 if (!senderData.flow) {
-//                     if (payload.state == 'setFlow') {
-//                         senderData.flow = payload.flow
-//                     }
-//                     else ladiBotCol.find({page: pageID})
-//                         .toArray(flowList => {
-//                             if (flowList.length > 0) {
-//                                 var quick_replies = []
-//
-//                                 var each = _.each(flowList, flow => {
-//                                     quick_replies.push({
-//                                         "content_type": "text",
-//                                         "title": flow.data[8],
-//                                         "payload": JSON.stringify({
-//                                             state: 'setFlow',
-//                                             flow: flow.flow
-//                                         })
-//                                     })
-//                                 })
-//                                 sendingAPI(senderID, pageID, {
-//                                     text: 'Bạn cần giúp gì nhỉ?',
-//                                     quick_replies
-//                                 }, null, 'ambius')
-//                             } else sendingAPI(senderID, pageID, {
-//                                 text: 'Chào bạn, Bạn cần giúp gì nhỉ?',
-//                             }, null, 'ambius')
-//                         })
-//                 }
-//
-//                 if (senderData.flow) ladiBotCol.findOne({flow: senderData.flow, page: pageID})
-//                     .then(result => {
-//                             console.log('result', result);
-//                             if (result) ladiResCol.findOne({
-//                                 flow: senderData.flow,
-//                                 page: pageID,
-//                                 senderID
-//                             }).then(response => {
-//                                     if (!response) response = {}
-//
-//                                     if (message && payload.type == 'ask' && payload.questionId) {
-//                                         if (payload.text) {
-//                                             response[payload.questionId] = payload.text
-//
-//                                             ladiResCol.findOneAndUpdate({
-//                                                 flow: senderData.flow,
-//                                                 page: pageID,
-//                                                 senderID
-//                                             }, {$set: response}).then(result => {
-//                                                 console.log('save response', response)
-//                                             })
-//                                         }
-//                                     }
-//
-//                                     var flow = result.data
-//                                     var questions = flow[1]
-//
-//                                     if (!response.start) sendingAPI(senderID, pageID, {
-//                                         text: flow[8] + '\n' + flow[0],
-//                                     }, null, 'ambius').then(result => {
-//                                         response.start = true
-//                                         loop()
-//                                     });
-//                                     else loop()
-//
-//                                     function loop() {
-//                                         if (!i) i = -1
-//                                         i++
-//                                         if (i < questions.length) {
-//                                             console.log('current', i)
-//                                             var currentQuestion = questions[i];
-//                                             var currentQuestionId = currentQuestion[0];
-//                                             if (!response[currentQuestionId]) {
-//                                                 var messageSend = {
-//                                                     text: currentQuestion[1],
-//                                                 }
-//                                                 var metadata = {
-//                                                     questionId: currentQuestionId
-//                                                 }
-//
-//                                                 var ask = currentQuestion[4]
-//
-//                                                 if (ask) {
-//                                                     metadata.type = 'ask'
-//                                                     var askOption = ask[0][1]
-//                                                     if (askOption) {
-//                                                         var quick_replies = []
-//                                                         var map = _.map(askOption, option => {
-//                                                             metadata.text = option[0]
-//                                                             quick_replies.push({
-//                                                                 "content_type": "text",
-//                                                                 "title": option[0],
-//                                                                 "payload": JSON.stringify(metadata)
-//
-//                                                             })
-//                                                         });
-//                                                         messageSend.quick_replies = quick_replies
-//                                                     } else {
-//                                                         messageSend.metadata = metadata
-//                                                     }
-//
-//                                                     sendingAPI(senderID, pageID, messageSend, null, 'ambius')
-//                                                 } else {
-//                                                     metadata.type = 'info'
-//                                                     sendingAPI(senderID, pageID, message, null, 'ambius').then(result => {
-//                                                         response[currentQuestionId] = true
-//                                                         ladiResCol.findOneAndUpdate({
-//                                                             flow: senderData.flow,
-//                                                             page: pageID,
-//                                                             senderID
-//                                                         }, {$set: response}).then(result => {
-//                                                             console.log('save response', response)
-//                                                         })
-//                                                         setTimeout(loop(), 1000)
-//                                                     })
-//
-//                                                 }
-//                                             } else
-//                                                 loop()
-//
-//                                         } else {
-//                                             if (!response.end) {
-//
-//                                             } else sendingAPI(senderID, pageID, {
-//                                                 text: 'Bạn đã hoàn thành rồi, chúng tôi sẽ liên hệ lại cho bạn sớm!',
-//                                             }, null, 'ambius')
-//                                         }
-//                                     }
-//
-//
-//                                 }
-//                             )
-//                         }
-//                     )
-//
-//             })
-//         )
-//     db.ref('tempEvent').child(snap.key).remove()
-// })
+db.ref('tempEvent').on('child_added', function (snap) {
+    var messagingEvent = snap.val()
+
+    var senderID = `${messagingEvent.sender.id}`;
+    var recipientID = `${messagingEvent.recipient.id}`;
+    var pageID = `${recipientID}`;
+    var timeOfMessage = messagingEvent.timestamp;
+    var message = messagingEvent.message;
+    var postback = messagingEvent.postback
+
+    if (message && message.quick_reply) var quickReply = messagingEvent.message.quick_reply;
+    if (message && message.text) var messageText = message.text;
+    if (message && message.attachments) var messageAttachments = message.attachments;
+    if (postback && postback.payload) var payloadStr = messagingEvent.postback.payload
+    else if (quickReply && quickReply.payload) payloadStr = quickReply.payload
+
+    if (messagingEvent.referral) var referral = messagingEvent.referral
+    else if (postback && postback.referral) referral = postback.referral
 
 
+    if (payloadStr) var payload = JSON.parse(payloadStr)
+    else payload = {}
 
-function loadsenderData(senderID) {
+    loadsenderData(senderID, pageID)
+        .then(senderData => matchingPayload(messagingEvent)
+            .then(result => {
+                console.log('senderData', senderData)
+                console.log('matchingPayload', result)
+
+                // analytic anwser
+
+                var payload = result.payload;
+                var message = result.message;
+                var referral = result.referral;
+
+                if (referral && referral.ref) {
+                    senderData.ref = referral.ref
+                    var refData = senderData.ref.split('_');
+                    console.log('Number(refData[0])', Number(refData[0]));
+                    senderData.flow = Number(refData[0])
+                    db.ref(pageID + '_account').child(senderID).update(senderData)
+                }
+                if (payload && payload.state == 'setFlow') {
+                    senderData.flow = payload.flow;
+                    db.ref(pageID + '_account').child(senderID).update(senderData)
+                }
+
+                if (!senderData.flow) {
+                    var flowList = _.where(dataLadiBot, {page: pageID})
+                    if (flowList && flowList.length > 0) {
+                        var quick_replies = []
+
+                        var each = _.each(flowList, flow => {
+                            quick_replies.push({
+                                "content_type": "text",
+                                "title": flow.data[8],
+                                "payload": JSON.stringify({
+                                    state: 'setFlow',
+                                    flow: flow.flow
+                                })
+                            })
+                        })
+                        sendingAPI(senderID, pageID, {
+                            text: 'Bạn cần giúp gì nhỉ?',
+                            quick_replies
+                        }, null, 'ambius')
+                    } else sendingAPI(senderID, pageID, {
+                        text: 'Chào bạn, Bạn cần giúp gì nhỉ?',
+                    }, null, 'ambius')
+                }
+
+                if (senderData.flow) {
+                    console.log('flow', senderData.flow)
+
+                    var result = _.findWhere(dataLadiBot, {flow: senderData.flow, page: pageID});
+
+                    if (result) ladiResCol.findOne({
+                        flow: senderData.flow,
+                        page: pageID,
+                        senderID
+                    }).then(response => {
+                        console.log('response', response)
+
+                        if (!response) response = {
+                            flow: senderData.flow,
+                            page: pageID,
+                            senderID
+                        }
+
+
+                        if (payload && payload.type == 'ask' && payload.questionId) {
+                            if (payload.text) {
+                                response[payload.questionId] = payload.text
+
+                                ladiResCol.findOneAndUpdate({
+                                    flow: senderData.flow,
+                                    page: pageID,
+                                    senderID
+                                }, {$set: response}).then(result => {
+                                    console.log('save response', response)
+                                })
+                            }
+                        }
+
+                        var flow = result.data
+                        var questions = flow[1]
+                        var q = -1
+
+                        function loop() {
+                            q++
+                            console.log('current', q)
+
+                            if (q < questions.length) {
+                                var currentQuestion = questions[q];
+                                console.log(currentQuestion)
+                                var currentQuestionId = currentQuestion[0];
+                                if (!response[currentQuestionId]) {
+                                    var messageSend = {
+                                        text: currentQuestion[1],
+                                    }
+                                    var metadata = {
+                                        questionId: currentQuestionId
+                                    }
+                                    var askStringStr = `0,1,7,8,9,10,13`
+                                    var askOptionStr = `2,3,4,5`
+                                    var askType = currentQuestion[3]
+                                    console.log('askType', askType)
+                                    if (currentQuestion[4]) {
+                                        metadata.askType = askType
+                                        metadata.type = 'ask'
+
+                                        if (askOptionStr.match(askType)) {
+                                            var askOption = currentQuestion[4][0][1]
+
+                                            var quick_replies = []
+                                            var map = _.map(askOption, option => {
+                                                metadata.text = option[0]
+                                                quick_replies.push({
+                                                    "content_type": "text",
+                                                    "title": option[0],
+                                                    "payload": JSON.stringify(metadata)
+
+                                                })
+                                            });
+                                            messageSend.quick_replies = quick_replies
+
+                                        } else if (askStringStr.match(askType)) {
+
+                                            messageSend.metadata = JSON.stringify(metadata)
+                                        }
+                                        console.log('messageSend', messageSend)
+                                        sendingAPI(senderID, pageID, messageSend, null, 'ambius')
+
+                                    } else {
+                                        metadata.type = 'info'
+                                        sendingAPI(senderID, pageID, messageSend, null, 'ambius').then(result => {
+                                            response[currentQuestionId] = true
+
+                                            ladiResCol.findOneAndUpdate({
+                                                flow: senderData.flow,
+                                                page: pageID,
+                                                senderID
+                                            }, {$set: response}).then(result => {
+                                                console.log('save response', response)
+                                                if (currentQuestion[3] == 11 && currentQuestion[2]) sendingAPI(senderID, pageID, {
+                                                    attachment: {
+                                                        type: "image",
+                                                        payload: {
+                                                            url: currentQuestion[2]
+                                                        }
+                                                    }
+                                                }, null, 'ambius').then(result => setTimeout(loop(), 1000))
+                                                else if (currentQuestion[3] == 12 && currentQuestion[6][3]) sendingAPI(senderID, pageID, {
+                                                    text: `https://www.youtube.com/watch?v=${currentQuestion[6][3]}`
+                                                }, null, 'ambius').then(result => setTimeout(loop(), 1000))
+                                                else setTimeout(loop(), 1000)
+
+
+                                            })
+
+                                        })
+
+                                    }
+                                } else
+                                    loop()
+
+                            } else {
+                                if (!response.end) sendingAPI(senderID, pageID, {
+                                    text: `${(flow[2] && flow[2][0]) ? (flow[2][0]) : ('Thanks for your time!')}`
+                                }, null, 'ambius').then(result => {
+                                    response.end = true
+                                    ladiResCol.findOneAndUpdate({
+                                        flow: senderData.flow,
+                                        page: pageID,
+                                        senderID
+                                    }, {$set: response}).then(result => {
+                                        console.log('save response', response)
+                                    })
+                                })
+                                else sendingAPI(senderID, pageID, {
+                                    text: 'Thank you again! See ya <3',
+                                }, null, 'ambius')
+                            }
+                        }
+
+                        if (!response.start) sendingAPI(senderID, pageID, {
+                            text: flow[8] || '' + '\n' + flow[0] || '',
+                        }, null, 'ambius').then(result => {
+                            response.start = true
+                            console.log(result)
+
+                            ladiResCol.findOneAndUpdate({
+                                flow: senderData.flow,
+                                page: pageID,
+                                senderID
+                            }, {$set: response}, {upsert: true}).then(result => {
+                                console.log('save response', result, response)
+                            })
+                            loop()
+                        })
+                        else loop()
+
+                    })
+                    else {
+                        console.log('non-result')
+                        var flowList = _.where(dataLadiBot, {page: pageID})
+                        if (flowList && flowList.length > 0) {
+                            var quick_replies = []
+
+                            var each = _.each(flowList, flow => {
+                                quick_replies.push({
+                                    "content_type": "text",
+                                    "title": flow.data[8],
+                                    "payload": JSON.stringify({
+                                        state: 'setFlow',
+                                        flow: flow.flow
+                                    })
+                                })
+                            })
+                            sendingAPI(senderID, pageID, {
+                                text: 'Bạn cần giúp gì nhỉ?',
+                                quick_replies
+                            }, null, 'ambius')
+                        } else sendingAPI(senderID, pageID, {
+                            text: 'Chào bạn, Bạn cần giúp gì nhỉ?',
+                        }, null, 'ambius')
+                    }
+                }
+            })
+        )
+    db.ref('tempEvent').child(snap.key).remove()
+})
+
+
+function loadsenderData(senderID, page = 'dumpling') {
     return new Promise(function (resolve, reject) {
-        if (dataAccount[senderID]) resolve(dataAccount[senderID])
-        else graph.get(senderID + '?access_token=' + CONFIG.facebookPage['dumpling'].access_token, (err, result) => {
-            if (err) reject(err);
-            console.log(result);
-            var user = result;
-            user.createdAt = Date.now()
-            accountRef.child('dumpling').child(senderID).update(user)
-                .then(result => resolve(user))
-                .catch(err => reject(err))
+        db.ref(page + '_account').child(senderID).once('value', function (snap) {
+            if (snap.val()) resolve(snap.val())
+            else graph.get(senderID + '?access_token=' + CONFIG.facebookPage[page].access_token, (err, result) => {
+                if (err) reject(err);
+                console.log('account', result);
+                var user = result;
+                user.createdAt = Date.now()
+                db.ref(page + '_account').child(senderID).update(user)
+                    .then(result => resolve(user))
+                    .catch(err => reject(err))
+            })
         })
 
 
@@ -3624,6 +3788,7 @@ function sendingAPI(recipientId, senderId = CONFIG.facebookPage['jobo'].id, mess
                         .insert(messageData)
                         .then(result => {
                             console.log('save sent', result)
+                            lastMessageRef.child(recipientId).update(messageData)
                             resolve(result)
                         })
                         .catch(err => reject(err))
