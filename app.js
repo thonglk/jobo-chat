@@ -608,25 +608,30 @@ function getChat({url, page, access_token, name, pageID}) {
             if (per.length > 40) return true
         })
         if (each.length == 1) {
-            var id = each[0]
-            console.log('id', id)
-
-            axios.get('https://docs.google.com/forms/d/e/' + id + '/viewform')
+            var query = each[0]
+            console.log('query', query)
+            if (url.match('forms/d/e/')) {
+                var queryURL = 'https://docs.google.com/forms/d/e/' + query + '/viewform'
+            } else {
+                var queryURL = 'https://docs.google.com/forms/d/' + query + '/edit'
+            }
+            console.log('queryURL',queryURL)
+            axios.get(queryURL)
                 .then(result => {
 
                     if (result.data.match('FB_PUBLIC_LOAD_DATA_ = ')) {
                         var splitFirst = result.data.split('FB_PUBLIC_LOAD_DATA_ = ');
 
                         var two = splitFirst[1] //certain
-                        console.log('two', two)
 
                         if (two.match(`;</script>`)) {
                             var right = two.split(`;</script>`);
                             var it = right[0]//certain
-                            if (JSON.parse(it) && JSON.parse(it)[1]) {
+                            if (JSON.parse(it)) {
                                 var array = JSON.parse(it)
+                                console.log(array)
                                 var data = array[1]
-
+                                var id = array[14]
                                 var save = {
                                     id, data
                                 }
@@ -690,7 +695,7 @@ function getChat({url, page, access_token, name, pageID}) {
 
                                             setGetstarted(page)
                                                 .then(result => setDefautMenu(page, menu)
-                                                    .then(result => db.ref('ladiBot').child(id).update(save)
+                                                    .then(result => db.ref('ladiBot').child(save.flow).update(save)
                                                         .then(result => resolve(save))))
                                         })
 
@@ -742,11 +747,11 @@ function getChat({url, page, access_token, name, pageID}) {
 
                                     setGetstarted(page)
                                         .then(result => setDefautMenu(page, menu)
-                                            .then(result => db.ref('ladiBot').child(id).update(save)
+                                            .then(result => db.ref('ladiBot').child(save.flow).update(save)
                                                 .then(result => resolve(save))))
 
                                 }
-                                else db.ref('ladiBot').child(id).update(save)
+                                else db.ref('ladiBot').child(save.flow).update(save)
                                         .then(result => resolve(save))
                             }
 
@@ -2912,6 +2917,46 @@ app.post('/webhook', function (req, res) {
     }
 })
 var listen = 'on'
+
+app.get('/submitResponse', function (req, res) {
+    var {flow, senderID} = req.query
+    submitResponse(flow, senderID)
+        .then(result => res.send(result))
+        .catch(err => res.status(500).json(err))
+})
+
+function submitResponse(flow, senderID) {
+    return new Promise(function (resolve, reject) {
+        ladiResCol.findOne({
+            flow, senderID
+        }).then(response => {
+            if (response) {
+                delete response._id
+                delete response.flow
+                delete response.page
+                delete response.senderID
+                delete response.start
+                delete response.end
+                var form = _.findWhere(dataLadiBot, {flow})
+                if (form && form.id) {
+                    var url = 'https://docs.google.com/forms/d/' + form.id + '/formResponse?'
+                    for (var i in response) {
+                        url = url + `entry.${i}=${response[i]}&`
+                    }
+                    url = url + 'submit=Submit'
+
+                    axios.get(url).then(result => resolve(result.data))
+                        .catch(err => reject(err))
+
+                } else reject({err: 'form.id not found'})
+
+
+            } else reject({err: 'response not found'})
+        })
+    })
+
+}
+
 db.ref('tempEvent').on('child_added', function (snap) {
     if (listen == 'on') {
         var messagingEvent = snap.val()
