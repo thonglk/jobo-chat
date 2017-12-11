@@ -3028,13 +3028,7 @@ db.ref('tempEvent').on('child_added', function (snap) {
                                         }
                                     }, null, pageID)
                                         .then(result => sendingAPI(senderID, pageID, {
-                                            attachment: {
-                                                type: "template",
-                                                payload: {
-                                                    template_type: "button",
-                                                    text: `You want to build forms in your Facebook Page?. \n- Let's connect your facebook account!\n- Notify sale-agents when new lead submitted\n- Send broadcast to your leads \n- Build conditions logic flow for your bot \n => It's all coming soonnnn <3 Share mee`,
-                                                }
-                                            }
+                                            text: `You want to build forms in your Facebook Page?. \n- Let's connect your facebook account!\n- Notify sale-agents when new lead submitted\n- Send broadcast to your leads \n- Build conditions logic flow for your bot \n => It's all coming soonnnn <3 Share mee`,
                                         }, null, pageID))
                                         .catch(err => sendingAPI(senderID, pageID, {
                                             text: JSON.stringify(err)
