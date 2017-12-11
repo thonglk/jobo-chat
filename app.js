@@ -597,7 +597,6 @@ app.get('/getchat', function (req, res) {
     getChat(req.query).then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 
-
 })
 
 function getChat({url, page, access_token, name, pageID}) {
@@ -615,7 +614,7 @@ function getChat({url, page, access_token, name, pageID}) {
             } else {
                 var queryURL = 'https://docs.google.com/forms/d/' + query + '/edit'
             }
-            console.log('queryURL',queryURL)
+            console.log('queryURL', queryURL)
             axios.get(queryURL)
                 .then(result => {
 
@@ -691,7 +690,6 @@ function getChat({url, page, access_token, name, pageID}) {
                                                     }
                                                 ]
                                             }
-
 
                                             setGetstarted(page)
                                                 .then(result => setDefautMenu(page, menu)
@@ -2940,9 +2938,14 @@ function submitResponse(flow, senderID) {
                 var form = _.findWhere(dataLadiBot, {flow})
                 if (form && form.id) {
                     var url = 'https://docs.google.com/forms/d/' + form.id + '/formResponse?'
-                    for (var i in response) {
-                        url = url + `entry.${i}=${response[i]}&`
-                    }
+                    var questions = form.data[1]
+                    var each = _.each(questions, question => {
+                        var questionId = question[0]
+                        if (response[questionId] && response[questionId] != true) {
+                            url = url + `entry.${question[4][0][0]}=${response[questionId]}&`
+                        }
+                    });
+
                     url = url + 'submit=Submit'
 
                     axios.get(url).then(result => resolve(result.data))
