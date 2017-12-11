@@ -608,11 +608,16 @@ function getChat({url, page, access_token, name, pageID}) {
             console.log('queryURL', queryURL)
             axios.get(queryURL)
                 .then(result => {
+                    if (result.data.match('FB_PUBLIC_LOAD_DATA_ = ') || result.data.match('FB_LOAD_DATA_ = ')) {
+                        var str = '';
 
-                    if (result.data.match('FB_PUBLIC_LOAD_DATA_ = ')) {
-                        var splitFirst = result.data.split('FB_PUBLIC_LOAD_DATA_ = ');
+                        if (result.data.match('FB_PUBLIC_LOAD_DATA_ = ')) str = 'FB_PUBLIC_LOAD_DATA_ = ';
+                        else str = 'FB_LOAD_DATA_ = ';
 
-                        var two = splitFirst[1] //certain
+                        var splitFirst = result.data.split(str);
+
+                        var two = splitFirst[1]
+                        //certain
 
                         if (two.match(`;</script>`)) {
                             var right = two.split(`;</script>`);
@@ -620,7 +625,13 @@ function getChat({url, page, access_token, name, pageID}) {
                             if (JSON.parse(it)) {
                                 var array = JSON.parse(it)
                                 console.log(array)
-                                var data = array[1]
+                                if(str == 'FB_LOAD_DATA_ = '){
+                                    var data = array[0][1]
+
+                                } else {
+                                    var data = array[1]
+
+                                }
                                 var id = array[14]
                                 var save = {
                                     id, data
