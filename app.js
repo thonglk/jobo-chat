@@ -360,16 +360,7 @@ function sendNewWord() {
         console.log('mean', mean)
         sendVocal(mean)
         resolve(mean)
-        // var url = `https://glosbe.com/gapi/translate?from=eng&dest=vi&format=json&phrase=${vocal}&pretty=true`
-        // axios.get(url)
-        //     .then(data => {
-        //         var result = data.data
-        //         if (result.tuc && result.tuc[0] && result.tuc[0].phrase && result.tuc[0].phrase.text && result.tuc[2].phrase.text) {
-        //
-        //             resolve(mean)
-        //         }
-        //     })
-        //     .catch(err => reject(err))
+
     })
 
 }
@@ -3029,7 +3020,8 @@ db.ref('tempEvent').on('child_added', function (snap) {
                                                     type: "postback",
                                                     title: "View response & edit form",
                                                     payload: JSON.stringify({
-                                                        state: 'editForm'
+                                                        state: 'editForm',
+                                                        flow: form.flow
                                                     })
                                                 }]
                                             }
@@ -3040,12 +3032,7 @@ db.ref('tempEvent').on('child_added', function (snap) {
                                                 type: "template",
                                                 payload: {
                                                     template_type: "button",
-                                                    text: `Step 2: \n You want to build forms in your Facebook Page. Let's connect your facebook account!`,
-                                                    buttons: [{
-                                                        type: "web_url",
-                                                        url: `https://jobo.asia/ladibot/create?url=${url}`,
-                                                        title: "Connect to my Facebook"
-                                                    }]
+                                                    text: `You want to build forms in your Facebook Page?. \n- Let's connect your facebook account!\n- Notify sale-agents when new lead submitted\n- Send broadcast to your leads \n- Build conditions logic flow for your bot \n => It's all coming soonnnn <3 Share mee`,
                                                 }
                                             }
                                         }, null, pageID))
@@ -3249,9 +3236,12 @@ db.ref('tempEvent').on('child_added', function (snap) {
                                             flow: senderData.flow,
                                             page: pageID,
                                             senderID
-                                        }, {$set: response}).then(result => {
-                                            console.log('save response', response)
-                                        })
+                                        }, {$set: response})
+                                            .then(result => submitResponse(senderData.flow, senderID)
+                                                .then(result => console.log('done', result))
+                                                .catch(err => console.log('err', err))
+                                            )
+
                                     })
                                     else sendingAPI(senderID, pageID, {
                                         text: 'Thank you again! See ya <3',
