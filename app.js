@@ -392,7 +392,7 @@ setInterval(function () {
 }, 60 * 60 * 1000)
 
 function sendVocalRes(senderID) {
-    sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
+    sendingAPI(senderID, facebookPage['dumpling'].id, {
 
         attachment: {
             type: "template",
@@ -422,7 +422,7 @@ function sendVocal(vocal) {
             a++
             console.log('account', account.id)
             setTimeout(function () {
-                sendingAPI(account.id, CONFIG.facebookPage['dumpling'].id, {
+                sendingAPI(account.id, facebookPage['dumpling'].id, {
                     text: `[English] ${vocal}`
                 }, null, 'dumpling')
             }, a * 200)
@@ -440,7 +440,7 @@ function sendVocalC(vocal) {
         a++
         console.log('account', account.id)
         setTimeout(function () {
-            sendingAPI(account.id, CONFIG.facebookPage['dumpling'].id, {
+            sendingAPI(account.id, facebookPage['dumpling'].id, {
                 attachment: {
                     type: "template",
                     payload: {
@@ -549,7 +549,7 @@ function sendVocalC(vocal) {
 //                 if (filter.length == 0 || filtered == 0)
 //                     accountRef.child('dumpling').child(userId).child('match').remove()
 //                         .then(result => accountRef.child('dumpling').child(match).child('match').remove())
-//                         .then(result => sendingAPI(userId, CONFIG.facebookPage['dumpling'].id, {
+//                         .then(result => sendingAPI(userId, facebookPage['dumpling'].id, {
 //                             text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
 //                             quick_replies: [
 //                                 {
@@ -561,7 +561,7 @@ function sendVocalC(vocal) {
 //                                 }
 //                             ]
 //                         }, null, 'dumpling'))
-//                         .then(result => sendingAPI(match, CONFIG.facebookPage['dumpling'].id, {
+//                         .then(result => sendingAPI(match, facebookPage['dumpling'].id, {
 //                             text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
 //                             quick_replies: [
 //                                 {
@@ -613,7 +613,7 @@ app.get('/getchat', function (req, res) {
 
 app.get('/subscribed_apps', function (req, res) {
     var {pageID} = req.query
-    subscribed_apps(CONFIG.facebookPage[pageID].access_token, pageID)
+    subscribed_apps(facebookPage[pageID].access_token, pageID)
         .then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 })
@@ -1639,7 +1639,7 @@ function matchingPayload(event) {
         else if (postback && postback.payload) payloadStr = postback.payload
         else if (referral) {
             console.log('referral', referral)
-            if (recipientID == CONFIG.facebookPage['jobo'].id) referInital(referral, senderID)
+            if (recipientID == facebookPage['jobo'].id) referInital(referral, senderID)
 
             resolve({payload, senderID, referral, message})
 
@@ -1666,7 +1666,7 @@ function matchingPayload(event) {
                         lng: locationData.long,
                     }
 
-                    if (recipientID == CONFIG.facebookPage['jobo'].id) sendListJobByAddress(location, null, senderID)
+                    if (recipientID == facebookPage['jobo'].id) sendListJobByAddress(location, null, senderID)
 
                 } else if (message.attachments[0].payload.url) {
                     var url = message.attachments[0].payload.url;
@@ -2605,7 +2605,7 @@ app.post('/webhook', function (req, res) {
                     messagingEvent.messengerId = messagingEvent.sender.id;
                     messagingEvent.type = 'received';
 
-                    if (pageID == CONFIG.facebookPage['jobo'].id) {
+                    if (pageID == facebookPage['jobo'].id) {
                         conversationRef_new.child(messagingEvent.messengerId + ':' + timeOfEvent).update(messagingEvent).then(() => {
                             matchingPayload(messagingEvent)
                                 .then(result => intention(result.payload, result.senderID, result.postback, result.message))
@@ -2626,7 +2626,7 @@ app.post('/webhook', function (req, res) {
                             }
                         })
                     }
-                    else if (pageID == CONFIG.facebookPage['dumpling'].id) {
+                    else if (pageID == facebookPage['dumpling'].id) {
 
                         var senderID = messagingEvent.sender.id;
                         var recipientID = messagingEvent.recipient.id;
@@ -3384,7 +3384,7 @@ function loadLandBotData(senderID, page = 'ambius') {
 
             resolve(landBotAccount[senderID])
         }
-        else graph.get(senderID + '?access_token=' + CONFIG.facebookPage[page].access_token, (err, result) => {
+        else graph.get(senderID + '?access_token=' + facebookPage[page].access_token, (err, result) => {
             if (err) reject(err);
             console.log(result);
             var user = result;
@@ -3402,7 +3402,7 @@ function matchingPeople(senderID) {
 
     var senderData = dataAccount[senderID]
     var avaible = _.filter(dataAccount, function (card) {
-        if (!card.match && card.status != 0 && card.gender != senderData.gender && card.id != CONFIG.facebookPage['dumpling'].id) return true
+        if (!card.match && card.status != 0 && card.gender != senderData.gender && card.id != facebookPage['dumpling'].id) return true
         else return false
     })
 
@@ -3410,7 +3410,7 @@ function matchingPeople(senderID) {
         var random = _.sample(avaible)
         var matched = random.id
         console.log('matched', matched)
-        var recipientID = CONFIG.facebookPage['dumpling'].id
+        var recipientID = facebookPage['dumpling'].id
         sendingAPI(matched, recipientID, {
             text: `[Hệ Thống] Bạn đã được ghép với 1 người lạ ở Dumpling_${senderData.topic}, hãy nói gì đó đề bắt đầu`,
         }, null, 'dumpling')
@@ -3431,7 +3431,7 @@ function matchingPeople(senderID) {
             })
 
 
-    } else sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
+    } else sendingAPI(senderID, facebookPage['dumpling'].id, {
         text: "[Hệ Thống] Chưa tìm đc người phù hợp",
     }, null, 'dumpling')
 
@@ -3464,7 +3464,7 @@ function checkAvaible(senderID) {
             if (conver.length == 0) {
                 console.log('push people')
 
-                sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
+                sendingAPI(senderID, facebookPage['dumpling'].id, {
                     text: "[Hệ Thống] Bạn đã chủ động tìm người lạ, hãy mở lời chào với họ trước^^",
                 }, null, 'dumpling')
 
@@ -3485,7 +3485,7 @@ function checkAvaible(senderID) {
                 console.log('change people')
                 accountRef.child('dumpling').child(senderID).child('match').remove()
                     .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
-                    .then(result => sendingAPI(senderData.match, CONFIG.facebookPage['dumpling'].id, {
+                    .then(result => sendingAPI(senderData.match, facebookPage['dumpling'].id, {
                         text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
                         quick_replies: [
                             {
@@ -3497,7 +3497,7 @@ function checkAvaible(senderID) {
                             }
                         ]
                     }, null, 'dumpling'))
-                    .then(result => sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
+                    .then(result => sendingAPI(senderID, facebookPage['dumpling'].id, {
                         text: "[Hệ Thống] Không có phản hồi từ người lạ, hệ thống đã dừng cuộc trò chuyện",
                         quick_replies: [
                             {
@@ -3511,7 +3511,7 @@ function checkAvaible(senderID) {
                     }, null, 'dumpling'))
 
                 // .then(result => matchingPeople(senderID))
-                // .then(matched => sendingAPI(matched, CONFIG.facebookPage['dumpling'].id, {
+                // .then(matched => sendingAPI(matched, facebookPage['dumpling'].id, {
                 //         text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
                 //     }, null, 'dumpling').then(result => {
                 //         var conver_new = _.each(messageFactory, message => {
@@ -3524,10 +3524,10 @@ function checkAvaible(senderID) {
                 //         if(a==3){
                 //             accountRef.child('dumpling').child(senderID).child('match').remove()
                 //                 .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
-                //                 .then(result => sendingAPI(senderData.match, CONFIG.facebookPage['dumpling'].id, {
+                //                 .then(result => sendingAPI(senderData.match, facebookPage['dumpling'].id, {
                 //                     text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
                 //                 }, null, 'dumpling'))
-                //                 .then(result => sendingAPI(senderID, CONFIG.facebookPage['dumpling'].id, {
+                //                 .then(result => sendingAPI(senderID, facebookPage['dumpling'].id, {
                 //                     text: "[Hệ Thống] Hệ thống đã dừng cuộc trò chuyện",
                 //                 }, null, 'dumpling'))
                 //         } else loop()
@@ -4048,7 +4048,7 @@ function sendTextMessage(recipientId, messageText, metadata) {
 }
 
 
-function sendingAPI(recipientId, senderId = CONFIG.facebookPage['jobo'].id, message, typing, page = 'jobo') {
+function sendingAPI(recipientId, senderId = facebookPage['jobo'].id, message, typing, page = 'jobo') {
     return new Promise(function (resolve, reject) {
         if (!typing) typing = 10
         var messageData = {
@@ -4403,7 +4403,7 @@ function callSendAPI(messageData, page = 'jobo') {
                 messageData.message.text = split
                 request({
                     uri: 'https://graph.facebook.com/v2.6/me/messages',
-                    qs: {access_token: CONFIG.facebookPage[page].access_token},
+                    qs: {access_token: facebookPage[page].access_token},
                     method: 'POST',
                     json: messageData
 
@@ -4428,7 +4428,7 @@ function callSendAPI(messageData, page = 'jobo') {
 
         } else request({
             uri: 'https://graph.facebook.com/v2.6/me/messages',
-            qs: {access_token: CONFIG.facebookPage[page].access_token},
+            qs: {access_token: facebookPage[page].access_token},
             method: 'POST',
             json: messageData
 
