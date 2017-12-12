@@ -2959,7 +2959,6 @@ db.ref('webhook').on('child_added',function (snap) {
                         })
                     }
                     else {
-                        var messagingEvent = snap.val()
                         var senderID = `${messagingEvent.sender.id}`;
                         var recipientID = `${messagingEvent.recipient.id}`;
                         var pageID = `${recipientID}`;
