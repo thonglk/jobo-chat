@@ -20,6 +20,8 @@ const
     axios = require('axios'),
     firebase = require('firebase-admin'),
     _ = require('underscore');
+var encodeUrl = require('encodeurl')
+
 const {Wit, log} = require('node-wit');
 
 const client = new Wit({
@@ -200,6 +202,23 @@ var messageFactory = {}, messageFactoryRef = db.ref('messageFactory')
 var quick_topic = []
 var topic = {}
 var a = 0
+var facebookPage = {}, facebookPageRef = db.ref('facebookPage')
+facebookPageRef.on('child_added', function (snap) {
+    facebookPage[snap.key] = snap.val()
+});
+facebookPageRef.on('child_changed', function (snap) {
+    facebookPage[snap.key] = snap.val()
+});
+
+function saveFacebookPage(data) {
+    return new Promise(function (resolve, reject) {
+        facebookPageRef.child(data.id).update(data)
+            .then(result => resolve(result))
+            .catch(err => reject(err))
+
+    })
+}
+
 accountRef.child('dumpling').on('child_added', function (snap) {
     dataAccount[snap.key] = snap.val()
     var user = dataAccount[snap.key]
@@ -590,6 +609,24 @@ app.get('/getchat', function (req, res) {
 
 })
 
+app.get('/subscribed_apps', function (req, res) {
+    var {pageID} = req.query
+    subscribed_apps(CONFIG.facebookPage[pageID].access_token, pageID)
+        .then(result => res.send(result))
+        .catch(err => res.status(500).json(err))
+})
+
+function subscribed_apps(access_token, pageID) {
+    return new Promise(function (resolve, reject) {
+        console.log(access_token, pageID)
+        graph.post(pageID + '/subscribed_apps', {access_token}, function (err, result) {
+            if (err) reject(err)
+            resolve(result)
+        })
+
+    })
+}
+
 function getChat({url, page, access_token, name, pageID}) {
     return new Promise(function (resolve, reject) {
 
@@ -625,7 +662,7 @@ function getChat({url, page, access_token, name, pageID}) {
                             if (JSON.parse(it)) {
                                 var array = JSON.parse(it)
                                 console.log(array)
-                                if(str == 'FB_LOAD_DATA_ = '){
+                                if (str == 'FB_LOAD_DATA_ = ') {
                                     var data = array[0][1]
 
                                 } else {
@@ -652,52 +689,53 @@ function getChat({url, page, access_token, name, pageID}) {
                                         var pageData = {
                                             access_token: new_access_token, name, id: pageID
                                         };
-                                        db3.ref('config/facebookPage').child(page).update(pageData).then(result => {
-                                            CONFIG.facebookPage[page] = pageData
-                                            save.page = `${CONFIG.facebookPage[page].id}`;
+                                        subscribed_apps(new_access_token, pageID)
+                                            .then(result => saveFacebookPage(pageData)
+                                                .then(result => {
+                                                    facebookPage[page] = pageData
+                                                    save.page = `${facebookPage[page].id}`;
 
-                                            var flowList = _.where(dataLadiBot, {page: CONFIG.facebookPage[page].id})
-                                            console.log(flowList);
+                                                    var flowList = _.where(dataLadiBot, {page: facebookPage[page].id})
+                                                    console.log(flowList);
 
-                                            flowList.push(save);
+                                                    flowList.push(save);
 
-                                            var call_to_actions = []
-                                            var each = _.each(flowList, fl => {
-                                                call_to_actions.push({
-                                                    "title": fl.data[8],
-                                                    "type": "postback",
-                                                    "payload": JSON.stringify({
-                                                        state: 'setFlow',
-                                                        flow: fl.flow
-                                                    })
-                                                })
-                                            })
-                                            var menu = {
-                                                "persistent_menu": [
-                                                    {
-                                                        "call_to_actions": [{
-                                                            "title": "👑 Get started",
-                                                            "type": "nested",
-                                                            call_to_actions
-                                                        }, {
-                                                            "title": "💸 Power by Ladi.bot",
+                                                    var call_to_actions = []
+                                                    var each = _.each(flowList, fl => {
+                                                        call_to_actions.push({
+                                                            "title": fl.data[8],
                                                             "type": "postback",
                                                             "payload": JSON.stringify({
-                                                                type: 'affiliate',
+                                                                state: 'setFlow',
+                                                                flow: fl.flow
                                                             })
-                                                        }
-                                                        ],
-                                                        "locale": "default",
+                                                        })
+                                                    })
+                                                    var menu = {
+                                                        "persistent_menu": [
+                                                            {
+                                                                "call_to_actions": [{
+                                                                    "title": "👑 Get started",
+                                                                    "type": "nested",
+                                                                    call_to_actions
+                                                                }, {
+                                                                    type: "web_url",
+                                                                    url: "m.me/206881183192113?ref=power-by",
+                                                                    title: "📮 Power by Ladi.bot"
+                                                                }
+                                                                ],
+                                                                "locale": "default",
 
+                                                            }
+                                                        ]
                                                     }
-                                                ]
-                                            }
 
-                                            setGetstarted(page)
-                                                .then(result => setDefautMenu(page, menu)
-                                                    .then(result => db.ref('ladiBot').child(save.flow).update(save)
-                                                        .then(result => resolve(save))))
-                                        })
+                                                    setGetstarted(page)
+                                                        .then(result => setDefautMenu(page, menu)
+                                                            .then(result => db.ref('ladiBot').child(save.flow).update(save)
+                                                                .then(result => resolve(save))))
+                                                })
+                                            )
 
 
                                     })
@@ -706,9 +744,9 @@ function getChat({url, page, access_token, name, pageID}) {
                                 }
                                 else if (page) {
 
-                                    save.page = `${CONFIG.facebookPage[page].id}`;
+                                    save.page = `${facebookPage[page].id}`;
 
-                                    var flowList = _.where(dataLadiBot, {page: CONFIG.facebookPage[page].id})
+                                    var flowList = _.where(dataLadiBot, {page: facebookPage[page].id})
 
 
                                     flowList.push(save)
@@ -821,7 +859,7 @@ function initUser() {
 
 app.post('/noti', function (req, res) {
     let {recipientId, message, page} = req.body
-    if (page) sendingAPI(recipientId, CONFIG.facebookPage[page].id, message, null, page)
+    if (page) sendingAPI(recipientId, facebookPage[page].id, message, null, page)
     else sendAPI(recipientId, message)
         .then(result => res.send(result))
         .catch(err => res.status(500).json(err))
@@ -871,7 +909,7 @@ Dumpling cảm ơn! Chúc các bạn ngủ ngon và mơ đẹp nhé! <3 <3 <3`,
 
         a++
         setTimeout(function () {
-            sendingAPI(recipientId, CONFIG.facebookPage[page].id, message, null, page)
+            sendingAPI(recipientId, facebookPage[page].id, message, null, page)
         }, a * 2000)
 
     });
@@ -921,7 +959,7 @@ ${(account.match) ? '(Xin lỗi vì đã làm phiền cuộc nói chuyện của
         a++
         console.log('a', a)
         setTimeout(function () {
-            sendingAPI(recipientId, CONFIG.facebookPage[page].id, message, null, page)
+            sendingAPI(recipientId, facebookPage[page].id, message, null, page)
                 .then(result => console.log('done', recipientId))
                 .catch(err => {
                         console.log(err);
@@ -987,7 +1025,7 @@ function setGetstarted(page = 'jobo') {
     return new Promise(function (resolve, reject) {
         request({
             uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
-            qs: {access_token: CONFIG.facebookPage[page].access_token},
+            qs: {access_token: facebookPage[page].access_token},
             method: 'POST',
             json: message
 
@@ -1153,7 +1191,7 @@ function setDefautMenu(page = 'jobo', menu) {
     return new Promise(function (resolve, reject) {
         request({
             uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
-            qs: {access_token: CONFIG.facebookPage[page].access_token},
+            qs: {access_token: facebookPage[page].access_token},
             method: 'POST',
             json: menu
 
@@ -2949,8 +2987,9 @@ function submitResponse(flow, senderID) {
                     });
 
                     url = url + 'submit=Submit'
-
-                    axios.get(url).then(result => resolve(result.data))
+                    var url_encoded = encodeUrl(url)
+                    console.log('url_encoded', url_encoded)
+                    axios.get(url_encoded).then(result => resolve(result.data))
                         .catch(err => reject(err))
 
                 } else reject({err: 'form.id not found'})
