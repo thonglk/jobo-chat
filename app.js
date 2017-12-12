@@ -1246,7 +1246,7 @@ function setWhiteListDomain() {
                 resolve(response)
 
             } else {
-                console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
+                console.error("setWhiteListDomain_error", response.statusMessage);
                 reject(error)
 
             }
@@ -4088,7 +4088,7 @@ function sendingAPI(recipientId, senderId = facebookPage['jobo'].id, message, ty
                     dumpling_messageFactoryCol
                         .insert(messageData)
                         .then(result => {
-                            console.log('save sent', result)
+                            console.log('save sent', recipientId)
                             lastMessageRef.child(recipientId).update(messageData)
                             resolve(result)
                         })
@@ -4457,10 +4457,10 @@ function callSendAPI(messageData, page = 'jobo') {
                 var recipientId = body.recipient_id;
                 var messageId = body.message_id;
 
-                console.log("Successfully sent message with id %s to recipient %s", messageId, recipientId);
+                console.error("callSendAPI_sucess",messageId);
                 resolve(messageData)
             } else {
-                console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
+                console.error("callSendAPI_error",response.statusMessage);
                 reject(response)
             }
         });
