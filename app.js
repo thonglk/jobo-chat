@@ -594,10 +594,15 @@ app.get('/topic', function (req, res) {
 })
 
 function getLongLiveToken(shortLiveToken) {
+    console.log('getLongLiveToken-ing',shortLiveToken)
+
     return new Promise((resolve, reject) => {
         const url = `https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=295208480879128&client_secret=4450decf6ea88c391f4100b5740792ae&fb_exchange_token=${shortLiveToken}`;
         axios.get(url)
-            .then(res => resolve(res.data))
+            .then(res => {
+                console.log('getLongLiveToken',res.data)
+                resolve(res.data)
+            })
             .catch(err => {
                 reject(err.response);
             });
@@ -622,6 +627,7 @@ function subscribed_apps(access_token, pageID) {
     return new Promise(function (resolve, reject) {
         console.log(access_token, pageID)
         graph.post(pageID + '/subscribed_apps', {access_token}, function (err, result) {
+            console.log('subscribed_apps',err, result)
             if (err) reject(err)
             resolve(result)
         })
@@ -631,6 +637,7 @@ function subscribed_apps(access_token, pageID) {
 
 function getChat({url, page, access_token, name, pageID}) {
     return new Promise(function (resolve, reject) {
+        console.log('getChat-ing', url, page, access_token, name, pageID)
 
         var urlArray = url.split('/')
         var each = _.filter(urlArray, per => {
@@ -644,7 +651,7 @@ function getChat({url, page, access_token, name, pageID}) {
             } else {
                 var queryURL = 'https://docs.google.com/forms/d/' + query + '/edit'
             }
-            console.log('queryURL', queryURL)
+
             axios.get(queryURL)
                 .then(result => {
                     if (result.data.match('FB_PUBLIC_LOAD_DATA_ = ') || result.data.match('FB_LOAD_DATA_ = ')) {
@@ -680,8 +687,7 @@ function getChat({url, page, access_token, name, pageID}) {
                                 } else {
                                     save.flow = vietnameseDecode(data[8])
                                 }
-                                console.log('save', save)
-
+                                console.log('Get form', save.id)
 
                                 if (access_token && name && pageID) {
                                     page = pageID
@@ -1012,6 +1018,8 @@ app.get('/setGetstarted', function (req, res) {
 })
 
 function setGetstarted(page = 'jobo') {
+    console.error("setGetstarted-ing", page);
+
     var message = {
         "setting_type": "call_to_actions",
         "thread_state": "new_thread",
@@ -1032,12 +1040,12 @@ function setGetstarted(page = 'jobo') {
             json: message
 
         }, function (error, response, body) {
+            console.error("setGetstarted", error, response);
             if (!error && response.statusCode == 200) {
 
                 resolve(response)
 
             } else {
-                console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
                 reject(error)
 
             }
@@ -1189,6 +1197,7 @@ menu['dumpling'] = {
 
 
 function setDefautMenu(page = 'jobo', menu) {
+    console.error("setDefautMenu-ing",page,menu);
 
     return new Promise(function (resolve, reject) {
         request({
@@ -1198,12 +1207,13 @@ function setDefautMenu(page = 'jobo', menu) {
             json: menu
 
         }, function (error, response, body) {
+            console.error("setDefautMenu",error, response, body);
+
             if (!error && response.statusCode == 200) {
 
                 resolve(response)
 
             } else {
-                console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
                 reject(error)
 
             }
@@ -1651,7 +1661,7 @@ function matchingPayload(event) {
         if (payloadStr.length > 0) {
             var payload = JSON.parse(payloadStr);
             if (postback && postback.referral) referral = postback.referral
-            resolve({payload, senderID, postback,referral})
+            resolve({payload, senderID, postback, referral})
 
         } else if (message) {
             var lastMessage = lastMessageData[senderID]
