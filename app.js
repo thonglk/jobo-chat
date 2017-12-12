@@ -4342,7 +4342,6 @@ function sendReadReceipt(recipientId, page) {
  */
 function sendTypingOn(recipientId, page = 'jobo') {
     return new Promise(function (resolve, reject) {
-        console.log("Turning typing indicator on");
 
         var messageData = {
             recipient: {
@@ -4363,8 +4362,6 @@ function sendTypingOn(recipientId, page = 'jobo') {
  *
  */
 function sendTypingOff(recipientId, page = 'jobo') {
-    console.log("Turning typing indicator off");
-
     var messageData = {
         recipient: {
             id: recipientId
