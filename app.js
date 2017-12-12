@@ -594,13 +594,13 @@ app.get('/topic', function (req, res) {
 })
 
 function getLongLiveToken(shortLiveToken) {
-    console.log('getLongLiveToken-ing',shortLiveToken)
+    console.log('getLongLiveToken-ing', shortLiveToken)
 
     return new Promise((resolve, reject) => {
         const url = `https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=295208480879128&client_secret=4450decf6ea88c391f4100b5740792ae&fb_exchange_token=${shortLiveToken}`;
         axios.get(url)
             .then(res => {
-                console.log('getLongLiveToken',res.data)
+                console.log('getLongLiveToken', res.data)
                 resolve(res.data)
             })
             .catch(err => {
@@ -627,7 +627,7 @@ function subscribed_apps(access_token, pageID) {
     return new Promise(function (resolve, reject) {
         console.log(access_token, pageID)
         graph.post(pageID + '/subscribed_apps', {access_token}, function (err, result) {
-            console.log('subscribed_apps',err, result)
+            console.log('subscribed_apps', err, result)
             if (err) reject(err)
             resolve(result)
         })
@@ -1197,7 +1197,7 @@ menu['dumpling'] = {
 
 
 function setDefautMenu(page = 'jobo', menu) {
-    console.error("setDefautMenu-ing",page,menu);
+    console.error("setDefautMenu-ing", page, menu);
 
     return new Promise(function (resolve, reject) {
         request({
@@ -1207,7 +1207,7 @@ function setDefautMenu(page = 'jobo', menu) {
             json: menu
 
         }, function (error, response, body) {
-            console.error("setDefautMenu",error, response, body);
+            console.error("setDefautMenu", error, response, body);
 
             if (!error && response.statusCode == 200) {
 
@@ -1487,41 +1487,32 @@ function referInital(referral, senderID, user) {
         console.log('refData', refData);
         if (refData[0] != 'start' && refData[0] != 'tuyendung') {
             var jobId = refData[0]
-            loadJob(jobId).then(jobData => {
-                var messageData = {
-                    recipient: {
-                        id: senderID
-                    },
-                    message: {
-                        text: `Có phải bạn đang muốn ứng tuyển vào vị trí ${jobData.jobName} của ${jobData.storeData.storeName} ?`,
-                        metadata: JSON.stringify({
+            loadJob(jobId).then(jobData => sendAPI(senderID, {
+                text: `Có phải bạn đang muốn ứng tuyển vào vị trí ${jobData.jobName} của ${jobData.storeData.storeName} ?`,
+                metadata: JSON.stringify({
+                    type: 'confirmJob',
+                }),
+                quick_replies: [
+                    {
+                        "content_type": "text",
+                        "title": "Đúng rồi (Y)",
+                        "payload": JSON.stringify({
                             type: 'confirmJob',
-                        }),
-                        quick_replies: [
-                            {
-                                "content_type": "text",
-                                "title": "Đúng rồi (Y)",
-                                "payload": JSON.stringify({
-                                    type: 'confirmJob',
-                                    answer: 'yes',
-                                    jobId: jobId
-                                })
-                            },
-                            {
-                                "content_type": "text",
-                                "title": "Không phải",
-                                "payload": JSON.stringify({
-                                    type: 'confirmJob',
-                                    answer: 'no',
-                                    jobId: jobId
-                                })
-                            },
-                        ]
-                    }
-                };
-
-                callSendAPI(messageData);
-            }).catch(err => sendTextMessage(senderID, JSON.stringify(err)))
+                            answer: 'yes',
+                            jobId: jobId
+                        })
+                    },
+                    {
+                        "content_type": "text",
+                        "title": "Không phải",
+                        "payload": JSON.stringify({
+                            type: 'confirmJob',
+                            answer: 'no',
+                            jobId: jobId
+                        })
+                    },
+                ]
+            })).catch(err => sendTextMessage(senderID, JSON.stringify(err)))
         }
         else if (refData[0] == 'tuyendung') sendAPI(senderID, {
             text: `Chào bạn, có phải bạn đang cần tuyển nhân viên không ạ?`,
@@ -1634,7 +1625,7 @@ function referInital(referral, senderID, user) {
 
 function matchingPayload(event) {
     return new Promise(function (resolve, reject) {
-        console.log('event', JSON.stringify(event))
+        console.log('matchingPayload-ing', JSON.stringify(event))
 
         var senderID = event.sender.id;
         var recipientID = event.recipient.id;
@@ -1734,11 +1725,9 @@ function matchingPayload(event) {
 
                     })
                     .catch(console.error);
-
             }
 
         } else {
-
             console.log('something donnt know', event)
         }
 
@@ -4443,10 +4432,10 @@ function callSendAPI(messageData, page = 'jobo') {
                         var recipientId = body.recipient_id;
                         var messageId = body.message_id;
 
-                        console.log("Successfully sent message with id %s to recipient %s", messageId, recipientId);
+                        console.log("callSendAPI_success", messageId, recipientId);
 
                     } else {
-                        console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
+                        console.error("callSendAPI_error", response.statusMessage);
                         reject(response)
                     }
                 });
