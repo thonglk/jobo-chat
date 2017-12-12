@@ -860,7 +860,7 @@ function initUser() {
 }
 
 app.post('/noti', function (req, res) {
-    let {recipientId, message, page} = req.body
+    let {recipientId, message, page} = req.body;
     if (page) sendingAPI(recipientId, facebookPage[page].id, message, null, page)
     else sendAPI(recipientId, message)
         .then(result => res.send(result))
@@ -1631,7 +1631,9 @@ function matchingPayload(event) {
         var timeOfPostback = event.timestamp;
         var message = event.message;
         var postback = event.postback;
-        var referral = event.referral;
+        var referral = event.referral
+
+
         var payloadStr = '';
 
         if (message && message.quick_reply && message.quick_reply.payload) payloadStr = message.quick_reply.payload
@@ -1645,9 +1647,12 @@ function matchingPayload(event) {
 
         }
 
+
         if (payloadStr.length > 0) {
             var payload = JSON.parse(payloadStr);
-            resolve({payload, senderID, postback})
+            if (postback && postback.referral) referral = postback.referral
+            resolve({payload, senderID, postback,referral})
+
         } else if (message) {
             var lastMessage = lastMessageData[senderID]
             console.log('lastMessage', lastMessage);
@@ -3006,7 +3011,6 @@ function submitResponse(flow, senderID) {
 db.ref('tempEvent').on('child_added', function (snap) {
     if (listen == 'on') {
         var messagingEvent = snap.val()
-
         var senderID = `${messagingEvent.sender.id}`;
         var recipientID = `${messagingEvent.recipient.id}`;
         var pageID = `${recipientID}`;
@@ -3040,6 +3044,7 @@ db.ref('tempEvent').on('child_added', function (snap) {
                     var payload = result.payload;
                     var message = result.message;
                     var referral = result.referral;
+
                     if (pageID == '206881183192113') {
                         if (referral && referral.ref) {
                             senderData.ref = referral.ref
@@ -3080,7 +3085,22 @@ db.ref('tempEvent').on('child_added', function (snap) {
                                         }
                                     }, null, pageID)
                                         .then(result => sendingAPI(senderID, pageID, {
-                                            text: `You want to build forms in your Facebook Page?. \n- Let's connect your facebook account!\n- Notify sale-agents when new lead submitted\n- Send broadcast to your leads \n- Build conditions logic flow for your bot \n => It's all coming soonnnn <3 Share mee`,
+                                            attachment: {
+                                                type: "template",
+                                                payload: {
+                                                    template_type: "button",
+                                                    text: `Step 2: \n We had just turn your "${form.data[8]}" form into chatbot to help you convert more leads! \n Here are link: m.me/206881183192113?ref=${form.flow}`,
+                                                    buttons: [{
+                                                        type: "web_url",
+                                                        url: `https://jobo.asia/ladibot/create?url=${url}`,
+                                                        title: "Connect your Facebook Page"
+                                                    }, {
+                                                        type: "web_url",
+                                                        url: `https://www.facebook.com/pages/create`,
+                                                        title: "Create new page"
+                                                    }]
+                                                }
+                                            }
                                         }, null, pageID))
                                         .catch(err => sendingAPI(senderID, pageID, {
                                             text: JSON.stringify(err)
@@ -3106,8 +3126,8 @@ db.ref('tempEvent').on('child_added', function (snap) {
                         if (referral && referral.ref) {
                             senderData.ref = referral.ref
                             var refData = senderData.ref.split('_');
-                            console.log('Number(refData[0])', Number(refData[0]));
-                            senderData.flow = Number(refData[0])
+                            console.log('Number(refData[0])', refData[0]);
+                            senderData.flow = refData[0]
                             db.ref(pageID + '_account').child(senderID).update(senderData)
                         }
                     }
@@ -4390,6 +4410,7 @@ function sendAccountLinking(recipientId) {
  */
 function callSendAPI(messageData, page = 'jobo') {
     return new Promise(function (resolve, reject) {
+
         if (messageData.message && messageData.message.text) console.log('length', messageData.message.text.length)
 
         if (messageData.message && messageData.message.text && messageData.message.text.length > 640) {
