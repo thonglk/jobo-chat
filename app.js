@@ -160,7 +160,9 @@ const vietnameseDecode = (str) => {
 }
 var CONFIG;
 axios.get(API_URL + '/config')
-    .then(result => CONFIG = result.data)
+    .then(result => {
+        CONFIG = result.data
+    })
     .catch(err => console.log(err))
 
 var jobochat = firebase.initializeApp({
@@ -3361,7 +3363,7 @@ function loadsenderData(senderID, page = 'dumpling') {
     return new Promise(function (resolve, reject) {
         db.ref(page + '_account').child(senderID).once('value', function (snap) {
             if (snap.val()) resolve(snap.val())
-            else graph.get(senderID + '?access_token=' + CONFIG.facebookPage[page].access_token, (err, result) => {
+            else graph.get(senderID + '?access_token=' + facebookPage[page].access_token, (err, result) => {
                 if (err) reject(err);
                 console.log('account', result);
                 var user = result;

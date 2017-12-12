@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -105,17 +107,21 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="619" column="50" lean-forward="true" selection-start-line="619" selection-start-column="50" selection-end-line="619" selection-end-column="50" />
+            <state relative-caret-position="781">
+              <caret line="499" column="11" lean-forward="true" selection-start-line="499" selection-start-column="11" selection-end-line="499" selection-end-column="11" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#2720#10360#0" expanded="false" />
-                <element signature="e#13073#13564#0" expanded="false" />
-                <element signature="e#14327#19658#0" expanded="false" />
-                <element signature="e#32554#33219#0" expanded="false" />
-                <element signature="e#33284#34530#0" expanded="false" />
-                <element signature="e#45042#47612#0" expanded="false" />
-                <element signature="e#47632#50093#0" expanded="false" />
+                <element signature="e#13089#13580#0" expanded="false" />
+                <element signature="e#14343#19674#0" expanded="false" />
+                <element signature="n#!!block;n#sendVocalRes#0" expanded="false" />
+                <element signature="n#!!block;n#sendVocal#0" expanded="false" />
+                <element signature="n#!!block;n#sendVocalC#0" expanded="false" />
+                <element signature="e#22599#22611#0" expanded="false" />
+                <element signature="e#32570#33235#0" expanded="false" />
+                <element signature="e#33300#34546#0" expanded="false" />
+                <element signature="e#45058#47628#0" expanded="false" />
+                <element signature="e#47648#50109#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -142,7 +148,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>setFlow</find>
       <find>.start</find>
       <find>url</find>
       <find>forms</find>
@@ -172,6 +177,7 @@
       <find>CONFIG.facebookPage</find>
       <find>per</find>
       <find>getchat</find>
+      <find>/config</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -311,15 +317,16 @@
       <workItem from="1511630021362" duration="552000" />
       <workItem from="1512122207231" duration="12708000" />
       <workItem from="1512317255488" duration="69744000" />
-      <workItem from="1512876583754" duration="33315000" />
+      <workItem from="1512876583754" duration="34153000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="418190000" />
+    <option name="totallyTimeSpent" value="419028000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19591261" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -379,12 +386,16 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#2720#10360#0" expanded="false" />
-            <element signature="e#13073#13564#0" expanded="false" />
-            <element signature="e#14327#19658#0" expanded="false" />
-            <element signature="e#32554#33219#0" expanded="false" />
-            <element signature="e#33284#34530#0" expanded="false" />
-            <element signature="e#45042#47612#0" expanded="false" />
-            <element signature="e#47632#50093#0" expanded="false" />
+            <element signature="e#13089#13580#0" expanded="false" />
+            <element signature="e#14343#19674#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalRes#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocal#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalC#0" expanded="false" />
+            <element signature="e#22599#22611#0" expanded="false" />
+            <element signature="e#32570#33235#0" expanded="false" />
+            <element signature="e#33300#34546#0" expanded="false" />
+            <element signature="e#45058#47628#0" expanded="false" />
+            <element signature="e#47648#50109#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -420,12 +431,16 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#2720#10360#0" expanded="false" />
-            <element signature="e#13073#13564#0" expanded="false" />
-            <element signature="e#14327#19658#0" expanded="false" />
-            <element signature="e#32554#33219#0" expanded="false" />
-            <element signature="e#33284#34530#0" expanded="false" />
-            <element signature="e#45042#47612#0" expanded="false" />
-            <element signature="e#47632#50093#0" expanded="false" />
+            <element signature="e#13089#13580#0" expanded="false" />
+            <element signature="e#14343#19674#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalRes#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocal#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalC#0" expanded="false" />
+            <element signature="e#22599#22611#0" expanded="false" />
+            <element signature="e#32570#33235#0" expanded="false" />
+            <element signature="e#33300#34546#0" expanded="false" />
+            <element signature="e#45058#47628#0" expanded="false" />
+            <element signature="e#47648#50109#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -469,12 +484,16 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#2720#10360#0" expanded="false" />
-            <element signature="e#13073#13564#0" expanded="false" />
-            <element signature="e#14327#19658#0" expanded="false" />
-            <element signature="e#32554#33219#0" expanded="false" />
-            <element signature="e#33284#34530#0" expanded="false" />
-            <element signature="e#45042#47612#0" expanded="false" />
-            <element signature="e#47632#50093#0" expanded="false" />
+            <element signature="e#13089#13580#0" expanded="false" />
+            <element signature="e#14343#19674#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalRes#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocal#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalC#0" expanded="false" />
+            <element signature="e#22599#22611#0" expanded="false" />
+            <element signature="e#32570#33235#0" expanded="false" />
+            <element signature="e#33300#34546#0" expanded="false" />
+            <element signature="e#45058#47628#0" expanded="false" />
+            <element signature="e#47648#50109#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -502,12 +521,16 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#2720#10360#0" expanded="false" />
-            <element signature="e#13073#13564#0" expanded="false" />
-            <element signature="e#14327#19658#0" expanded="false" />
-            <element signature="e#32554#33219#0" expanded="false" />
-            <element signature="e#33284#34530#0" expanded="false" />
-            <element signature="e#45042#47612#0" expanded="false" />
-            <element signature="e#47632#50093#0" expanded="false" />
+            <element signature="e#13089#13580#0" expanded="false" />
+            <element signature="e#14343#19674#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalRes#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocal#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalC#0" expanded="false" />
+            <element signature="e#22599#22611#0" expanded="false" />
+            <element signature="e#32570#33235#0" expanded="false" />
+            <element signature="e#33300#34546#0" expanded="false" />
+            <element signature="e#45058#47628#0" expanded="false" />
+            <element signature="e#47648#50109#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -543,12 +566,16 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#2720#10360#0" expanded="false" />
-            <element signature="e#13073#13564#0" expanded="false" />
-            <element signature="e#14327#19658#0" expanded="false" />
-            <element signature="e#32554#33219#0" expanded="false" />
-            <element signature="e#33284#34530#0" expanded="false" />
-            <element signature="e#45042#47612#0" expanded="false" />
-            <element signature="e#47632#50093#0" expanded="false" />
+            <element signature="e#13089#13580#0" expanded="false" />
+            <element signature="e#14343#19674#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalRes#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocal#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalC#0" expanded="false" />
+            <element signature="e#22599#22611#0" expanded="false" />
+            <element signature="e#32570#33235#0" expanded="false" />
+            <element signature="e#33300#34546#0" expanded="false" />
+            <element signature="e#45058#47628#0" expanded="false" />
+            <element signature="e#47648#50109#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -689,17 +716,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="619" column="50" lean-forward="true" selection-start-line="619" selection-start-column="50" selection-end-line="619" selection-end-column="50" />
+        <state relative-caret-position="781">
+          <caret line="499" column="11" lean-forward="true" selection-start-line="499" selection-start-column="11" selection-end-line="499" selection-end-column="11" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#2720#10360#0" expanded="false" />
-            <element signature="e#13073#13564#0" expanded="false" />
-            <element signature="e#14327#19658#0" expanded="false" />
-            <element signature="e#32554#33219#0" expanded="false" />
-            <element signature="e#33284#34530#0" expanded="false" />
-            <element signature="e#45042#47612#0" expanded="false" />
-            <element signature="e#47632#50093#0" expanded="false" />
+            <element signature="e#13089#13580#0" expanded="false" />
+            <element signature="e#14343#19674#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalRes#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocal#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalC#0" expanded="false" />
+            <element signature="e#22599#22611#0" expanded="false" />
+            <element signature="e#32570#33235#0" expanded="false" />
+            <element signature="e#33300#34546#0" expanded="false" />
+            <element signature="e#45058#47628#0" expanded="false" />
+            <element signature="e#47648#50109#0" expanded="false" />
           </folding>
         </state>
       </provider>
