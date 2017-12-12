@@ -4372,7 +4372,7 @@ function callSendAPI(messageData, page = 'jobo') {
 
 function sendOne(messageData, page) {
     return new Promise(function (resolve, reject) {
-        if(facebookPage[page] && facebookPage[page].access_token){
+        if (facebookPage[page] && facebookPage[page].access_token) {
             request({
                 uri: 'https://graph.facebook.com/v2.6/me/messages',
                 qs: {access_token: facebookPage[page].access_token},
@@ -4383,8 +4383,7 @@ function sendOne(messageData, page) {
                 if (!error && response.statusCode == 200) {
                     var recipientId = body.recipient_id;
                     var messageId = body.message_id;
-
-                    console.log("callSendAPI_success", messageId, recipientId);
+                    if (messageId) console.log("callSendAPI_success", messageId, recipientId);
                     resolve(messageData)
 
                 } else {
@@ -4393,7 +4392,7 @@ function sendOne(messageData, page) {
                 }
             });
         } else {
-            console.error("send_error_access-token", page,messageData);
+            console.error("send_error_access-token", page, messageData);
             reject({err: 'no access token'})
         }
 
