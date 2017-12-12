@@ -2593,9 +2593,18 @@ app.get('/initconversation', function (req, res) {
 app.post('/webhook', function (req, res) {
     var data = req.body;
     console.log('webhook', JSON.stringify(data))
-
+    db.ref('webhook').push(data).then(result => res.sendStatus(200))
+        .catch(err =>{
+            console.log('webhook_error',JSON.stringify(err))
+            res.sendStatus(200)
+        } )
     // Make sure this is a page subscription
-    if (data.object == 'page') {
+})
+var listen = 'on'
+
+db.ref('webhook').on('child_added',function (snap) {
+    var data = snap.val()
+    if (data.object == 'page' && listen == 'on') {
         // Iterate over each entry
         // There may be multiple if batched
         data.entry.forEach(function (pageEntry) {
@@ -2950,17 +2959,374 @@ app.post('/webhook', function (req, res) {
                         })
                     }
                     else {
-                        db.ref('tempEvent').push(messagingEvent)
+                        var messagingEvent = snap.val()
+                        var senderID = `${messagingEvent.sender.id}`;
+                        var recipientID = `${messagingEvent.recipient.id}`;
+                        var pageID = `${recipientID}`;
+
+
+                        var timeOfMessage = messagingEvent.timestamp;
+                        var message = messagingEvent.message;
+                        var postback = messagingEvent.postback
+
+                        if (message && message.quick_reply) var quickReply = messagingEvent.message.quick_reply;
+                        if (message && message.text) var messageText = message.text;
+                        if (message && message.attachments) var messageAttachments = message.attachments;
+                        if (postback && postback.payload) var payloadStr = messagingEvent.postback.payload
+                        else if (quickReply && quickReply.payload) payloadStr = quickReply.payload
+
+                        if (messagingEvent.referral) var referral = messagingEvent.referral
+                        else if (postback && postback.referral) referral = postback.referral
+
+
+                        if (payloadStr) var payload = JSON.parse(payloadStr)
+                        else payload = {}
+
+                        loadsenderData(senderID, pageID)
+                            .then(senderData => matchingPayload(messagingEvent)
+                                .then(result => {
+                                    console.log('senderData', senderData)
+                                    console.log('matchingPayload', result)
+
+                                    // analytic anwser
+
+                                    var payload = result.payload;
+                                    var message = result.message;
+                                    var referral = result.referral;
+
+                                    if (pageID == '206881183192113') {
+                                        if (referral && referral.ref) {
+                                            senderData.ref = referral.ref
+
+                                            if (senderData.ref.match('_')) {
+                                                var refData = senderData.ref.split('_');
+                                                console.log('refData', refData);
+
+                                            } else refData = [senderData.ref]
+
+                                            if (refData[0] == 'create') {
+                                                var url = senderData.ref.slice(7);
+
+                                                sendingAPI(senderID, pageID, {
+                                                    text: `Welcome ${senderData.first_name}! \n Your form is being converted`
+                                                }, null, pageID)
+
+                                                getChat({url})
+                                                    .then(form => sendingAPI(senderID, pageID, {
+                                                        attachment: {
+                                                            type: "template",
+                                                            payload: {
+                                                                template_type: "button",
+                                                                text: `Done <3! \n We had just turn your "${form.data[8]}" form into chatbot to help you convert more leads! \n Here are link: m.me/206881183192113?ref=${form.flow}`,
+                                                                buttons: [{
+                                                                    type: "web_url",
+                                                                    url: `https://m.me/206881183192113?ref=${form.flow}`,
+                                                                    title: "Test your chatbot"
+                                                                }, {
+                                                                    type: "postback",
+                                                                    title: "View response & edit form",
+                                                                    payload: JSON.stringify({
+                                                                        state: 'editForm',
+                                                                        flow: form.flow
+                                                                    })
+                                                                }]
+                                                            }
+                                                        }
+                                                    }, null, pageID)
+                                                        .then(result => sendingAPI(senderID, pageID, {
+                                                            attachment: {
+                                                                type: "template",
+                                                                payload: {
+                                                                    template_type: "button",
+                                                                    text: `Step 2: \n We had just turn your "${form.data[8]}" form into chatbot to help you convert more leads! \n Here are link: m.me/206881183192113?ref=${form.flow}`,
+                                                                    buttons: [{
+                                                                        type: "web_url",
+                                                                        url: `https://jobo.asia/ladibot/create?url=${url}`,
+                                                                        title: "Connect your Facebook Page"
+                                                                    }, {
+                                                                        type: "web_url",
+                                                                        url: `https://www.facebook.com/pages/create`,
+                                                                        title: "Create new page"
+                                                                    }]
+                                                                }
+                                                            }
+                                                        }, null, pageID))
+                                                        .catch(err => sendingAPI(senderID, pageID, {
+                                                            text: JSON.stringify(err)
+                                                        }, null, pageID)))
+
+                                                    .catch(err => sendingAPI(senderID, pageID, {
+                                                        text: JSON.stringify(err)
+                                                    }, null, pageID))
+
+                                            }
+                                            else {
+                                                var flow = refData[0]
+                                                senderData.flow = flow
+
+                                            }
+
+                                            db.ref(pageID + '_account').child(senderID).update(senderData)
+
+                                            /// case create
+
+                                        }
+                                    } else {
+                                        if (referral && referral.ref) {
+                                            senderData.ref = referral.ref
+                                            var refData = senderData.ref.split('_');
+                                            console.log('Number(refData[0])', refData[0]);
+                                            senderData.flow = refData[0]
+                                            db.ref(pageID + '_account').child(senderID).update(senderData)
+                                        }
+                                    }
+
+
+                                    if (!senderData.flow) {
+                                        var flowList = _.where(dataLadiBot, {page: pageID})
+                                        if (flowList && flowList.length > 0) {
+                                            var quick_replies = []
+
+                                            var each = _.each(flowList, flow => {
+                                                quick_replies.push({
+                                                    "content_type": "text",
+                                                    "title": flow.data[8],
+                                                    "payload": JSON.stringify({
+                                                        state: 'setFlow',
+                                                        flow: flow.flow
+                                                    })
+                                                })
+                                            })
+                                            sendingAPI(senderID, pageID, {
+                                                text: 'Bạn cần giúp gì nhỉ?',
+                                                quick_replies
+                                            }, null, pageID)
+                                        } else sendingAPI(senderID, pageID, {
+                                            text: 'Chào bạn, Bạn cần giúp gì nhỉ?',
+                                        }, null, pageID)
+                                    }
+
+                                    if (senderData.flow) {
+                                        console.log('flow', senderData.flow)
+
+                                        var result = _.findWhere(dataLadiBot, {flow: senderData.flow});
+
+                                        if (result) ladiResCol.findOne({
+                                            flow: senderData.flow,
+                                            page: pageID,
+                                            senderID
+                                        }).then(response => {
+                                            console.log('response', response)
+
+                                            if (!response) response = {
+                                                flow: senderData.flow,
+                                                page: pageID,
+                                                senderID
+                                            }
+                                            if (payload) {
+                                                if (payload.text && payload.type == 'ask' && payload.questionId) {
+                                                    response[payload.questionId] = payload.text
+
+                                                    ladiResCol.findOneAndUpdate({
+                                                        flow: senderData.flow,
+                                                        page: pageID,
+                                                        senderID
+                                                    }, {$set: response}).then(result => {
+                                                        console.log('save response', response)
+                                                    })
+                                                }
+                                                if (payload.state) {
+                                                    if (payload.state == 'undo') {
+                                                        response = {
+                                                            flow: senderData.flow,
+                                                            page: pageID,
+                                                            senderID
+                                                        }
+                                                        ladiResCol.remove({
+                                                            flow: senderData.flow,
+                                                            page: pageID,
+                                                            senderID
+                                                        }).then(result => {
+                                                            console.log('remove response', response)
+                                                        })
+
+                                                    }
+                                                    if (payload.state == 'setFlow') {
+                                                        senderData.flow = payload.flow;
+                                                        db.ref(pageID + '_account').child(senderID).update(senderData)
+                                                    }
+
+                                                }
+                                            }
+
+
+                                            var flow = result.data
+                                            var questions = flow[1]
+                                            var q = -1
+
+                                            function loop() {
+                                                q++
+                                                console.log('current', q)
+
+                                                if (q < questions.length) {
+                                                    var currentQuestion = questions[q];
+                                                    console.log(currentQuestion)
+                                                    var currentQuestionId = currentQuestion[0];
+                                                    if (!response[currentQuestionId]) {
+                                                        var messageSend = {
+                                                            text: currentQuestion[1],
+                                                        }
+                                                        var metadata = {
+                                                            questionId: currentQuestionId
+                                                        }
+                                                        var askStringStr = `0,1,7,8,9,10,13`
+                                                        var askOptionStr = `2,3,4,5`
+                                                        var askType = currentQuestion[3]
+                                                        console.log('askType', askType)
+                                                        if (currentQuestion[4]) {
+                                                            metadata.askType = askType
+                                                            metadata.type = 'ask'
+
+                                                            if (askOptionStr.match(askType)) {
+                                                                var askOption = currentQuestion[4][0][1]
+
+                                                                var quick_replies = []
+                                                                var map = _.map(askOption, option => {
+                                                                    metadata.text = option[0]
+                                                                    quick_replies.push({
+                                                                        "content_type": "text",
+                                                                        "title": option[0],
+                                                                        "payload": JSON.stringify(metadata)
+
+                                                                    })
+                                                                });
+                                                                messageSend.quick_replies = quick_replies
+
+                                                            } else if (askStringStr.match(askType)) {
+
+                                                                messageSend.metadata = JSON.stringify(metadata)
+                                                            }
+                                                            console.log('messageSend', messageSend)
+                                                            sendingAPI(senderID, pageID, messageSend, null, pageID)
+
+                                                        } else {
+                                                            metadata.type = 'info'
+                                                            sendingAPI(senderID, pageID, messageSend, null, pageID).then(result => {
+                                                                response[currentQuestionId] = true
+
+                                                                ladiResCol.findOneAndUpdate({
+                                                                    flow: senderData.flow,
+                                                                    page: pageID,
+                                                                    senderID
+                                                                }, {$set: response}).then(result => {
+                                                                    console.log('save response', response)
+                                                                    if (currentQuestion[3] == 11 && currentQuestion[2]) sendingAPI(senderID, pageID, {
+                                                                        attachment: {
+                                                                            type: "image",
+                                                                            payload: {
+                                                                                url: currentQuestion[2]
+                                                                            }
+                                                                        }
+                                                                    }, null, pageID).then(result => setTimeout(loop(), 1000))
+                                                                    else if (currentQuestion[3] == 12 && currentQuestion[6][3]) sendingAPI(senderID, pageID, {
+                                                                        text: `https://www.youtube.com/watch?v=${currentQuestion[6][3]}`
+                                                                    }, null, pageID).then(result => setTimeout(loop(), 1000))
+                                                                    else setTimeout(loop(), 1000)
+
+
+                                                                })
+
+                                                            })
+
+                                                        }
+                                                    } else
+                                                        loop()
+
+                                                } else {
+                                                    if (!response.end) sendingAPI(senderID, pageID, {
+                                                        text: `${(flow[2] && flow[2][0]) ? (flow[2][0]) : ('Thanks for your time!')}`
+                                                    }, null, pageID).then(result => {
+                                                        response.end = true
+                                                        ladiResCol.findOneAndUpdate({
+                                                            flow: senderData.flow,
+                                                            page: pageID,
+                                                            senderID
+                                                        }, {$set: response})
+                                                            .then(result => submitResponse(senderData.flow, senderID)
+                                                                .then(result => console.log('done', result))
+                                                                .catch(err => console.log('err', err))
+                                                            )
+
+                                                    })
+                                                    else sendingAPI(senderID, pageID, {
+                                                        text: 'Thank you again! See ya <3',
+                                                        quick_replies: [{
+                                                            "content_type": "text",
+                                                            "title": 'Undo',
+                                                            "payload": JSON.stringify({
+                                                                state: 'undo'
+                                                            })
+                                                        }]
+                                                    }, null, pageID)
+                                                }
+                                            }
+
+                                            if (!response.start) sendingAPI(senderID, pageID, {
+                                                text: flow[8] || '' + '\n' + flow[0] || '',
+                                            }, null, pageID).then(result => {
+                                                response.start = true
+                                                console.log(result)
+
+                                                ladiResCol.findOneAndUpdate({
+                                                    flow: senderData.flow,
+                                                    page: pageID,
+                                                    senderID
+                                                }, {$set: response}, {upsert: true}).then(result => {
+                                                    console.log('save response', result, response)
+                                                })
+                                                loop()
+                                            })
+                                            else loop()
+
+                                        })
+                                        else {
+                                            console.log('non-result')
+                                            var flowList = _.where(dataLadiBot, {page: pageID})
+                                            if (flowList && flowList.length > 0) {
+                                                var quick_replies = []
+
+                                                var each = _.each(flowList, flow => {
+                                                    quick_replies.push({
+                                                        "content_type": "text",
+                                                        "title": flow.data[8],
+                                                        "payload": JSON.stringify({
+                                                            state: 'setFlow',
+                                                            flow: flow.flow
+                                                        })
+                                                    })
+                                                })
+                                                sendingAPI(senderID, pageID, {
+                                                    text: 'Bạn cần giúp gì nhỉ?',
+                                                    quick_replies
+                                                }, null, pageID)
+                                            } else sendingAPI(senderID, pageID, {
+                                                text: 'Chào bạn, Bạn cần giúp gì nhỉ?',
+                                            }, null, pageID)
+                                        }
+                                    }
+
+
+                                }))
                     }
                 })
 
             }
         })
         ;
-        res.sendStatus(200);
     }
+    db.ref('webhook').child(snap.key).remove()
+
 })
-var listen = 'on'
 
 app.get('/submitResponse', function (req, res) {
     var {flow, senderID} = req.query
@@ -3007,371 +3373,6 @@ function submitResponse(flow, senderID) {
 
 }
 
-db.ref('tempEvent').on('child_added', function (snap) {
-    if (listen == 'on') {
-        var messagingEvent = snap.val()
-        var senderID = `${messagingEvent.sender.id}`;
-        var recipientID = `${messagingEvent.recipient.id}`;
-        var pageID = `${recipientID}`;
-
-
-        var timeOfMessage = messagingEvent.timestamp;
-        var message = messagingEvent.message;
-        var postback = messagingEvent.postback
-
-        if (message && message.quick_reply) var quickReply = messagingEvent.message.quick_reply;
-        if (message && message.text) var messageText = message.text;
-        if (message && message.attachments) var messageAttachments = message.attachments;
-        if (postback && postback.payload) var payloadStr = messagingEvent.postback.payload
-        else if (quickReply && quickReply.payload) payloadStr = quickReply.payload
-
-        if (messagingEvent.referral) var referral = messagingEvent.referral
-        else if (postback && postback.referral) referral = postback.referral
-
-
-        if (payloadStr) var payload = JSON.parse(payloadStr)
-        else payload = {}
-
-        loadsenderData(senderID, pageID)
-            .then(senderData => matchingPayload(messagingEvent)
-                .then(result => {
-                    console.log('senderData', senderData)
-                    console.log('matchingPayload', result)
-
-                    // analytic anwser
-
-                    var payload = result.payload;
-                    var message = result.message;
-                    var referral = result.referral;
-
-                    if (pageID == '206881183192113') {
-                        if (referral && referral.ref) {
-                            senderData.ref = referral.ref
-
-                            if (senderData.ref.match('_')) {
-                                var refData = senderData.ref.split('_');
-                                console.log('refData', refData);
-
-                            } else refData = [senderData.ref]
-
-                            if (refData[0] == 'create') {
-                                var url = senderData.ref.slice(7);
-
-                                sendingAPI(senderID, pageID, {
-                                    text: `Welcome ${senderData.first_name}! \n Your form is being converted`
-                                }, null, pageID)
-
-                                getChat({url})
-                                    .then(form => sendingAPI(senderID, pageID, {
-                                        attachment: {
-                                            type: "template",
-                                            payload: {
-                                                template_type: "button",
-                                                text: `Done <3! \n We had just turn your "${form.data[8]}" form into chatbot to help you convert more leads! \n Here are link: m.me/206881183192113?ref=${form.flow}`,
-                                                buttons: [{
-                                                    type: "web_url",
-                                                    url: `https://m.me/206881183192113?ref=${form.flow}`,
-                                                    title: "Test your chatbot"
-                                                }, {
-                                                    type: "postback",
-                                                    title: "View response & edit form",
-                                                    payload: JSON.stringify({
-                                                        state: 'editForm',
-                                                        flow: form.flow
-                                                    })
-                                                }]
-                                            }
-                                        }
-                                    }, null, pageID)
-                                        .then(result => sendingAPI(senderID, pageID, {
-                                            attachment: {
-                                                type: "template",
-                                                payload: {
-                                                    template_type: "button",
-                                                    text: `Step 2: \n We had just turn your "${form.data[8]}" form into chatbot to help you convert more leads! \n Here are link: m.me/206881183192113?ref=${form.flow}`,
-                                                    buttons: [{
-                                                        type: "web_url",
-                                                        url: `https://jobo.asia/ladibot/create?url=${url}`,
-                                                        title: "Connect your Facebook Page"
-                                                    }, {
-                                                        type: "web_url",
-                                                        url: `https://www.facebook.com/pages/create`,
-                                                        title: "Create new page"
-                                                    }]
-                                                }
-                                            }
-                                        }, null, pageID))
-                                        .catch(err => sendingAPI(senderID, pageID, {
-                                            text: JSON.stringify(err)
-                                        }, null, pageID)))
-
-                                    .catch(err => sendingAPI(senderID, pageID, {
-                                        text: JSON.stringify(err)
-                                    }, null, pageID))
-
-                            }
-                            else {
-                                var flow = refData[0]
-                                senderData.flow = flow
-
-                            }
-
-                            db.ref(pageID + '_account').child(senderID).update(senderData)
-
-                            /// case create
-
-                        }
-                    } else {
-                        if (referral && referral.ref) {
-                            senderData.ref = referral.ref
-                            var refData = senderData.ref.split('_');
-                            console.log('Number(refData[0])', refData[0]);
-                            senderData.flow = refData[0]
-                            db.ref(pageID + '_account').child(senderID).update(senderData)
-                        }
-                    }
-
-
-                    if (!senderData.flow) {
-                        var flowList = _.where(dataLadiBot, {page: pageID})
-                        if (flowList && flowList.length > 0) {
-                            var quick_replies = []
-
-                            var each = _.each(flowList, flow => {
-                                quick_replies.push({
-                                    "content_type": "text",
-                                    "title": flow.data[8],
-                                    "payload": JSON.stringify({
-                                        state: 'setFlow',
-                                        flow: flow.flow
-                                    })
-                                })
-                            })
-                            sendingAPI(senderID, pageID, {
-                                text: 'Bạn cần giúp gì nhỉ?',
-                                quick_replies
-                            }, null, pageID)
-                        } else sendingAPI(senderID, pageID, {
-                            text: 'Chào bạn, Bạn cần giúp gì nhỉ?',
-                        }, null, pageID)
-                    }
-
-                    if (senderData.flow) {
-                        console.log('flow', senderData.flow)
-
-                        var result = _.findWhere(dataLadiBot, {flow: senderData.flow});
-
-                        if (result) ladiResCol.findOne({
-                            flow: senderData.flow,
-                            page: pageID,
-                            senderID
-                        }).then(response => {
-                            console.log('response', response)
-
-                            if (!response) response = {
-                                flow: senderData.flow,
-                                page: pageID,
-                                senderID
-                            }
-                            if (payload) {
-                                if (payload.text && payload.type == 'ask' && payload.questionId) {
-                                    response[payload.questionId] = payload.text
-
-                                    ladiResCol.findOneAndUpdate({
-                                        flow: senderData.flow,
-                                        page: pageID,
-                                        senderID
-                                    }, {$set: response}).then(result => {
-                                        console.log('save response', response)
-                                    })
-                                }
-                                if (payload.state) {
-                                    if (payload.state == 'undo') {
-                                        response = {
-                                            flow: senderData.flow,
-                                            page: pageID,
-                                            senderID
-                                        }
-                                        ladiResCol.remove({
-                                            flow: senderData.flow,
-                                            page: pageID,
-                                            senderID
-                                        }).then(result => {
-                                            console.log('remove response', response)
-                                        })
-
-                                    }
-                                    if (payload.state == 'setFlow') {
-                                        senderData.flow = payload.flow;
-                                        db.ref(pageID + '_account').child(senderID).update(senderData)
-                                    }
-
-                                }
-                            }
-
-
-                            var flow = result.data
-                            var questions = flow[1]
-                            var q = -1
-
-                            function loop() {
-                                q++
-                                console.log('current', q)
-
-                                if (q < questions.length) {
-                                    var currentQuestion = questions[q];
-                                    console.log(currentQuestion)
-                                    var currentQuestionId = currentQuestion[0];
-                                    if (!response[currentQuestionId]) {
-                                        var messageSend = {
-                                            text: currentQuestion[1],
-                                        }
-                                        var metadata = {
-                                            questionId: currentQuestionId
-                                        }
-                                        var askStringStr = `0,1,7,8,9,10,13`
-                                        var askOptionStr = `2,3,4,5`
-                                        var askType = currentQuestion[3]
-                                        console.log('askType', askType)
-                                        if (currentQuestion[4]) {
-                                            metadata.askType = askType
-                                            metadata.type = 'ask'
-
-                                            if (askOptionStr.match(askType)) {
-                                                var askOption = currentQuestion[4][0][1]
-
-                                                var quick_replies = []
-                                                var map = _.map(askOption, option => {
-                                                    metadata.text = option[0]
-                                                    quick_replies.push({
-                                                        "content_type": "text",
-                                                        "title": option[0],
-                                                        "payload": JSON.stringify(metadata)
-
-                                                    })
-                                                });
-                                                messageSend.quick_replies = quick_replies
-
-                                            } else if (askStringStr.match(askType)) {
-
-                                                messageSend.metadata = JSON.stringify(metadata)
-                                            }
-                                            console.log('messageSend', messageSend)
-                                            sendingAPI(senderID, pageID, messageSend, null, pageID)
-
-                                        } else {
-                                            metadata.type = 'info'
-                                            sendingAPI(senderID, pageID, messageSend, null, pageID).then(result => {
-                                                response[currentQuestionId] = true
-
-                                                ladiResCol.findOneAndUpdate({
-                                                    flow: senderData.flow,
-                                                    page: pageID,
-                                                    senderID
-                                                }, {$set: response}).then(result => {
-                                                    console.log('save response', response)
-                                                    if (currentQuestion[3] == 11 && currentQuestion[2]) sendingAPI(senderID, pageID, {
-                                                        attachment: {
-                                                            type: "image",
-                                                            payload: {
-                                                                url: currentQuestion[2]
-                                                            }
-                                                        }
-                                                    }, null, pageID).then(result => setTimeout(loop(), 1000))
-                                                    else if (currentQuestion[3] == 12 && currentQuestion[6][3]) sendingAPI(senderID, pageID, {
-                                                        text: `https://www.youtube.com/watch?v=${currentQuestion[6][3]}`
-                                                    }, null, pageID).then(result => setTimeout(loop(), 1000))
-                                                    else setTimeout(loop(), 1000)
-
-
-                                                })
-
-                                            })
-
-                                        }
-                                    } else
-                                        loop()
-
-                                } else {
-                                    if (!response.end) sendingAPI(senderID, pageID, {
-                                        text: `${(flow[2] && flow[2][0]) ? (flow[2][0]) : ('Thanks for your time!')}`
-                                    }, null, pageID).then(result => {
-                                        response.end = true
-                                        ladiResCol.findOneAndUpdate({
-                                            flow: senderData.flow,
-                                            page: pageID,
-                                            senderID
-                                        }, {$set: response})
-                                            .then(result => submitResponse(senderData.flow, senderID)
-                                                .then(result => console.log('done', result))
-                                                .catch(err => console.log('err', err))
-                                            )
-
-                                    })
-                                    else sendingAPI(senderID, pageID, {
-                                        text: 'Thank you again! See ya <3',
-                                        quick_replies: [{
-                                            "content_type": "text",
-                                            "title": 'Undo',
-                                            "payload": JSON.stringify({
-                                                state: 'undo'
-                                            })
-                                        }]
-                                    }, null, pageID)
-                                }
-                            }
-
-                            if (!response.start) sendingAPI(senderID, pageID, {
-                                text: flow[8] || '' + '\n' + flow[0] || '',
-                            }, null, pageID).then(result => {
-                                response.start = true
-                                console.log(result)
-
-                                ladiResCol.findOneAndUpdate({
-                                    flow: senderData.flow,
-                                    page: pageID,
-                                    senderID
-                                }, {$set: response}, {upsert: true}).then(result => {
-                                    console.log('save response', result, response)
-                                })
-                                loop()
-                            })
-                            else loop()
-
-                        })
-                        else {
-                            console.log('non-result')
-                            var flowList = _.where(dataLadiBot, {page: pageID})
-                            if (flowList && flowList.length > 0) {
-                                var quick_replies = []
-
-                                var each = _.each(flowList, flow => {
-                                    quick_replies.push({
-                                        "content_type": "text",
-                                        "title": flow.data[8],
-                                        "payload": JSON.stringify({
-                                            state: 'setFlow',
-                                            flow: flow.flow
-                                        })
-                                    })
-                                })
-                                sendingAPI(senderID, pageID, {
-                                    text: 'Bạn cần giúp gì nhỉ?',
-                                    quick_replies
-                                }, null, pageID)
-                            } else sendingAPI(senderID, pageID, {
-                                text: 'Chào bạn, Bạn cần giúp gì nhỉ?',
-                            }, null, pageID)
-                        }
-                    }
-
-
-                }))
-    }
-
-
-    db.ref('tempEvent').child(snap.key).remove()
-})
 app.get('/listen', function (req, res) {
     var type = req.param('type')
     listen = type
