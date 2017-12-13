@@ -2946,7 +2946,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             type: "template",
                                                             payload: {
                                                                 template_type: "button",
-                                                                text: `Done <3! \n We had just turn your "${form.data[8]}" form into chatbot to help you convert more leads! \n Here are link: m.me/206881183192113?ref=${form.flow}`,
+                                                                text: `Done <3! \n We had just turn your "${form.data[8]}" form into chatbot to help you convert more leads!`,
                                                                 buttons: [{
                                                                     type: "web_url",
                                                                     url: `https://m.me/206881183192113?ref=${form.flow}`,
