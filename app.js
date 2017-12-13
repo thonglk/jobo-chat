@@ -4387,7 +4387,7 @@ function sendOne(messageData, page) {
                     resolve(messageData)
 
                 } else {
-                    console.error("callSendAPI_error", response.statusMessage);
+                    console.error("callSendAPI_error", response.statusMessage,messageData.message);
                     reject(error)
                 }
             });
