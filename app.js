@@ -2918,7 +2918,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                         else {
                                             console.log('something missing here')
                                         }
-                                    } else if (pageID == '206881183192113') {
+                                    } else if (pageID == '152866285340107') {
 
 
                                         if (referral && referral.ref) {
@@ -2964,7 +2964,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                 type: "template",
                                                                 payload: {
                                                                     template_type: "button",
-                                                                    text: `Step 2: \n We had just turn your "${form.data[8]}" form into chatbot to help you convert more leads! \n Here are link: m.me/206881183192113?ref=${form.flow}`,
+                                                                    text: `Step 2: \n Connect this form to your Facebook Page`,
                                                                     buttons: [{
                                                                         type: "web_url",
                                                                         url: `https://jobo.asia/ladibot/create?url=${url}`,
