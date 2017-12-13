@@ -246,12 +246,6 @@ accountRef.child('dumpling').on('child_changed', function (snap) {
     dataAccount[snap.key] = snap.val()
 })
 
-accountRef.child('ambius').on('child_added', function (snap) {
-    landBotAccount[snap.key] = snap.val()
-})
-accountRef.child('ambius').on('child_changed', function (snap) {
-    landBotAccount[snap.key] = snap.val()
-})
 
 lastMessageRef.on('child_added', function (snap) {
     lastMessageData[snap.key] = snap.val()
@@ -711,7 +705,7 @@ function getChat({url, page, access_token, name, pageID}) {
 
                                                     var call_to_actions = []
                                                     var each = _.each(flowList, fl => {
-                                                        if(fl.data[8].length > 30) var title = fl.data[8].slice(0,29)
+                                                        if (fl.data[8].length > 30) var title = fl.data[8].slice(0, 29)
                                                         else title = fl.data[8]
                                                         call_to_actions.push({
                                                             title,
@@ -1649,9 +1643,9 @@ function matchingPayload(event) {
             if (recipientID == facebookPage['jobo'].id) referInital(referral, senderID)
         } else if (postback && postback.referral) referral = postback.referral
 
-        if (referral){
+        if (referral) {
             resolve({payload, senderID, postback, referral})
-        }else if(payloadStr.length > 0) {
+        } else if (payloadStr.length > 0) {
             var payload = JSON.parse(payloadStr);
             resolve({payload, senderID, postback, referral})
         } else if (message) {
@@ -2996,7 +2990,7 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                             /// case create
 
-                                        } else if(postback){
+                                        } else if (postback) {
 
                                         }
 
@@ -3494,7 +3488,8 @@ db.ref('webhook').on('child_added', function (snap) {
     db.ref('webhook').child(snap.key).remove()
 
 })
-function flowAI({keyword,senderID, pageID}) {
+
+function flowAI({keyword, senderID, pageID}) {
 
     var guest_value = ''
     var flowList = _.filter(dataLadiBot, flow => {
@@ -3544,7 +3539,7 @@ function flowAI({keyword,senderID, pageID}) {
             })
         })
         sendingAPI(senderID, pageID, {
-            text: `Có phải ý bạn là ${guest_value} ?` ,
+            text: `Có phải ý bạn là ${guest_value} ?`,
             quick_replies
         }, null, pageID)
     } else sendingAPI(senderID, pageID, {
@@ -3606,16 +3601,17 @@ app.get('/listen', function (req, res) {
 
 function loadsenderData(senderID, page = 'dumpling') {
     return new Promise(function (resolve, reject) {
-        if (page == 'jobo') resolve({})
+        if (page == 'dumpling') var ref = 'account/dumpling'
+        else ref = page + '_account'
 
-        db.ref(page + '_account').child(senderID).once('value', function (snap) {
+        db.ref(ref).child(senderID).once('value', function (snap) {
             if (snap.val()) resolve(snap.val())
             else graph.get(senderID + '?access_token=' + facebookPage[page].access_token, (err, result) => {
                 if (err) reject(err);
                 console.log('account', result);
                 var user = result;
                 user.createdAt = Date.now()
-                db.ref(page + '_account').child(senderID).update(user)
+                db.ref(ref).child(senderID).update(user)
                     .then(result => resolve(user))
                     .catch(err => reject(err))
             })
@@ -3639,7 +3635,7 @@ function matchingPeople(senderID) {
         var matched = random.id
         console.log('matched', matched)
         var recipientID = facebookPage['dumpling'].id
-        sendingAPI(matched, recipientID, {
+        sendAPI(matched, {
             text: `[Hệ Thống] Bạn đã được ghép với 1 người lạ ở Dumpling_${senderData.topic}, hãy nói gì đó đề bắt đầu`,
         }, null, 'dumpling')
             .then(result => accountRef.child('dumpling').child(senderID)
@@ -4637,7 +4633,7 @@ function sendOne(messageData, page) {
                     resolve(messageData)
 
                 } else {
-                    console.error("callSendAPI_error", response, JSON.stringify(messageData.message));
+                    console.error("callSendAPI_error", body, JSON.stringify(messageData.message));
                     reject(error)
                 }
             });
