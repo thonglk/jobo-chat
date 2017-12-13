@@ -1710,7 +1710,6 @@ function matchingPayload(event) {
             console.log('something donnt know', event)
         }
 
-
     })
 }
 
@@ -3712,7 +3711,7 @@ function getJob(data) {
 
                 var resultData = result.data;
                 var jobData = resultData.data;
-                console.log('resultData', resultData.total);
+                console.log('resultData', resultData.total, resultData.newfilter);
                 data.page++
                 var message = {
                     "attachment": {
@@ -4373,7 +4372,7 @@ function sendOne(messageData, page) {
                     resolve(messageData)
 
                 } else {
-                    console.error("callSendAPI_error", response.statusMessage, messageData.message);
+                    console.error("callSendAPI_error", response, JSON.stringify(messageData.message));
                     reject(error)
                 }
             });
