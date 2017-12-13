@@ -665,23 +665,25 @@ function getChat({url, page, access_token, name, pageID}) {
                             var it = right[0]//certain
                             if (JSON.parse(it)) {
                                 var array = JSON.parse(it)
-                                console.log(array)
                                 if (str == 'FB_LOAD_DATA_ = ') {
                                     var data = array[0][1]
 
                                 } else {
                                     var data = array[1]
-
                                 }
+                                console.log('data', data)
+
                                 var id = array[14]
                                 var save = {
                                     id, data
                                 }
+
                                 if (dataLadiBot[id] && dataLadiBot[id].flow) {
                                     save.flow = dataLadiBot[id].flow
                                 } else {
-                                    save.flow = vietnameseDecode(data[8])
+                                    save.flow = vietnameseDecode(data[8] || 'untitled')
                                 }
+
                                 console.log('Get form', save.id)
 
                                 if (access_token && name && pageID) {
@@ -797,11 +799,13 @@ function getChat({url, page, access_token, name, pageID}) {
                                 else db.ref('ladiBot').child(save.flow).update(save)
                                         .then(result => resolve(save))
                             }
+                            else reject({err: 'This parse was not public'})
 
                         }
+                        else reject({err: 'This script was not public'})
 
 
-                    } else reject({err: 'This form was not public'})
+                    } else reject({err: 'This data was not public'})
 
 
                 })
@@ -3166,21 +3170,24 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     }
                                                 }
 
-                                                if (!response.start) sendingAPI(senderID, pageID, {
-                                                    text: flow[8] || '' + '\n' + flow[0] || '',
-                                                }, null, pageID).then(result => {
-                                                    response.start = true
-                                                    console.log(result)
+                                                if (!response.start) sendAPI(senderID, {
+                                                    text: flow[8] || '',
+                                                }, null, pageID)
+                                                    .then(result => sendAPI(senderID, {text: flow[0] || ''}, null, pageID)
+                                                        .then(result => {
+                                                            response.start = true
+                                                            console.log(result)
 
-                                                    ladiResCol.findOneAndUpdate({
-                                                        flow: senderData.flow,
-                                                        page: pageID,
-                                                        senderID
-                                                    }, {$set: response}, {upsert: true}).then(result => {
-                                                        console.log('save response', result, response)
-                                                    })
-                                                    loop()
-                                                })
+                                                            ladiResCol.findOneAndUpdate({
+                                                                flow: senderData.flow,
+                                                                page: pageID,
+                                                                senderID
+                                                            }, {$set: response}, {upsert: true})
+                                                                .then(result => {
+                                                                    console.log('save response', result, response)
+                                                                })
+                                                            loop()
+                                                        }))
                                                 else loop()
 
                                             })
