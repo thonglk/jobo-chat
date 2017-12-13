@@ -711,8 +711,10 @@ function getChat({url, page, access_token, name, pageID}) {
 
                                                     var call_to_actions = []
                                                     var each = _.each(flowList, fl => {
+                                                        if(fl.data[8].length > 30) var title = fl.data[8].slice(0,29)
+                                                        else title = fl.data[8]
                                                         call_to_actions.push({
-                                                            "title": fl.data[8],
+                                                            title,
                                                             "type": "postback",
                                                             "payload": JSON.stringify({
                                                                 state: 'setFlow',
@@ -1208,7 +1210,7 @@ function setDefautMenu(page = 'jobo', menu) {
             json: menu
 
         }, function (error, response, body) {
-            console.error("setDefautMenu", error, response, body);
+            console.error("setDefautMenu", error, response);
 
             if (!error && response.statusCode == 200) {
 
