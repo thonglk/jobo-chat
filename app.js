@@ -1649,7 +1649,7 @@ function matchingPayload(event) {
 
         if (payloadStr.length > 0) {
             var payload = JSON.parse(payloadStr);
-
+            resolve({payload, senderID, postback, referral})
         } else if (message) {
             var lastMessage = lastMessageData[senderID]
             console.log('lastMessage', lastMessage);
@@ -1667,8 +1667,7 @@ function matchingPayload(event) {
                         lat: locationData.lat,
                         lng: locationData.long,
                     }
-
-                    if (recipientID == facebookPage['jobo'].id) sendListJobByAddress(location, null, senderID)
+                    payload.location = location
 
                 } else if (message.attachments[0].payload.url) {
                     var url = message.attachments[0].payload.url;
@@ -1690,34 +1689,18 @@ function matchingPayload(event) {
                     .then(data => {
                         console.log('Yay, got Wit.ai response: ', data);
                         var entities = data.entities
+                        for (var i in entities) {
+                            var entity = entities[i]
+                            var most = _.max(entity, function (card) {
+                                return card.confidence;
+                            });
+                            var value = most.value
+                            console.log('value', value)
+                            if (i == 'yes_no') i = 'answer'
+                            payload[i] = value
+                        }
 
-                        if (entities.yes_no) {
-                            var most = _.max(entities.yes_no, function (card) {
-                                return card.confidence;
-                            });
-                            var value = most.value
-                            console.log('value', value)
-                            if (value == 'yes') {
-                                payload.answer = 'yes'
-                            }
-                        }
-                        if (entities.phone_number) {
-                            var most = _.max(entities.phone_number, function (card) {
-                                return card.confidence;
-                            });
-                            var value = most.value
-                            console.log('value', value)
-                            payload.phone_number = value
-                        }
-                        if (entities.location) {
-                            var most = _.max(entities.location, function (card) {
-                                return card.confidence;
-                            });
-                            var value = most.value
-                            console.log('value', value)
-                            payload.location = value
-                        }
-                        resolve({payload, senderID, postback, message})
+                        resolve({payload, senderID, message})
 
                     })
                     .catch(console.error);
@@ -1727,13 +1710,11 @@ function matchingPayload(event) {
             console.log('something donnt know', event)
         }
 
-        resolve({payload, senderID, postback, referral})
-
 
     })
 }
 
-function sendListJobByAddress(location, address, senderID) {
+function sendListJobByAddress(location, address, senderID, user) {
     var data = {
         lat: location.lat,
         lng: location.lng,
@@ -2099,42 +2080,47 @@ function intention(payload, senderID, postback, message = {}) {
                 : {
 
                     if (payload.location) {
-                        var url = `https://maps.google.com/maps/api/geocode/json?address='${vietnameseDecode(payload.location)}'&components=country:VN&sensor=true&apiKey=''`
-                        axios.get(url)
-                            .then(result => {
-                                if (result.data && result.data.results && result.data.results[0]) {
-                                    var list = result.data.results
-                                    var message = {
-                                        attachment: {
-                                            type: "template",
-                                            payload: {
-                                                template_type: "button",
-                                                text: "Ý bạn là?",
-                                                buttons: []
+                        if (payload.location.lng) {
+                            sendListJobByAddress(payload.location, null, senderID, user)
+                        } else {
+                            var url = `https://maps.google.com/maps/api/geocode/json?address='${vietnameseDecode(payload.location)}'&components=country:VN&sensor=true&apiKey=''`
+                            axios.get(url)
+                                .then(result => {
+                                    if (result.data && result.data.results && result.data.results[0]) {
+                                        var list = result.data.results
+                                        var message = {
+                                            attachment: {
+                                                type: "template",
+                                                payload: {
+                                                    template_type: "button",
+                                                    text: "Ý bạn là?",
+                                                    buttons: []
+                                                }
                                             }
                                         }
-                                    }
-                                    var a = 0
-                                    var button = list.forEach(add => {
-                                        a++
-                                        if (a < 4) {
-                                            message.attachment.payload.buttons.push({
-                                                type: "postback",
-                                                title: add.formatted_address,
-                                                payload: JSON.stringify({
-                                                    type: 'selectLocation',
-                                                    location: add.geometry.location,
-                                                    address: add.formatted_address
+                                        var a = 0
+                                        var button = list.forEach(add => {
+                                            a++
+                                            if (a < 4) {
+                                                message.attachment.payload.buttons.push({
+                                                    type: "postback",
+                                                    title: add.formatted_address,
+                                                    payload: JSON.stringify({
+                                                        type: 'selectLocation',
+                                                        location: add.geometry.location,
+                                                        address: add.formatted_address
+                                                    })
                                                 })
-                                            })
-                                        }
+                                            }
 
-                                    })
-                                    sendAPI(senderID, message)
-                                }
-                            }).catch(err => console.log(err))
+                                        })
+                                        sendAPI(senderID, message)
+                                    }
+                                }).catch(err => console.log(err))
+                        }
+
                     } else sendAPI(senderID, {
-                        text: "Xin lỗi mình không hiểu địa chỉ của bạn?, hãy nhập tên đường hoặc tên quận nhé!",
+                        text: "Xin lỗi mình không hiểu địa chỉ của bạn?, hãy nhập tên đường hoặc tên quận nhé!,\n hoặc bạn chọn [Send Location] để chọn vị trí cũng được",
                         quick_replies: [{
                             "content_type": "location",
                             "payload": JSON.stringify({
@@ -2155,7 +2141,7 @@ function intention(payload, senderID, postback, message = {}) {
                 case
                 'selectLocation'
                 : {
-                    sendListJobByAddress(payload.location, payload.address, senderID)
+                    sendListJobByAddress(payload.location, payload.address, senderID, user)
                     break;
 
                 }
@@ -3127,7 +3113,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         var currentQuestionId = currentQuestion[0];
                                                         if (!response[currentQuestionId]) {
                                                             var messageSend = {
-                                                                text: currentQuestion[1],
+                                                                text: currentQuestion[1] || '(Không có câu hỏi, gõ bất kì để bỏ qua)',
                                                             }
                                                             var metadata = {
                                                                 questionId: currentQuestionId
@@ -4387,7 +4373,7 @@ function sendOne(messageData, page) {
                     resolve(messageData)
 
                 } else {
-                    console.error("callSendAPI_error", response.statusMessage,messageData.message);
+                    console.error("callSendAPI_error", response.statusMessage, messageData.message);
                     reject(error)
                 }
             });
