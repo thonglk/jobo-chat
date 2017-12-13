@@ -1647,7 +1647,9 @@ function matchingPayload(event) {
             if (recipientID == facebookPage['jobo'].id) referInital(referral, senderID)
         } else if (postback && postback.referral) referral = postback.referral
 
-        if (payloadStr.length > 0) {
+        if (referral){
+            resolve({payload, senderID, postback, referral})
+        }else if(payloadStr.length > 0) {
             var payload = JSON.parse(payloadStr);
             resolve({payload, senderID, postback, referral})
         } else if (message) {
@@ -2914,67 +2916,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                         else {
                                             console.log('something missing here')
                                         }
-
-                                    }
-                                    function flowAI({keyword,senderID, pageID}) {
-
-                                        var guest_value = ''
-                                        var flowList = _.filter(dataLadiBot, flow => {
-                                            var keyflow = flow.keyflow
-                                            var finding = 'ing'
-                                            if (keyword.match('-')) {
-                                                var matching = 0
-                                                var splitpayload = keyword.split('-')
-                                                for (var i = 0; i < splitpayload.length - 1; i++) {
-                                                    var two = i + 1
-                                                    var two_key = splitpayload[i] + '-' + splitpayload[two]
-                                                    if (keyflow.match(two_key)) {
-                                                        guest_value = two_key
-                                                        matching++
-                                                        finding = 'done'
-                                                    }
-
-                                                }
-                                                if (finding == 'ing') {
-                                                    for (var i = 0; i < splitpayload.length; i++) {
-                                                        var one_key = splitpayload[i]
-                                                        if (keyflow.match(one_key)) {
-                                                            guest_value = one_key
-                                                            matching++
-                                                        }
-                                                    }
-                                                }
-
-                                                if (matching > 0) {
-                                                    flow.matching = matching
-                                                    return flow
-                                                }
-
-                                            }
-                                        })
-                                        if (flowList && flowList.length > 0) {
-                                            var quick_replies = []
-
-                                            var each = _.each(flowList, flow => {
-                                                quick_replies.push({
-                                                    "content_type": "text",
-                                                    "title": flow.data[8],
-                                                    "payload": JSON.stringify({
-                                                        state: 'setFlow',
-                                                        flow: flow.flow
-                                                    })
-                                                })
-                                            })
-                                            sendingAPI(senderID, pageID, {
-                                                text: `Có phải ý bạn là ${guest_value} ?` ,
-                                                quick_replies
-                                            }, null, pageID)
-                                        } else sendingAPI(senderID, pageID, {
-                                            text: 'Chào bạn, Bạn cần giúp gì nhỉ?',
-                                        }, null, pageID)
-                                    }
-
-                                    if (pageID == '206881183192113') {
+                                    } else if (pageID == '206881183192113') {
 
 
                                         if (referral && referral.ref) {
@@ -2982,22 +2924,22 @@ db.ref('webhook').on('child_added', function (snap) {
                                             senderData.ref = referral.ref
 
 
-
-                                            if (senderData.ref.match('_')) {
-                                                var refData = senderData.ref.split('_');
+                                            if (referral.ref.match('_')) {
+                                                var refData = referral.ref.split('_');
                                                 console.log('refData', refData);
 
-                                            } else refData = [senderData.ref]
+                                            } else refData = [referral.ref]
 
                                             if (refData[0] == 'create') {
                                                 var url = senderData.ref.slice(7);
+                                                console.log('url', url);
 
-                                                sendingAPI(senderID, pageID, {
+                                                sendAPI(senderID, {
                                                     text: `Welcome ${senderData.first_name}! \n Your form is being converted`
                                                 }, null, pageID)
 
                                                 getChat({url})
-                                                    .then(form => sendingAPI(senderID, pageID, {
+                                                    .then(form => sendAPI(senderID, {
                                                         attachment: {
                                                             type: "template",
                                                             payload: {
@@ -3015,7 +2957,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             }
                                                         }
                                                     }, null, pageID)
-                                                        .then(result => sendingAPI(senderID, pageID, {
+                                                        .then(result => sendAPI(senderID, {
                                                             attachment: {
                                                                 type: "template",
                                                                 payload: {
@@ -3033,11 +2975,11 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                 }
                                                             }
                                                         }, null, pageID))
-                                                        .catch(err => sendingAPI(senderID, pageID, {
+                                                        .catch(err => sendAPI(senderID, {
                                                             text: JSON.stringify(err)
                                                         }, null, pageID)))
 
-                                                    .catch(err => sendingAPI(senderID, pageID, {
+                                                    .catch(err => sendAPI(senderID, {
                                                         text: JSON.stringify(err)
                                                     }, null, pageID))
 
@@ -3271,7 +3213,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 }, null, pageID)
                                             }
                                         }
-                                    } else {
+                                    }
+                                    else {
 
 
                                         if (referral && referral.ref) {
@@ -3549,6 +3492,64 @@ db.ref('webhook').on('child_added', function (snap) {
     db.ref('webhook').child(snap.key).remove()
 
 })
+function flowAI({keyword,senderID, pageID}) {
+
+    var guest_value = ''
+    var flowList = _.filter(dataLadiBot, flow => {
+        var keyflow = flow.keyflow
+        var finding = 'ing'
+        if (keyword.match('-')) {
+            var matching = 0
+            var splitpayload = keyword.split('-')
+            for (var i = 0; i < splitpayload.length - 1; i++) {
+                var two = i + 1
+                var two_key = splitpayload[i] + '-' + splitpayload[two]
+                if (keyflow.match(two_key)) {
+                    guest_value = two_key
+                    matching++
+                    finding = 'done'
+                }
+
+            }
+            if (finding == 'ing') {
+                for (var i = 0; i < splitpayload.length; i++) {
+                    var one_key = splitpayload[i]
+                    if (keyflow.match(one_key)) {
+                        guest_value = one_key
+                        matching++
+                    }
+                }
+            }
+
+            if (matching > 0) {
+                flow.matching = matching
+                return flow
+            }
+
+        }
+    })
+    if (flowList && flowList.length > 0) {
+        var quick_replies = []
+
+        var each = _.each(flowList, flow => {
+            quick_replies.push({
+                "content_type": "text",
+                "title": flow.data[8],
+                "payload": JSON.stringify({
+                    state: 'setFlow',
+                    flow: flow.flow
+                })
+            })
+        })
+        sendingAPI(senderID, pageID, {
+            text: `Có phải ý bạn là ${guest_value} ?` ,
+            quick_replies
+        }, null, pageID)
+    } else sendingAPI(senderID, pageID, {
+        text: 'Chào bạn, Bạn cần giúp gì nhỉ?',
+    }, null, pageID)
+}
+
 
 app.get('/submitResponse', function (req, res) {
     var {flow, senderID} = req.query
