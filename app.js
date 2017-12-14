@@ -731,7 +731,7 @@ function getChat({url, page, access_token, name, pageID}) {
                                                                     title: "📮 Power by BotForm"
                                                                 }
                                                                 ],
-                                                                "locale": "default", xw
+                                                                "locale": "default",
 
                                                             }
                                                         ]
