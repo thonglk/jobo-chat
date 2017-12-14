@@ -731,7 +731,7 @@ function getChat({url, page, access_token, name, pageID}) {
                                                                     title: "📮 Power by BotForm"
                                                                 }
                                                                 ],
-                                                                "locale": "default",xw
+                                                                "locale": "default", xw
 
                                                             }
                                                         ]
@@ -3232,21 +3232,22 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 if (!response.start) sendAPI(senderID, {
                                                     text: flow[8] || '',
                                                 }, null, pageID)
-                                                    .then(result => sendAPI(senderID, {text: flow[0] || ''}, null, pageID)
-                                                        .then(result => {
-                                                            response.start = true
-                                                            console.log(result)
+                                                    .then(result => {
+                                                        if (flow[0]) sendAPI(senderID, {text: flow[0]}, null, pageID)
 
-                                                            ladiResCol.findOneAndUpdate({
-                                                                flow: senderData.flow,
-                                                                page: pageID,
-                                                                senderID
-                                                            }, {$set: response}, {upsert: true})
-                                                                .then(result => {
-                                                                    console.log('save response', result, response)
-                                                                })
-                                                            loop()
-                                                        }))
+                                                        response.start = true
+                                                        console.log(result)
+
+                                                        ladiResCol.findOneAndUpdate({
+                                                            flow: senderData.flow,
+                                                            page: pageID,
+                                                            senderID
+                                                        }, {$set: response}, {upsert: true})
+                                                            .then(result => {
+                                                                console.log('save response', result, response)
+                                                            })
+                                                        loop()
+                                                    })
                                                 else loop()
 
                                             })
