@@ -604,12 +604,6 @@ function getLongLiveToken(shortLiveToken) {
     });
 }
 
-app.get('/getchat', function (req, res) {
-    var {url = 'https://docs.google.com/forms/d/e/1FAIpQLSchC5kv_FlJh0e1bfwv0TP4nrhe4E_dqW2mNQBQ5ErPOUz_rw/viewform', page, access_token, name, pageID} = req.query
-    getChat(req.query).then(result => res.send(result))
-        .catch(err => res.status(500).json(err))
-
-})
 
 app.get('/subscribed_apps', function (req, res) {
     var {pageID} = req.query
@@ -629,6 +623,12 @@ function subscribed_apps(access_token, pageID) {
 
     })
 }
+app.get('/getchat', function (req, res) {
+    var {url = 'https://docs.google.com/forms/d/e/1FAIpQLSchC5kv_FlJh0e1bfwv0TP4nrhe4E_dqW2mNQBQ5ErPOUz_rw/viewform', page, access_token, name, pageID} = req.query
+    getChat(req.query).then(result => res.send(result))
+        .catch(err => res.status(500).json(err))
+
+})
 
 function getChat({url, page, access_token, name, pageID}) {
     return new Promise(function (resolve, reject) {
@@ -706,17 +706,21 @@ function getChat({url, page, access_token, name, pageID}) {
                                                     flowList.push(save);
 
                                                     var call_to_actions = []
+
                                                     var each = _.each(flowList, fl => {
-                                                        if (fl.data[8].length > 30) var title = fl.data[8].slice(0, 29)
-                                                        else title = fl.data[8]
-                                                        call_to_actions.push({
-                                                            title,
-                                                            "type": "postback",
-                                                            "payload": JSON.stringify({
-                                                                state: 'setFlow',
-                                                                flow: fl.flow
+                                                        if(call_to_actions.length < 4){
+                                                            if (fl.data[8].length > 30) var title = fl.data[8].slice(0, 29)
+                                                            else title = fl.data[8]
+                                                            call_to_actions.push({
+                                                                title,
+                                                                "type": "postback",
+                                                                "payload": JSON.stringify({
+                                                                    state: 'setFlow',
+                                                                    flow: fl.flow
+                                                                })
                                                             })
-                                                        })
+                                                        }
+
                                                     })
                                                     var menu = {
                                                         "persistent_menu": [
@@ -831,30 +835,6 @@ function getPaginatedItems(items, page = 1, per_page = 15) {
     };
 }
 
-// app.get('/messageFactory', function (req, res) {
-//     var query = req.query
-//     var page = query.page || 1
-//     var Query = Object.assign({}, query)
-//     delete Query.page
-//     console.log(Query)
-//     var toArray = _.toArray(messageFactory)
-//     console.log('toArray.length', toArray.length)
-//     var filter = _.where(toArray, Query)
-//     var pages = getPaginatedItems(filter, page)
-//     res.send(pages)
-// })
-
-function shortAddress(fullAddress) {
-    if (fullAddress) {
-        var mixAddress = fullAddress.split(",")
-        if (mixAddress.length < 3) {
-            return fullAddress
-        } else {
-            var address = mixAddress[0] + ', ' + mixAddress[1] + ', ' + mixAddress[2]
-            return address
-        }
-    }
-}
 
 
 function initUser() {
@@ -873,6 +853,7 @@ app.post('/noti', function (req, res) {
         .then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 });
+
 app.get('/notiWelcome', function (req, res) {
     sendWelcome()
     res.send('done')
@@ -1041,7 +1022,7 @@ function setGetstarted(page = 'jobo') {
             json: message
 
         }, function (error, response, body) {
-            console.error("setGetstarted", error, response);
+            console.error("setGetstarted", error, body);
             if (!error && response.statusCode == 200) {
 
                 resolve(response)
@@ -1267,7 +1248,7 @@ function setDefautMenu(page = 'jobo', menu) {
             json: menu
 
         }, function (error, response, body) {
-            console.error("setDefautMenu", error, response);
+            console.error("setDefautMenu", error, body);
 
             if (!error && response.statusCode == 200) {
 
