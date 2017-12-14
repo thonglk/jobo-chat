@@ -3234,7 +3234,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 }, null, pageID)
                                                     .then(result => {
                                                         if (flow[0]) sendAPI(senderID, {text: flow[0]}, null, pageID)
-
                                                         response.start = true
                                                         console.log(result)
 
