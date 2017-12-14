@@ -3215,6 +3215,9 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 }, null, pageID)
                                                     .then(result => {
                                                         if (flow[0]) sendAPI(senderID, {text: flow[0]}, null, pageID)
+                                                            .then(result => loop())
+                                                        else loop()
+
                                                         response.start = true
                                                         console.log(result)
 
@@ -3226,7 +3229,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             .then(result => {
                                                                 console.log('save response', result, response)
                                                             })
-                                                        loop()
                                                     })
                                                 else loop()
 
