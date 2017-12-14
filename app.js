@@ -728,10 +728,10 @@ function getChat({url, page, access_token, name, pageID}) {
                                                                 }, {
                                                                     type: "web_url",
                                                                     url: "m.me/206881183192113?ref=power-by",
-                                                                    title: "📮 Power by Ladi.bot"
+                                                                    title: "📮 Power by BotForm"
                                                                 }
                                                                 ],
-                                                                "locale": "default",
+                                                                "locale": "default",xw
 
                                                             }
                                                         ]
@@ -1184,6 +1184,65 @@ menu['dumpling'] = {
                         }, {
                             type: "postback",
                             title: "Chia sẻ Dumpling",
+                            payload: JSON.stringify({type: 'share'})
+                        }
+                    ]
+                },
+
+            ],
+            "locale": "default",
+
+        }
+    ]
+}
+menu['152866285340107'] = {
+    "persistent_menu": [
+        {
+            "call_to_actions": [
+                {
+                    "title": "💑 Trò chuyện",
+                    "type": "nested",
+
+                    "call_to_actions": [
+                        {
+                            "title": "✨ Bắt đầu",
+                            "type": "postback",
+                            "payload": JSON.stringify({
+                                type: 'matching',
+                            })
+                        },
+                        {
+                            "title": "❎ Dừng chat",
+                            "type": "postback",
+                            "payload": JSON.stringify({
+                                type: 'stop',
+                            })
+                        },
+                        {
+                            "title": "Trạng thái",
+                            "type": "postback",
+                            "payload": JSON.stringify({
+                                type: 'status',
+                            })
+                        }
+                    ]
+                }, {
+                    "title": "Xem thêm",
+                    "type": "nested",
+
+                    "call_to_actions": [
+
+                        {
+                            type: "web_url",
+                            url: "https://www.facebook.com/dumpling.bot",
+                            title: "Fanpage Dumpling"
+                        }, {
+                            type: "web_url",
+                            url: "https://www.facebook.com/groups/1985734365037855",
+                            title: "Tham gia nhóm"
+                        }, {
+                            type: "postback",
+                            title: "Chia sẻ",
                             payload: JSON.stringify({type: 'share'})
                         }
                     ]
@@ -2916,7 +2975,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                         else {
                                             console.log('something missing here')
                                         }
-                                    } else if (pageID == '152866285340107') {
+                                    } else if (pageID == '206881183192113') {
 
 
                                         if (referral && referral.ref) {
