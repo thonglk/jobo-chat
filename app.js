@@ -1092,16 +1092,26 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
  * setup is the same token used here.
  *
  */
-app.get('/webhook', function (req, res) {
-    if (req.query['hub.mode'] === 'subscribe' &&
-        req.query['hub.verify_token'] === VALIDATION_TOKEN) {
-        console.log("Validating webhook");
-        res.status(200).send(req.query['hub.challenge']);
-    } else {
-        console.error("Failed validation. Make sure the validation tokens match.");
-        res.sendStatus(403);
-    }
-});
+// app.get('/webhook', function (req, res) {
+//     if (req.query['hub.mode'] === 'subscribe' &&
+//         req.query['hub.verify_token'] === VALIDATION_TOKEN) {
+//         console.log("Validating webhook");
+//         res.status(200).send(req.query['hub.challenge']);
+//     } else {
+//         console.error("Failed validation. Make sure the validation tokens match.");
+//         res.sendStatus(403);
+//     }
+// });
+// app.post('/webhook', function (req, res) {
+//     var data = req.body;
+//     console.log('webhook', JSON.stringify(data))
+//     db.ref('webhook').push(data).then(result => res.sendStatus(200))
+//         .catch(err => {
+//             console.log('webhook_error', JSON.stringify(err))
+//             res.sendStatus(200)
+//         })
+//     // Make sure this is a page subscription
+// })
 
 
 /*
@@ -2375,16 +2385,6 @@ app.get('/initconversation', function (req, res) {
 
 })
 
-app.post('/webhook', function (req, res) {
-    var data = req.body;
-    console.log('webhook', JSON.stringify(data))
-    db.ref('webhook').push(data).then(result => res.sendStatus(200))
-        .catch(err => {
-            console.log('webhook_error', JSON.stringify(err))
-            res.sendStatus(200)
-        })
-    // Make sure this is a page subscription
-})
 var listen = 'on'
 
 db.ref('webhook').on('child_added', function (snap) {
@@ -3459,11 +3459,11 @@ function matchingPeople(senderID) {
             text: `[Hệ Thống] Bạn đã được ghép với 1 người lạ ở Dumpling_${senderData.topic}, hãy nói gì đó đề bắt đầu`,
         }, null, 'dumpling')
             .then(result => saveSenderData({match: matched}, senderID, 'dumpling')
-                .then(result => saveSenderData({match: senderID}, senderID, 'dumpling')
-                    .then(result => sendingAPI(senderID, recipientID, {
+                .then(result => saveSenderData({match: senderID}, matched, 'dumpling')
+                    .then(result => sendAPI(senderID, {
                         text: `[Hệ Thống] Đã ghép bạn với 1 người lạ ở Dumpling_${random.topic} thành công`,
                     }, null, 'dumpling'))
-                    .then(result => sendingAPI(senderID, recipientID, {
+                    .then(result => sendAPI(senderID, {
                         text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
                     }, null, 'dumpling'))
                     .then(result => checkAvaible(senderID))))
