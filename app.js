@@ -194,8 +194,6 @@ db.ref('dumpling_account').on('child_changed', snap => {
     dataAccount[snap.key] = snap.val()
 })
 
-var landBotAccount = {}
-
 
 var profileRef = db2.ref('profile');
 var likeActivityRef = db3.ref('activity/like');
@@ -430,7 +428,6 @@ function getLongLiveToken(shortLiveToken) {
             });
     });
 }
-
 
 app.get('/subscribed_apps', function (req, res) {
     var {pageID} = req.query
@@ -706,11 +703,6 @@ app.get('/initUser', function () {
     initUser()
 });
 
-app.get('/setMenu', function (req, res) {
-    var page = req.param('page')
-    setDefautMenu(page, menu[page]).then(result => res.send(result))
-        .catch(err => res.status(500).json(err))
-})
 
 app.get('/setGetstarted', function (req, res) {
     var page = req.param('page')
@@ -955,6 +947,12 @@ menu['152866285340107'] = {
     ]
 }
 
+app.get('/setMenu', function (req, res) {
+    var page = req.param('page')
+    setDefautMenu(page, menu[page]).then(result => res.send(result))
+        .catch(err => res.status(500).json(err))
+})
+
 
 function setDefautMenu(page = 'jobo', menu) {
     console.error("setDefautMenu-ing", page, menu);
@@ -1009,6 +1007,37 @@ function setGreeting(greeting = 'Hello {{user_first_name}}!', page = 'jobo') {
 
         }, function (error, response, body) {
             console.error("setGreeting", error, body);
+
+            if (!error && response.statusCode == 200) {
+
+                resolve(response)
+
+            } else {
+                reject(error)
+
+            }
+        });
+    })
+
+}
+
+app.get('/setWit', function (req, res) {
+    var {page} = req.query
+    setWit(page).then(result => res.send(result))
+        .catch(err => res.status(500).json(err))
+})
+
+function setWit(page = 'jobo') {
+    console.log("setWit-ing", page, menu);
+
+
+    return new Promise(function (resolve, reject) {
+        request({
+            uri: "https://graph.facebook.com/v2.8/me/nlp_configs?nlp_enabled=TRUE&&model=VIETNAMESE",
+            qs: {access_token: facebookPage[page].access_token},
+            method: 'POST',
+        }, function (error, response, body) {
+            console.error("setWit", error, body);
 
             if (!error && response.statusCode == 200) {
 
@@ -1450,27 +1479,36 @@ function matchingPayload(event) {
         var payloadStr = '';
 
         if (message && message.quick_reply && message.quick_reply.payload) payloadStr = message.quick_reply.payload
-        else if (message && message.payload) payloadStr = message.payload
         else if (postback && postback.payload) payloadStr = postback.payload
 
-        if (referral) {
-            if (recipientID == facebookPage['jobo'].id) referInital(referral, senderID)
-        } else if (postback && postback.referral) referral = postback.referral
+        if (payloadStr.length > 0) var payload = JSON.parse(payloadStr)
+        else payload = {type: 'default'};
+
+
+        if (postback && postback.referral) referral = postback.referral
 
         if (referral) {
-            resolve({payload, senderID, postback, referral})
-        } else if (payloadStr.length > 0) {
+            payload.source = 'referral'
+
+            if (recipientID == facebookPage['jobo'].id) referInital(referral, senderID)
+
+        } else if (postback) {
             var payload = JSON.parse(payloadStr);
-            resolve({payload, senderID, postback, referral})
+            payload.source = 'postback'
+
+        } else if (message && message.quick_reply) {
+            payload.source = 'quick_reply'
+
         } else if (message) {
+
             var lastMessage = lastMessageData[senderID]
             console.log('lastMessage', lastMessage);
             if (lastMessage && lastMessage.message && lastMessage.message.metadata) payloadStr = lastMessage.message.metadata;
 
-            if (payloadStr.length > 0) var payload = JSON.parse(payloadStr)
-            else payload = {type: 'default'};
 
             if (message.attachments) {
+                payload.source = 'attachment'
+
                 if (message.attachments[0].payload.coordinates) {
                     var attachments = message.attachments[0]
                     var locationData = attachments.payload.coordinates;
@@ -1490,37 +1528,58 @@ function matchingPayload(event) {
 
                 }
 
-                resolve({payload, senderID, message})
 
             } else if (message.text) {
                 console.log('message.text', message.text);
-
+                payload.source = 'text'
                 payload.text = message.text;
+                if (message.nlp && message.nlp.entities) {
+                    var entities = message.nlp.entities
+                    for (var i in entities) {
+                        var entity = entities[i]
+                        var most = _.max(entity, function (card) {
+                            return card.confidence;
+                        });
+                        var value = most.value
+                        console.log('value', value)
+                        if (i == 'yes_no') i = 'answer'
+                        payload[i] = value
+                    }
+                }
 
-                client.message(message.text, {})
-                    .then(data => {
-                        console.log('Yay, got Wit.ai response: ', data);
-                        var entities = data.entities
-                        for (var i in entities) {
-                            var entity = entities[i]
-                            var most = _.max(entity, function (card) {
-                                return card.confidence;
-                            });
-                            var value = most.value
-                            console.log('value', value)
-                            if (i == 'yes_no') i = 'answer'
-                            payload[i] = value
-                        }
-
-                        resolve({payload, senderID, message})
-
-                    })
-                    .catch(console.error);
             }
 
         } else {
             console.log('something donnt know', event)
         }
+
+
+        if (message && message.text && !message.text.nlp) client.message(message.text, {})
+            .then(data => {
+                console.log('Yay, got Wit.ai response: ', data);
+                var entities = data.entities
+
+                for (var i in entities) {
+                    var entity = entities[i]
+                    var most = _.max(entity, function (card) {
+                        return card.confidence;
+                    });
+                    var value = most.value
+                    console.log('value', value)
+                    if (i == 'yes_no') i = 'answer'
+                    payload[i] = value
+                }
+
+                console.log('matchingPayload', payload, senderID, message, postback, referral)
+                resolve({payload, senderID, message, postback, referral})
+
+            })
+            .catch(console.error);
+        else {
+            console.log('matchingPayload', payload, senderID, message, postback, referral)
+            resolve({payload, senderID, message, postback, referral})
+        }
+
 
     })
 }
@@ -2406,12 +2465,16 @@ db.ref('webhook').on('child_added', function (snap) {
                     var recipientID = `${messagingEvent.recipient.id}`;
                     var timeOfMessage = messagingEvent.timestamp;
 
-
-                    if((port == '5000'
-                        && CONFIG.facebookPage[pageID]
+                    var isDeveloper = false
+                    if (CONFIG.facebookPage[pageID]
                         && CONFIG.facebookPage[pageID].developer
-                        && CONFIG.facebookPage[pageID].developer.match(senderID)) || port != '5000'
-                    ){
+                        && CONFIG.facebookPage[pageID].developer.match(senderID)) {
+                        isDeveloper = true
+                    }
+
+                    if ((port == '5000' && isDeveloper)
+                        || (port != '5000' && !isDeveloper)
+                    ) {
 
                         if (messagingEvent.message || messagingEvent.postback || messagingEvent.referral) {
 
@@ -2423,9 +2486,12 @@ db.ref('webhook').on('child_added', function (snap) {
                                         var referral = result.referral;
                                         var postback = result.postback;
 
+
                                         if (pageID == facebookPage['jobo'].id) {
                                             intention(payload, senderID, postback, message)
-                                        } else if (pageID == facebookPage['dumpling'].id) {
+                                        }
+
+                                        else if (pageID == facebookPage['dumpling'].id) {
 
                                             if (message && message.text) var messageText = message.text;
                                             if (message && message.attachments) var messageAttachments = message.attachments;
@@ -2685,9 +2751,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 if (senderData && senderData.match) {
                                                     sendingAPI(senderData.match, senderID, {
                                                         text: messageText,
-                                                    }, null, 'dumpling')
-                                                } else sendingAPI(senderID, recipientID, {
-
+                                                    }, null, pageID)
+                                                } else sendAPI(senderID, {
                                                         text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
                                                         quick_replies: [
                                                             {
@@ -2698,8 +2763,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                 })
                                                             }
                                                         ]
-                                                    },
-                                                    10, 'dumpling'
+                                                    }, 10, pageID
                                                 )
                                             }
                                             else if (messageAttachments) {
@@ -2723,13 +2787,14 @@ db.ref('webhook').on('child_added', function (snap) {
                                             else {
                                                 console.log('something missing here')
                                             }
-                                        } else if (pageID == '206881183192113') {
+                                        }
+
+                                        else if (pageID == '206881183192113') {
 
 
                                             if (referral && referral.ref) {
 
                                                 senderData.ref = referral.ref
-
 
                                                 if (referral.ref.match('_')) {
                                                     var refData = referral.ref.split('_');
@@ -2807,15 +2872,17 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                             if (!senderData.flow) {
                                                 if (message) {
-
+                                                    if (payload.text) flowAI({keyword: payload.text, senderID, pageID})
                                                 }
-
                                             }
 
                                             if (senderData.flow) {
                                                 console.log('flow', senderData.flow)
 
                                                 var result = _.findWhere(dataLadiBot, {flow: senderData.flow});
+                                                var flow = result.data
+                                                var questions = flow[1]
+
 
                                                 if (result) ladiResCol.findOne({
                                                     flow: senderData.flow,
@@ -2827,7 +2894,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     if (!response) response = {
                                                         flow: senderData.flow,
                                                         page: pageID,
-                                                        senderID
+                                                        senderID,
+                                                        current: 0
                                                     }
                                                     if (payload) {
                                                         if (payload.text && payload.type == 'ask' && payload.questionId) {
@@ -2840,6 +2908,14 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             }, {$set: response}).then(result => {
                                                                 console.log('save response', response)
                                                             })
+
+                                                            if (payload.goto) {
+                                                                var index = _.findLastIndex(questions, {
+                                                                    0: payload.goto
+                                                                });
+                                                                loop(index)
+                                                            }
+
                                                         }
                                                         if (payload.state) {
                                                             if (payload.state == 'undo') {
@@ -2866,87 +2942,89 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     }
 
 
-                                                    var flow = result.data
-                                                    var questions = flow[1]
-                                                    var q = -1
-
-                                                    function loop() {
-                                                        q++
+                                                    function loop(q) {
                                                         console.log('current', q)
-
+                                                        response.current = q
                                                         if (q < questions.length) {
                                                             var currentQuestion = questions[q];
                                                             console.log(currentQuestion)
+                                                            if (currentQuestion[5]) {
+                                                                var index = _.findLastIndex(questions, {
+                                                                    0: payload.goto
+                                                                });
+                                                                loop(index)
+
+                                                            }
+
                                                             var currentQuestionId = currentQuestion[0];
-                                                            if (!response[currentQuestionId]) {
-                                                                var messageSend = {
-                                                                    text: currentQuestion[1] || '(Không có câu hỏi, gõ bất kì để bỏ qua)',
-                                                                }
-                                                                var metadata = {
-                                                                    questionId: currentQuestionId
-                                                                }
-                                                                var askStringStr = `0,1,7,8,9,10,13`
-                                                                var askOptionStr = `2,3,4,5`
-                                                                var askType = currentQuestion[3]
-                                                                console.log('askType', askType)
-                                                                if (currentQuestion[4]) {
-                                                                    metadata.askType = askType
-                                                                    metadata.type = 'ask'
+                                                            var messageSend = {
+                                                                text: currentQuestion[1] || '(Không có câu hỏi, gõ bất kì để bỏ qua)',
+                                                            }
+                                                            var metadata = {
+                                                                questionId: currentQuestionId
+                                                            }
+                                                            var askStringStr = `0,1,7,8,9,10,13`
+                                                            var askOptionStr = `2,3,4,5`
+                                                            var askType = currentQuestion[3]
+                                                            console.log('askType', askType)
+                                                            if (currentQuestion[4]) {
+                                                                metadata.askType = askType
+                                                                metadata.type = 'ask'
 
-                                                                    if (askOptionStr.match(askType)) {
-                                                                        var askOption = currentQuestion[4][0][1]
+                                                                if (askOptionStr.match(askType)) {
+                                                                    var askOption = currentQuestion[4][0][1]
 
-                                                                        var quick_replies = []
-                                                                        var map = _.map(askOption, option => {
-                                                                            metadata.text = option[0]
-                                                                            quick_replies.push({
-                                                                                "content_type": "text",
-                                                                                "title": option[0],
-                                                                                "payload": JSON.stringify(metadata)
-
-                                                                            })
-                                                                        });
-                                                                        messageSend.quick_replies = quick_replies
-
-                                                                    } else if (askStringStr.match(askType)) {
-
-                                                                        messageSend.metadata = JSON.stringify(metadata)
-                                                                    }
-                                                                    console.log('messageSend', messageSend)
-                                                                    sendingAPI(senderID, pageID, messageSend, null, pageID)
-
-                                                                } else {
-                                                                    metadata.type = 'info'
-                                                                    sendingAPI(senderID, pageID, messageSend, null, pageID).then(result => {
-                                                                        response[currentQuestionId] = true
-
-                                                                        ladiResCol.findOneAndUpdate({
-                                                                            flow: senderData.flow,
-                                                                            page: pageID,
-                                                                            senderID
-                                                                        }, {$set: response}).then(result => {
-                                                                            console.log('save response', response)
-                                                                            if (currentQuestion[3] == 11 && currentQuestion[2]) sendingAPI(senderID, pageID, {
-                                                                                attachment: {
-                                                                                    type: "image",
-                                                                                    payload: {
-                                                                                        url: currentQuestion[2]
-                                                                                    }
-                                                                                }
-                                                                            }, null, pageID).then(result => setTimeout(loop(), 1000))
-                                                                            else if (currentQuestion[3] == 12 && currentQuestion[6][3]) sendingAPI(senderID, pageID, {
-                                                                                text: `https://www.youtube.com/watch?v=${currentQuestion[6][3]}`
-                                                                            }, null, pageID).then(result => setTimeout(loop(), 1000))
-                                                                            else setTimeout(loop(), 1000)
-
+                                                                    var quick_replies = []
+                                                                    var map = _.map(askOption, option => {
+                                                                        metadata.text = option[0]
+                                                                        if (option[2]) metadata.goto = option[2]
+                                                                        quick_replies.push({
+                                                                            "content_type": "text",
+                                                                            "title": option[0],
+                                                                            "payload": JSON.stringify(metadata)
 
                                                                         })
+                                                                    });
+                                                                    messageSend.quick_replies = quick_replies
+
+                                                                } else if (askStringStr.match(askType)) {
+
+                                                                    messageSend.metadata = JSON.stringify(metadata)
+                                                                }
+                                                                console.log('messageSend', messageSend)
+                                                                sendingAPI(senderID, pageID, messageSend, null, pageID)
+
+                                                            } else {
+                                                                metadata.type = 'info'
+                                                                sendingAPI(senderID, pageID, messageSend, null, pageID).then(result => {
+                                                                    response[currentQuestionId] = true
+
+                                                                    ladiResCol.findOneAndUpdate({
+                                                                        flow: senderData.flow,
+                                                                        page: pageID,
+                                                                        senderID,
+                                                                    }, {$set: response}).then(result => {
+                                                                        console.log('save response', response)
+                                                                        if (currentQuestion[3] == 11 && currentQuestion[2]) sendingAPI(senderID, pageID, {
+                                                                            attachment: {
+                                                                                type: "image",
+                                                                                payload: {
+                                                                                    url: currentQuestion[2]
+                                                                                }
+                                                                            }
+                                                                        }, null, pageID).then(result => setTimeout(loop(response.current++), 1000))
+                                                                        else if (currentQuestion[3] == 12 && currentQuestion[6][3]) sendingAPI(senderID, pageID, {
+                                                                            text: `https://www.youtube.com/watch?v=${currentQuestion[6][3]}`
+                                                                        }, null, pageID).then(result => setTimeout(loop(response.current++), 1000))
+                                                                        else setTimeout(loop(response.current++), 1000)
+
 
                                                                     })
 
-                                                                }
-                                                            } else
-                                                                loop()
+                                                                })
+
+                                                            }
+
 
                                                         } else {
                                                             if (!response.end) sendingAPI(senderID, pageID, {
@@ -2982,8 +3060,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     }, null, pageID)
                                                         .then(result => {
                                                             if (flow[0]) sendAPI(senderID, {text: flow[0]}, null, pageID)
-                                                                .then(result => loop())
-                                                            else loop()
+                                                                .then(result => loop(response.current))
+                                                            else loop(response.current)
 
                                                             response.start = true
                                                             console.log(result)
@@ -2997,8 +3075,9 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                     console.log('save response', result, response)
                                                                 })
                                                         })
-                                                    else loop()
 
+                                                    response.current++
+                                                    loop(response.current)
                                                 })
                                                 else {
                                                     console.log('non-result')
@@ -3026,15 +3105,18 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 }
                                             }
                                         }
-                                        else {
 
+                                        else {
 
                                             if (referral && referral.ref) {
                                                 senderData.ref = referral.ref
                                                 var refData = senderData.ref.split('_');
-                                                console.log('Number(refData[0])', refData[0]);
+                                                console.log('refData', refData[0]);
                                                 senderData.flow = refData[0]
-                                                db.ref(pageID + '_account').child(senderID).update(senderData)
+                                                saveSenderData(senderData, senderID, pageID)
+                                            } else if (payload.source == 'postback') {
+
+
                                             }
 
                                             if (!senderData.flow) {
@@ -3301,9 +3383,6 @@ db.ref('webhook').on('child_added', function (snap) {
                     }
 
 
-
-
-
                 })
 
             }
@@ -3316,56 +3395,26 @@ db.ref('webhook').on('child_added', function (snap) {
 })
 
 function flowAI({keyword, senderID, pageID}) {
-
-    var guest_value = ''
+    var keyword = vietnameseDecode(keyword)
+    console.log("keyword", keyword)
     var flowList = _.filter(dataLadiBot, flow => {
-        var keyflow = flow.keyflow
-        var finding = 'ing'
-        if (keyword.match('-')) {
-            var matching = 0
-            var splitpayload = keyword.split('-')
-            for (var i = 0; i < splitpayload.length - 1; i++) {
-                var two = i + 1
-                var two_key = splitpayload[i] + '-' + splitpayload[two]
-                if (keyflow.match(two_key)) {
-                    guest_value = two_key
-                    matching++
-                    finding = 'done'
-                }
-
-            }
-            if (finding == 'ing') {
-                for (var i = 0; i < splitpayload.length; i++) {
-                    var one_key = splitpayload[i]
-                    if (keyflow.match(one_key)) {
-                        guest_value = one_key
-                        matching++
-                    }
-                }
-            }
-
-            if (matching > 0) {
-                flow.matching = matching
-                return flow
-            }
-
-        }
-    })
+        if (flow.flow.match(keyword)) return flow
+    });
+    console.log('flowList', flowList)
     if (flowList && flowList.length > 0) {
-        var quick_replies = []
 
-        var each = _.each(flowList, flow => {
-            quick_replies.push({
+        var quick_replies = _.map(flowList, flow => {
+            return {
                 "content_type": "text",
                 "title": flow.data[8],
                 "payload": JSON.stringify({
                     state: 'setFlow',
                     flow: flow.flow
                 })
-            })
-        })
+            }
+        });
         sendingAPI(senderID, pageID, {
-            text: `Có phải ý bạn là ${guest_value} ?`,
+            text: `Có phải bạn muốn ?`,
             quick_replies
         }, null, pageID)
     } else sendingAPI(senderID, pageID, {
