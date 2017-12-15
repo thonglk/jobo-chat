@@ -185,12 +185,8 @@ var db2 = jobo.database();
 var db3 = joboTest.database();
 
 var userRef = db2.ref('user');
-var dataAccount = {}, accountRef = db.ref('account');
+var dataAccount = {}
 var landBotAccount = {}
-// accountRef.child('dumpling').on('value', function (snap) {
-//     dataAccount = snap.val()
-//
-// })
 
 
 var profileRef = db2.ref('profile');
@@ -221,30 +217,6 @@ function saveFacebookPage(data) {
 
     })
 }
-
-accountRef.child('dumpling').on('child_added', function (snap) {
-    dataAccount[snap.key] = snap.val()
-    var user = dataAccount[snap.key]
-
-    if (user.topic) {
-        if (!topic[user.topic]) {
-            topic[user.topic] = 1
-            quick_topic.push({
-                "content_type": "text",
-                "title": `#${user.topic}`,
-                "payload": JSON.stringify({
-                    type: 'selectTopic',
-                    topic: user.topic
-                })
-            })
-        }
-        else topic[user.topic]++
-    }
-
-})
-accountRef.child('dumpling').on('child_changed', function (snap) {
-    dataAccount[snap.key] = snap.val()
-})
 
 
 lastMessageRef.on('child_added', function (snap) {
@@ -456,131 +428,7 @@ function sendVocalC(vocal) {
     return map
 }
 
-// var a = 0
-// messageFactoryRef.child('dumpling').once('value', function (snap) {
-//     messageFactory = snap.val()
-//     var messageFactoryArray = _.toArray(messageFactory)
-//     var a = -1
-//
-//     function loop_a() {
-//         a++
-//         if (a < messageFactoryArray.length) {
-//             var noti = messageFactoryArray[a]
-//             dumpling_messageFactoryCol.insert(noti, function (err, data) {
-//                 loop_a()
-//                 if (err) {
-//                     console.log(err)
-//                 } else {
-//                     console.log('done')
-//
-//                 }
-//             })
-//
-//         } else console.log('done')
-//
-//     }
-//
-//     loop_a()
-//
-//
-// });
-// messageFactoryRef.child('dumpling').on('child_changed', function (snap) {
-//     messageFactory[snap.key] = snap.val()
-// });
 
-// app.get('/staticUser', function (req, res) {
-//     var userId = req.param('userId')
-//
-//     var send = _.where(messageFactory, {senderId: userId}).length
-//     var receive = _.where(messageFactory, {recipientId: userId}).length
-//     var startTime = 0
-//     var most = {}
-//     var each = _.each(messageFactory, message => {
-//         if (message.recipientId == userId) {
-//             if (message.message.text == 'Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^') startTime++
-//
-//             if (!most[message.senderId]) most[message.senderId] = 1
-//             else most[message.senderId]++
-//         }
-//     })
-//
-//     delete most['493938347612411']
-//
-//     var staticUser = {send, receive, startTime, most}
-//     res.send(staticUser)
-//
-// })
-// app.get('/staticAll', function (req, res) {
-//     var {dis = 1, last = 0} = req.query
-//     var endTime = Date.now() - last * 24 * 60 * 60 * 1000
-//     var startTime = endTime - dis * 24 * 60 * 60 * 1000
-//     var startNewConversation = 0
-//     var newUser = 0
-//     var newMessage = 0
-//     var each = _.each(messageFactory, message => {
-//         if (message.timestamp > startTime && message.timestamp < endTime) {
-//             if (message.senderId != '493938347612411') newMessage++
-//             if (message.message && message.message.text == 'Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^') startNewConversation++
-//             if (message.message && message.message.text == 'đảm bảo 100% bí mật thông tin và nội dung trò chuyện') newUser++
-//         }
-//
-//
-//     })
-//     var staticAll = {startNewConversation, newUser, newMessage}
-//     res.send(staticAll)
-//
-// })
-// app.get('/checkAvai', function (req, res) {
-//     var i = 0
-//     var each = _.each(dataAccount, user => {
-//         if (user.match) {
-//             i++
-//             setTimeout(function () {
-//
-//                 var userId = user.id
-//                 var match = user.match
-//                 var filter = _.where(messageFactory, {senderId: userId, recipientId: match})
-//                 var filtered = _.where(messageFactory, {senderId: match, recipientId: userId})
-//                 if (filter.length == 0 || filtered == 0)
-//                     accountRef.child('dumpling').child(userId).child('match').remove()
-//                         .then(result => accountRef.child('dumpling').child(match).child('match').remove())
-//                         .then(result => sendingAPI(userId, facebookPage['dumpling'].id, {
-//                             text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
-//                             quick_replies: [
-//                                 {
-//                                     "content_type": "text",
-//                                     "title": "💬 Bắt đầu mới",
-//                                     "payload": JSON.stringify({
-//                                         type: 'matching'
-//                                     })
-//                                 }
-//                             ]
-//                         }, null, 'dumpling'))
-//                         .then(result => sendingAPI(match, facebookPage['dumpling'].id, {
-//                             text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
-//                             quick_replies: [
-//                                 {
-//                                     "content_type": "text",
-//                                     "title": "💬 Bắt đầu mới",
-//                                     "payload": JSON.stringify({
-//                                         type: 'matching'
-//                                     })
-//                                 }
-//                             ]
-//                         }, null, 'dumpling'))
-//                         .then(result => console.log(result))
-//                         .catch(err => console.log(err))
-//
-//
-//             }, 1000 * i)
-//
-//
-//         }
-//     })
-//     res.send(each)
-//
-//
-// })
 app.get('/quick_topic', function (req, res) {
     res.send(quick_topic)
 })
@@ -623,6 +471,7 @@ function subscribed_apps(access_token, pageID) {
 
     })
 }
+
 app.get('/getchat', function (req, res) {
     var {url = 'https://docs.google.com/forms/d/e/1FAIpQLSchC5kv_FlJh0e1bfwv0TP4nrhe4E_dqW2mNQBQ5ErPOUz_rw/viewform', page, access_token, name, pageID} = req.query
     getChat(req.query).then(result => res.send(result))
@@ -708,7 +557,7 @@ function getChat({url, page, access_token, name, pageID}) {
                                                     var call_to_actions = []
 
                                                     var each = _.each(flowList, fl => {
-                                                        if(call_to_actions.length < 4){
+                                                        if (call_to_actions.length < 4) {
                                                             if (fl.data[8].length > 30) var title = fl.data[8].slice(0, 29)
                                                             else title = fl.data[8]
                                                             call_to_actions.push({
@@ -836,7 +685,6 @@ function getPaginatedItems(items, page = 1, per_page = 15) {
 }
 
 
-
 function initUser() {
     conversationRef.once('value', function (snap) {
         conversationData = snap.val()
@@ -900,64 +748,6 @@ Dumpling cảm ơn! Chúc các bạn ngủ ngon và mơ đẹp nhé! <3 <3 <3`,
         a++
         setTimeout(function () {
             sendingAPI(recipientId, facebookPage[page].id, message, null, page)
-        }, a * 2000)
-
-    });
-}
-
-app.get('/sendUpdate', function (req, res) {
-    sendUpdate()
-    res.send('done')
-})
-
-function sendUpdate() {
-    var sent = 0
-    var a = 0
-
-    var filter = _.each(dataAccount, account => {
-        var page = 'dumpling';
-        var message = {
-            attachment: {
-                type: "template",
-                payload: {
-                    template_type: "button",
-                    text: `[DUMPLING]
-Dear ${account.last_name} ${account.first_name}
-Dumpling update thêm 1 số tính năng:
-- Cải thiện tốc độ gửi tin
-- Thêm tín hiệu "Đã xem" huyền thoại :)
-- Trạng thái "Bật/Tắt" cho mọi người đỡ bị làm phiền
-Các bạn thấy có vấn đề gì thì feedback lại cho team nhé!
-Happy chatting!
-${(account.match) ? '(Xin lỗi vì đã làm phiền cuộc nói chuyện của 2 bạn nhé, cứ tiếp tục đi ạ ^^)' : ''}`
-                    ,
-                    buttons: [{
-                        type: "web_url",
-                        url: "https://www.facebook.com/groups/1985734365037855",
-                        title: "Thảo luận tại nhóm"
-                    }, {
-                        type: "postback",
-                        title: "Chia sẻ",
-                        payload: JSON.stringify({type: 'share'})
-                    }]
-                }
-            }
-        }
-        var recipientId = account.id
-
-
-        a++
-        console.log('a', a)
-        setTimeout(function () {
-            sendingAPI(recipientId, facebookPage[page].id, message, null, page)
-                .then(result => console.log('done', recipientId))
-                .catch(err => {
-                        console.log(err);
-                        accountRef.child('dumpling')
-                            .child(recipientId)
-                            .update({sent_error: true})
-                    }
-                )
         }, a * 2000)
 
     });
@@ -1249,6 +1039,47 @@ function setDefautMenu(page = 'jobo', menu) {
 
         }, function (error, response, body) {
             console.error("setDefautMenu", error, body);
+
+            if (!error && response.statusCode == 200) {
+
+                resolve(response)
+
+            } else {
+                reject(error)
+
+            }
+        });
+    })
+
+}
+
+app.get('/setGreeting', function (req, res) {
+    var {page, greeting} = req.query
+    setGreeting(greeting, page).then(result => res.send(result))
+        .catch(err => res.status(500).json(err))
+})
+
+function setGreeting(greeting = 'Hello {{user_first_name}}!', page = 'jobo') {
+    console.error("setGreeting-ing", page, menu);
+
+    var json = {
+        "greeting": [
+            {
+                "locale": "default",
+                "text": greeting
+            }
+        ]
+    }
+
+    return new Promise(function (resolve, reject) {
+        request({
+            uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
+            qs: {access_token: facebookPage[page].access_token},
+            method: 'POST',
+            json
+
+        }, function (error, response, body) {
+            console.error("setGreeting", error, body);
 
             if (!error && response.statusCode == 200) {
 
@@ -2672,7 +2503,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 if (refData[0] != 'start') senderData.topic = refData[0]
                                             }
 
-                                            accountRef.child('dumpling').child(senderID).update(senderData).then(result => sendingAPI(senderID, recipientID, {
+                                            saveSenderData(senderData, senderID, 'dumpling').then(result => sendingAPI(senderID, recipientID, {
                                                     text: `Dumpling kết nối hai người lạ nói chuyện với nhau bằng một cuộc trò chuyện bí mật`,
                                                 }, null, 'dumpling')
                                                     .then(result => sendingAPI(senderID, recipientID, {
@@ -2700,7 +2531,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                             )
                                         }
                                         else if (payload.type == 'selectTopic') {
-                                            accountRef.child('dumpling').child(senderID).update({topic: payload.topic})
+                                            saveSenderData({topic: payload.topic}, senderID, 'dumpling')
                                                 .then(result => sendingAPI(senderID, recipientID, {
                                                     text: `Bạn đang tham gia Dumpling #${payload.topic}, hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện`,
                                                     quick_replies: [
@@ -2731,8 +2562,8 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                             if (senderData && senderData.match) {
 
-                                                accountRef.child('dumpling').child(senderID).child('match').remove()
-                                                    .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
+                                                db.ref('dumpling_account').child(senderID).child('match').remove()
+                                                    .then(result => db.ref('dumpling_account').child(senderData.match).child('match').remove())
                                                     .then(result => sendingAPI(senderID, recipientID, {
                                                         text: "[Hệ Thống] Bạn đã dừng cuộc trò chuyện",
                                                         quick_replies: [
@@ -2858,7 +2689,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                             }, null, 'dumpling')
                                         }
                                         else if (payload.type == 'confirm_status') {
-                                            if (payload.answer == 'off') accountRef.child('dumpling').child(senderID).update({status: 0}).then(result => sendingAPI(senderID, recipientID, {
+                                            if (payload.answer == 'off') db.ref('dumpling_account').child(senderID).update({status: 0}).then(result => sendingAPI(senderID, recipientID, {
                                                 text: "[Hệ Thống] Trạng thái: InActive \n Bạn sẽ không nhận được ghép cặp!",
                                                 quick_replies: [
                                                     {
@@ -2871,7 +2702,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     }
                                                 ]
                                             }, null, 'dumpling'))
-                                            else if (payload.answer == 'on') accountRef.child('dumpling').child(senderID).update({status: 1}).then(result => sendingAPI(senderID, recipientID, {
+                                            else if (payload.answer == 'on') db.ref('dumpling_account').child(senderID).update({status: 1}).then(result => sendingAPI(senderID, recipientID, {
                                                 text: "[Hệ Thống] Trạng thái: Active \n Bạn sẽ nhận được ghép cặp!",
                                                 quick_replies: [
                                                     {
@@ -2902,7 +2733,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                             }, null, 'dumpling')
                                         }
                                         else if (payload.type == 'learn_english_off') {
-                                            accountRef.child('dumpling').child(senderID).update({vocal_off: true})
+                                            db.ref('dumpling_account').child(senderID).update({vocal_off: true})
                                                 .then(result => sendingAPI(senderID, recipientID, {
                                                     text: '[Hệ thống] Đã tắt tính năng từ vựng tiếng anh',
 
@@ -3650,8 +3481,7 @@ app.get('/listen', function (req, res) {
 
 function loadsenderData(senderID, page = 'dumpling') {
     return new Promise(function (resolve, reject) {
-        if (page == 'dumpling') var ref = 'account/dumpling'
-        else ref = page + '_account'
+        var ref = page + '_account'
 
         db.ref(ref).child(senderID).once('value', function (snap) {
             if (snap.val()) resolve(snap.val())
@@ -3666,6 +3496,17 @@ function loadsenderData(senderID, page = 'dumpling') {
             })
         })
 
+
+    })
+}
+
+function saveSenderData(data, senderID, page = 'dumpling') {
+    return new Promise(function (resolve, reject) {
+        var ref = page + '_account'
+
+        db.ref(ref).child(senderID).update(data)
+            .then(result => resolve(data))
+            .catch(err => reject(err))
 
     })
 }
@@ -3687,21 +3528,20 @@ function matchingPeople(senderID) {
         sendAPI(matched, {
             text: `[Hệ Thống] Bạn đã được ghép với 1 người lạ ở Dumpling_${senderData.topic}, hãy nói gì đó đề bắt đầu`,
         }, null, 'dumpling')
-            .then(result => accountRef.child('dumpling').child(senderID)
-                .update({match: matched})
-                .then(result => accountRef.child('dumpling').child(random.id).update({match: senderID}))
-                .then(result => sendingAPI(senderID, recipientID, {
-                    text: `[Hệ Thống] Đã ghép bạn với 1 người lạ ở Dumpling_${random.topic} thành công`,
-                }, null, 'dumpling'))
-                .then(result => sendingAPI(senderID, recipientID, {
-                    text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
-                }, null, 'dumpling'))
-                .then(result => checkAvaible(senderID)))
-            .catch(err => {
-                matchingPeople(senderID)
-                console.log(err)
-                accountRef.child('dumpling').child(matched).update({sent_error: true})
-            })
+            .then(result => saveSenderData({match: matched}, senderID, 'dumpling')
+                .then(result => saveSenderData({match: senderID}, senderID, 'dumpling')
+                    .then(result => sendingAPI(senderID, recipientID, {
+                        text: `[Hệ Thống] Đã ghép bạn với 1 người lạ ở Dumpling_${random.topic} thành công`,
+                    }, null, 'dumpling'))
+                    .then(result => sendingAPI(senderID, recipientID, {
+                        text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
+                    }, null, 'dumpling'))
+                    .then(result => checkAvaible(senderID)))
+                .catch(err => {
+                    matchingPeople(senderID)
+                    console.log(err)
+                    saveSenderData({sent_error: true}, matched, 'dumpling')
+                }))
 
 
     } else sendingAPI(senderID, facebookPage['dumpling'].id, {
@@ -3756,8 +3596,8 @@ function checkAvaible(senderID) {
             if (err) return
             if (conver.length == 0) {
                 console.log('change people')
-                accountRef.child('dumpling').child(senderID).child('match').remove()
-                    .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
+                db.ref('dumpling_account').child(senderID).child('match').remove()
+                    .then(result => db.ref('dumpling_account').child(senderData.match).child('match').remove())
                     .then(result => sendingAPI(senderData.match, facebookPage['dumpling'].id, {
                         text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
                         quick_replies: [
@@ -3783,30 +3623,7 @@ function checkAvaible(senderID) {
                         ]
                     }, null, 'dumpling'))
 
-                // .then(result => matchingPeople(senderID))
-                // .then(matched => sendingAPI(matched, facebookPage['dumpling'].id, {
-                //         text: "[Hệ Thống] Bạn đã được ghép với 1 người lạ, hãy nói gì đó đề bắt đầu",
-                //     }, null, 'dumpling').then(result => {
-                //         var conver_new = _.each(messageFactory, message => {
-                //             if (message.recipientID == current_matched && message.senderID == senderID && message.timestamp > s60) {
-                //                 sendingAPI(matched, senderID, {
-                //                     text: message.message.text,
-                //                 }, null, 'dumpling')
-                //             }
-                //         })
-                //         if(a==3){
-                //             accountRef.child('dumpling').child(senderID).child('match').remove()
-                //                 .then(result => accountRef.child('dumpling').child(senderData.match).child('match').remove())
-                //                 .then(result => sendingAPI(senderData.match, facebookPage['dumpling'].id, {
-                //                     text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
-                //                 }, null, 'dumpling'))
-                //                 .then(result => sendingAPI(senderID, facebookPage['dumpling'].id, {
-                //                     text: "[Hệ Thống] Hệ thống đã dừng cuộc trò chuyện",
-                //                 }, null, 'dumpling'))
-                //         } else loop()
-                //     })
-                //     .catch(err => console.log(err))
-                // )
+
             }
         })
     }, 5 * 60000)
