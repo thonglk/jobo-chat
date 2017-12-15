@@ -186,6 +186,13 @@ var db3 = joboTest.database();
 
 var userRef = db2.ref('user');
 var dataAccount = {}
+db.ref('dumpling_account').on('child_added', snap => {
+    dataAccount[snap.key] = snap.val()
+})
+db.ref('dumpling_account').on('child_changed', snap => {
+    dataAccount[snap.key] = snap.val()
+})
+
 var landBotAccount = {}
 
 
@@ -395,35 +402,6 @@ function sendVocal(vocal) {
             }, a * 200)
         }
 
-    })
-    return map
-}
-
-function sendVocalC(vocal) {
-    var a = 0
-    console.log('start')
-
-    var map = _.each(dataAccount, account => {
-        a++
-        console.log('account', account.id)
-        setTimeout(function () {
-            sendingAPI(account.id, facebookPage['dumpling'].id, {
-                attachment: {
-                    type: "template",
-                    payload: {
-                        template_type: "button",
-                        text: `[ Dumpling_tâm_sự ]
-5 lý do vì sao con gái bây giờ không thích có người yêu
-Đừng ai hỏi vì sao con gái ế, đơn giản là họ tự thích thế mà thôi!...`,
-                        buttons: [{
-                            type: "web_url",
-                            url: "https://www.facebook.com/dumpling.bot",
-                            title: "Đọc tiếp"
-                        }]
-                    }
-                }
-            }, null, 'dumpling')
-        }, a * 200)
     })
     return map
 }
@@ -702,56 +680,6 @@ app.post('/noti', function (req, res) {
         .catch(err => res.status(500).json(err))
 });
 
-app.get('/notiWelcome', function (req, res) {
-    sendWelcome()
-    res.send('done')
-})
-
-function sendWelcome() {
-    var sent = 0
-
-    var filter = _.map(dataAccount, account => {
-        var page = 'dumpling';
-        var message = {
-            attachment: {
-                type: "template",
-                payload: {
-                    template_type: "button",
-                    text: `[DUMPLING]
-Dear ${account.last_name} ${account.first_name}
-Bạn là một trong những người đầu tiên đến với Dumpling!
-Mong rằng các bạn sẽ tìm được những người bạn mới thật thú vị. 
-Đừng quên chia sẻ trải nghiệm của bạn tại Dumpling bằng cách like fanpage và gia nhập group thảo luận nhé! 
-Dumpling cảm ơn! Chúc các bạn ngủ ngon và mơ đẹp nhé! <3 <3 <3`,
-                    buttons: [{
-                        type: "web_url",
-                        url: "https://www.facebook.com/dumpling.bot",
-                        title: "Fanpage Dumpling"
-                    }, {
-                        type: "web_url",
-                        url: "https://www.facebook.com/groups/1985734365037855",
-                        title: "Tham gia nhóm"
-                    }, {
-                        type: "postback",
-                        title: "Chia sẻ",
-                        payload: JSON.stringify({type: 'share'})
-                    }]
-                }
-            }
-        }
-        var recipientId = account.id
-        if (!a) {
-            var a = 0
-        }
-
-
-        a++
-        setTimeout(function () {
-            sendingAPI(recipientId, facebookPage[page].id, message, null, page)
-        }, a * 2000)
-
-    });
-}
 
 app.get('/dumpling/account', function (req, res) {
     var query = req.query
@@ -3364,8 +3292,10 @@ db.ref('webhook').on('child_added', function (snap) {
             }
         })
         ;
+
+        db.ref('webhook').child(snap.key).remove()
+
     }
-    db.ref('webhook').child(snap.key).remove()
 
 })
 
@@ -3536,12 +3466,12 @@ function matchingPeople(senderID) {
                     .then(result => sendingAPI(senderID, recipientID, {
                         text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
                     }, null, 'dumpling'))
-                    .then(result => checkAvaible(senderID)))
-                .catch(err => {
-                    matchingPeople(senderID)
-                    console.log(err)
-                    saveSenderData({sent_error: true}, matched, 'dumpling')
-                }))
+                    .then(result => checkAvaible(senderID))))
+            .catch(err => {
+                matchingPeople(senderID)
+                console.log(err)
+                saveSenderData({sent_error: true}, matched, 'dumpling')
+            })
 
 
     } else sendingAPI(senderID, facebookPage['dumpling'].id, {
@@ -3552,16 +3482,7 @@ function matchingPeople(senderID) {
 }
 
 function checkAvaible(senderID) {
-    // var a = 0
-    //
-    // function loop() {
-    //     a++
-    //     if (a < 4) {
-    //
-    //     }
-    // }
-    //
-    // loop()
+
 
     var senderData = dataAccount[senderID]
     var current_matched = senderData.match
