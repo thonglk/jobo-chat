@@ -890,7 +890,13 @@ menu['dumpling'] = {
 menu['206881183192113'] = {
     "persistent_menu": [
         {
-            "call_to_actions": [
+            "call_to_actions": [{
+                "title": "💸 Start Over",
+                "type": "postback",
+                "payload": JSON.stringify({
+                    type: 'start-over',
+                })
+            },
                 {
                     "title": "💑 Menu",
                     "type": "nested",
@@ -2840,10 +2846,7 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                 /// case create
 
-                                            } else if (postback) {
-
                                             }
-
                                             if (!senderData.flow) {
                                                 if (message) {
                                                     if (payload.text) flowAI({keyword: payload.text, senderID, pageID})
@@ -2870,7 +2873,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         senderID
                                                     };
 
-                                                    if (payload.text == 'start over') {
+                                                    if (payload.text == 'start over' || payload.type == 'start-over') {
                                                         response = {
                                                             flow: senderData.flow,
                                                             page: pageID,
@@ -2890,7 +2893,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }
                                                         loop(0)
 
-                                                    } else if (payload.text && payload.type == 'ask' && payload.questionId) {
+                                                    }
+                                                    else if (payload.text && payload.type == 'ask' && payload.questionId) {
                                                         response[payload.questionId] = payload.text
 
                                                         ladiResCol.findOneAndUpdate({
