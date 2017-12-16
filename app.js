@@ -2474,7 +2474,7 @@ db.ref('webhook').on('child_added', function (snap) {
                     }
 
                     if ((isDeveloper && port == '5000')
-                        || (!isDeveloper &&  port != '5000')
+                        || (!isDeveloper && port != '5000')
                     ) {
 
                         if (messagingEvent.message || messagingEvent.postback || messagingEvent.referral) {
@@ -2920,6 +2920,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                 senderID,
                                                                 current: 0
                                                             }
+                                                            loop(response.current)
 
                                                         } else if (payload.text && payload.type == 'ask' && payload.questionId) {
                                                             response[payload.questionId] = payload.text
@@ -2932,17 +2933,49 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                 console.log('save response', result)
                                                             }).catch(err => console.log('err', err))
 
-                                                            response.current++
 
+                                                            var goto = payload.goto
+                                                            console.log('payload.goto', goto)
+                                                            if (goto == '-3') sendAPI(senderID, {
+                                                                text: 'Cám ơn bạn đã điền form'
+                                                            }, null, pageID)
 
-                                                            if (payload.goto) {
-                                                                console.log('payload.goto', payload.goto)
+                                                            else if (goto == '-2') {
+
                                                                 var index = _.findLastIndex(questions, {
-                                                                    0: payload.goto
+                                                                    0: payload.questionId
+                                                                });
+
+                                                                for (var i in questions) {
+                                                                    index++
+                                                                    console.log('index', index, questions[index][3])
+                                                                    if (questions[index][3] == 8) {
+                                                                        index++
+                                                                        loop(index)
+                                                                        break
+                                                                    }
+
+                                                                }
+
+
+                                                            }
+                                                            else if (!goto) {
+
+                                                                var index = _.findLastIndex(questions, {
+                                                                    0: payload.questionId
+                                                                });
+                                                                index++
+                                                                loop(index)
+
+                                                            } else {
+
+                                                                var index = _.findLastIndex(questions, {
+                                                                    0: goto
                                                                 });
                                                                 index++
                                                                 loop(index)
                                                             }
+
 
                                                         }
                                                         if (payload.state) {
@@ -2969,24 +3002,54 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }
 
 
-                                                        loop(response.current)
-
                                                         function loop(q) {
-                                                            console.log('current', q)
                                                             response.current = q;
+
+                                                            console.log('current', response.current)
                                                             if (q < questions.length) {
                                                                 var currentQuestion = questions[q];
                                                                 console.log(currentQuestion)
-                                                                if (currentQuestion[5]) {
-                                                                    console.log('page breaker', currentQuestion[5])
-                                                                    var index = _.findLastIndex(questions, {
-                                                                        0: currentQuestion[5]
-                                                                    });
-                                                                    index++
-                                                                    loop(index)
+                                                                if (currentQuestion[3] == 8) {
+                                                                    var goto = currentQuestion[5]
+                                                                    if (goto == '-3') sendAPI(senderID, {
+                                                                        text: 'Cám ơn bạn đã điền form'
+                                                                    }, null, pageID)
 
-                                                                }
-                                                                else {
+                                                                    else if (goto == '-2') {
+
+                                                                        var index = _.findLastIndex(questions, {
+                                                                            0: payload.questionId
+                                                                        });
+
+                                                                        for (var i in questions) {
+                                                                            index++
+                                                                            console.log('index', index, questions[index][3])
+                                                                            if (questions[index][3] == 8) {
+                                                                                index++
+                                                                                loop(index)
+                                                                                break
+                                                                            }
+
+                                                                        }
+
+                                                                    }
+                                                                    else if (!goto) {
+
+                                                                        var index = _.findLastIndex(questions, {
+                                                                            0: payload.questionId
+                                                                        });
+                                                                        index++
+                                                                        loop(index)
+
+                                                                    } else {
+
+                                                                        var index = _.findLastIndex(questions, {
+                                                                            0: goto
+                                                                        });
+                                                                        index++
+                                                                        loop(index)
+                                                                    }
+                                                                } else {
                                                                     var currentQuestionId = currentQuestion[0];
                                                                     var messageSend = {
                                                                         text: currentQuestion[1] || '(Không có câu hỏi, gõ bất kì để bỏ qua)',
@@ -3023,12 +3086,12 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                             messageSend.metadata = JSON.stringify(metadata)
                                                                         }
                                                                         console.log('messageSend', messageSend)
-                                                                        sendingAPI(senderID, pageID, messageSend, null, pageID)
+                                                                        sendAPI(senderID, messageSend, null, pageID)
 
                                                                     }
                                                                     else {
                                                                         metadata.type = 'info'
-                                                                        sendingAPI(senderID, pageID, messageSend, null, pageID).then(result => {
+                                                                        sendAPI(senderID, messageSend, null, pageID).then(result => {
                                                                             response[currentQuestionId] = true
                                                                             ladiResCol.findOneAndUpdate({
                                                                                 flow: senderData.flow,
@@ -3049,7 +3112,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                                 // else if (currentQuestion[3] == 12 && currentQuestion[6][3]) sendingAPI(senderID, pageID, {
                                                                                 //     text: `https://www.youtube.com/watch?v=${currentQuestion[6][3]}`
                                                                                 // }, null, pageID).then(result => setTimeout(loop(response.current), 1000))
-
 
 
                                                                             })
