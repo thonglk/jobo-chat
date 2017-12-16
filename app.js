@@ -887,55 +887,28 @@ menu['dumpling'] = {
         }
     ]
 }
-menu['152866285340107'] = {
+menu['206881183192113'] = {
     "persistent_menu": [
         {
             "call_to_actions": [
                 {
-                    "title": "💑 Trò chuyện",
+                    "title": "💑 Menu",
                     "type": "nested",
 
                     "call_to_actions": [
                         {
-                            "title": "✨ Bắt đầu",
+                            "title": "✨ Tuỳ chọn 1",
                             "type": "postback",
                             "payload": JSON.stringify({
                                 type: 'matching',
                             })
                         },
                         {
-                            "title": "❎ Dừng chat",
+                            "title": "❎ Tuỳ chọn 2",
                             "type": "postback",
                             "payload": JSON.stringify({
                                 type: 'stop',
                             })
-                        },
-                        {
-                            "title": "Trạng thái",
-                            "type": "postback",
-                            "payload": JSON.stringify({
-                                type: 'status',
-                            })
-                        }
-                    ]
-                }, {
-                    "title": "Xem thêm",
-                    "type": "nested",
-
-                    "call_to_actions": [
-
-                        {
-                            type: "web_url",
-                            url: "https://www.facebook.com/dumpling.bot",
-                            title: "Fanpage Dumpling"
-                        }, {
-                            type: "web_url",
-                            url: "https://www.facebook.com/groups/1985734365037855",
-                            title: "Tham gia nhóm"
-                        }, {
-                            type: "postback",
-                            title: "Chia sẻ",
-                            payload: JSON.stringify({type: 'share'})
                         }
                     ]
                 },
