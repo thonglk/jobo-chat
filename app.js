@@ -2884,13 +2884,11 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 var flow = result.data
                                                 var questions = flow[1]
 
-
                                                 if (result) ladiResCol.findOne({
                                                     flow: senderData.flow,
                                                     page: pageID,
                                                     senderID
-                                                })
-                                                    .then(response => {
+                                                }).then(response => {
                                                         console.log('response', response)
 
                                                         if (!response) response = {
@@ -2899,7 +2897,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             senderID,
                                                             current: 0
                                                         };
-
 
                                                         if (payload.text == 'start over') {
                                                             response = {
@@ -2956,8 +2953,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                     }
 
                                                                 }
-
-
                                                             }
                                                             else if (!goto) {
 
@@ -2977,7 +2972,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             }
 
 
-                                                        }
+                                                        } else loop(0)
                                                         if (payload.state) {
                                                             if (payload.state == 'undo') {
                                                                 response = {
@@ -3000,7 +2995,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             }
 
                                                         }
-
 
                                                         function loop(q) {
                                                             response.current = q;
