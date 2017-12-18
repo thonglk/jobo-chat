@@ -480,9 +480,9 @@ function getChat({url, page, access_token, name, pageID}) {
             console.log('query', query)
             if (url.match('forms/d/e/')) {
                 var queryURL = 'https://docs.google.com/forms/d/e/' + query + '/viewform'
-            } else if(url.match('forms/d/')){
+            } else if (url.match('forms/d/')) {
                 var queryURL = 'https://docs.google.com/forms/d/' + query + '/edit'
-            } else if(url.match('goo.gl/forms')){
+            } else if (url.match('goo.gl/forms')) {
                 var queryURL = url
             }
 
@@ -2856,14 +2856,12 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                 /// case create
 
-                                            }
-                                            if (!senderData.flow) {
+                                            } else if (!senderData.flow) {
                                                 if (message) {
                                                     if (payload.text) flowAI({keyword: payload.text, senderID, pageID})
                                                 }
                                             }
-
-                                            if (senderData.flow) {
+                                            else if (senderData.flow) {
                                                 console.log('flow', senderData.flow)
 
                                                 var result = _.findWhere(dataLadiBot, {flow: senderData.flow});
