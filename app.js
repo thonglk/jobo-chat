@@ -2780,8 +2780,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                             }
                                         }
                                         else {
-
-
                                             if (referral && referral.ref) {
 
                                                 senderData.ref = referral.ref
@@ -2861,7 +2859,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     if (payload.text) flowAI({keyword: payload.text, senderID, pageID})
                                                 }
                                             }
-                                            else if (senderData.flow) {
+                                            if (senderData.flow) {
+
                                                 console.log('flow', senderData.flow)
 
                                                 var result = _.findWhere(dataLadiBot, {flow: senderData.flow});
