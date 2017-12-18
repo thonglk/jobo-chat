@@ -465,22 +465,23 @@ app.get('/getchat', function (req, res) {
     getChat(req.query).then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 
-});
+})
 
 function getChat({url, page, access_token, name, pageID}) {
     return new Promise(function (resolve, reject) {
         console.log('getChat-ing', url, page, access_token, name, pageID)
 
-        var urlArray = url.split('/');
+        var urlArray = url.split('/')
         var each = _.filter(urlArray, per => {
             if (per.length > 40) return true
         })
-
-        if (each.length == 1 || url.match('goo.gl/forms')) {
+        if (each.length == 1) {
             var query = each[0]
             console.log('query', query)
             if (url.match('forms/d/e/')) {
                 var queryURL = 'https://docs.google.com/forms/d/e/' + query + '/viewform'
+            } else if(url.match('forms/d/')){
+                var queryURL = 'https://docs.google.com/forms/d/' + query + '/edit'
             } else if(url.match('goo.gl/forms')){
                 var queryURL = url
             }
@@ -655,6 +656,7 @@ function getChat({url, page, access_token, name, pageID}) {
         }
         else reject({err: 'there are more than one Id'})
     })
+
 }
 
 // CONFIG FUNCTION
@@ -689,6 +691,7 @@ app.post('/noti', function (req, res) {
         .then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 });
+
 
 app.get('/dumpling/account', function (req, res) {
     var query = req.query
