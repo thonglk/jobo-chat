@@ -2804,7 +2804,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                 type: "template",
                                                                 payload: {
                                                                     template_type: "button",
-                                                                    text: `Done <3! \n We had just turn your "${form.data[8]}" form into chatbot to help you convert more leads!`,
+                                                                    text: `Done <3! \n We had just turn your "${form.data[8]}" form into chatbot to help you convert more leads! \nLink: https://m.me/206881183192113?ref=${form.flow}`,
                                                                     buttons: [{
                                                                         type: "web_url",
                                                                         url: `https://m.me/206881183192113?ref=${form.flow}`,
@@ -2826,7 +2826,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                         buttons: [{
                                                                             type: "web_url",
                                                                             url: `https://jobo.asia/ladibot/create?url=${url}`,
-                                                                            title: "Connect your Facebook Page"
+                                                                            title: "Connect your Fanpage"
                                                                         }, {
                                                                             type: "web_url",
                                                                             url: `https://www.facebook.com/pages/create`,
@@ -3143,7 +3143,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                 buttons: [{
                                                                     type: "web_url",
                                                                     url: `https://botform.asia`,
-                                                                    title: "Connect your Facebook Page"
+                                                                    title: "Connect your Fanpage"
                                                                 }, {
                                                                     type: "postback",
                                                                     title: "Chat with agent",
