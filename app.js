@@ -448,28 +448,41 @@ function subscribed_apps(access_token, pageID) {
     })
 }
 
+app.get('/googl', (req, res) => {
+    var {url} = req.query
+    axios.get(url)
+        .then(result => {
+            console.log('result', result.data)
+            res.send(result.data)
+        })
+        .catch(err => res.status(500).json(err))
+
+
+})
+
 app.get('/getchat', function (req, res) {
     var {url = 'https://docs.google.com/forms/d/e/1FAIpQLSchC5kv_FlJh0e1bfwv0TP4nrhe4E_dqW2mNQBQ5ErPOUz_rw/viewform', page, access_token, name, pageID} = req.query
     getChat(req.query).then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 
-})
+});
 
 function getChat({url, page, access_token, name, pageID}) {
     return new Promise(function (resolve, reject) {
         console.log('getChat-ing', url, page, access_token, name, pageID)
 
-        var urlArray = url.split('/')
+        var urlArray = url.split('/');
         var each = _.filter(urlArray, per => {
             if (per.length > 40) return true
         })
-        if (each.length == 1) {
+
+        if (each.length == 1 || url.match('goo.gl/forms')) {
             var query = each[0]
             console.log('query', query)
             if (url.match('forms/d/e/')) {
                 var queryURL = 'https://docs.google.com/forms/d/e/' + query + '/viewform'
-            } else {
-                var queryURL = 'https://docs.google.com/forms/d/' + query + '/edit'
+            } else if(url.match('goo.gl/forms')){
+                var queryURL = url
             }
 
             axios.get(queryURL)
@@ -642,7 +655,6 @@ function getChat({url, page, access_token, name, pageID}) {
         }
         else reject({err: 'there are more than one Id'})
     })
-
 }
 
 // CONFIG FUNCTION
@@ -677,7 +689,6 @@ app.post('/noti', function (req, res) {
         .then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 });
-
 
 app.get('/dumpling/account', function (req, res) {
     var query = req.query
@@ -3036,13 +3047,13 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                         var map = _.map(askOption, option => {
                                                                             metadata.text = option[0]
                                                                             if (option[2]) metadata.goto = option[2]
-                                                                            if(quick_replies.length <11) quick_replies.push({
+                                                                            if (quick_replies.length < 11) quick_replies.push({
                                                                                 "content_type": "text",
                                                                                 "title": option[0],
                                                                                 "payload": JSON.stringify(metadata)
 
                                                                             })
-                                                                            else console.log('quick_replies.length',quick_replies.length)
+                                                                            else console.log('quick_replies.length', quick_replies.length)
                                                                         });
                                                                         messageSend.quick_replies = quick_replies
 
@@ -3081,11 +3092,10 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                             text: `https://www.youtube.com/watch?v=${currentQuestion[6][3]}`
                                                                         }, null, pageID)
                                                                             .then(result => setTimeout(loop(q), 1000))
-                                                                        else if(askType == 6) sendAPI(senderID, messageSend, null, pageID)
+                                                                        else if (askType == 6) sendAPI(senderID, messageSend, null, pageID)
                                                                             .then(result => setTimeout(loop(q), 1000))
 
                                                                     })
-
 
 
                                                                 }
@@ -3107,7 +3117,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         var quick_replies = []
 
                                                         var each = _.each(flowList, flow => {
-                                                            if(quick_replies.length <11) quick_replies.push({
+                                                            if (quick_replies.length < 11) quick_replies.push({
                                                                 "content_type": "text",
                                                                 "title": flow.data[8],
                                                                 "payload": JSON.stringify({
@@ -3115,7 +3125,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                     flow: flow.flow
                                                                 })
                                                             })
-                                                            else console.log('quick_replies.length',quick_replies.length)
+                                                            else console.log('quick_replies.length', quick_replies.length)
                                                         })
                                                         sendingAPI(senderID, pageID, {
                                                             text: 'Bạn cần giúp gì nhỉ?',
