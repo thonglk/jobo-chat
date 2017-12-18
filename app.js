@@ -2465,9 +2465,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                         var postback = result.postback;
 
 
-                                        if (pageID == facebookPage['jobo'].id) {
-                                            intention(payload, senderID, postback, message)
-                                        }
+                                        if (pageID == facebookPage['jobo'].id) intention(payload, senderID, postback, message)
+
 
                                         else if (pageID == facebookPage['dumpling'].id) {
 
@@ -2766,7 +2765,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 console.log('something missing here')
                                             }
                                         }
-
                                         else {
 
 
@@ -3038,12 +3036,13 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                         var map = _.map(askOption, option => {
                                                                             metadata.text = option[0]
                                                                             if (option[2]) metadata.goto = option[2]
-                                                                            quick_replies.push({
+                                                                            if(quick_replies.length <11) quick_replies.push({
                                                                                 "content_type": "text",
                                                                                 "title": option[0],
                                                                                 "payload": JSON.stringify(metadata)
 
                                                                             })
+                                                                            else console.log('quick_replies.length',quick_replies.length)
                                                                         });
                                                                         messageSend.quick_replies = quick_replies
 
@@ -3108,7 +3107,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         var quick_replies = []
 
                                                         var each = _.each(flowList, flow => {
-                                                            quick_replies.push({
+                                                            if(quick_replies.length <11) quick_replies.push({
                                                                 "content_type": "text",
                                                                 "title": flow.data[8],
                                                                 "payload": JSON.stringify({
@@ -3116,6 +3115,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                     flow: flow.flow
                                                                 })
                                                             })
+                                                            else console.log('quick_replies.length',quick_replies.length)
                                                         })
                                                         sendingAPI(senderID, pageID, {
                                                             text: 'Bạn cần giúp gì nhỉ?',
