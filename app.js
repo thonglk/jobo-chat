@@ -896,28 +896,26 @@ menu['206881183192113'] = {
                 "payload": JSON.stringify({
                     type: 'start-over',
                 })
+            }, {
+                "title": "💑 Menu",
+                "type": "nested",
+                "call_to_actions": [
+                    {
+                        "title": "✨ Tuỳ chọn 1",
+                        "type": "postback",
+                        "payload": JSON.stringify({
+                            type: 'matching',
+                        })
+                    },
+                    {
+                        "title": "❎ Tuỳ chọn 2",
+                        "type": "postback",
+                        "payload": JSON.stringify({
+                            type: 'stop',
+                        })
+                    }
+                ]
             },
-                {
-                    "title": "💑 Menu",
-                    "type": "nested",
-
-                    "call_to_actions": [
-                        {
-                            "title": "✨ Tuỳ chọn 1",
-                            "type": "postback",
-                            "payload": JSON.stringify({
-                                type: 'matching',
-                            })
-                        },
-                        {
-                            "title": "❎ Tuỳ chọn 2",
-                            "type": "postback",
-                            "payload": JSON.stringify({
-                                type: 'stop',
-                            })
-                        }
-                    ]
-                },
 
             ],
             "locale": "default",
@@ -3168,9 +3166,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             text: 'Bạn cần giúp gì nhỉ?',
                                                             quick_replies
                                                         }, null, pageID)
-                                                    } else sendingAPI(senderID, pageID, {
-                                                        text: 'Chào bạn, Bạn cần giúp gì nhỉ?',
-                                                    }, null, pageID)
+                                                    }
                                                 }
                                             }
                                         }
