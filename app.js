@@ -449,13 +449,10 @@ function subscribed_apps(access_token, pageID) {
 }
 
 
-
-
 app.get('/getchat', function (req, res) {
     var {url = 'https://docs.google.com/forms/d/e/1FAIpQLSchC5kv_FlJh0e1bfwv0TP4nrhe4E_dqW2mNQBQ5ErPOUz_rw/viewform', page, access_token, name, pageID} = req.query
     getChat(req.query).then(result => res.send(result))
         .catch(err => res.status(500).json(err))
-
 })
 
 function getChat({url, page, access_token, name, pageID}) {
@@ -515,137 +512,90 @@ function getChat({url, page, access_token, name, pageID}) {
                                 }
 
                                 console.log('Get form', save.id)
+                                if (pageID) save.page = pageID
+                                db.ref('ladiBot').child(save.flow).update(save)
+                                    .then(result => {
 
-                                if (access_token && name && pageID) {
-                                    page = pageID
+                                    if (access_token && name && pageID) {
+                                        page = pageID
+                                        getLongLiveToken(access_token).then(data => {
+                                            var new_access_token = data.access_token
+                                            var pageData = {
+                                                access_token: new_access_token, name, id: pageID
+                                            };
+                                            subscribed_apps(new_access_token, pageID)
+                                                .then(result => saveFacebookPage(pageData)
+                                                    .then(result => {
+                                                        facebookPage[page] = pageData
+                                                        save.page = `${facebookPage[page].id}`;
 
-                                    getLongLiveToken(access_token).then(data => {
-                                        var new_access_token = data.access_token
-                                        var pageData = {
-                                            access_token: new_access_token, name, id: pageID
-                                        };
-                                        subscribed_apps(new_access_token, pageID)
-                                            .then(result => saveFacebookPage(pageData)
-                                                .then(result => {
-                                                    facebookPage[page] = pageData
-                                                    save.page = `${facebookPage[page].id}`;
+                                                        var flowList = _.where(dataLadiBot, {page: facebookPage[page].id})
+                                                        console.log(flowList);
 
-                                                    var flowList = _.where(dataLadiBot, {page: facebookPage[page].id})
-                                                    console.log(flowList);
+                                                        flowList.push(save);
 
-                                                    flowList.push(save);
+                                                        var call_to_actions = []
 
-                                                    var call_to_actions = []
-
-                                                    var each = _.each(flowList, fl => {
-                                                        if (call_to_actions.length < 4) {
-                                                            if (fl.data[8].length > 30) var title = fl.data[8].slice(0, 29)
-                                                            else title = fl.data[8]
-                                                            call_to_actions.push({
-                                                                title,
-                                                                "type": "postback",
-                                                                "payload": JSON.stringify({
-                                                                    state: 'setFlow',
-                                                                    flow: fl.flow
+                                                        var each = _.each(flowList, fl => {
+                                                            if (call_to_actions.length < 4) {
+                                                                if (fl.data[8].length > 30) var title = fl.data[8].slice(0, 29)
+                                                                else title = fl.data[8]
+                                                                call_to_actions.push({
+                                                                    title,
+                                                                    "type": "postback",
+                                                                    "payload": JSON.stringify({
+                                                                        state: 'setFlow',
+                                                                        flow: fl.flow
+                                                                    })
                                                                 })
-                                                            })
+                                                            }
+
+                                                        })
+                                                        var menu = {
+                                                            "persistent_menu": [
+                                                                {
+                                                                    "call_to_actions": [{
+                                                                        "title": "👑 Get started",
+                                                                        "type": "nested",
+                                                                        call_to_actions
+                                                                    }, {
+                                                                        type: "web_url",
+                                                                        url: "m.me/206881183192113?ref=power-by",
+                                                                        title: "📮 Power by BotForm"
+                                                                    }
+                                                                    ],
+                                                                    "locale": "default",
+
+                                                                }
+                                                            ]
                                                         }
 
+                                                        setGetstarted(page)
+                                                            .then(result => setDefautMenu(page, menu)
+                                                                .then(result => resolve(save))
+                                                            )
                                                     })
-                                                    var menu = {
-                                                        "persistent_menu": [
-                                                            {
-                                                                "call_to_actions": [{
-                                                                    "title": "👑 Get started",
-                                                                    "type": "nested",
-                                                                    call_to_actions
-                                                                }, {
-                                                                    type: "web_url",
-                                                                    url: "m.me/206881183192113?ref=power-by",
-                                                                    title: "📮 Power by BotForm"
-                                                                }
-                                                                ],
-                                                                "locale": "default",
-
-                                                            }
-                                                        ]
-                                                    }
-
-                                                    setGetstarted(page)
-                                                        .then(result => setDefautMenu(page, menu)
-                                                            .then(result => db.ref('ladiBot').child(save.flow).update(save)
-                                                                .then(result => resolve(save))))
-                                                })
-                                            )
+                                                )
 
 
-                                    })
-
-
-                                }
-                                else if (page) {
-
-                                    save.page = `${facebookPage[page].id}`;
-
-                                    var flowList = _.where(dataLadiBot, {page: facebookPage[page].id})
-
-
-                                    flowList.push(save)
-
-                                    var call_to_actions = []
-                                    var each = _.each(flowList, fl => {
-                                        call_to_actions.push({
-                                            "title": fl.data[8],
-                                            "type": "postback",
-                                            "payload": JSON.stringify({
-                                                state: 'setFlow',
-                                                flow: fl.flow
-                                            })
                                         })
-                                    })
-                                    var menu = {
-                                        "persistent_menu": [
-                                            {
-                                                "call_to_actions": [{
-                                                    "title": "👑 Get started",
-                                                    "type": "nested",
-                                                    call_to_actions
-                                                }, {
-                                                    "title": "💸 Power by Ladi.bot",
-                                                    "type": "postback",
-                                                    "payload": JSON.stringify({
-                                                        type: 'affiliate',
-                                                    })
-                                                }
-                                                ],
-                                                "locale": "default",
 
-                                            }
-                                        ]
-                                    }
 
-                                    setGetstarted(page)
-                                        .then(result => setDefautMenu(page, menu)
-                                            .then(result => db.ref('ladiBot').child(save.flow).update(save)
-                                                .then(result => resolve(save))))
+                                    } else resolve(save)
 
-                                }
-                                else db.ref('ladiBot').child(save.flow).update(save)
-                                        .then(result => resolve(save))
-                            }
-                            else reject({err: 'This parse was not public'})
 
-                        }
-                        else reject({err: 'This script was not public'})
+                                })
+                                    .catch(err => reject({err: JSON.stringify(err)}))
+
+                            } else reject({err: 'This parse was not public'})
+                        } else reject({err: 'This script was not public'})
 
 
                     } else reject({err: 'This data was not public'})
 
-
                 })
                 .catch(err => reject(err))
-        }
-        else reject({err: 'there are more than one Id'})
+        } else reject({err: 'there are more than one Id'})
     })
 
 }
@@ -1066,7 +1016,6 @@ function setWhiteListDomain() {
     })
 
 }
-
 
 
 if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
