@@ -2479,7 +2479,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                         var postback = result.postback;
 
 
-                                        if (pageID == facebookPage['jobo'].id) intention(payload, senderID, postback, message)
+                                        if (pageID == facebookPage['jobo'].id) {}
+                                            // intention(payload, senderID, postback, message)
 
 
                                         else if (pageID == facebookPage['dumpling'].id) {
@@ -2900,8 +2901,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }
                                                         loop(0)
 
-                                                    }
-                                                    else if (payload.text && payload.type == 'ask' && payload.questionId) {
+                                                    } else if (payload.text && payload.type == 'ask' && payload.questionId) {
                                                         response[payload.questionId] = payload.text
 
                                                         ladiResCol.findOneAndUpdate({
