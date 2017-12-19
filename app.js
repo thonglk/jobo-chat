@@ -431,7 +431,7 @@ function getLongLiveToken(shortLiveToken) {
 
 app.get('/subscribed_apps', function (req, res) {
     var {pageID} = req.query
-    subscribed_apps(facebookPage[pageID].access_token, pageID)
+    subscribed_apps(facebookPage[pageID].access_token, facebookPage[pageID].id)
         .then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 })
@@ -448,17 +448,8 @@ function subscribed_apps(access_token, pageID) {
     })
 }
 
-app.get('/googl', (req, res) => {
-    var {url} = req.query
-    axios.get(url)
-        .then(result => {
-            console.log('result', result.data)
-            res.send(result.data)
-        })
-        .catch(err => res.status(500).json(err))
 
 
-})
 
 app.get('/getchat', function (req, res) {
     var {url = 'https://docs.google.com/forms/d/e/1FAIpQLSchC5kv_FlJh0e1bfwv0TP4nrhe4E_dqW2mNQBQ5ErPOUz_rw/viewform', page, access_token, name, pageID} = req.query
@@ -1076,31 +1067,6 @@ function setWhiteListDomain() {
 
 }
 
-function sendHalloWeenMessage(user) {
-    console.log(user)
-    sendAPI(user.messengerId, {
-        attachment: {
-            type: "video",
-            payload: {
-                url: 'https://jobo.asia/file/halloween.mp4'
-            }
-        }
-    }).then(() => {
-        sendAPI(user.messengerId, {
-            text: `Happy Halloween nhé, ${user.name} <3 !!!`
-        })
-    })
-}
-
-app.get('/sendHalloWeenMessage', function (req, res) {
-    userRef.once('value', function (snap) {
-        var dataUser = snap.val()
-        for (var i in dataUser) sendHalloWeenMessage(dataUser[i])
-
-        res.send('done')
-
-    })
-})
 
 
 if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
@@ -2479,8 +2445,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                         var postback = result.postback;
 
 
-                                        if (pageID == facebookPage['jobo'].id)                                             intention(payload, senderID, postback, message)
-
+                                        if (pageID == facebookPage['jobo'].id) intention(payload, senderID, postback, message)
 
 
                                         else if (pageID == facebookPage['dumpling'].id) {
