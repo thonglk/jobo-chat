@@ -2479,8 +2479,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                         var postback = result.postback;
 
 
-                                        if (pageID == facebookPage['jobo'].id) {}
-                                            // intention(payload, senderID, postback, message)
+                                        if (pageID == facebookPage['jobo'].id)                                             intention(payload, senderID, postback, message)
+
 
 
                                         else if (pageID == facebookPage['dumpling'].id) {
