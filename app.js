@@ -4203,7 +4203,7 @@ function sendOne(messageData, page) {
                     resolve(messageData)
 
                 } else {
-                    console.error("callSendAPI_error", body, JSON.stringify(messageData.message));
+                    console.error("callSendAPI_error", JSON.stringify(body), JSON.stringify(messageData));
                     reject(error)
                 }
             });
