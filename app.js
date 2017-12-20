@@ -2396,7 +2396,6 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                         if (pageID == facebookPage['jobo'].id) intention(payload, senderID, postback, message)
 
-
                                         else if (pageID == facebookPage['dumpling'].id) {
 
                                             if (message && message.text) var messageText = message.text;
@@ -2753,11 +2752,9 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             .catch(err => sendAPI(senderID, {
                                                                 text: JSON.stringify(err)
                                                             }, null, pageID)))
-
                                                         .catch(err => sendAPI(senderID, {
                                                             text: JSON.stringify(err)
                                                         }, null, pageID))
-
                                                 }
                                                 else {
                                                     var flow = refData[0]
@@ -2769,18 +2766,20 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                 /// case create
 
-                                            } else if (!senderData.flow) {
+                                            }
+                                            else if (!senderData.flow) {
                                                 if (message) {
                                                     if (payload.text) flowAI({keyword: payload.text, senderID, pageID})
                                                 }
                                             }
+
                                             if (senderData.flow) {
 
                                                 console.log('flow', senderData.flow)
 
                                                 var result = _.findWhere(dataLadiBot, {flow: senderData.flow});
                                                 var flow = result.data
-                                                var questions = flow[1]
+                                                var questions = flow[1];
 
                                                 if (result) ladiResCol.findOne({
                                                     flow: senderData.flow,
