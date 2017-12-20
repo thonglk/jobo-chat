@@ -2739,7 +2739,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                         text: `Step 2: \n Connect this form to your Facebook Page`,
                                                                         buttons: [{
                                                                             type: "web_url",
-                                                                            url: `https://jobo.asia/ladibot/create?url=${url}`,
+                                                                            url: `https://app.botform.asia/dash/create?url=${url}`,
                                                                             title: "Connect your Fanpage"
                                                                         }, {
                                                                             type: "web_url",
