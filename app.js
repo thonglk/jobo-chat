@@ -492,19 +492,130 @@ function getChat({url, page, access_token, name, pageID}) {
                             var it = right[0]//certain
                             if (JSON.parse(it)) {
                                 var array = JSON.parse(it)
-                                if (str == 'FB_LOAD_DATA_ = ') {
-                                    var data = array[0][1]
-
-                                } else {
-                                    var data = array[1]
-                                }
+                                if (str == 'FB_LOAD_DATA_ = ') var allData = array[0]
+                                else allData = array
+                                var data = allData[1]
                                 console.log('data', data)
-
-                                var id = array[14]
+                                var id = allData[14]
                                 var save = {
                                     id, data
                                 }
+                                var flows = data[1]
 
+                                var greeting = [];
+                                var greetingPart = {}
+
+                                var menuPart = {}
+
+                                var persistent_menu = {
+                                    "call_to_actions": [],
+                                    "locale": "default",
+                                }
+                                console.log('Get greeting & menu')
+
+                                for (var i in flows) {
+                                    var flow = flows[i]
+                                    var title = flow[1] || 'undefined'
+                                    var type = flow[3]
+
+                                    if (!greetingPart.start && title.toLowerCase().match('greeting') && type == '8') greetingPart.start = i
+                                    else if (!greetingPart.end && greetingPart.start && type == '8') greetingPart.end = i
+                                    else if (!greetingPart.end && greetingPart.start) {
+                                        if (title.match(':')) {
+                                            var titleSplit = title.split(':')
+                                            var first = titleSplit[0].toLowerCase()
+                                            var supportLang = config.get('supportLang')
+                                            var checkLg = supportLang.indexOf(first);
+
+                                            if (checkLg != -1) {
+                                                var locale = supportLang.substring(checkLg, checkLg + 5)
+
+                                            } else if (first == 'default') {
+                                                var locale = first
+                                            }
+                                            if (locale) greeting.push({
+                                                text: titleSplit[1],
+                                                locale
+                                            })
+
+                                        }
+                                    }
+
+                                    if (!menuPart.start && title.toLowerCase().match('menu') && type == '8') menuPart.start = i
+                                    else if (!menuPart.end && menuPart.start && type == '8') menuPart.end = i
+                                    else if (!menuPart.end && menuPart.start) {
+                                        var menuTitle = flow[1]
+
+                                        if (type == '2' && flow[4] && flow[4][0]) {
+
+                                            var optionsList = flow[4][0][1]
+
+                                            if (optionsList.length > 1) {
+                                                console.log('optionsList', optionsList)
+                                                var call_to_actions = _.map(optionsList, option => {
+                                                    var text = option[0]
+                                                    if (text.match('{{') && text.match('}}')) {
+                                                        console.log('text', text)
+
+                                                        var datastr = text.substring(text.indexOf('{{') + 2, text.indexOf('}}'))
+                                                        console.log('datastr', datastr)
+
+                                                        var title = text.substring(0, text.indexOf('{{'))
+                                                        console.log('title', title)
+
+                                                        if (datastr.match('url')) return {
+                                                            title,
+                                                            "type": "web_url",
+                                                            "url": datastr.substring(4),
+                                                        }
+                                                    } else if (option[2]) return {
+                                                        title: text,
+                                                        "type": "postback",
+                                                        "payload": JSON.stringify({
+                                                            type: 'ask',
+                                                            text: text,
+                                                            goto: option[2],
+                                                            questionId: flow[0]
+                                                        })
+                                                    }
+                                                })
+                                                console.log('call_to_actions', call_to_actions)
+
+                                                persistent_menu.call_to_actions.push({
+                                                    title: menuTitle,
+                                                    type: "nested",
+                                                    call_to_actions
+                                                })
+                                            }
+                                            else if (optionsList[0]) {
+                                                var option = optionsList[0]
+
+                                                var meta = {
+                                                    type: 'ask',
+                                                    text: menuTitle,
+                                                    questionId: flow[0]
+                                                }
+                                                if (option[2]) {
+                                                    meta.goto = option[2]
+                                                }
+                                                persistent_menu.call_to_actions.push({
+                                                    title: menuTitle,
+                                                    "type": "postback",
+                                                    "payload": JSON.stringify(meta)
+                                                })
+
+                                            }
+
+
+                                        }
+                                    }
+
+                                }
+                                console.log('Done greeting & menu')
+
+
+                                if (greeting.length > 0) save.greeting = greeting
+                                if (persistent_menu.call_to_actions.length > 0) save.menu = {persistent_menu: [persistent_menu]}
                                 if (dataLadiBot[id] && dataLadiBot[id].flow) {
                                     save.flow = dataLadiBot[id].flow
                                 } else {
@@ -515,76 +626,36 @@ function getChat({url, page, access_token, name, pageID}) {
                                 if (pageID) save.page = pageID
                                 db.ref('ladiBot').child(save.flow).update(save)
                                     .then(result => {
-
-                                    if (access_token && name && pageID) {
-                                        page = pageID
-                                        getLongLiveToken(access_token).then(data => {
-                                            var new_access_token = data.access_token
-                                            var pageData = {
-                                                access_token: new_access_token, name, id: pageID
-                                            };
-                                            subscribed_apps(new_access_token, pageID)
-                                                .then(result => saveFacebookPage(pageData)
-                                                    .then(result => {
-                                                        facebookPage[page] = pageData
-                                                        save.page = `${facebookPage[page].id}`;
-
-                                                        var flowList = _.where(dataLadiBot, {page: facebookPage[page].id})
-                                                        console.log(flowList);
-
-                                                        flowList.push(save);
-
-                                                        var call_to_actions = []
-
-                                                        var each = _.each(flowList, fl => {
-                                                            if (call_to_actions.length < 4) {
-                                                                if (fl.data[8].length > 30) var title = fl.data[8].slice(0, 29)
-                                                                else title = fl.data[8]
-                                                                call_to_actions.push({
-                                                                    title,
-                                                                    "type": "postback",
-                                                                    "payload": JSON.stringify({
-                                                                        state: 'setFlow',
-                                                                        flow: fl.flow
-                                                                    })
-                                                                })
-                                                            }
+                                        if (access_token && name && pageID) {
+                                            page = pageID
+                                            getLongLiveToken(access_token).then(data => {
+                                                var new_access_token = data.access_token
+                                                var pageData = {
+                                                    access_token: new_access_token, name, id: pageID
+                                                };
+                                                subscribed_apps(new_access_token, pageID)
+                                                    .then(result => saveFacebookPage(pageData)
+                                                        .then(result => {
+                                                            facebookPage[page] = pageData
+                                                            save.page = `${facebookPage[page].id}`;
+                                                            db.ref('ladiBot').child(save.flow).update(save)
+                                                            setGreeting(save.greeting, pageID)
+                                                                .then(result => setGetstarted(pageID)
+                                                                    .then(result => setDefautMenu(pageID, save.menu)
+                                                                        .then(result => resolve(save))
+                                                                    ))
 
                                                         })
-                                                        var menu = {
-                                                            "persistent_menu": [
-                                                                {
-                                                                    "call_to_actions": [{
-                                                                        "title": "👑 Get started",
-                                                                        "type": "nested",
-                                                                        call_to_actions
-                                                                    }, {
-                                                                        type: "web_url",
-                                                                        url: "m.me/206881183192113?ref=power-by",
-                                                                        title: "📮 Power by BotForm"
-                                                                    }
-                                                                    ],
-                                                                    "locale": "default",
-
-                                                                }
-                                                            ]
-                                                        }
-
-                                                        setGetstarted(page)
-                                                            .then(result => setDefautMenu(page, menu)
-                                                                .then(result => resolve(save))
-                                                            )
-                                                    })
-                                                )
+                                                    )
 
 
-                                        })
+                                            })
 
 
-                                    } else resolve(save)
+                                        } else resolve(save)
 
 
-                                })
+                                    })
                                     .catch(err => reject({err: JSON.stringify(err)}))
 
                             } else reject({err: 'This parse was not public'})
@@ -599,6 +670,7 @@ function getChat({url, page, access_token, name, pageID}) {
     })
 
 }
+
 
 // CONFIG FUNCTION
 function getPaginatedItems(items, page = 1, per_page = 15) {
@@ -886,7 +958,25 @@ app.get('/setMenu', function (req, res) {
 })
 
 
-function setDefautMenu(page = 'jobo', menu) {
+function setDefautMenu(page = 'jobo', menu = {
+    "persistent_menu": [
+        {
+            "call_to_actions": [{
+                "title": "💸 Start Over",
+                "type": "postback",
+                "payload": JSON.stringify({
+                    type: 'start-over',
+                })
+            }, {
+                "title": "Power by BotForm",
+                "type": "web_url",
+                "url": "https://botform.asia"
+            }],
+            "locale": "default",
+
+        }
+    ]
+}) {
     console.error("setDefautMenu-ing", page, menu);
 
     return new Promise(function (resolve, reject) {
@@ -900,7 +990,6 @@ function setDefautMenu(page = 'jobo', menu) {
             console.error("setDefautMenu", error, body);
 
             if (!error && response.statusCode == 200) {
-
                 resolve(response)
 
             } else {
@@ -918,24 +1007,23 @@ app.get('/setGreeting', function (req, res) {
         .catch(err => res.status(500).json(err))
 })
 
-function setGreeting(greeting = 'Hello {{user_first_name}}!', page = 'jobo') {
+function setGreeting(greeting = [
+    {
+        "locale": "default",
+        "text": 'Hello {{user_first_name}}, Click "Get started" to engage with us'
+    }
+], page = 'jobo') {
     console.error("setGreeting-ing", page, menu);
 
-    var json = {
-        "greeting": [
-            {
-                "locale": "default",
-                "text": greeting
-            }
-        ]
-    }
 
     return new Promise(function (resolve, reject) {
         request({
             uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
             qs: {access_token: facebookPage[page].access_token},
             method: 'POST',
-            json
+            json: {
+                greeting
+            }
 
         }, function (error, response, body) {
             console.error("setGreeting", error, body);
@@ -2694,6 +2782,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                             }
                                         }
                                         else {
+
                                             if (referral && referral.ref) {
 
                                                 senderData.ref = referral.ref
@@ -2759,7 +2848,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 else {
                                                     var flow = refData[0]
                                                     senderData.flow = flow
-
                                                 }
 
                                                 db.ref(pageID + '_account').child(senderID).update(senderData)
@@ -2769,9 +2857,14 @@ db.ref('webhook').on('child_added', function (snap) {
                                             }
                                             else if (!senderData.flow) {
                                                 if (message) {
-                                                    if (payload.text) flowAI({keyword: payload.text, senderID, pageID})
+                                                    if (payload.text) flowAI({
+                                                        keyword: payload.text,
+                                                        senderID,
+                                                        pageID
+                                                    })
                                                 }
                                             }
+
 
                                             if (senderData.flow) {
 
@@ -2795,23 +2888,20 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     };
 
                                                     if (payload.text == 'start over' || payload.type == 'start-over') {
-                                                        response = {
-                                                            flow: senderData.flow,
-                                                            page: pageID,
-                                                            senderID
-                                                        }
+
                                                         ladiResCol.remove({
                                                             flow: senderData.flow,
                                                             page: pageID,
                                                             senderID
                                                         }).then(result => {
                                                             console.log('remove response', response)
-                                                        })
+                                                        });
+                                                        payload = {}
                                                         response = {
                                                             flow: senderData.flow,
                                                             page: pageID,
                                                             senderID,
-                                                        }
+                                                        };
                                                         loop(0)
 
                                                     } else if (payload.text && payload.type == 'ask' && payload.questionId) {
@@ -2824,50 +2914,15 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }, {$set: response}, {upsert: true}).then(result => {
                                                             console.log('save response', result)
                                                         }).catch(err => console.log('err', err))
-
+                                                        var index = _.findLastIndex(questions, {
+                                                            0: payload.questionId
+                                                        });
 
                                                         var goto = payload.goto
-                                                        console.log('payload.goto', goto)
-                                                        if (goto == '-3') submitResponse(senderData.flow, senderID)
-                                                            .then(result => console.log('done', result))
-                                                            .catch(err => console.log('err', err))
-
-                                                        else if (goto == '-2') {
-
-                                                            var index = _.findLastIndex(questions, {
-                                                                0: payload.questionId
-                                                            });
-
-                                                            for (var i in questions) {
-                                                                index++
-                                                                console.log('index', index, questions[index][3])
-                                                                if (questions[index][3] == 8) {
-                                                                    index++
-                                                                    loop(index)
-                                                                    break
-                                                                }
-
-                                                            }
-                                                        }
-                                                        else if (!goto) {
-
-                                                            var index = _.findLastIndex(questions, {
-                                                                0: payload.questionId
-                                                            });
-                                                            index++
-                                                            loop(index)
-
-                                                        } else {
-
-                                                            var index = _.findLastIndex(questions, {
-                                                                0: goto
-                                                            });
-                                                            index++
-                                                            loop(index)
-                                                        }
+                                                        go(goto, index)
 
 
-                                                    } else loop(0)
+                                                    }
                                                     if (payload.state) {
                                                         if (payload.state == 'undo') {
                                                             response = {
@@ -2891,52 +2946,49 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                     }
 
-                                                    function loop(q) {
+                                                    function go(goto, q = 0) {
+                                                        if (goto == '-3') submitResponse(senderData.flow, senderID)
+                                                            .then(result => console.log('done', result))
+                                                            .catch(err => console.log('err', err))
 
+                                                        else if (goto == '-2') {
+
+                                                            for (var i in questions) {
+                                                                q++
+                                                                console.log('index', q, questions[q][3])
+                                                                if (questions[q][3] == 8) {
+                                                                    q++
+                                                                    loop(q)
+                                                                    break
+                                                                }
+
+                                                            }
+
+                                                        }
+                                                        else if (!goto) {
+
+                                                            q++
+                                                            loop(q)
+
+                                                        } else {
+
+                                                            var index = _.findLastIndex(questions, {
+                                                                0: goto
+                                                            });
+                                                            index++
+                                                            loop(index)
+                                                        }
+                                                    }
+
+                                                    function loop(q) {
                                                         console.log('current', q)
                                                         if (q < questions.length) {
                                                             var currentQuestion = questions[q];
-                                                            console.log(currentQuestion)
                                                             if (currentQuestion[3] == 8) {
                                                                 var goto = currentQuestion[5]
-                                                                if (goto == '-3') submitResponse(senderData.flow, senderID)
-                                                                    .then(result => console.log('done', result))
-                                                                    .catch(err => console.log('err', err))
+                                                                console.log('currentQuestion', goto, payload.questionId)
+                                                                go(goto, q)
 
-                                                                else if (goto == '-2') {
-
-                                                                    var index = _.findLastIndex(questions, {
-                                                                        0: payload.questionId
-                                                                    });
-
-                                                                    for (var i in questions) {
-                                                                        index++
-                                                                        console.log('index', index, questions[index][3])
-                                                                        if (questions[index][3] == 8) {
-                                                                            index++
-                                                                            loop(index)
-                                                                            break
-                                                                        }
-
-                                                                    }
-
-                                                                }
-                                                                else if (!goto) {
-
-                                                                    var index = _.findLastIndex(questions, {
-                                                                        0: payload.questionId
-                                                                    });
-                                                                    index++
-                                                                    loop(index)
-
-                                                                } else {
-
-                                                                    var index = _.findLastIndex(questions, {
-                                                                        0: goto
-                                                                    });
-                                                                    index++
-                                                                    loop(index)
-                                                                }
                                                             } else {
                                                                 var currentQuestionId = currentQuestion[0];
                                                                 var messageSend = {
@@ -2974,8 +3026,10 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                                         messageSend.metadata = JSON.stringify(metadata)
                                                                     }
-                                                                    console.log('messageSend', messageSend)
+
                                                                     sendAPI(senderID, messageSend, null, pageID)
+                                                                        .then(resutl => console.log('messageSend',messageSend))
+                                                                        .catch(err => console.log('sendAPI_err',err))
 
                                                                 }
                                                                 else {
@@ -3876,8 +3930,11 @@ function sendAPI(recipientId, message, typing, page = 'jobo') {
                     messageData.type = 'sent'
                     messageData.timestamp = Date.now()
                     messageFactoryCol.insert(messageData)
-                        .then(result => lastMessageRef.child(messageData.messengerId).update(messageData))
-                        .then(result => resolve(messageData))
+                        .then(result => lastMessageRef.child(messageData.messengerId).update(messageData)
+                            .then(result => resolve(messageData))
+                            .catch(err => reject(err)))
+                        .catch(err => reject(err))
+
 
 
                 }).catch(err => reject(err))
