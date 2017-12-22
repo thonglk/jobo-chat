@@ -671,6 +671,17 @@ function getChat({url, page, access_token, name, pageID}) {
 
 }
 
+_.templateSettings = {
+    interpolate: /\{\{(.+?)\}\}/g
+};
+
+function templatelize(text = 'Chào {{first_name}} ! Cảm ơn bạn đã quan tâm đến Swequity Ultimate Fitness. Bạn vui lòng chọn các mục bên dưới để được hỗ trợ tốt nhất bạn nhé!', data = {first_name: 'Thông'}) {
+    if (text.match('{{') && text.match('}}')) {
+        var template = _.template(text);
+        return template(data);
+    } else return text
+}
+
 
 // CONFIG FUNCTION
 function getPaginatedItems(items, page = 1, per_page = 15) {
@@ -2992,7 +3003,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             } else {
                                                                 var currentQuestionId = currentQuestion[0];
                                                                 var messageSend = {
-                                                                    text: currentQuestion[1] || '(Không có câu hỏi, gõ bất kì để bỏ qua)',
+                                                                    text: templatelize(currentQuestion[1] || '(Không có câu hỏi, gõ bất kì để bỏ qua)', senderData),
                                                                 }
                                                                 var metadata = {
                                                                     questionId: currentQuestionId
@@ -3028,8 +3039,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                     }
 
                                                                     sendAPI(senderID, messageSend, null, pageID)
-                                                                        .then(resutl => console.log('messageSend',messageSend))
-                                                                        .catch(err => console.log('sendAPI_err',err))
+                                                                        .then(resutl => console.log('messageSend', messageSend))
+                                                                        .catch(err => console.log('sendAPI_err', err))
 
                                                                 }
                                                                 else {
@@ -3934,7 +3945,6 @@ function sendAPI(recipientId, message, typing, page = 'jobo') {
                             .then(result => resolve(messageData))
                             .catch(err => reject(err)))
                         .catch(err => reject(err))
-
 
 
                 }).catch(err => reject(err))
