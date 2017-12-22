@@ -2866,20 +2866,14 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 /// case create
 
                                             }
-                                            else if (!senderData.flow) {
-                                                if (message) {
-                                                    if (payload.text) flowAI({
-                                                        keyword: payload.text,
-                                                        senderID,
-                                                        pageID
-                                                    })
-                                                }
+                                            else {
+                                                var result = _.findWhere(dataLadiBot, {page: pageID});
+                                                if (result) senderData.flow = result.flow
                                             }
-
 
                                             if (senderData.flow) {
 
-                                                console.log('flow', senderData.flow)
+                                                console.log('flow', senderData.flow);
 
                                                 var result = _.findWhere(dataLadiBot, {flow: senderData.flow});
                                                 var flow = result.data
