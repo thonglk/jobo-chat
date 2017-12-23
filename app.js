@@ -2873,7 +2873,7 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                             if (senderData.flow) {
 
-                                                console.log('flow', senderData.flow);
+                                                 console.log('flow', senderData.flow);
 
                                                 var result = _.findWhere(dataLadiBot, {flow: senderData.flow});
                                                 var flow = result.data
@@ -3288,7 +3288,7 @@ function matchingPeople(senderID) {
 
     var senderData = dataAccount[senderID]
     var avaible = _.filter(dataAccount, function (card) {
-        if (!card.match && card.status != 0 && card.gender != senderData.gender && card.id != facebookPage['dumpling'].id) return true
+        if (!card.match && !card.sent_error&& card.status != 0 && card.gender != senderData.gender && card.id != facebookPage['dumpling'].id) return true
         else return false
     })
 
