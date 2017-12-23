@@ -3296,7 +3296,7 @@ function matchingPeople(senderID) {
         var random = _.sample(avaible)
         var matched = random.id
         console.log('matched', matched)
-        var recipientID = facebookPage['dumpling'].id
+
         sendAPI(matched, {
             text: `[Hệ Thống] Bạn đã được ghép với 1 người lạ ở Dumpling_${senderData.topic}, hãy nói gì đó đề bắt đầu`,
         }, null, 'dumpling')
