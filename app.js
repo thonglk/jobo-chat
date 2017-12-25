@@ -2843,7 +2843,7 @@ if(senderData.bot_off) console.log('this bot is off')
                                                 var result = _.findWhere(dataLadiBot, {page: pageID});
                                                 if (result) senderData.flow = result.flow
                                             }
-                                            if (!payload.text) saveSenderData({bot_off: null}, senderID, pageID)
+                                            if (payload.source != 'text') saveSenderData({bot_off: null}, senderID, pageID)
 
                                             if (senderData.flow && !senderData.bot_off) {
 
