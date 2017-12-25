@@ -186,40 +186,26 @@ var db2 = jobo.database();
 var db3 = joboTest.database();
 
 var userRef = db2.ref('user');
-var dataAccount = {}
-var accountData = {}, accountRef = db.ref('account')
-db.ref('dumpling_account').on('child_added', snap => {
-    dataAccount[snap.key] = snap.val()
-    setTimeout(function () {
-        accountRef.child(snap.key).update(snap.val())
-            .then(result => console.log('snap.key',snap.key))
-            .catch(err => console.error('err',err))
-
-    },10)
-})
-db.ref('dumpling_account').on('child_changed', snap => {
-    dataAccount[snap.key] = snap.val()
-})
-
-
-var profileRef = db2.ref('profile');
-var likeActivityRef = db3.ref('activity/like');
-
-
-var lastMessageData = {}, lastMessageRef = db.ref('last_message')
 
 
 
-var quick_topic = []
-var topic = {}
-var a = 0
+function initDataLoad(ref,store) {
+    ref.on('child_added', function (snap) {
+        store[snap.key] = snap.val()
+    });
+    ref.on('child_changed', function (snap) {
+        store[snap.key] = snap.val()
+    });
+}
+var dataAccount = {}, accountRef = db.ref('account')
+initDataLoad(accountRef,dataAccount)
 var facebookPage = {}, facebookPageRef = db.ref('facebookPage')
-facebookPageRef.on('child_added', function (snap) {
-    facebookPage[snap.key] = snap.val()
-});
-facebookPageRef.on('child_changed', function (snap) {
-    facebookPage[snap.key] = snap.val()
-});
+initDataLoad(facebookPageRef,facebookPage)
+var lastMessageData = {}, lastMessageRef = db.ref('last_message')
+initDataLoad(lastMessageRef,lastMessageData)
+var dataLadiBot = {}, ladiBotRef = db.ref('ladiBot')
+initDataLoad(ladiBotRef,dataLadiBot)
+
 
 function saveFacebookPage(data) {
     return new Promise(function (resolve, reject) {
@@ -230,20 +216,13 @@ function saveFacebookPage(data) {
     })
 }
 
+var profileRef = db2.ref('profile');
 
-lastMessageRef.on('child_added', function (snap) {
-    lastMessageData[snap.key] = snap.val()
-});
-lastMessageRef.on('child_changed', function (snap) {
-    lastMessageData[snap.key] = snap.val()
-});
-var dataLadiBot = {}
-db.ref('ladiBot').on('child_added', function (snap) {
-    dataLadiBot[snap.key] = snap.val()
-});
-db.ref('ladiBot').on('child_changed', function (snap) {
-    dataLadiBot[snap.key] = snap.val()
-});
+
+var quick_topic = []
+var topic = {}
+var a = 0
+
 var vocalArray = [
     "utter",
     "without qualification",
@@ -703,8 +682,6 @@ function getPaginatedItems(items, page = 1, per_page = 15) {
         data: paginatedItems
     };
 }
-
-
 
 
 app.post('/noti', function (req, res) {
@@ -2868,7 +2845,7 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                             if (senderData.flow) {
 
-                                                 console.log('flow', senderData.flow);
+                                                console.log('flow', senderData.flow);
 
                                                 var result = _.findWhere(dataLadiBot, {flow: senderData.flow});
                                                 var flow = result.data
@@ -3250,64 +3227,26 @@ app.get('/listen', function (req, res) {
 
 function loadsenderData(senderID, page = 'dumpling') {
     return new Promise(function (resolve, reject) {
-        var ref = page + '_account'
-
-        db.ref(ref).child(senderID).once('value', function (snap) {
-            if (snap.val()) resolve(snap.val())
-            else graph.get(senderID + '?access_token=' + facebookPage[page].access_token, (err, result) => {
-                if (err) reject(err);
-                console.log('account', result);
-                var user = result;
-                user.full_name = result.first_name + ' ' + result.last_name
-                user.createdAt = Date.now()
-                db.ref(ref).child(senderID).update(user)
-                    .then(result => resolve(user))
-                    .catch(err => reject(err))
-            })
+        if (dataAccount[senderID]) resolve(dataAccount[senderID])
+        else graph.get(senderID + '?access_token=' + facebookPage[page].access_token, (err, result) => {
+            if (err) reject(err);
+            console.log('account', result);
+            var user = result;
+            user.full_name = result.first_name + ' ' + result.last_name
+            user.createdAt = Date.now()
+            saveSenderData(user, senderID, page)
+                .then(result => resolve(user))
+                .catch(err => reject(err))
         })
 
-
     })
 }
 
 
-function loadAllData(senderID, page = 'dumpling') {
-    return new Promise(function (resolve, reject) {
-        var ref = page + '_account'
-
-        db.ref(ref).child(senderID).once('value', function (snap) {
-            if (snap.val()) resolve(snap.val())
-            else graph.get(senderID + '?access_token=' + facebookPage[page].access_token, (err, result) => {
-                if (err) reject(err);
-                console.log('account', result);
-                var user = result;
-                user.full_name = result.first_name + ' ' + result.last_name
-                user.createdAt = Date.now()
-                db.ref(ref).child(senderID).update(user)
-                    .then(result => resolve(user))
-                    .catch(err => reject(err))
-            })
-        })
-
-
-    })
-}
-
-function saveAllSenderData(data, senderID, page = 'dumpling') {
-    return new Promise(function (resolve, reject) {
-        var ref = page + '_account'
-
-        db.ref(ref).child(senderID).update(data)
-            .then(result => resolve(data))
-            .catch(err => reject(err))
-
-    })
-}
 function saveSenderData(data, senderID, page = 'dumpling') {
     return new Promise(function (resolve, reject) {
-        var ref = page + '_account'
-
-        db.ref(ref).child(senderID).update(data)
+        data.pageID = page
+        accountRef.child(senderID).update(data)
             .then(result => resolve(data))
             .catch(err => reject(err))
 
@@ -3319,7 +3258,7 @@ function matchingPeople(senderID) {
 
     var senderData = dataAccount[senderID]
     var avaible = _.filter(dataAccount, function (card) {
-        if (!card.match && !card.sent_error&& card.status != 0 && card.gender != senderData.gender && card.id != facebookPage['dumpling'].id) return true
+        if (!card.match && !card.sent_error && card.status != 0 && card.gender != senderData.gender && card.id != facebookPage['dumpling'].id) return true
         else return false
     })
 
