@@ -2834,7 +2834,7 @@ if(senderData.bot_off) console.log('this bot is off')
                                                     senderData.flow = flow
                                                 }
 
-                                                db.ref(pageID + '_account').child(senderID).update(senderData)
+                                               saveSenderData(senderData,senderID,pageID)
 
                                                 /// case create
 
@@ -2842,6 +2842,8 @@ if(senderData.bot_off) console.log('this bot is off')
                                             else {
                                                 var result = _.findWhere(dataLadiBot, {page: pageID});
                                                 if (result) senderData.flow = result.flow
+                                                saveSenderData(senderData,senderID,pageID)
+
                                             }
                                             if (payload.source != 'text') saveSenderData({bot_off: null}, senderID, pageID)
 
