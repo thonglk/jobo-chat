@@ -2481,7 +2481,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     if (refData[0] != 'start') senderData.topic = refData[0]
                                                 }
 
-                                                saveSenderData(senderData, senderID, 'dumpling').then(result => sendingAPI(senderID, recipientID, {
+                                                saveSenderData(senderData, senderID, pageID).then(result => sendingAPI(senderID, recipientID, {
                                                         text: `Dumpling kết nối hai người lạ nói chuyện với nhau bằng một cuộc trò chuyện bí mật`,
                                                     }, null, 'dumpling')
                                                         .then(result => sendingAPI(senderID, recipientID, {
@@ -2509,7 +2509,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 )
                                             }
                                             else if (payload.type == 'selectTopic') {
-                                                saveSenderData({topic: payload.topic}, senderID, 'dumpling')
+                                                saveSenderData({topic: payload.topic}, senderID, pageID)
                                                     .then(result => sendingAPI(senderID, recipientID, {
                                                         text: `Bạn đang tham gia Dumpling #${payload.topic}, hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện`,
                                                         quick_replies: [
@@ -3225,7 +3225,7 @@ app.get('/listen', function (req, res) {
     res.send(listen)
 })
 
-function loadsenderData(senderID, page = 'dumpling') {
+function loadsenderData(senderID, page = '493938347612411') {
     return new Promise(function (resolve, reject) {
         if (dataAccount[senderID]) resolve(dataAccount[senderID])
         else graph.get(senderID + '?access_token=' + facebookPage[page].access_token, (err, result) => {
@@ -3243,7 +3243,7 @@ function loadsenderData(senderID, page = 'dumpling') {
 }
 
 
-function saveSenderData(data, senderID, page = 'dumpling') {
+function saveSenderData(data, senderID, page = '493938347612411') {
     return new Promise(function (resolve, reject) {
         data.pageID = page
         accountRef.child(senderID).update(data)
@@ -3258,7 +3258,7 @@ function matchingPeople(senderID) {
 
     var senderData = dataAccount[senderID]
     var avaible = _.filter(dataAccount, function (card) {
-        if (!card.match && !card.sent_error && card.status != 0 && card.gender != senderData.gender && card.id != facebookPage['dumpling'].id) return true
+        if (!card.match && !card.sent_error && card.status != 0 && card.gender != senderData.gender && card.id != facebookPage['493938347612411'].id) return true
         else return false
     })
 
@@ -3269,26 +3269,26 @@ function matchingPeople(senderID) {
 
         sendAPI(matched, {
             text: `[Hệ Thống] Bạn đã được ghép với 1 người lạ ở Dumpling_${senderData.topic}, hãy nói gì đó đề bắt đầu`,
-        }, null, 'dumpling')
-            .then(result => saveSenderData({match: matched}, senderID, 'dumpling')
-                .then(result => saveSenderData({match: senderID}, matched, 'dumpling')
+        }, null, '493938347612411')
+            .then(result => saveSenderData({match: matched}, senderID, '493938347612411')
+                .then(result => saveSenderData({match: senderID}, matched, '493938347612411')
                     .then(result => sendAPI(senderID, {
-                        text: `[Hệ Thống] Đã ghép bạn với 1 người lạ ở Dumpling_${random.topic} thành công`,
-                    }, null, 'dumpling'))
+                        text: `[Hệ Thống] Đã ghép bạn với 1 người lạ ở 493938347612411_${random.topic} thành công`,
+                    }, null, '493938347612411'))
                     .then(result => sendAPI(senderID, {
                         text: "Chúc 2 bạn có những giây phút trò chuyện vui vẻ trên Dumpling ^^",
-                    }, null, 'dumpling'))
+                    }, null, '493938347612411'))
                     .then(result => checkAvaible(senderID))))
             .catch(err => {
                 matchingPeople(senderID)
                 console.log(err)
-                saveSenderData({sent_error: true}, matched, 'dumpling')
+                saveSenderData({sent_error: true}, matched, '493938347612411')
             })
 
 
-    } else sendingAPI(senderID, facebookPage['dumpling'].id, {
+    } else sendingAPI(senderID, facebookPage['493938347612411'].id, {
         text: "[Hệ Thống] Chưa tìm đc người phù hợp",
-    }, null, 'dumpling')
+    }, null, '493938347612411')
 
 
 }
