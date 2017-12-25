@@ -187,8 +187,15 @@ var db3 = joboTest.database();
 
 var userRef = db2.ref('user');
 var dataAccount = {}
+var accountData = {}, accountRef = db.ref('account')
 db.ref('dumpling_account').on('child_added', snap => {
     dataAccount[snap.key] = snap.val()
+    setTimeout(function () {
+        accountRef.child(snap.key).update(snap.val())
+            .then(result => console.log('snap.key',snap.key))
+            .catch(err => console.error('err',err))
+
+    },10)
 })
 db.ref('dumpling_account').on('child_changed', snap => {
     dataAccount[snap.key] = snap.val()
@@ -198,12 +205,11 @@ db.ref('dumpling_account').on('child_changed', snap => {
 var profileRef = db2.ref('profile');
 var likeActivityRef = db3.ref('activity/like');
 
-var conversationData, conversationRef = db.ref('conversation')
+
 var lastMessageData = {}, lastMessageRef = db.ref('last_message')
 
-var conversationData_new, conversationRef_new = db3.ref('conversation_temp')
 
-var messageFactory = {}, messageFactoryRef = db.ref('messageFactory')
+
 var quick_topic = []
 var topic = {}
 var a = 0
@@ -699,14 +705,7 @@ function getPaginatedItems(items, page = 1, per_page = 15) {
 }
 
 
-function initUser() {
-    conversationRef.once('value', function (snap) {
-        conversationData = snap.val()
-        for (var i in conversationData) {
-            getUserDataAndSave(i)
-        }
-    })
-}
+
 
 app.post('/noti', function (req, res) {
     let {recipientId, message, page} = req.body;
@@ -736,10 +735,6 @@ app.get('/message', function (req, res) {
         .then(data => res.send(data))
         .catch(err => res.status(500).json(err));
 })
-
-app.get('/initUser', function () {
-    initUser()
-});
 
 
 app.get('/setGetstarted', function (req, res) {
@@ -3263,6 +3258,7 @@ function loadsenderData(senderID, page = 'dumpling') {
                 if (err) reject(err);
                 console.log('account', result);
                 var user = result;
+                user.full_name = result.first_name + ' ' + result.last_name
                 user.createdAt = Date.now()
                 db.ref(ref).child(senderID).update(user)
                     .then(result => resolve(user))
@@ -3274,6 +3270,39 @@ function loadsenderData(senderID, page = 'dumpling') {
     })
 }
 
+
+function loadAllData(senderID, page = 'dumpling') {
+    return new Promise(function (resolve, reject) {
+        var ref = page + '_account'
+
+        db.ref(ref).child(senderID).once('value', function (snap) {
+            if (snap.val()) resolve(snap.val())
+            else graph.get(senderID + '?access_token=' + facebookPage[page].access_token, (err, result) => {
+                if (err) reject(err);
+                console.log('account', result);
+                var user = result;
+                user.full_name = result.first_name + ' ' + result.last_name
+                user.createdAt = Date.now()
+                db.ref(ref).child(senderID).update(user)
+                    .then(result => resolve(user))
+                    .catch(err => reject(err))
+            })
+        })
+
+
+    })
+}
+
+function saveAllSenderData(data, senderID, page = 'dumpling') {
+    return new Promise(function (resolve, reject) {
+        var ref = page + '_account'
+
+        db.ref(ref).child(senderID).update(data)
+            .then(result => resolve(data))
+            .catch(err => reject(err))
+
+    })
+}
 function saveSenderData(data, senderID, page = 'dumpling') {
     return new Promise(function (resolve, reject) {
         var ref = page + '_account'
