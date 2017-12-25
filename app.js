@@ -188,8 +188,7 @@ var db3 = joboTest.database();
 var userRef = db2.ref('user');
 
 
-
-function initDataLoad(ref,store) {
+function initDataLoad(ref, store) {
     ref.on('child_added', function (snap) {
         store[snap.key] = snap.val()
     });
@@ -197,14 +196,15 @@ function initDataLoad(ref,store) {
         store[snap.key] = snap.val()
     });
 }
+
 var dataAccount = {}, accountRef = db.ref('account')
-initDataLoad(accountRef,dataAccount)
+initDataLoad(accountRef, dataAccount)
 var facebookPage = {}, facebookPageRef = db.ref('facebookPage')
-initDataLoad(facebookPageRef,facebookPage)
+initDataLoad(facebookPageRef, facebookPage)
 var lastMessageData = {}, lastMessageRef = db.ref('last_message')
-initDataLoad(lastMessageRef,lastMessageData)
+initDataLoad(lastMessageRef, lastMessageData)
 var dataLadiBot = {}, ladiBotRef = db.ref('ladiBot')
-initDataLoad(ladiBotRef,dataLadiBot)
+initDataLoad(ladiBotRef, dataLadiBot)
 
 
 function saveFacebookPage(data) {
@@ -2459,11 +2459,12 @@ db.ref('webhook').on('child_added', function (snap) {
                             loadsenderData(senderID, pageID)
                                 .then(senderData => matchingPayload(messagingEvent)
                                     .then(result => {
+
                                         var payload = result.payload;
                                         var message = result.message;
                                         var referral = result.referral;
                                         var postback = result.postback;
-
+if(senderData.bot_off) console.log('this bot is off')
 
                                         if (pageID == facebookPage['jobo'].id) intention(payload, senderID, postback, message)
 
@@ -2842,8 +2843,9 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 var result = _.findWhere(dataLadiBot, {page: pageID});
                                                 if (result) senderData.flow = result.flow
                                             }
+                                            if (!payload.text) saveSenderData({bot_off: null}, senderID, pageID)
 
-                                            if (senderData.flow) {
+                                            if (senderData.flow && !senderData.bot_off) {
 
                                                 console.log('flow', senderData.flow);
 
@@ -2926,9 +2928,12 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     else loop(0)
 
                                                     function go(goto, q = 0) {
-                                                        if (goto == '-3') submitResponse(senderData.flow, senderID)
-                                                            .then(result => console.log('done', result))
-                                                            .catch(err => console.log('err', err))
+                                                        if (goto == '-3') {
+                                                            saveSenderData({bot_off: true}, senderID, pageID)
+                                                            submitResponse(senderData.flow, senderID)
+                                                                .then(result => console.log('done', result))
+                                                                .catch(err => console.log('err', err))
+                                                        }
 
                                                         else if (goto == '-2') {
 
@@ -3284,7 +3289,6 @@ function matchingPeople(senderID) {
                 console.log(err)
                 saveSenderData({sent_error: true}, matched, '493938347612411')
             })
-
 
     } else sendingAPI(senderID, facebookPage['493938347612411'].id, {
         text: "[Hệ Thống] Chưa tìm đc người phù hợp",
