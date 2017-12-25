@@ -2464,7 +2464,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                         var message = result.message;
                                         var referral = result.referral;
                                         var postback = result.postback;
-if(senderData.bot_off) console.log('this bot is off')
+                                        if (senderData.bot_off) console.log('this bot is off')
 
                                         if (pageID == facebookPage['jobo'].id) intention(payload, senderID, postback, message)
 
@@ -2828,21 +2828,20 @@ if(senderData.bot_off) console.log('this bot is off')
                                                         .catch(err => sendAPI(senderID, {
                                                             text: JSON.stringify(err)
                                                         }, null, pageID))
-                                                }
-                                                else {
+                                                } else {
                                                     var flow = refData[0]
                                                     senderData.flow = flow
                                                 }
-
-                                               saveSenderData(senderData,senderID,pageID)
+                                                console.log('senderData',senderData)
+                                                saveSenderData(senderData, senderID, pageID)
 
                                                 /// case create
 
                                             }
-                                            else {
+                                            else if(!senderData.flow) {
                                                 var result = _.findWhere(dataLadiBot, {page: pageID});
                                                 if (result) senderData.flow = result.flow
-                                                saveSenderData(senderData,senderID,pageID)
+                                                saveSenderData(senderData, senderID, pageID)
 
                                             }
                                             if (payload.source != 'text') saveSenderData({bot_off: null}, senderID, pageID)
