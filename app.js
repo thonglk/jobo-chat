@@ -2892,7 +2892,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         senderID
                                                     };
 
-                                                    if (payload.text == 'start over' || payload.type == 'start-over') {
+                                                    if (payload.text == 'start over' || payload.type == 'start-over' || payload.type == 'GET_STARTED') {
 
                                                         ladiResCol.remove({
                                                             flow: senderData.flow,
@@ -2909,7 +2909,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         };
                                                         loop(0)
 
-                                                    } else if (payload.text && payload.type == 'ask' && payload.questionId) {
+                                                    }
+                                                    else if (payload.text && payload.type == 'ask' && payload.questionId) {
                                                         response[payload.questionId] = payload.text
 
                                                         ladiResCol.findOneAndUpdate({
@@ -2928,7 +2929,7 @@ db.ref('webhook').on('child_added', function (snap) {
 
 
                                                     }
-                                                    if (payload.state) {
+                                                    else if (payload.state) {
                                                         if (payload.state == 'undo') {
                                                             response = {
                                                                 flow: senderData.flow,
@@ -2950,6 +2951,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }
 
                                                     }
+                                                    else loop(0)
 
                                                     function go(goto, q = 0) {
                                                         if (goto == '-3') submitResponse(senderData.flow, senderID)
