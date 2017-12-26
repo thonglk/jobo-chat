@@ -206,6 +206,20 @@ initDataLoad(lastMessageRef, lastMessageData)
 var dataLadiBot = {}, ladiBotRef = db.ref('ladiBot')
 initDataLoad(ladiBotRef, dataLadiBot)
 
+function SetOnOffPage(pageID, status) {
+    return new Promise(function (resolve, reject) {
+        facebookPageRef.child(pageID).update({page_off: status}).then(result => resolve(result))
+            .catch(err => reject(err))
+
+    })
+}
+
+app.get('/SetOnOffPage', (req, res) => {
+    var {pageID, status} = req.query
+    SetOnOffPage(pageID, status).then(result => res.send('done'))
+        .catch(err => res.status(500).json(err))
+
+})
 
 function saveFacebookPage(data) {
     return new Promise(function (resolve, reject) {
@@ -2832,13 +2846,13 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     var flow = refData[0]
                                                     senderData.flow = flow
                                                 }
-                                                console.log('senderData',senderData)
+                                                console.log('senderData', senderData)
                                                 saveSenderData(senderData, senderID, pageID)
 
                                                 /// case create
 
                                             }
-                                            else if(!senderData.flow) {
+                                            else if (!senderData.flow) {
                                                 var result = _.findWhere(dataLadiBot, {page: pageID});
                                                 if (result) senderData.flow = result.flow
                                                 saveSenderData(senderData, senderID, pageID)
@@ -2846,7 +2860,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                             }
                                             if (payload.source != 'text') saveSenderData({bot_off: null}, senderID, pageID)
 
-                                            if (senderData.flow && !senderData.bot_off) {
+                                            if (senderData.flow && !senderData.bot_off && !facebookPage[pageID].page_off) {
 
                                                 console.log('flow', senderData.flow);
 
