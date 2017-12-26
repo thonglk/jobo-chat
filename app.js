@@ -208,7 +208,9 @@ initDataLoad(ladiBotRef, dataLadiBot)
 
 function SetOnOffPage(pageID, status) {
     return new Promise(function (resolve, reject) {
-        facebookPageRef.child(pageID).update({page_off: status}).then(result => resolve(result))
+        if(status == '1')var page_off = true
+        else page_off = false
+        facebookPageRef.child(pageID).update({page_off}).then(result => resolve(facebookPage[pageID]))
             .catch(err => reject(err))
 
     })
@@ -216,7 +218,7 @@ function SetOnOffPage(pageID, status) {
 
 app.get('/SetOnOffPage', (req, res) => {
     var {pageID, status} = req.query
-    SetOnOffPage(pageID, status).then(result => res.send('done'))
+    SetOnOffPage(pageID, status).then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 
 })
