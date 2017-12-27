@@ -2867,7 +2867,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 console.log('flow', senderData.flow);
 
                                                 var result = _.findWhere(dataLadiBot, {flow: senderData.flow});
-                                                var flow = result.data
+                                                var flow = result.data;
                                                 var questions = flow[1];
 
                                                 if (result) ladiResCol.findOne({
@@ -2942,7 +2942,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }
 
                                                     }
-                                                    else loop(0)
 
                                                     function go(goto, q = 0) {
                                                         if (goto == '-3') {
