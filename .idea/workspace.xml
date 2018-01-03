@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -19,20 +19,27 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="144" column="0" lean-forward="false" selection-start-line="144" selection-start-column="0" selection-end-line="159" selection-end-column="1" />
+            <state relative-caret-position="287">
+              <caret line="3008" column="92" lean-forward="true" selection-start-line="3008" selection-start-column="92" selection-end-line="3008" selection-end-column="92" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <element signature="e#22915#32809#0" expanded="false" />
+                <element signature="e#13523#18854#0" expanded="false" />
+                <element signature="n#!!block;n#sendVocalRes#0" expanded="false" />
+                <element signature="n#!!block;n#sendVocal#0" expanded="false" />
+                <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
+                <element signature="e#21543#21746#0" expanded="false" />
+                <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
+                <element signature="n#!!block;n#getChat#0" expanded="false" />
+                <element signature="e#22852#32746#0" expanded="false" />
                 <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-                <element signature="e#41886#42040#0" expanded="false" />
-                <element signature="e#42089#42551#0" expanded="false" />
+                <element signature="e#41691#41845#0" expanded="false" />
+                <element signature="e#41894#42356#0" expanded="false" />
                 <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-                <element signature="e#43196#43350#0" expanded="false" />
-                <element signature="e#43385#43512#0" expanded="false" />
+                <element signature="e#43001#43155#0" expanded="false" />
+                <element signature="e#43190#43317#0" expanded="false" />
                 <element signature="n#!!block;n#getNLP#0" expanded="false" />
-                <element signature="e#128224#129772#0" expanded="false" />
-                <element signature="e#129960#131374#0" expanded="false" />
+                <element signature="e#128029#129577#0" expanded="false" />
+                <element signature="e#129765#131179#0" expanded="false" />
                 <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
                 <element signature="n#!!block;n#sendAPI#0" expanded="false" />
                 <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
@@ -258,12 +265,12 @@
       <workItem from="1513083123090" duration="63557000" />
       <workItem from="1513390032275" duration="63296000" />
       <workItem from="1514089632262" duration="6609000" />
-      <workItem from="1514869061727" duration="9813000" />
+      <workItem from="1514869061727" duration="15362000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="570139000" />
+    <option name="totallyTimeSpent" value="575688000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -286,7 +293,7 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25272068" sideWeight="0.4918957" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25272068" sideWeight="0.4918957" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -335,16 +342,23 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <element signature="e#22915#32809#0" expanded="false" />
+            <element signature="e#13523#18854#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalRes#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocal#0" expanded="false" />
+            <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
+            <element signature="e#21543#21746#0" expanded="false" />
+            <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
+            <element signature="n#!!block;n#getChat#0" expanded="false" />
+            <element signature="e#22852#32746#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#41886#42040#0" expanded="false" />
-            <element signature="e#42089#42551#0" expanded="false" />
+            <element signature="e#41691#41845#0" expanded="false" />
+            <element signature="e#41894#42356#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#43196#43350#0" expanded="false" />
-            <element signature="e#43385#43512#0" expanded="false" />
+            <element signature="e#43001#43155#0" expanded="false" />
+            <element signature="e#43190#43317#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#128224#129772#0" expanded="false" />
-            <element signature="e#129960#131374#0" expanded="false" />
+            <element signature="e#128029#129577#0" expanded="false" />
+            <element signature="e#129765#131179#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
@@ -415,16 +429,23 @@
           <caret line="1691" column="0" lean-forward="false" selection-start-line="1691" selection-start-column="0" selection-end-line="1691" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <element signature="e#22915#32809#0" expanded="false" />
+            <element signature="e#13523#18854#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalRes#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocal#0" expanded="false" />
+            <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
+            <element signature="e#21543#21746#0" expanded="false" />
+            <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
+            <element signature="n#!!block;n#getChat#0" expanded="false" />
+            <element signature="e#22852#32746#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#41886#42040#0" expanded="false" />
-            <element signature="e#42089#42551#0" expanded="false" />
+            <element signature="e#41691#41845#0" expanded="false" />
+            <element signature="e#41894#42356#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#43196#43350#0" expanded="false" />
-            <element signature="e#43385#43512#0" expanded="false" />
+            <element signature="e#43001#43155#0" expanded="false" />
+            <element signature="e#43190#43317#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#128224#129772#0" expanded="false" />
-            <element signature="e#129960#131374#0" expanded="false" />
+            <element signature="e#128029#129577#0" expanded="false" />
+            <element signature="e#129765#131179#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
@@ -438,16 +459,23 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <element signature="e#22915#32809#0" expanded="false" />
+            <element signature="e#13523#18854#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalRes#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocal#0" expanded="false" />
+            <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
+            <element signature="e#21543#21746#0" expanded="false" />
+            <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
+            <element signature="n#!!block;n#getChat#0" expanded="false" />
+            <element signature="e#22852#32746#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#41886#42040#0" expanded="false" />
-            <element signature="e#42089#42551#0" expanded="false" />
+            <element signature="e#41691#41845#0" expanded="false" />
+            <element signature="e#41894#42356#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#43196#43350#0" expanded="false" />
-            <element signature="e#43385#43512#0" expanded="false" />
+            <element signature="e#43001#43155#0" expanded="false" />
+            <element signature="e#43190#43317#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#128224#129772#0" expanded="false" />
-            <element signature="e#129960#131374#0" expanded="false" />
+            <element signature="e#128029#129577#0" expanded="false" />
+            <element signature="e#129765#131179#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
@@ -484,16 +512,23 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <element signature="e#22915#32809#0" expanded="false" />
+            <element signature="e#13523#18854#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalRes#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocal#0" expanded="false" />
+            <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
+            <element signature="e#21543#21746#0" expanded="false" />
+            <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
+            <element signature="n#!!block;n#getChat#0" expanded="false" />
+            <element signature="e#22852#32746#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#41886#42040#0" expanded="false" />
-            <element signature="e#42089#42551#0" expanded="false" />
+            <element signature="e#41691#41845#0" expanded="false" />
+            <element signature="e#41894#42356#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#43196#43350#0" expanded="false" />
-            <element signature="e#43385#43512#0" expanded="false" />
+            <element signature="e#43001#43155#0" expanded="false" />
+            <element signature="e#43190#43317#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#128224#129772#0" expanded="false" />
-            <element signature="e#129960#131374#0" expanded="false" />
+            <element signature="e#128029#129577#0" expanded="false" />
+            <element signature="e#129765#131179#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
@@ -538,16 +573,23 @@
           <caret line="568" column="0" lean-forward="false" selection-start-line="568" selection-start-column="0" selection-end-line="568" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <element signature="e#22915#32809#0" expanded="false" />
+            <element signature="e#13523#18854#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalRes#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocal#0" expanded="false" />
+            <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
+            <element signature="e#21543#21746#0" expanded="false" />
+            <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
+            <element signature="n#!!block;n#getChat#0" expanded="false" />
+            <element signature="e#22852#32746#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#41886#42040#0" expanded="false" />
-            <element signature="e#42089#42551#0" expanded="false" />
+            <element signature="e#41691#41845#0" expanded="false" />
+            <element signature="e#41894#42356#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#43196#43350#0" expanded="false" />
-            <element signature="e#43385#43512#0" expanded="false" />
+            <element signature="e#43001#43155#0" expanded="false" />
+            <element signature="e#43190#43317#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#128224#129772#0" expanded="false" />
-            <element signature="e#129960#131374#0" expanded="false" />
+            <element signature="e#128029#129577#0" expanded="false" />
+            <element signature="e#129765#131179#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
@@ -576,16 +618,23 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <element signature="e#22915#32809#0" expanded="false" />
+            <element signature="e#13523#18854#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalRes#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocal#0" expanded="false" />
+            <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
+            <element signature="e#21543#21746#0" expanded="false" />
+            <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
+            <element signature="n#!!block;n#getChat#0" expanded="false" />
+            <element signature="e#22852#32746#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#41886#42040#0" expanded="false" />
-            <element signature="e#42089#42551#0" expanded="false" />
+            <element signature="e#41691#41845#0" expanded="false" />
+            <element signature="e#41894#42356#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#43196#43350#0" expanded="false" />
-            <element signature="e#43385#43512#0" expanded="false" />
+            <element signature="e#43001#43155#0" expanded="false" />
+            <element signature="e#43190#43317#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#128224#129772#0" expanded="false" />
-            <element signature="e#129960#131374#0" expanded="false" />
+            <element signature="e#128029#129577#0" expanded="false" />
+            <element signature="e#129765#131179#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
@@ -622,16 +671,23 @@
           <caret line="838" column="42" lean-forward="true" selection-start-line="838" selection-start-column="42" selection-end-line="838" selection-end-column="42" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <element signature="e#22915#32809#0" expanded="false" />
+            <element signature="e#13523#18854#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalRes#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocal#0" expanded="false" />
+            <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
+            <element signature="e#21543#21746#0" expanded="false" />
+            <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
+            <element signature="n#!!block;n#getChat#0" expanded="false" />
+            <element signature="e#22852#32746#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#41886#42040#0" expanded="false" />
-            <element signature="e#42089#42551#0" expanded="false" />
+            <element signature="e#41691#41845#0" expanded="false" />
+            <element signature="e#41894#42356#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#43196#43350#0" expanded="false" />
-            <element signature="e#43385#43512#0" expanded="false" />
+            <element signature="e#43001#43155#0" expanded="false" />
+            <element signature="e#43190#43317#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#128224#129772#0" expanded="false" />
-            <element signature="e#129960#131374#0" expanded="false" />
+            <element signature="e#128029#129577#0" expanded="false" />
+            <element signature="e#129765#131179#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
@@ -696,20 +752,27 @@
     <entry file="file://$PROJECT_DIR$/routes/webhooks.js" />
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="144" column="0" lean-forward="false" selection-start-line="144" selection-start-column="0" selection-end-line="159" selection-end-column="1" />
+        <state relative-caret-position="287">
+          <caret line="3008" column="92" lean-forward="true" selection-start-line="3008" selection-start-column="92" selection-end-line="3008" selection-end-column="92" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <element signature="e#22915#32809#0" expanded="false" />
+            <element signature="e#13523#18854#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocalRes#0" expanded="false" />
+            <element signature="n#!!block;n#sendVocal#0" expanded="false" />
+            <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
+            <element signature="e#21543#21746#0" expanded="false" />
+            <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
+            <element signature="n#!!block;n#getChat#0" expanded="false" />
+            <element signature="e#22852#32746#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#41886#42040#0" expanded="false" />
-            <element signature="e#42089#42551#0" expanded="false" />
+            <element signature="e#41691#41845#0" expanded="false" />
+            <element signature="e#41894#42356#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#43196#43350#0" expanded="false" />
-            <element signature="e#43385#43512#0" expanded="false" />
+            <element signature="e#43001#43155#0" expanded="false" />
+            <element signature="e#43190#43317#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#128224#129772#0" expanded="false" />
-            <element signature="e#129960#131374#0" expanded="false" />
+            <element signature="e#128029#129577#0" expanded="false" />
+            <element signature="e#129765#131179#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />

@@ -233,7 +233,7 @@ function saveFacebookPage(data) {
 var profileRef = db2.ref('profile');
 
 
-var quick_topic = []
+var quick_topic = [];
 var topic = {}
 var a = 0
 
@@ -358,10 +358,6 @@ function sendNewWord() {
 
 }
 
-
-setInterval(function () {
-    sendNewWord()
-}, 60 * 60 * 1000)
 
 function sendVocalRes(senderID) {
     sendingAPI(senderID, facebookPage['dumpling'].id, {
@@ -653,7 +649,7 @@ function getChat({url, page, access_token, name, pageID}) {
 
             })
             .catch(err => {
-                console.log('get chat err',err)
+                console.log('get chat err', err)
                 reject(err)
             })
 
@@ -665,7 +661,7 @@ _.templateSettings = {
     interpolate: /\{\{(.+?)\}\}/g
 };
 
-function templatelize(text = 'Chào {{first_name}} ! Cảm ơn bạn đã quan tâm đến Swequity Ultimate Fitness. Bạn vui lòng chọn các mục bên dưới để được hỗ trợ tốt nhất bạn nhé!', data = {first_name: 'Thông'}) {
+function templatelize(text = 'loading...', data = {first_name: 'Thông'}) {
     if (text.match('{{') && text.match('}}')) {
         var template = _.template(text);
         return template(data);
@@ -2969,44 +2965,90 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             } else {
                                                                 var currentQuestionId = currentQuestion[0];
                                                                 var messageSend = {
-                                                                    text: templatelize(currentQuestion[1] || '(Không có câu hỏi, gõ bất kì để bỏ qua)', senderData),
+                                                                    text: templatelize(currentQuestion[1], senderData),
                                                                 }
                                                                 var metadata = {
                                                                     questionId: currentQuestionId
                                                                 }
-                                                                var askStringStr = `0,1,7,9,10,13`
-                                                                var askOptionStr = `2,3,4,5`
-                                                                var askType = currentQuestion[3]
-                                                                console.log('askType', askType)
+                                                                var askStringStr = `0,1,7,9,10,13`;
+                                                                var askOptionStr = `2,3,4,5`;
+                                                                var askType = currentQuestion[3];
+                                                                console.log('askType', askType);
                                                                 if (currentQuestion[4]) {
-                                                                    metadata.askType = askType
-                                                                    metadata.type = 'ask'
+                                                                    metadata.askType = askType;
+                                                                    metadata.type = 'ask';
 
                                                                     if (askOptionStr.match(askType)) {
-                                                                        var askOption = currentQuestion[4][0][1]
+                                                                        var askOption = currentQuestion[4][0][1];
+                                                                        var check = askOption[0][0]
+                                                                        if (check.match('&&')) {
+                                                                            var messageSend = {
+                                                                                "attachment": {
+                                                                                    "type": "template",
+                                                                                    "payload": {
+                                                                                        "template_type": "generic",
+                                                                                        "elements": []
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                            var generic = []
 
-                                                                        var quick_replies = []
-                                                                        var map = _.map(askOption, option => {
-                                                                            metadata.text = option[0]
-                                                                            if (option[2]) metadata.goto = option[2]
-                                                                            if (quick_replies.length < 11) quick_replies.push({
-                                                                                "content_type": "text",
-                                                                                "title": option[0],
-                                                                                "payload": JSON.stringify(metadata)
+                                                                            var map = _.map(askOption, option => {
+                                                                                var eleObj = {}
+                                                                                var eleArray = option[0].split('&&')
 
-                                                                            })
-                                                                            else console.log('quick_replies.length', quick_replies.length)
-                                                                        });
-                                                                        messageSend.quick_replies = quick_replies
+
+                                                                                if (option[2]) metadata.goto = option[2]
+                                                                                if (generic.length < 10) generic.push({
+                                                                                    "title": eleArray[0] || option[0],
+                                                                                    "image_url": eleArray[3],
+                                                                                    "subtitle": eleArray[1],
+                                                                                    "buttons": [
+                                                                                        {
+                                                                                            "type": "postback",
+                                                                                            "title": eleArray[2] || 'Choose',
+                                                                                            "payload": JSON.stringify(metadata)
+                                                                                        }
+                                                                                    ]
+                                                                                });
+                                                                                else console.log('generic.length', generic.length)
+                                                                            });
+                                                                            messageSend.attachment.payload.elements = generic;
+
+                                                                            sendAPI(senderID, {text: currentQuestion[1]}, null, pageID)
+                                                                                .then(result => sendAPI(senderID, messageSend, null, pageID)
+                                                                                    .then(result => console.log('messageSend', messageSend))
+                                                                                    .catch(err => console.log('sendAPI_err', err)))
+                                                                                .catch(err => console.log('sendAPI_err', err))
+
+                                                                        } else {
+                                                                            var quick_replies = []
+                                                                            var map = _.map(askOption, option => {
+                                                                                metadata.text = option[0]
+                                                                                if (option[2]) metadata.goto = option[2]
+                                                                                if (quick_replies.length < 11) quick_replies.push({
+                                                                                    "content_type": "text",
+                                                                                    "title": option[0],
+                                                                                    "payload": JSON.stringify(metadata)
+
+                                                                                })
+                                                                                else console.log('quick_replies.length', quick_replies.length)
+                                                                            });
+                                                                            messageSend.quick_replies = quick_replies
+                                                                            sendAPI(senderID, messageSend, null, pageID)
+                                                                                .then(resutl => console.log('messageSend', messageSend))
+                                                                                .catch(err => console.log('sendAPI_err', err))
+                                                                        }
+
 
                                                                     } else if (askStringStr.match(askType)) {
 
                                                                         messageSend.metadata = JSON.stringify(metadata)
+                                                                        sendAPI(senderID, messageSend, null, pageID)
+                                                                            .then(resutl => console.log('messageSend', messageSend))
+                                                                            .catch(err => console.log('sendAPI_err', err))
                                                                     }
 
-                                                                    sendAPI(senderID, messageSend, null, pageID)
-                                                                        .then(resutl => console.log('messageSend', messageSend))
-                                                                        .catch(err => console.log('sendAPI_err', err))
 
                                                                 }
                                                                 else {
