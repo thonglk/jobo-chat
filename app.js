@@ -1487,8 +1487,9 @@ function matchingPayload(event) {
             if (recipientID == facebookPage['jobo'].id) referInital(referral, senderID)
 
         } else if (postback) {
+
             payload.source = 'postback'
-            payload.text = payload.title
+            payload.text = postback.title
 
         } else if (message && message.quick_reply) {
             payload.source = 'quick_reply'
