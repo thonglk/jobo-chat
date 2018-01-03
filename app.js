@@ -32,9 +32,7 @@ const client = new Wit({
 
 var uri = 'mongodb://joboapp:joboApp.1234@ec2-54-157-20-214.compute-1.amazonaws.com:27017/joboapp';
 
-
 const MongoClient = require('mongodb');
-
 
 var md, dumpling_messageFactoryCol, ladiBotCol, ladiResCol, messageFactoryCol
 
@@ -208,7 +206,7 @@ initDataLoad(ladiBotRef, dataLadiBot)
 
 function SetOnOffPage(pageID, status) {
     return new Promise(function (resolve, reject) {
-        if(status == '1')var page_off = true
+        if (status == '1') var page_off = true
         else page_off = false
         facebookPageRef.child(pageID).update({page_off}).then(result => resolve(facebookPage[pageID]))
             .catch(err => reject(err))
@@ -1456,6 +1454,22 @@ function referInital(referral, senderID, user) {
 
 }
 
+function getNLP(entities) {
+    var nlp = {}
+    for (var i in entities) {
+        var entity = entities[i]
+        var most = _.max(entity, function (card) {
+            return card.confidence;
+        });
+        var value = most.value
+        console.log('value', value)
+        if (i == 'yes_no') nlp.answer = value;
+        nlp[i] = value;
+
+    }
+    return nlp
+}
+
 function matchingPayload(event) {
     return new Promise(function (resolve, reject) {
 
@@ -1527,18 +1541,12 @@ function matchingPayload(event) {
                 console.log('message.text', message.text);
                 payload.source = 'text'
                 payload.text = message.text;
+                var nlp = {}
                 if (message.nlp && message.nlp.entities) {
-                    var entities = message.nlp.entities
-                    for (var i in entities) {
-                        var entity = entities[i]
-                        var most = _.max(entity, function (card) {
-                            return card.confidence;
-                        });
-                        var value = most.value
-                        console.log('value', value)
-                        if (i == 'yes_no') i = 'answer'
-                        payload[i] = value
-                    }
+                    var entities = message.nlp.entities;
+                    var nlp = getNLP(entities)
+                    payload.nlp = nlp
+                    Object.assign(payload, nlp)
                 }
 
             }
@@ -1553,16 +1561,9 @@ function matchingPayload(event) {
                 console.log('Yay, got Wit.ai response: ', data);
                 var entities = data.entities
 
-                for (var i in entities) {
-                    var entity = entities[i]
-                    var most = _.max(entity, function (card) {
-                        return card.confidence;
-                    });
-                    var value = most.value
-                    console.log('value', value)
-                    if (i == 'yes_no') i = 'answer'
-                    payload[i] = value
-                }
+                var nlp = getNLP(entities)
+                payload.nlp = nlp
+                Object.assign(payload, nlp)
 
                 console.log('matchingPayload', payload, senderID, message, postback, referral)
                 resolve({payload, senderID, message, postback, referral})
@@ -2424,20 +2425,6 @@ app.get('/findOne', function (req, res) {
         .catch(err => res.status(500).json(err))
 })
 
-app.get('/initconversation', function (req, res) {
-
-    for (var a in conversationData) {
-        var conversation = conversationData[a]
-        for (var i in conversation) {
-            var messagingEvent = conversation[i]
-            matchingPayload(messagingEvent)
-                .then(result => intention(result.payload, result.senderID, result.postback, result.message))
-                .catch(err => console.error())
-            ;
-        }
-    }
-
-})
 
 var listen = 'on'
 
@@ -2475,12 +2462,13 @@ db.ref('webhook').on('child_added', function (snap) {
                             loadsenderData(senderID, pageID)
                                 .then(senderData => matchingPayload(messagingEvent)
                                     .then(result => {
-
                                         var payload = result.payload;
+                                        if (payload.nlp) saveSenderData({nlp: payload.nlp}, senderID, pageID)
                                         var message = result.message;
                                         var referral = result.referral;
                                         var postback = result.postback;
-                                        if (senderData.bot_off) console.log('this bot is off')
+
+                                        if (senderData.bot_off) console.log('this bot is off');
 
                                         if (pageID == facebookPage['jobo'].id) intention(payload, senderID, postback, message)
 
@@ -2782,7 +2770,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                             }
                                         }
                                         else {
-
                                             if (referral && referral.ref) {
 
                                                 senderData.ref = referral.ref
@@ -2858,7 +2845,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 var result = _.findWhere(dataLadiBot, {page: pageID});
                                                 if (result) senderData.flow = result.flow
                                                 saveSenderData(senderData, senderID, pageID)
-
                                             }
                                             if (payload.source != 'text') saveSenderData({bot_off: null}, senderID, pageID)
 
