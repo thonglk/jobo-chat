@@ -450,7 +450,8 @@ function subscribed_apps(access_token, pageID) {
 
 app.get('/getchat', function (req, res) {
     var {url = 'https://docs.google.com/forms/d/e/1FAIpQLSchC5kv_FlJh0e1bfwv0TP4nrhe4E_dqW2mNQBQ5ErPOUz_rw/viewform', page, access_token, name, pageID} = req.query
-    getChat(req.query).then(result => res.send(result))
+    getChat(req.query)
+        .then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 })
 
@@ -458,214 +459,204 @@ function getChat({url, page, access_token, name, pageID}) {
     return new Promise(function (resolve, reject) {
         console.log('getChat-ing', url, page, access_token, name, pageID)
 
-        var urlArray = url.split('/')
-        var each = _.filter(urlArray, per => {
-            if (per.length > 40) return true
-        })
-        if (each.length == 1) {
-            var query = each[0]
-            console.log('query', query)
-            if (url.match('forms/d/e/')) {
-                var queryURL = 'https://docs.google.com/forms/d/e/' + query + '/viewform'
-            } else if (url.match('forms/d/')) {
-                var queryURL = 'https://docs.google.com/forms/d/' + query + '/edit'
-            } else if (url.match('goo.gl/forms')) {
-                var queryURL = url
-            }
+        axios.get(url)
+            .then(result => {
+                console.log('axios.get(queryURL)', result)
 
-            axios.get(queryURL)
-                .then(result => {
-                    if (result.data.match('FB_PUBLIC_LOAD_DATA_ = ') || result.data.match('FB_LOAD_DATA_ = ')) {
-                        var str = '';
+                if (result.data.match('FB_PUBLIC_LOAD_DATA_ = ') || result.data.match('FB_LOAD_DATA_ = ')) {
+                    var str = '';
 
-                        if (result.data.match('FB_PUBLIC_LOAD_DATA_ = ')) str = 'FB_PUBLIC_LOAD_DATA_ = ';
-                        else str = 'FB_LOAD_DATA_ = ';
+                    if (result.data.match('FB_PUBLIC_LOAD_DATA_ = ')) str = 'FB_PUBLIC_LOAD_DATA_ = ';
+                    else str = 'FB_LOAD_DATA_ = ';
 
-                        var splitFirst = result.data.split(str);
+                    var splitFirst = result.data.split(str);
 
-                        var two = splitFirst[1]
-                        //certain
+                    var two = splitFirst[1]
+                    //certain
 
-                        if (two.match(`;</script>`)) {
-                            var right = two.split(`;</script>`);
-                            var it = right[0]//certain
-                            if (JSON.parse(it)) {
-                                var array = JSON.parse(it)
-                                if (str == 'FB_LOAD_DATA_ = ') var allData = array[0]
-                                else allData = array
-                                var data = allData[1]
-                                console.log('data', data)
-                                var id = allData[14]
-                                var save = {
-                                    id, data
-                                }
-                                var flows = data[1]
+                    if (two.match(`;</script>`)) {
+                        var right = two.split(`;</script>`);
+                        var it = right[0]//certain
+                        if (JSON.parse(it)) {
+                            var array = JSON.parse(it)
+                            if (str == 'FB_LOAD_DATA_ = ') var allData = array[0]
+                            else allData = array
+                            var data = allData[1]
+                            console.log('data', data)
+                            var id = allData[14]
+                            var save = {
+                                id, data
+                            }
+                            var flows = data[1]
 
-                                var greeting = [];
-                                var greetingPart = {}
+                            var greeting = [];
+                            var greetingPart = {}
 
-                                var menuPart = {}
+                            var menuPart = {}
 
-                                var persistent_menu = {
-                                    "call_to_actions": [],
-                                    "locale": "default",
-                                }
-                                console.log('Get greeting & menu')
+                            var persistent_menu = {
+                                "call_to_actions": [],
+                                "locale": "default",
+                            }
+                            console.log('Get greeting & menu')
 
-                                for (var i in flows) {
-                                    var flow = flows[i]
-                                    var title = flow[1] || 'undefined'
-                                    var type = flow[3]
+                            for (var i in flows) {
+                                var flow = flows[i]
+                                var title = flow[1] || 'undefined'
+                                var type = flow[3]
 
-                                    if (!greetingPart.start && title.toLowerCase().match('greeting') && type == '8') greetingPart.start = i
-                                    else if (!greetingPart.end && greetingPart.start && type == '8') greetingPart.end = i
-                                    else if (!greetingPart.end && greetingPart.start) {
-                                        if (title.match(':')) {
-                                            var titleSplit = title.split(':')
-                                            var first = titleSplit[0].toLowerCase()
-                                            var supportLang = config.get('supportLang')
-                                            var checkLg = supportLang.indexOf(first);
+                                if (!greetingPart.start && title.toLowerCase().match('greeting') && type == '8') greetingPart.start = i
+                                else if (!greetingPart.end && greetingPart.start && type == '8') greetingPart.end = i
+                                else if (!greetingPart.end && greetingPart.start) {
+                                    if (title.match(':')) {
+                                        var titleSplit = title.split(':')
+                                        var first = titleSplit[0].toLowerCase()
+                                        var supportLang = config.get('supportLang')
+                                        var checkLg = supportLang.indexOf(first);
 
-                                            if (checkLg != -1) {
-                                                var locale = supportLang.substring(checkLg, checkLg + 5)
+                                        if (checkLg != -1) {
+                                            var locale = supportLang.substring(checkLg, checkLg + 5)
 
-                                            } else if (first == 'default') {
-                                                var locale = first
-                                            }
-                                            if (locale) greeting.push({
-                                                text: titleSplit[1],
-                                                locale
-                                            })
-
+                                        } else if (first == 'default') {
+                                            var locale = first
                                         }
+                                        if (locale) greeting.push({
+                                            text: titleSplit[1],
+                                            locale
+                                        })
+
                                     }
+                                }
 
-                                    if (!menuPart.start && title.toLowerCase().match('menu') && type == '8') menuPart.start = i
-                                    else if (!menuPart.end && menuPart.start && type == '8') menuPart.end = i
-                                    else if (!menuPart.end && menuPart.start) {
-                                        var menuTitle = flow[1]
+                                if (!menuPart.start && title.toLowerCase().match('menu') && type == '8') menuPart.start = i
+                                else if (!menuPart.end && menuPart.start && type == '8') menuPart.end = i
+                                else if (!menuPart.end && menuPart.start) {
+                                    var menuTitle = flow[1]
 
-                                        if (type == '2' && flow[4] && flow[4][0]) {
+                                    if (type == '2' && flow[4] && flow[4][0]) {
 
-                                            var optionsList = flow[4][0][1]
+                                        var optionsList = flow[4][0][1]
 
-                                            if (optionsList.length > 1) {
-                                                console.log('optionsList', optionsList)
-                                                var call_to_actions = _.map(optionsList, option => {
-                                                    var text = option[0]
-                                                    if (text.match('{{') && text.match('}}')) {
-                                                        console.log('text', text)
+                                        if (optionsList.length > 1) {
+                                            console.log('optionsList', optionsList)
+                                            var call_to_actions = _.map(optionsList, option => {
+                                                var text = option[0]
+                                                if (text.match('{{') && text.match('}}')) {
+                                                    console.log('text', text)
 
-                                                        var datastr = text.substring(text.indexOf('{{') + 2, text.indexOf('}}'))
-                                                        console.log('datastr', datastr)
+                                                    var datastr = text.substring(text.indexOf('{{') + 2, text.indexOf('}}'))
+                                                    console.log('datastr', datastr)
 
-                                                        var title = text.substring(0, text.indexOf('{{'))
-                                                        console.log('title', title)
+                                                    var title = text.substring(0, text.indexOf('{{'))
+                                                    console.log('title', title)
 
-                                                        if (datastr.match('url')) return {
-                                                            title,
-                                                            "type": "web_url",
-                                                            "url": datastr.substring(4),
-                                                        }
-                                                    } else if (option[2]) return {
-                                                        title: text,
-                                                        "type": "postback",
-                                                        "payload": JSON.stringify({
-                                                            type: 'ask',
-                                                            text: text,
-                                                            goto: option[2],
-                                                            questionId: flow[0]
-                                                        })
+                                                    if (datastr.match('url')) return {
+                                                        title,
+                                                        "type": "web_url",
+                                                        "url": datastr.substring(4),
                                                     }
-                                                })
-                                                console.log('call_to_actions', call_to_actions)
-
-                                                persistent_menu.call_to_actions.push({
-                                                    title: menuTitle,
-                                                    type: "nested",
-                                                    call_to_actions
-                                                })
-                                            }
-                                            else if (optionsList[0]) {
-                                                var option = optionsList[0]
-
-                                                var meta = {
-                                                    type: 'ask',
-                                                    text: menuTitle,
-                                                    questionId: flow[0]
-                                                }
-                                                if (option[2]) {
-                                                    meta.goto = option[2]
-                                                }
-                                                persistent_menu.call_to_actions.push({
-                                                    title: menuTitle,
+                                                } else if (option[2]) return {
+                                                    title: text,
                                                     "type": "postback",
-                                                    "payload": JSON.stringify(meta)
-                                                })
+                                                    "payload": JSON.stringify({
+                                                        type: 'ask',
+                                                        text: text,
+                                                        goto: option[2],
+                                                        questionId: flow[0]
+                                                    })
+                                                }
+                                            })
+                                            console.log('call_to_actions', call_to_actions)
 
-                                            }
-
-
+                                            persistent_menu.call_to_actions.push({
+                                                title: menuTitle,
+                                                type: "nested",
+                                                call_to_actions
+                                            })
                                         }
-                                    }
+                                        else if (optionsList[0]) {
+                                            var option = optionsList[0]
 
-                                }
-                                console.log('Done greeting & menu')
-
-
-                                if (greeting.length > 0) save.greeting = greeting
-                                if (persistent_menu.call_to_actions.length > 0) save.menu = {persistent_menu: [persistent_menu]}
-                                if (dataLadiBot[id] && dataLadiBot[id].flow) {
-                                    save.flow = dataLadiBot[id].flow
-                                } else {
-                                    save.flow = vietnameseDecode(data[8] || 'untitled')
-                                }
-
-                                console.log('Get form', save.id)
-                                if (pageID) save.page = pageID
-                                db.ref('ladiBot').child(save.flow).update(save)
-                                    .then(result => {
-                                        if (access_token && name && pageID) {
-                                            page = pageID
-                                            getLongLiveToken(access_token).then(data => {
-                                                var new_access_token = data.access_token
-                                                var pageData = {
-                                                    access_token: new_access_token, name, id: pageID
-                                                };
-                                                subscribed_apps(new_access_token, pageID)
-                                                    .then(result => saveFacebookPage(pageData)
-                                                        .then(result => {
-                                                            facebookPage[page] = pageData
-                                                            save.page = `${facebookPage[page].id}`;
-                                                            db.ref('ladiBot').child(save.flow).update(save)
-                                                            setGreeting(save.greeting, pageID)
-                                                                .then(result => setGetstarted(pageID)
-                                                                    .then(result => setDefautMenu(pageID, save.menu)
-                                                                        .then(result => resolve(save))
-                                                                    ))
-
-                                                        })
-                                                    )
-
-
+                                            var meta = {
+                                                type: 'ask',
+                                                text: menuTitle,
+                                                questionId: flow[0]
+                                            }
+                                            if (option[2]) {
+                                                meta.goto = option[2]
+                                            }
+                                            persistent_menu.call_to_actions.push({
+                                                title: menuTitle,
+                                                "type": "postback",
+                                                "payload": JSON.stringify(meta)
                                             })
 
-
-                                        } else resolve(save)
-
-
-                                    })
-                                    .catch(err => reject({err: JSON.stringify(err)}))
-
-                            } else reject({err: 'This parse was not public'})
-                        } else reject({err: 'This script was not public'})
+                                        }
 
 
-                    } else reject({err: 'This data was not public'})
+                                    }
+                                }
 
-                })
-                .catch(err => reject(err))
-        } else reject({err: 'there are more than one Id'})
+                            }
+                            console.log('Done greeting & menu')
+
+
+                            if (greeting.length > 0) save.greeting = greeting
+                            if (persistent_menu.call_to_actions.length > 0) save.menu = {persistent_menu: [persistent_menu]}
+                            if (dataLadiBot[id] && dataLadiBot[id].flow) {
+                                save.flow = dataLadiBot[id].flow
+                            } else {
+                                save.flow = vietnameseDecode(data[8] || 'untitled')
+                            }
+
+                            console.log('Get form', save.id)
+                            if (pageID) save.page = pageID
+                            db.ref('ladiBot').child(save.flow).update(save)
+                                .then(result => {
+                                    if (access_token && name && pageID) {
+                                        page = pageID
+                                        getLongLiveToken(access_token).then(data => {
+                                            var new_access_token = data.access_token
+                                            var pageData = {
+                                                access_token: new_access_token, name, id: pageID
+                                            };
+                                            subscribed_apps(new_access_token, pageID)
+                                                .then(result => saveFacebookPage(pageData)
+                                                    .then(result => {
+                                                        facebookPage[page] = pageData
+                                                        save.page = `${facebookPage[page].id}`;
+                                                        db.ref('ladiBot').child(save.flow).update(save)
+                                                        setGreeting(save.greeting, pageID)
+                                                            .then(result => setGetstarted(pageID)
+                                                                .then(result => setDefautMenu(pageID, save.menu)
+                                                                    .then(result => resolve(save))
+                                                                ))
+
+                                                    })
+                                                )
+
+
+                                        })
+
+
+                                    } else resolve(save)
+
+
+                                })
+                                .catch(err => reject({err: JSON.stringify(err)}))
+
+                        } else reject({err: 'This parse was not public'})
+                    } else reject({err: 'This script was not public'})
+
+
+                } else reject({err: 'This data was not public'})
+
+            })
+            .catch(err => {
+                console.log('get chat err',err)
+                reject(err)
+            })
+
     })
 
 }
@@ -2829,7 +2820,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                 text: JSON.stringify(err)
                                                             }, null, pageID)))
                                                         .catch(err => sendAPI(senderID, {
-                                                            text: JSON.stringify(err)
+                                                            text: "Err: Can't read your form, make sure it was a google forms link and make it public"
                                                         }, null, pageID))
                                                 } else {
                                                     var flow = refData[0]
