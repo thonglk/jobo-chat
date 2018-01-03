@@ -1488,6 +1488,7 @@ function matchingPayload(event) {
 
         } else if (postback) {
             payload.source = 'postback'
+            payload.text = payload.title
 
         } else if (message && message.quick_reply) {
             payload.source = 'quick_reply'
@@ -2994,7 +2995,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                             var generic = []
 
                                                                             var map = _.map(askOption, option => {
-                                                                                var eleObj = {}
+
                                                                                 var eleArray = option[0].split('&&')
 
 

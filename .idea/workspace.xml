@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-    </list>
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -20,7 +18,7 @@
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="287">
-              <caret line="3008" column="92" lean-forward="true" selection-start-line="3008" selection-start-column="92" selection-end-line="3008" selection-end-column="92" />
+              <caret line="3008" column="52" lean-forward="false" selection-start-line="3008" selection-start-column="52" selection-end-line="3008" selection-end-column="52" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#13523#18854#0" expanded="false" />
@@ -265,12 +263,12 @@
       <workItem from="1513083123090" duration="63557000" />
       <workItem from="1513390032275" duration="63296000" />
       <workItem from="1514089632262" duration="6609000" />
-      <workItem from="1514869061727" duration="15362000" />
+      <workItem from="1514869061727" duration="15416000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="575688000" />
+    <option name="totallyTimeSpent" value="575742000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -753,7 +751,7 @@
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="287">
-          <caret line="3008" column="92" lean-forward="true" selection-start-line="3008" selection-start-column="92" selection-end-line="3008" selection-end-column="92" />
+          <caret line="3008" column="52" lean-forward="false" selection-start-line="3008" selection-start-column="52" selection-end-line="3008" selection-end-column="52" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#13523#18854#0" expanded="false" />
