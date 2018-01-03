@@ -3234,7 +3234,15 @@ app.get('/listen', function (req, res) {
 
 function loadsenderData(senderID, page = '493938347612411') {
     return new Promise(function (resolve, reject) {
-        if (dataAccount[senderID]) resolve(dataAccount[senderID])
+
+
+        if (dataAccount[senderID]) {
+            var user = dataAccount[senderID]
+            user.lastActive = Date.now()
+            saveSenderData(user, senderID, page)
+                .then(result => resolve(user))
+                .catch(err => reject(err))
+        }
         else graph.get(senderID + '?access_token=' + facebookPage[page].access_token, (err, result) => {
             if (err) reject(err);
             console.log('account', result);
