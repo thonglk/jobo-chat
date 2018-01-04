@@ -457,7 +457,7 @@ function getChat({url, page, access_token, name, pageID}) {
 
         axios.get(url)
             .then(result => {
-                console.log('axios.get(queryURL)', result)
+                console.log('axios.get(queryURL)', result);
 
                 if (result.data.match('FB_PUBLIC_LOAD_DATA_ = ') || result.data.match('FB_LOAD_DATA_ = ')) {
                     var str = '';
@@ -1553,13 +1553,14 @@ function matchingPayload(event) {
                 var nlp = getNLP(entities)
                 payload.nlp = nlp
                 Object.assign(payload, nlp)
-
+                payload.keyword = vietnameseDecode(payload.text)
                 console.log('matchingPayload', payload, senderID, message, postback, referral)
                 resolve({payload, senderID, message, postback, referral})
 
             })
             .catch(console.error);
         else {
+            payload.keyword = vietnameseDecode(payload.text)
             console.log('matchingPayload', payload, senderID, message, postback, referral)
             resolve({payload, senderID, message, postback, referral})
         }
@@ -2761,7 +2762,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                         else {
                                             if (referral && referral.ref) {
 
-                                                senderData.ref = referral.ref
+                                                senderData.ref = referral.ref;
 
                                                 if (referral.ref.match('_')) {
                                                     var refData = referral.ref.split('_');
@@ -2774,7 +2775,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     console.log('url', url);
 
                                                     sendAPI(senderID, {
-                                                        text: `Welcome ${senderData.first_name}! \n Your form is being converted`
+                                                        text: `Welcome {{full_name}}! \n Your form is being converted`
                                                     }, null, pageID)
 
                                                     getChat({url})
@@ -2856,9 +2857,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         flow: senderData.flow,
                                                         page: pageID,
                                                         senderID
-                                                    };
-
-                                                    if (payload.text == 'start over' || payload.type == 'start-over' || payload.type == 'GET_STARTED') {
+                                                    }
+                                                    if (payload.keyword == 'start-over' || payload.type == 'GET_STARTED') {
 
                                                         ladiResCol.remove({
                                                             flow: senderData.flow,
@@ -2875,6 +2875,13 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         };
                                                         loop(0)
 
+                                                    } else if (payload.keyword == 'update-my-bot') {
+                                                        var flowId = result.id
+                                                        var url = `https://docs.google.com/forms/d/${flowId}/viewform`
+                                                        getChat({url})
+                                                            .then(form => sendAPI(senderID, {
+                                                                text: `Updated successful for ${form.data[8]} <3!`,
+                                                            }, null, pageID))
                                                     }
                                                     else if (payload.text && payload.type == 'ask' && payload.questionId) {
                                                         response[payload.questionId] = payload.text
@@ -2967,7 +2974,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             } else {
                                                                 var currentQuestionId = currentQuestion[0];
                                                                 var messageSend = {
-                                                                    text: templatelize(currentQuestion[1], senderData),
+                                                                    text: currentQuestion[1],
                                                                 }
                                                                 var metadata = {
                                                                     questionId: currentQuestionId
@@ -3939,7 +3946,11 @@ function sendingAPI(recipientId, senderId = facebookPage['jobo'].id, message, ty
 
 function sendAPI(recipientId, message, typing, page = 'jobo') {
     return new Promise(function (resolve, reject) {
+
+        if (message.text) message.text = templatelize(message.text, dataAccount[recipientId])
+
         if (!typing) typing = 10
+
         var messageData = {
             recipient: {
                 id: recipientId
