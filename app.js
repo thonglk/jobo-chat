@@ -2842,7 +2842,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                             }
 
                                             if (payload.source != 'text') saveSenderData({bot_off: null}, senderID, pageID)
-
+                                            console.log('flow',senderData.flow)
                                             if (senderData.flow && !senderData.bot_off && !facebookPage[pageID].page_off) {
 
                                                 console.log('flow', senderData.flow);
