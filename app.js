@@ -2453,7 +2453,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                 .then(senderData => matchingPayload(messagingEvent)
                                     .then(result => {
                                         var payload = result.payload;
-                                        if (payload.nlp) {
+                                        if (_.isEmpty(payload.nlp)) {
+                                        } else {
                                             var nlp = Object.assign(senderData.nlp,payload.nlp)
                                             saveSenderData({nlp}, senderID, pageID)
                                         }
@@ -2839,6 +2840,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 if (result) senderData.flow = result.flow
                                                 saveSenderData(senderData, senderID, pageID)
                                             }
+
                                             if (payload.source != 'text') saveSenderData({bot_off: null}, senderID, pageID)
 
                                             if (senderData.flow && !senderData.bot_off && !facebookPage[pageID].page_off) {
