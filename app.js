@@ -946,13 +946,13 @@ function setDefautMenu(page = 'jobo', menu = {
     "persistent_menu": [
         {
             "call_to_actions": [{
-                "title": "💸 Start Over",
+                "title": "Start Over",
                 "type": "postback",
                 "payload": JSON.stringify({
                     type: 'start-over',
                 })
             }, {
-                "title": "Power by BotForm",
+                "title": "Create Own Chatbot",
                 "type": "web_url",
                 "url": "https://botform.asia"
             }],
@@ -2455,7 +2455,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                         var payload = result.payload;
                                         if (senderData.nlp) Object.assign(senderData.nlp, payload.nlp)
                                         else senderData.nlp = payload.nlp
-                                        if(!_.isEmpty(senderData.nlp)) saveSenderData({nlp: senderData.nlp}, senderID, pageID)
+                                        if (!_.isEmpty(senderData.nlp)) saveSenderData({nlp: senderData.nlp}, senderID, pageID)
 
                                         var message = result.message;
                                         var referral = result.referral;
@@ -2842,6 +2842,7 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                             if (payload.source != 'text') saveSenderData({bot_off: null}, senderID, pageID)
                                             console.log('flow', senderData.flow)
+
                                             if (senderData.flow && !senderData.bot_off && !facebookPage[pageID].page_off) {
 
                                                 console.log('flow', senderData.flow);
@@ -3038,6 +3039,64 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                                 .then(result => sendAPI(senderID, messageSend, null, pageID)
                                                                                     .then(result => console.log('messageSend', messageSend))
                                                                                     .catch(err => console.log('sendAPI_err', err)))
+                                                                                .catch(err => console.log('sendAPI_err', err))
+
+                                                                        }
+
+                                                                        else if (askType == '3') {
+                                                                            var messageSend = {
+                                                                                attachment: {
+                                                                                    type: "template",
+                                                                                    payload: {
+                                                                                        template_type: "button",
+                                                                                        text: currentQuestion[1],
+                                                                                        buttons: []
+                                                                                    }
+                                                                                }
+
+                                                                            }
+                                                                            var buttons = []
+                                                                            var map = _.map(askOption, option => {
+                                                                                var button = {}
+                                                                                metadata.text = option[0]
+                                                                                if (option[2]) metadata.goto = option[2]
+                                                                                console.log('option[0].match("[")',option[0])
+                                                                                var str = option[0]
+
+                                                                                if (str.indexOf("[") != -1 && str.indexOf("]") != -1) {
+                                                                                    var n = str.indexOf("[") + 1;
+                                                                                    var b = str.indexOf("]");
+                                                                                    var sub = str.substr(n, b - n)
+                                                                                    var tit = str.substr(0, n - 2)
+                                                                                    var expression = "/((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[\\-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9\\.\\-]+|(?:www\\.|[\\-;:&=\\+\\$,\\w]+@)[A-Za-z0-9\\.\\-]+)((?:\\/[\\+~%\\/\\.\\w\\-_]*)?\\??(?:[\\-\\+=&;%@\\.\\w_]*)#?(?:[\\.\\!\\/\\\\\\w]*))?)/\n";
+                                                                                    var regex = new RegExp(expression);
+                                                                                    if (sub.match(regex)) button = {
+                                                                                        type: "web_url",
+                                                                                        url: sub,
+                                                                                        title: tit
+                                                                                    }
+                                                                                    else {
+                                                                                        button = {
+                                                                                            type: "phone_number",
+                                                                                            title: tit,
+                                                                                            payload: sub
+                                                                                        }
+                                                                                    }
+                                                                                } else button = {
+                                                                                    type: "postback",
+                                                                                    title: option[0],
+                                                                                    payload: JSON.stringify(metadata)
+                                                                                }
+
+
+                                                                                if (buttons.length < 3) buttons.push(button);
+                                                                                else console.log('buttons.length', buttons.length)
+
+
+                                                                            });
+                                                                            messageSend.attachment.payload.buttons = buttons
+                                                                            sendAPI(senderID, messageSend, null, pageID)
+                                                                                .then(resutl => console.log('messageSend', messageSend))
                                                                                 .catch(err => console.log('sendAPI_err', err))
 
                                                                         } else {
