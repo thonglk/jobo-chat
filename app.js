@@ -2453,11 +2453,9 @@ db.ref('webhook').on('child_added', function (snap) {
                                 .then(senderData => matchingPayload(messagingEvent)
                                     .then(result => {
                                         var payload = result.payload;
-                                        if (_.isEmpty(payload.nlp)) {
-                                        } else {
-                                            var nlp = Object.assign(senderData.nlp, payload.nlp)
-                                            saveSenderData({nlp}, senderID, pageID)
-                                        }
+                                        if (senderData.nlp) Object.assign(senderData.nlp, payload.nlp)
+                                        else senderData.nlp = payload.nlp
+                                        saveSenderData({nlp: senderData.nlp}, senderID, pageID)
                                         var message = result.message;
                                         var referral = result.referral;
                                         var postback = result.postback;

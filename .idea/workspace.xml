@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-    </list>
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -19,8 +17,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="197">
-              <caret line="2842" column="0" lean-forward="true" selection-start-line="2842" selection-start-column="0" selection-end-line="2842" selection-end-column="0" />
+            <state relative-caret-position="390">
+              <caret line="2882" column="96" lean-forward="false" selection-start-line="2882" selection-start-column="83" selection-end-line="2882" selection-end-column="96" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#13523#18854#0" expanded="false" />
@@ -29,18 +27,26 @@
                 <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
                 <element signature="e#21543#21746#0" expanded="false" />
                 <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-                <element signature="e#22853#32747#0" expanded="false" />
+                <element signature="e#34596#34738#0" expanded="false" />
                 <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-                <element signature="e#41692#41846#0" expanded="false" />
-                <element signature="e#41895#42357#0" expanded="false" />
+                <element signature="e#35679#38249#0" expanded="false" />
+                <element signature="e#38269#40730#0" expanded="false" />
+                <element signature="e#40757#41754#0" expanded="false" />
+                <element signature="e#41796#41950#0" expanded="false" />
+                <element signature="e#41998#42460#0" expanded="false" />
                 <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-                <element signature="e#43002#43156#0" expanded="false" />
-                <element signature="e#43191#43318#0" expanded="false" />
+                <element signature="e#43105#43259#0" expanded="false" />
+                <element signature="e#43294#43421#0" expanded="false" />
+                <element signature="n#!!block;n#setGreeting#0" expanded="false" />
+                <element signature="e#44110#44239#0" expanded="false" />
+                <element signature="n#!!block;n#setWit#0" expanded="false" />
+                <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
+                <element signature="e#45756#45824#0" expanded="false" />
                 <element signature="n#!!block;n#getNLP#0" expanded="false" />
-                <element signature="e#102825#127218#0" expanded="false" />
-                <element signature="e#127340#132772#0" expanded="false" />
-                <element signature="e#128419#129967#0" expanded="false" />
-                <element signature="e#130155#131569#0" expanded="false" />
+                <element signature="e#102929#127322#0" expanded="false" />
+                <element signature="e#127444#132876#0" expanded="false" />
+                <element signature="e#128523#130071#0" expanded="false" />
+                <element signature="e#130259#131673#0" expanded="false" />
                 <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
                 <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
               </folding>
@@ -99,7 +105,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ref</find>
       <find>Wit</find>
       <find>callback</find>
       <find>findOneAndUpdate</find>
@@ -126,9 +131,10 @@
       <find>41</find>
       <find>loop</find>
       <find>state</find>
-      <find>getChat</find>
       <find>admin</find>
       <find>subscribe</find>
+      <find>getChat</find>
+      <find>update-my-bot</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -265,12 +271,12 @@
       <workItem from="1513083123090" duration="63557000" />
       <workItem from="1513390032275" duration="63296000" />
       <workItem from="1514089632262" duration="6609000" />
-      <workItem from="1514869061727" duration="22585000" />
+      <workItem from="1514869061727" duration="23004000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="582911000" />
+    <option name="totallyTimeSpent" value="583330000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -283,6 +289,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19591261" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -292,7 +299,7 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25272068" sideWeight="0.4918957" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25272068" sideWeight="0.4918957" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -347,18 +354,26 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#21543#21746#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#22853#32747#0" expanded="false" />
+            <element signature="e#34596#34738#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#41692#41846#0" expanded="false" />
-            <element signature="e#41895#42357#0" expanded="false" />
+            <element signature="e#35679#38249#0" expanded="false" />
+            <element signature="e#38269#40730#0" expanded="false" />
+            <element signature="e#40757#41754#0" expanded="false" />
+            <element signature="e#41796#41950#0" expanded="false" />
+            <element signature="e#41998#42460#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#43002#43156#0" expanded="false" />
-            <element signature="e#43191#43318#0" expanded="false" />
+            <element signature="e#43105#43259#0" expanded="false" />
+            <element signature="e#43294#43421#0" expanded="false" />
+            <element signature="n#!!block;n#setGreeting#0" expanded="false" />
+            <element signature="e#44110#44239#0" expanded="false" />
+            <element signature="n#!!block;n#setWit#0" expanded="false" />
+            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
+            <element signature="e#45756#45824#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#102825#127218#0" expanded="false" />
-            <element signature="e#127340#132772#0" expanded="false" />
-            <element signature="e#128419#129967#0" expanded="false" />
-            <element signature="e#130155#131569#0" expanded="false" />
+            <element signature="e#102929#127322#0" expanded="false" />
+            <element signature="e#127444#132876#0" expanded="false" />
+            <element signature="e#128523#130071#0" expanded="false" />
+            <element signature="e#130259#131673#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
           </folding>
@@ -434,18 +449,26 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#21543#21746#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#22853#32747#0" expanded="false" />
+            <element signature="e#34596#34738#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#41692#41846#0" expanded="false" />
-            <element signature="e#41895#42357#0" expanded="false" />
+            <element signature="e#35679#38249#0" expanded="false" />
+            <element signature="e#38269#40730#0" expanded="false" />
+            <element signature="e#40757#41754#0" expanded="false" />
+            <element signature="e#41796#41950#0" expanded="false" />
+            <element signature="e#41998#42460#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#43002#43156#0" expanded="false" />
-            <element signature="e#43191#43318#0" expanded="false" />
+            <element signature="e#43105#43259#0" expanded="false" />
+            <element signature="e#43294#43421#0" expanded="false" />
+            <element signature="n#!!block;n#setGreeting#0" expanded="false" />
+            <element signature="e#44110#44239#0" expanded="false" />
+            <element signature="n#!!block;n#setWit#0" expanded="false" />
+            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
+            <element signature="e#45756#45824#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#102825#127218#0" expanded="false" />
-            <element signature="e#127340#132772#0" expanded="false" />
-            <element signature="e#128419#129967#0" expanded="false" />
-            <element signature="e#130155#131569#0" expanded="false" />
+            <element signature="e#102929#127322#0" expanded="false" />
+            <element signature="e#127444#132876#0" expanded="false" />
+            <element signature="e#128523#130071#0" expanded="false" />
+            <element signature="e#130259#131673#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
           </folding>
@@ -464,18 +487,26 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#21543#21746#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#22853#32747#0" expanded="false" />
+            <element signature="e#34596#34738#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#41692#41846#0" expanded="false" />
-            <element signature="e#41895#42357#0" expanded="false" />
+            <element signature="e#35679#38249#0" expanded="false" />
+            <element signature="e#38269#40730#0" expanded="false" />
+            <element signature="e#40757#41754#0" expanded="false" />
+            <element signature="e#41796#41950#0" expanded="false" />
+            <element signature="e#41998#42460#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#43002#43156#0" expanded="false" />
-            <element signature="e#43191#43318#0" expanded="false" />
+            <element signature="e#43105#43259#0" expanded="false" />
+            <element signature="e#43294#43421#0" expanded="false" />
+            <element signature="n#!!block;n#setGreeting#0" expanded="false" />
+            <element signature="e#44110#44239#0" expanded="false" />
+            <element signature="n#!!block;n#setWit#0" expanded="false" />
+            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
+            <element signature="e#45756#45824#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#102825#127218#0" expanded="false" />
-            <element signature="e#127340#132772#0" expanded="false" />
-            <element signature="e#128419#129967#0" expanded="false" />
-            <element signature="e#130155#131569#0" expanded="false" />
+            <element signature="e#102929#127322#0" expanded="false" />
+            <element signature="e#127444#132876#0" expanded="false" />
+            <element signature="e#128523#130071#0" expanded="false" />
+            <element signature="e#130259#131673#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
           </folding>
@@ -517,18 +548,26 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#21543#21746#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#22853#32747#0" expanded="false" />
+            <element signature="e#34596#34738#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#41692#41846#0" expanded="false" />
-            <element signature="e#41895#42357#0" expanded="false" />
+            <element signature="e#35679#38249#0" expanded="false" />
+            <element signature="e#38269#40730#0" expanded="false" />
+            <element signature="e#40757#41754#0" expanded="false" />
+            <element signature="e#41796#41950#0" expanded="false" />
+            <element signature="e#41998#42460#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#43002#43156#0" expanded="false" />
-            <element signature="e#43191#43318#0" expanded="false" />
+            <element signature="e#43105#43259#0" expanded="false" />
+            <element signature="e#43294#43421#0" expanded="false" />
+            <element signature="n#!!block;n#setGreeting#0" expanded="false" />
+            <element signature="e#44110#44239#0" expanded="false" />
+            <element signature="n#!!block;n#setWit#0" expanded="false" />
+            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
+            <element signature="e#45756#45824#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#102825#127218#0" expanded="false" />
-            <element signature="e#127340#132772#0" expanded="false" />
-            <element signature="e#128419#129967#0" expanded="false" />
-            <element signature="e#130155#131569#0" expanded="false" />
+            <element signature="e#102929#127322#0" expanded="false" />
+            <element signature="e#127444#132876#0" expanded="false" />
+            <element signature="e#128523#130071#0" expanded="false" />
+            <element signature="e#130259#131673#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
           </folding>
@@ -578,18 +617,26 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#21543#21746#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#22853#32747#0" expanded="false" />
+            <element signature="e#34596#34738#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#41692#41846#0" expanded="false" />
-            <element signature="e#41895#42357#0" expanded="false" />
+            <element signature="e#35679#38249#0" expanded="false" />
+            <element signature="e#38269#40730#0" expanded="false" />
+            <element signature="e#40757#41754#0" expanded="false" />
+            <element signature="e#41796#41950#0" expanded="false" />
+            <element signature="e#41998#42460#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#43002#43156#0" expanded="false" />
-            <element signature="e#43191#43318#0" expanded="false" />
+            <element signature="e#43105#43259#0" expanded="false" />
+            <element signature="e#43294#43421#0" expanded="false" />
+            <element signature="n#!!block;n#setGreeting#0" expanded="false" />
+            <element signature="e#44110#44239#0" expanded="false" />
+            <element signature="n#!!block;n#setWit#0" expanded="false" />
+            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
+            <element signature="e#45756#45824#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#102825#127218#0" expanded="false" />
-            <element signature="e#127340#132772#0" expanded="false" />
-            <element signature="e#128419#129967#0" expanded="false" />
-            <element signature="e#130155#131569#0" expanded="false" />
+            <element signature="e#102929#127322#0" expanded="false" />
+            <element signature="e#127444#132876#0" expanded="false" />
+            <element signature="e#128523#130071#0" expanded="false" />
+            <element signature="e#130259#131673#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
           </folding>
@@ -623,18 +670,26 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#21543#21746#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#22853#32747#0" expanded="false" />
+            <element signature="e#34596#34738#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#41692#41846#0" expanded="false" />
-            <element signature="e#41895#42357#0" expanded="false" />
+            <element signature="e#35679#38249#0" expanded="false" />
+            <element signature="e#38269#40730#0" expanded="false" />
+            <element signature="e#40757#41754#0" expanded="false" />
+            <element signature="e#41796#41950#0" expanded="false" />
+            <element signature="e#41998#42460#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#43002#43156#0" expanded="false" />
-            <element signature="e#43191#43318#0" expanded="false" />
+            <element signature="e#43105#43259#0" expanded="false" />
+            <element signature="e#43294#43421#0" expanded="false" />
+            <element signature="n#!!block;n#setGreeting#0" expanded="false" />
+            <element signature="e#44110#44239#0" expanded="false" />
+            <element signature="n#!!block;n#setWit#0" expanded="false" />
+            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
+            <element signature="e#45756#45824#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#102825#127218#0" expanded="false" />
-            <element signature="e#127340#132772#0" expanded="false" />
-            <element signature="e#128419#129967#0" expanded="false" />
-            <element signature="e#130155#131569#0" expanded="false" />
+            <element signature="e#102929#127322#0" expanded="false" />
+            <element signature="e#127444#132876#0" expanded="false" />
+            <element signature="e#128523#130071#0" expanded="false" />
+            <element signature="e#130259#131673#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
           </folding>
@@ -676,18 +731,26 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#21543#21746#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#22853#32747#0" expanded="false" />
+            <element signature="e#34596#34738#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#41692#41846#0" expanded="false" />
-            <element signature="e#41895#42357#0" expanded="false" />
+            <element signature="e#35679#38249#0" expanded="false" />
+            <element signature="e#38269#40730#0" expanded="false" />
+            <element signature="e#40757#41754#0" expanded="false" />
+            <element signature="e#41796#41950#0" expanded="false" />
+            <element signature="e#41998#42460#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#43002#43156#0" expanded="false" />
-            <element signature="e#43191#43318#0" expanded="false" />
+            <element signature="e#43105#43259#0" expanded="false" />
+            <element signature="e#43294#43421#0" expanded="false" />
+            <element signature="n#!!block;n#setGreeting#0" expanded="false" />
+            <element signature="e#44110#44239#0" expanded="false" />
+            <element signature="n#!!block;n#setWit#0" expanded="false" />
+            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
+            <element signature="e#45756#45824#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#102825#127218#0" expanded="false" />
-            <element signature="e#127340#132772#0" expanded="false" />
-            <element signature="e#128419#129967#0" expanded="false" />
-            <element signature="e#130155#131569#0" expanded="false" />
+            <element signature="e#102929#127322#0" expanded="false" />
+            <element signature="e#127444#132876#0" expanded="false" />
+            <element signature="e#128523#130071#0" expanded="false" />
+            <element signature="e#130259#131673#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
           </folding>
@@ -751,8 +814,8 @@
     <entry file="file://$PROJECT_DIR$/routes/webhooks.js" />
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="2842" column="0" lean-forward="true" selection-start-line="2842" selection-start-column="0" selection-end-line="2842" selection-end-column="0" />
+        <state relative-caret-position="390">
+          <caret line="2882" column="96" lean-forward="false" selection-start-line="2882" selection-start-column="83" selection-end-line="2882" selection-end-column="96" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#13523#18854#0" expanded="false" />
@@ -761,18 +824,26 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#21543#21746#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#22853#32747#0" expanded="false" />
+            <element signature="e#34596#34738#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#41692#41846#0" expanded="false" />
-            <element signature="e#41895#42357#0" expanded="false" />
+            <element signature="e#35679#38249#0" expanded="false" />
+            <element signature="e#38269#40730#0" expanded="false" />
+            <element signature="e#40757#41754#0" expanded="false" />
+            <element signature="e#41796#41950#0" expanded="false" />
+            <element signature="e#41998#42460#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#43002#43156#0" expanded="false" />
-            <element signature="e#43191#43318#0" expanded="false" />
+            <element signature="e#43105#43259#0" expanded="false" />
+            <element signature="e#43294#43421#0" expanded="false" />
+            <element signature="n#!!block;n#setGreeting#0" expanded="false" />
+            <element signature="e#44110#44239#0" expanded="false" />
+            <element signature="n#!!block;n#setWit#0" expanded="false" />
+            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
+            <element signature="e#45756#45824#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#102825#127218#0" expanded="false" />
-            <element signature="e#127340#132772#0" expanded="false" />
-            <element signature="e#128419#129967#0" expanded="false" />
-            <element signature="e#130155#131569#0" expanded="false" />
+            <element signature="e#102929#127322#0" expanded="false" />
+            <element signature="e#127444#132876#0" expanded="false" />
+            <element signature="e#128523#130071#0" expanded="false" />
+            <element signature="e#130259#131673#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#sendButtonMessage#0" expanded="false" />
           </folding>
