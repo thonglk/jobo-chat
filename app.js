@@ -625,7 +625,8 @@ function getChat({url, page, access_token, name, pageID}) {
                                                         setGreeting(save.greeting, pageID)
                                                             .then(result => setGetstarted(pageID)
                                                                 .then(result => setDefautMenu(pageID, save.menu)
-                                                                    .then(result => resolve(save))
+                                                                    .then(result => setWit(pageID)
+                                                                        .then(result => resolve(save)))
                                                                 ))
 
                                                     })
@@ -940,7 +941,6 @@ app.get('/setMenu', function (req, res) {
     setDefautMenu(page, menu[page]).then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 })
-
 
 function setDefautMenu(page = 'jobo', menu = {
     "persistent_menu": [
@@ -2455,7 +2455,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                         var payload = result.payload;
                                         if (_.isEmpty(payload.nlp)) {
                                         } else {
-                                            var nlp = Object.assign(senderData.nlp,payload.nlp)
+                                            var nlp = Object.assign(senderData.nlp, payload.nlp)
                                             saveSenderData({nlp}, senderID, pageID)
                                         }
                                         var message = result.message;
@@ -2842,7 +2842,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                             }
 
                                             if (payload.source != 'text') saveSenderData({bot_off: null}, senderID, pageID)
-                                            console.log('flow',senderData.flow)
+                                            console.log('flow', senderData.flow)
                                             if (senderData.flow && !senderData.bot_off && !facebookPage[pageID].page_off) {
 
                                                 console.log('flow', senderData.flow);
