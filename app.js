@@ -2882,6 +2882,12 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             .then(form => sendAPI(senderID, {
                                                                 text: `Updated successful for ${form.data[8]} <3!`,
                                                             }, null, pageID))
+                                                    } else if (payload.keyword == 'subscribe-new-user') {
+                                                        saveSenderData({subscribe: 'all'}, senderID, pageID)
+                                                            .then(result => sendAPI(senderID, {
+                                                                text: `Subscribe successful <3!`,
+                                                            }, null, pageID))
+
                                                     }
                                                     else if (payload.text && payload.type == 'ask' && payload.questionId) {
                                                         response[payload.questionId] = payload.text
@@ -3291,6 +3297,15 @@ function loadsenderData(senderID, page = '493938347612411') {
             var user = result;
             user.full_name = result.first_name + ' ' + result.last_name
             user.createdAt = Date.now()
+
+
+            var adminList = _.where(dataAccount, {pageID: page, subscribe: 'all'})
+            if (adminList.length > 0) adminList.forEach(account => {
+                sendAPI(account.id, {
+                    text: 'New Subscribe | ' + user.full_name
+                }, null, page)
+            })
+
             saveSenderData(user, senderID, page)
                 .then(result => resolve(user))
                 .catch(err => reject(err))
