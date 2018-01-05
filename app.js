@@ -484,7 +484,13 @@ function getChat({url, page, access_token, name, pageID}) {
                                 id, data
                             }
                             var flows = data[1]
+                            // add description
+                            if(data[0]){
+                                var des = [0,data[0],null,6]
+                                flows.unshift(des)
+                            }
 
+                            //
                             var greeting = [];
                             var greetingPart = {}
 
@@ -1467,7 +1473,6 @@ function matchingPayload(event) {
         var timeOfPostback = event.timestamp;
         var message = event.message;
         var postback = event.postback;
-        var referral = event.referral
 
 
         var payloadStr = '';
@@ -1478,12 +1483,12 @@ function matchingPayload(event) {
         if (payloadStr.length > 0) var payload = JSON.parse(payloadStr)
         else payload = {type: 'default'};
 
-
+        var referral = event.referral
         if (postback && postback.referral) referral = postback.referral
 
         if (referral) {
             payload.source = 'referral'
-
+            console.log('referral',payload)
             if (recipientID == facebookPage['jobo'].id) referInital(referral, senderID)
 
         } else if (postback) {
@@ -1530,7 +1535,7 @@ function matchingPayload(event) {
                 console.log('message.text', message.text);
                 payload.source = 'text'
                 payload.text = message.text;
-                var nlp = {}
+
                 if (message.nlp && message.nlp.entities) {
                     var entities = message.nlp.entities;
                     var nlp = getNLP(entities)
@@ -1560,7 +1565,7 @@ function matchingPayload(event) {
             })
             .catch(console.error);
         else {
-            payload.keyword = vietnameseDecode(payload.text)
+            if(payload.text) payload.keyword = vietnameseDecode(payload.text)
             console.log('matchingPayload', payload, senderID, message, postback, referral)
             resolve({payload, senderID, message, postback, referral})
         }
