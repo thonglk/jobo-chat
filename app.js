@@ -485,8 +485,8 @@ function getChat({url, page, access_token, name, pageID}) {
                             }
                             var flows = data[1]
                             // add description
-                            if(data[0]){
-                                var des = [0,data[0],null,6]
+                            if (data[0]) {
+                                var des = [0, data[0], null, 6]
                                 flows.unshift(des)
                             }
 
@@ -1488,7 +1488,7 @@ function matchingPayload(event) {
 
         if (referral) {
             payload.source = 'referral'
-            console.log('referral',payload)
+            console.log('referral', payload)
             if (recipientID == facebookPage['jobo'].id) referInital(referral, senderID)
 
         } else if (postback) {
@@ -1565,7 +1565,7 @@ function matchingPayload(event) {
             })
             .catch(console.error);
         else {
-            if(payload.text) payload.keyword = vietnameseDecode(payload.text)
+            if (payload.text) payload.keyword = vietnameseDecode(payload.text)
             console.log('matchingPayload', payload, senderID, message, postback, referral)
             resolve({payload, senderID, message, postback, referral})
         }
@@ -3065,7 +3065,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                                 var button = {}
                                                                                 metadata.text = option[0]
                                                                                 if (option[2]) metadata.goto = option[2]
-                                                                                console.log('option[0].match("[")',option[0])
+                                                                                console.log('option[0].match("[")', option[0])
                                                                                 var str = option[0]
 
                                                                                 if (str.indexOf("[") != -1 && str.indexOf("]") != -1) {
@@ -3152,7 +3152,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                             attachment: {
                                                                                 type: "image",
                                                                                 payload: {
-                                                                                    url: currentQuestion[2]
+                                                                                    url: currentQuestion[2] || currentQuestion[1]
                                                                                 }
                                                                             }
                                                                         }, null, pageID)
@@ -4338,20 +4338,29 @@ function sendAccountLinking(recipientId) {
  */
 function callSendAPI(messageData, page = 'jobo') {
     return new Promise(function (resolve, reject) {
+        var i = -1
+
+        function sendPer() {
+            return new Promise(function (resolve, reject) {
+                i++
+                if (i < split.length) {
+                    var mes = split[i]
+                    messageData.message.text = mes
+                    sendOne(messageData, page).then(result => sendPer())
+                        .catch(err => reject(err))
+                } else resolve(messageData)
+
+
+            })
+
+
+        }
 
         if (messageData.message && messageData.message.text && messageData.message.text.length > 640) {
             console.log('messageData.message.text.length', messageData.message.text.length)
             var text = messageData.message.text
-            var loop = text.length / 640
-            var textsplit = []
-            for (var i = 0; i < loop; i++) {
-                var split = text.slice(640 * i, 640 * (i + 1))
-                textsplit.push(split)
-                messageData.message.text = split
-                sendOne(messageData, page)
-            }
-            console.log('textsplit', textsplit)
-            resolve(messageData)
+            var split = text.split('. ')
+            sendPer()
 
         } else sendOne(messageData, page)
             .then(result => resolve(result))
