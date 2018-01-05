@@ -2946,7 +2946,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             saveSenderData({bot_off: true}, senderID, pageID)
                                                             sendAPI(senderID,{
                                                                 text: flow[2][0] || 'Thanks for contact us <3!'
-                                                            })
+                                                            }, null, pageID)
                                                             submitResponse(senderData.flow, senderID)
                                                                 .then(result => console.log('done', result))
                                                                 .catch(err => console.log('err', err))
@@ -3180,7 +3180,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             }
 
 
-                                                        }
+                                                        } else go(-3)
 
                                                     }
 
