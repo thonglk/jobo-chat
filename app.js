@@ -2944,6 +2944,9 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     function go(goto, q = 0) {
                                                         if (goto == '-3') {
                                                             saveSenderData({bot_off: true}, senderID, pageID)
+                                                            sendAPI(senderID,{
+                                                                text: flow[2][0] || 'Thanks for contact us <3!'
+                                                            })
                                                             submitResponse(senderData.flow, senderID)
                                                                 .then(result => console.log('done', result))
                                                                 .catch(err => console.log('err', err))
