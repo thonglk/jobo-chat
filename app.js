@@ -3162,7 +3162,11 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                         }, null, pageID)
                                                                             .then(result => setTimeout(loop(q), 1000))
                                                                         else if (askType == 6) sendAPI(senderID, messageSend, null, pageID)
-                                                                            .then(result => setTimeout(loop(q), 1000))
+                                                                            .then(result => {
+                                                                                console.log('result',result)
+                                                                                setTimeout(loop(q), 1000)
+                                                                            })
+                                                                            .catch(err => console.log('err',err))
 
                                                                     })
 
@@ -4341,18 +4345,21 @@ function callSendAPI(messageData, page = 'jobo') {
         var i = -1
 
         function sendPer() {
-            return new Promise(function (resolve, reject) {
                 i++
                 if (i < split.length) {
                     var mes = split[i]
                     messageData.message.text = mes
-                    sendOne(messageData, page).then(result => sendPer())
-                        .catch(err => reject(err))
-                } else resolve(messageData)
-
-
-            })
-
+                    sendOne(messageData, page).then(result => setTimeout(function () {
+                        sendPer()
+                    },2000))
+                        .catch(err => {
+                            console.log('err',i, err)
+                            reject(err)
+                        })
+                } else {
+                    console.log('done',i , split.length)
+                    resolve(messageData)
+                }
 
         }
 
@@ -4361,6 +4368,7 @@ function callSendAPI(messageData, page = 'jobo') {
             var text = messageData.message.text
             var split = text.split('. ')
             sendPer()
+
 
         } else sendOne(messageData, page)
             .then(result => resolve(result))
