@@ -1770,7 +1770,7 @@ function intention(payload, senderID, postback, message = {}) {
                 'applyJob': {
                     if (payload.answer == 'yes') {
 
-                        var jobId = payload.jobId
+                        var jobId = payload.jobId;
 
                         loadJob(jobId).then(jobData => {
                                 var status = 1
@@ -3157,15 +3157,15 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                                 }
                                                                             }
                                                                         }, null, pageID)
-                                                                            .then(result => setTimeout(loop(q), 1000))
+                                                                            .then(result => setTimeout(loop(q), 3000))
                                                                         else if (askType == 12 && currentQuestion[6][3]) sendingAPI(senderID, pageID, {
                                                                             text: `https://www.youtube.com/watch?v=${currentQuestion[6][3]}`
                                                                         }, null, pageID)
-                                                                            .then(result => setTimeout(loop(q), 1000))
+                                                                            .then(result => setTimeout(loop(q), 3000))
                                                                         else if (askType == 6) sendAPI(senderID, messageSend, null, pageID)
                                                                             .then(result => {
                                                                                 console.log('result', result)
-                                                                                setTimeout(loop(q), 1000)
+                                                                                setTimeout(loop(q), 3000)
                                                                             })
                                                                             .catch(err => console.log('err', err))
 
