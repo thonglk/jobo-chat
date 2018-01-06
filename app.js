@@ -1773,9 +1773,7 @@ function intention(payload, senderID, postback, message = {}) {
                         var jobId = payload.jobId
 
                         loadJob(jobId).then(jobData => {
-                                if (jobData.deadline > Date.now()) {
-                                    var status = 1
-                                } else status = 0;
+                                var status = 1
 
 
                                 var actId = jobId + ':' + user.userId
@@ -2944,7 +2942,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     function go(goto, q = 0) {
                                                         if (goto == '-3') {
                                                             saveSenderData({bot_off: true}, senderID, pageID)
-                                                            sendAPI(senderID,{
+                                                            sendAPI(senderID, {
                                                                 text: flow[2][0] || 'Thanks for contact us <3!'
                                                             }, null, pageID)
                                                             submitResponse(senderData.flow, senderID)
@@ -3166,10 +3164,10 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                             .then(result => setTimeout(loop(q), 1000))
                                                                         else if (askType == 6) sendAPI(senderID, messageSend, null, pageID)
                                                                             .then(result => {
-                                                                                console.log('result',result)
+                                                                                console.log('result', result)
                                                                                 setTimeout(loop(q), 1000)
                                                                             })
-                                                                            .catch(err => console.log('err',err))
+                                                                            .catch(err => console.log('err', err))
 
                                                                     })
 
@@ -4348,21 +4346,21 @@ function callSendAPI(messageData, page = 'jobo') {
         var i = -1
 
         function sendPer() {
-                i++
-                if (i < split.length) {
-                    var mes = split[i]
-                    messageData.message.text = mes
-                    sendOne(messageData, page).then(result => setTimeout(function () {
-                        sendPer()
-                    },2000))
-                        .catch(err => {
-                            console.log('err',i, err)
-                            reject(err)
-                        })
-                } else {
-                    console.log('done',i , split.length)
-                    resolve(messageData)
-                }
+            i++
+            if (i < split.length) {
+                var mes = split[i]
+                messageData.message.text = mes
+                sendOne(messageData, page).then(result => setTimeout(function () {
+                    sendPer()
+                }, 2000))
+                    .catch(err => {
+                        console.log('err', i, err)
+                        reject(err)
+                    })
+            } else {
+                console.log('done', i, split.length)
+                resolve(messageData)
+            }
 
         }
 
