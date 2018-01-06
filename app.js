@@ -339,8 +339,9 @@ for (var i = 0; i < vocalArray.length; i += 3) {
     })
 }
 
-app.get('/sendNewWord', (req, res) => {
-    sendNewWord()
+app.get('/send', (req, res) => {
+    var {body} = req.query
+    sendVocal(body)
         .then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 })
@@ -382,22 +383,24 @@ VD: Dumpling(n) Bánh bao`,
 }
 
 function sendVocal(vocal) {
-    var a = 0
-    console.log('start')
-
-    var map = _.each(dataAccount, account => {
-        if (!account.match && !account.vocal_off) {
+    return new Promise(function (resolve, reject) {
+        var a = 0
+        console.log('start')
+        var pageID = facebookPage['dumpling'].id
+        var dumplingAccount = _.where(dataAccount, {pageID})
+        var map = _.each(dumplingAccount, account => {
             a++
             console.log('account', account.id)
             setTimeout(function () {
-                sendingAPI(account.id, facebookPage['dumpling'].id, {
-                    text: `[English] ${vocal}`
-                }, null, 'dumpling')
-            }, a * 200)
-        }
+                sendAPI(account.id, {
+                    text: account.first_name+' ' + account.last_name+ ' ơi, '+vocal
+                }, null, pageID)
+            }, a * 1000)
 
+        })
+        resolve(map)
     })
-    return map
+
 }
 
 
@@ -3403,7 +3406,7 @@ function matchingPeople(senderID) {
 
     var senderData = dataAccount[senderID]
     var avaible = _.filter(dataAccount, function (card) {
-        if (!card.match && !card.sent_error && card.status != 0 && card.gender != senderData.gender && card.id != facebookPage['493938347612411'].id) return true
+        if (card.pageID == '493938347612411' && !card.match && card.status != 0 && card.gender != senderData.gender && card.id != facebookPage['493938347612411'].id) return true
         else return false
     })
 
