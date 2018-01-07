@@ -143,20 +143,23 @@ const FIRE_BASE_ADMIN = {
     }
 }
 const vietnameseDecode = (str) => {
-    str = str.toLowerCase();
-    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
-    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
-    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
-    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
-    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
-    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
-    str = str.replace(/đ/g, "d");
-    str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'| |\"|\&|\#|\[|\]|~|$|_/g, "-");
-    /* tìm và thay thế các kí tự đặc biệt trong chuỗi sang kí tự - */
-    str = str.replace(/-+-/g, "-"); //thay thế 2- thành 1-
-    str = str.replace(/^\-+|\-+$/g, "");
-    //cắt bỏ ký tự - ở đầu và cuối chuỗi
-    return str;
+    if (str) {
+        str = str.toLowerCase();
+        str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+        str = str.replace(/đ/g, "d");
+        str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'| |\"|\&|\#|\[|\]|~|$|_/g, "-");
+        /* tìm và thay thế các kí tự đặc biệt trong chuỗi sang kí tự - */
+        str = str.replace(/-+-/g, "-"); //thay thế 2- thành 1-
+        str = str.replace(/^\-+|\-+$/g, "");
+        //cắt bỏ ký tự - ở đầu và cuối chuỗi
+        return str;
+    }
+
 }
 var CONFIG;
 axios.get(API_URL + '/config')
@@ -237,107 +240,6 @@ var quick_topic = [];
 var topic = {}
 var a = 0
 
-var vocalArray = [
-    "utter",
-    "without qualification",
-    "No one can blame an honest mechanic for holding a wealthy snob in uttercontempt.Ingersoll, Robert Green",
-    "conduct",
-    "direct the course of; manage or control",
-    "Scientists have been conducting studies of individual genes for years.",
-    "engage",
-    "consume all of one's attention or time",
-    "We had nearly two hundred passengers, who were seated about on the sofas, reading, or playing games, or engaged in conversation.Field, Henry M. (Henry Martyn)",
-    "obtain",
-    "come into possession of",
-    "He delayed making the unclassified report public while awaiting an Army review, but Rolling Stone magazine obtained the report and posted it Friday night.New York Times (Feb 11, 2012)",
-    "scarce",
-    "deficient in quantity or number compared with the demand",
-    "Meanwhile, heating oil could grow more scarce in the Northeast this winter, the Energy Department warned last month.New York Times (Jan 21, 2012)",
-    "policy",
-    "a plan of action adopted by an individual or social group",
-    "Inflation has lagged behind the central bank’s 2 percent target, givingpolicy makers extra scope to cut rates.",
-    "straight",
-    "successive, without a break",
-    "After three straight losing seasons, Hoosiers fans were just hoping for a winning record.Seattle Times (Feb 15, 2012)",
-    "stock",
-    "capital raised by a corporation through the issue of shares",
-    "In other words, Apple’s stock is cheap, and you should buy it.Forbes (Feb 16, 2012)",
-    "apparent",
-    "clearly revealed to the mind or the senses or judgment",
-    "But the elderly creak is beginning to become apparent in McCartney’s voice.",
-    "property",
-    "a basic or essential attribute shared by members of a class",
-    "Owing to these magic properties, it was often planted near dwellings to keep away evil spirits.Parsons, Mary Elizabeth",
-    "fancy",
-    "imagine; conceive of; see in one's mind",
-    "For a time, indeed, he had fancied that things were changed.Weyman, Stanley J.",
-    "concept",
-    "an abstract or general idea inferred from specific instances",
-    "As a psychologist, I have always found the concept of speed dating fascinating.Scientific American (Feb 13, 2012)",
-    "court",
-    "an assembly to conduct judicial business",
-    "When Brown pleaded not guilty to assaulting Rihanna, their violent past came out in court.Slate (Feb 16, 2012)",
-    "appoint",
-    "assign a duty, responsibility or obligation to",
-    "In 1863 he was appointed by the general assembly professor of oriental languages at New College.Various",
-    "passage",
-    "a section of text, particularly a section of medium length",
-    "His interpretation of many obscure scriptural passages by means of native manners and customs and traditions is particularly helpful and informing.Sheets, Emily Churchill Thompson",
-    "vain",
-    "unproductive of success",
-    "An attempt was made to ignore this brilliant and irregular book, but invain; it was read all over Europe.Various",
-    "instance",
-    "an occurrence of something",
-    "In many instances large districts or towns would have fewer representatives than smaller ones, or perhaps none at all.Clarke, Helen Archibald",
-    "coast",
-    "the shore of a sea or ocean",
-    "Martello towers must be built within short distances all round the coast.Wingfield, Lewis",
-    "project",
-    "a planned undertaking",
-    "The funds are aimed at helping build public projects including mass transit, electricity networks, water utility and ports, it said.",
-    "commission",
-    "a special group delegated to consider some matter",
-    "The developers are now seeking approval from the landmarkscommission.New York Times (Feb 16, 2012)",
-    "constant",
-    "a quantity that does not vary",
-    "In 1929, Hubble independently put forward and confirmed the same idea, and the parameter later became known as the Hubble constant.Nature (Nov 15, 2011)",
-    "circumstances",
-    "one's overall condition in life",
-    "The circumstances leading up to the shootings was not immediately available.",
-    "constitute",
-    "to compose or represent",
-    "Oil and natural gas constituted almost 50 percent of Russian government revenue last year.",
-    "level",
-    "a relative position or degree of value in a graded group",
-    "Only last month did the men’s and women’s unemployment rates reach the same level.New York Times (Feb 19, 2012)",
-    "affect",
-    "have an influence upon",
-    "The central bank will start distributing low-interest loans in early March to individuals and small- and medium-sized companies affected by the flooding.",
-    "institute",
-    "set up or lay the groundwork for",
-    "Corporations have to be more and more focused on instituting higher labor standards.Washington Post (Feb 7, 2012)",
-    "render",
-    "give an interpretation of",
-    "But authorities had rendered the weapon and the explosive device inoperable, officials said.Chicago Tribune (Feb 17, 2012)",
-    "appeal",
-    "be attractive to",
-    "To get traditional women’s accessories to appeal to men, some designers are giving them manly names and styles.New York Times (Feb 19, 2012)",
-    "generate",
-    "bring into existence",
-    "Qualities such as these are not generated under bad working practices of any sort."
-]
-var vocalobject = []
-
-for (var i = 0; i < vocalArray.length; i += 3) {
-    var wordi = i
-    var meani = i + 1
-    var exi = i + 2
-    vocalobject.push({
-        word: vocalArray[wordi],
-        meaning: vocalArray[meani],
-        ex: vocalArray[exi]
-    })
-}
 
 app.get('/send', (req, res) => {
     var {body} = req.query
@@ -346,41 +248,6 @@ app.get('/send', (req, res) => {
         .catch(err => res.status(500).json(err))
 })
 
-function sendNewWord() {
-    return new Promise(function (resolve, reject) {
-        var vocal = _.sample(vocalobject)
-        console.log('push ', vocal)
-        var mean = vocal.word + ' : ' + vocal.meaning + '\n Ex: ' + vocal.ex
-        console.log('mean', mean)
-        sendVocal(mean)
-        resolve(mean)
-
-    })
-
-}
-
-
-function sendVocalRes(senderID) {
-    sendingAPI(senderID, facebookPage['dumpling'].id, {
-
-        attachment: {
-            type: "template",
-            payload: {
-                template_type: "button",
-                text: `[Hệ thống] Tính năng học từ vựng cùng Dumpling,
-Cách 1h, Dumpling sẽ gửi 1 từ vựng tiếng anh có liên quan đến bạn ^^
-VD: Dumpling(n) Bánh bao`,
-                buttons: [{
-                    type: "postback",
-                    title: "Đăng ký tham gia",
-                    payload: JSON.stringify({
-                        type: 'dumpling_english'
-                    })
-                }]
-            }
-        }
-    }, null, 'dumpling')
-}
 
 function sendVocal(vocal) {
     return new Promise(function (resolve, reject) {
@@ -393,7 +260,7 @@ function sendVocal(vocal) {
             console.log('account', account.id)
             setTimeout(function () {
                 sendAPI(account.id, {
-                    text: account.first_name+' ' + account.last_name+ ' ơi, '+vocal
+                    text: account.first_name + ' ' + account.last_name + ' ơi, ' + vocal
                 }, null, pageID)
             }, a * 1000)
 
@@ -2424,6 +2291,253 @@ app.get('/findOne', function (req, res) {
 
 var listen = 'on'
 
+function go(goto, q = 0, flow, senderID, pageID) {
+    var senderData = dataAccount[senderID]
+    var questions = flow[1]
+    if (goto == '-3') {
+        saveSenderData({bot_off: true}, senderID, pageID)
+        sendAPI(senderID, {
+            text: flow[2][0] || 'Thanks for contact us <3!'
+        }, null, pageID)
+        submitResponse(senderData.flow, senderID)
+            .then(result => console.log('done', result))
+            .catch(err => console.log('err', err))
+    }
+
+    else if (goto == '-2') {
+
+        for (var i in questions) {
+            q++
+            console.log('index', q, questions[q][3])
+            if (questions[q][3] == 8) {
+                q++
+                loop(q, flow, senderID, pageID)
+                break
+            }
+
+        }
+
+    }
+    else if (!goto) {
+
+        q++
+        loop(q, flow, senderID, pageID)
+
+    } else {
+
+        var index = _.findLastIndex(questions, {
+            0: goto
+        });
+        index++
+        loop(index, flow, senderID, pageID)
+    }
+}
+
+function loop(q, flow, senderID, pageID) {
+    var questions = flow[1]
+    var senderData = dataAccount[senderID]
+    console.log('current', q)
+    if (q < questions.length) {
+        var currentQuestion = questions[q];
+        if (currentQuestion[3] == 8) {
+            var goto = currentQuestion[5]
+
+            go(goto, q, flow, senderID, pageID)
+
+        } else {
+            var currentQuestionId = currentQuestion[0];
+            var messageSend = {
+                text: currentQuestion[1],
+            }
+            var metadata = {
+                questionId: currentQuestionId
+            }
+            var askStringStr = `0,1,7,9,10,13`;
+            var askOptionStr = `2,3,4,5`;
+            var askType = currentQuestion[3];
+            console.log('askType', askType);
+            if (currentQuestion[4]) {
+                metadata.askType = askType;
+                metadata.type = 'ask';
+
+                if (askOptionStr.match(askType)) {
+                    var askOption = currentQuestion[4][0][1];
+                    var check = askOption[0][0]
+                    if (check.match('&&')) {
+                        var messageSend = {
+                            "attachment": {
+                                "type": "template",
+                                "payload": {
+                                    "template_type": "generic",
+                                    "elements": []
+                                }
+                            }
+                        }
+                        var generic = []
+
+                        var map = _.map(askOption, option => {
+
+                            var eleArray = option[0].split('&&')
+
+
+                            if (option[2]) metadata.goto = option[2]
+                            if (generic.length < 10) generic.push({
+                                "title": eleArray[0] || option[0],
+                                "image_url": eleArray[3],
+                                "subtitle": eleArray[1],
+                                "buttons": [
+                                    {
+                                        "type": "postback",
+                                        "title": eleArray[2] || 'Choose',
+                                        "payload": JSON.stringify(metadata)
+                                    }
+                                ]
+                            });
+                            else console.log('generic.length', generic.length)
+                        });
+                        messageSend.attachment.payload.elements = generic;
+
+                        sendAPI(senderID, {text: currentQuestion[1]}, null, pageID)
+                            .then(result => sendAPI(senderID, messageSend, null, pageID)
+                                .then(result => console.log('messageSend', messageSend))
+                                .catch(err => console.log('sendAPI_err', err)))
+                            .catch(err => console.log('sendAPI_err', err))
+
+                    }
+
+                    else if (askType == '3') {
+                        var messageSend = {
+                            attachment: {
+                                type: "template",
+                                payload: {
+                                    template_type: "button",
+                                    text: currentQuestion[1],
+                                    buttons: []
+                                }
+                            }
+
+                        }
+                        var buttons = []
+                        var map = _.map(askOption, option => {
+                            var button = {}
+                            metadata.text = option[0]
+                            if (option[2]) metadata.goto = option[2]
+                            console.log('option[0].match("[")', option[0])
+                            var str = option[0]
+
+                            if (str.indexOf("[") != -1 && str.indexOf("]") != -1) {
+                                var n = str.indexOf("[") + 1;
+                                var b = str.indexOf("]");
+                                var sub = str.substr(n, b - n)
+                                var tit = str.substr(0, n - 2)
+                                var expression = "/((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[\\-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9\\.\\-]+|(?:www\\.|[\\-;:&=\\+\\$,\\w]+@)[A-Za-z0-9\\.\\-]+)((?:\\/[\\+~%\\/\\.\\w\\-_]*)?\\??(?:[\\-\\+=&;%@\\.\\w_]*)#?(?:[\\.\\!\\/\\\\\\w]*))?)/\n";
+                                var regex = new RegExp(expression);
+                                if (sub.match(regex)) button = {
+                                    type: "web_url",
+                                    url: sub,
+                                    title: tit
+                                }
+                                else {
+                                    button = {
+                                        type: "phone_number",
+                                        title: tit,
+                                        payload: sub
+                                    }
+                                }
+                            } else button = {
+                                type: "postback",
+                                title: option[0],
+                                payload: JSON.stringify(metadata)
+                            }
+
+
+                            if (buttons.length < 3) buttons.push(button);
+                            else console.log('buttons.length', buttons.length)
+
+
+                        });
+                        messageSend.attachment.payload.buttons = buttons
+                        sendAPI(senderID, messageSend, null, pageID)
+                            .then(resutl => console.log('messageSend', messageSend))
+                            .catch(err => console.log('sendAPI_err', err))
+
+                    } else {
+                        var quick_replies = []
+                        var map = _.map(askOption, option => {
+                            metadata.text = option[0]
+                            if (option[2]) metadata.goto = option[2]
+                            if (quick_replies.length < 11) quick_replies.push({
+                                "content_type": "text",
+                                "title": option[0],
+                                "payload": JSON.stringify(metadata)
+
+                            })
+                            else console.log('quick_replies.length', quick_replies.length)
+                        });
+                        messageSend.quick_replies = quick_replies
+                        sendAPI(senderID, messageSend, null, pageID)
+                            .then(resutl => console.log('messageSend', messageSend))
+                            .catch(err => console.log('sendAPI_err', err))
+                    }
+
+
+                } else if (askStringStr.match(askType)) {
+
+                    messageSend.metadata = JSON.stringify(metadata)
+                    sendAPI(senderID, messageSend, null, pageID)
+                        .then(resutl => console.log('messageSend', messageSend))
+                        .catch(err => console.log('sendAPI_err', err))
+                }
+
+
+            }
+            else {
+                metadata.type = 'info'
+
+                var response = {}
+                response[currentQuestionId] = true
+                ladiResCol.findOneAndUpdate({
+                    flow: senderData.flow,
+                    page: pageID,
+                    senderID,
+                }, {$set: response}, {upsert: true}).then(result => {
+
+                    console.log('save info response', response)
+                    q++
+
+                    if (askType == 11 && currentQuestion[2]) sendingAPI(senderID, pageID, {
+                        attachment: {
+                            type: "image",
+                            payload: {
+                                url: currentQuestion[2] || currentQuestion[1]
+                            }
+                        }
+                    }, null, pageID)
+                        .then(result => setTimeout(loop(q, flow, senderID, pageID), 3000))
+                    else if (askType == 12 && currentQuestion[6][3]) sendingAPI(senderID, pageID, {
+                        text: `https://www.youtube.com/watch?v=${currentQuestion[6][3]}`
+                    }, null, pageID)
+                        .then(result => setTimeout(loop(q, flow, senderID, pageID), 3000))
+                    else if (askType == 6) sendAPI(senderID, messageSend, null, pageID)
+                        .then(result => {
+                            console.log('result', result)
+                            setTimeout(loop(q, flow, senderID, pageID), 3000)
+                        })
+                        .catch(err => console.log('err', err))
+
+                })
+
+
+            }
+
+
+        }
+
+
+    } else go(-3, null, flow, senderID, pageID)
+
+}
+
 db.ref('webhook').on('child_added', function (snap) {
     var data = snap.val()
     if (data.object == 'page') {
@@ -2544,8 +2658,8 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                 if (senderData && senderData.match) {
 
-                                                    db.ref('dumpling_account').child(senderID).child('match').remove()
-                                                        .then(result => db.ref('dumpling_account').child(senderData.match).child('match').remove())
+                                                    accountRef.child(senderID).child('match').remove()
+                                                        .then(result => accountRef.child(senderData.match).child('match').remove())
                                                         .then(result => sendingAPI(senderID, recipientID, {
                                                             text: "[Hệ Thống] Bạn đã dừng cuộc trò chuyện",
                                                             quick_replies: [
@@ -2671,7 +2785,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 }, null, 'dumpling')
                                             }
                                             else if (payload.type == 'confirm_status') {
-                                                if (payload.answer == 'off') db.ref('dumpling_account').child(senderID).update({status: 0}).then(result => sendingAPI(senderID, recipientID, {
+                                                if (payload.answer == 'off') accountRef.child(senderID).update({status: 0}).then(result => sendingAPI(senderID, recipientID, {
                                                     text: "[Hệ Thống] Trạng thái: InActive \n Bạn sẽ không nhận được ghép cặp!",
                                                     quick_replies: [
                                                         {
@@ -2684,7 +2798,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }
                                                     ]
                                                 }, null, 'dumpling'))
-                                                else if (payload.answer == 'on') db.ref('dumpling_account').child(senderID).update({status: 1}).then(result => sendingAPI(senderID, recipientID, {
+                                                else if (payload.answer == 'on') accountRef.child(senderID).update({status: 1}).then(result => sendingAPI(senderID, recipientID, {
                                                     text: "[Hệ Thống] Trạng thái: Active \n Bạn sẽ nhận được ghép cặp!",
                                                     quick_replies: [
                                                         {
@@ -2715,7 +2829,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 }, null, 'dumpling')
                                             }
                                             else if (payload.type == 'learn_english_off') {
-                                                db.ref('dumpling_account').child(senderID).update({vocal_off: true})
+                                                accountRef.child(senderID).update({vocal_off: true})
                                                     .then(result => sendingAPI(senderID, recipientID, {
                                                         text: '[Hệ thống] Đã tắt tính năng từ vựng tiếng anh',
 
@@ -2769,6 +2883,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                             }
                                         }
                                         else {
+
                                             if (referral && referral.ref) {
 
                                                 senderData.ref = referral.ref;
@@ -2830,6 +2945,21 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         .catch(err => sendAPI(senderID, {
                                                             text: "Err: Can't read your form, make sure it was a google forms link and make it public"
                                                         }, null, pageID))
+                                                } else if (refData[0] == 'go') {
+                                                    var result = _.findWhere(dataLadiBot, {page: pageID});
+                                                    if (result) {
+                                                        var flow = result.data;
+                                                        var questions = flow[1];
+                                                        for (var i in questions) {
+                                                            var quest = questions[i]
+                                                            console.log(vietnameseDecode(refData[1]), vietnameseDecode(quest[1]))
+                                                            if (vietnameseDecode(refData[1]) == vietnameseDecode(quest[1])) {
+                                                                go(quest[0], null, flow, senderID, pageID)
+                                                                break
+                                                            }
+                                                        }
+
+                                                    }
                                                 } else {
                                                     var flow = refData[0]
                                                     senderData.flow = flow
@@ -2884,8 +3014,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             page: pageID,
                                                             senderID,
                                                         };
-                                                        loop(0)
-
+                                                        loop(0, flow, senderID, pageID)
                                                     } else if (payload.keyword == 'update-my-bot') {
                                                         var flowId = result.id
                                                         var url = `https://docs.google.com/forms/d/${flowId}/viewform`
@@ -2915,7 +3044,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         });
 
                                                         var goto = payload.goto
-                                                        go(goto, index)
+                                                        go(goto, index, flow, senderID, pageID)
 
 
                                                     }
@@ -2939,249 +3068,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             senderData.flow = payload.flow;
                                                             db.ref(pageID + '_account').child(senderID).update(senderData)
                                                         }
-
-                                                    }
-
-                                                    function go(goto, q = 0) {
-                                                        if (goto == '-3') {
-                                                            saveSenderData({bot_off: true}, senderID, pageID)
-                                                            sendAPI(senderID, {
-                                                                text: flow[2][0] || 'Thanks for contact us <3!'
-                                                            }, null, pageID)
-                                                            submitResponse(senderData.flow, senderID)
-                                                                .then(result => console.log('done', result))
-                                                                .catch(err => console.log('err', err))
-                                                        }
-
-                                                        else if (goto == '-2') {
-
-                                                            for (var i in questions) {
-                                                                q++
-                                                                console.log('index', q, questions[q][3])
-                                                                if (questions[q][3] == 8) {
-                                                                    q++
-                                                                    loop(q)
-                                                                    break
-                                                                }
-
-                                                            }
-
-                                                        }
-                                                        else if (!goto) {
-
-                                                            q++
-                                                            loop(q)
-
-                                                        } else {
-
-                                                            var index = _.findLastIndex(questions, {
-                                                                0: goto
-                                                            });
-                                                            index++
-                                                            loop(index)
-                                                        }
-                                                    }
-
-                                                    function loop(q) {
-                                                        console.log('current', q)
-                                                        if (q < questions.length) {
-                                                            var currentQuestion = questions[q];
-                                                            if (currentQuestion[3] == 8) {
-                                                                var goto = currentQuestion[5]
-                                                                console.log('currentQuestion', goto, payload.questionId)
-                                                                go(goto, q)
-
-                                                            } else {
-                                                                var currentQuestionId = currentQuestion[0];
-                                                                var messageSend = {
-                                                                    text: currentQuestion[1],
-                                                                }
-                                                                var metadata = {
-                                                                    questionId: currentQuestionId
-                                                                }
-                                                                var askStringStr = `0,1,7,9,10,13`;
-                                                                var askOptionStr = `2,3,4,5`;
-                                                                var askType = currentQuestion[3];
-                                                                console.log('askType', askType);
-                                                                if (currentQuestion[4]) {
-                                                                    metadata.askType = askType;
-                                                                    metadata.type = 'ask';
-
-                                                                    if (askOptionStr.match(askType)) {
-                                                                        var askOption = currentQuestion[4][0][1];
-                                                                        var check = askOption[0][0]
-                                                                        if (check.match('&&')) {
-                                                                            var messageSend = {
-                                                                                "attachment": {
-                                                                                    "type": "template",
-                                                                                    "payload": {
-                                                                                        "template_type": "generic",
-                                                                                        "elements": []
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                            var generic = []
-
-                                                                            var map = _.map(askOption, option => {
-
-                                                                                var eleArray = option[0].split('&&')
-
-
-                                                                                if (option[2]) metadata.goto = option[2]
-                                                                                if (generic.length < 10) generic.push({
-                                                                                    "title": eleArray[0] || option[0],
-                                                                                    "image_url": eleArray[3],
-                                                                                    "subtitle": eleArray[1],
-                                                                                    "buttons": [
-                                                                                        {
-                                                                                            "type": "postback",
-                                                                                            "title": eleArray[2] || 'Choose',
-                                                                                            "payload": JSON.stringify(metadata)
-                                                                                        }
-                                                                                    ]
-                                                                                });
-                                                                                else console.log('generic.length', generic.length)
-                                                                            });
-                                                                            messageSend.attachment.payload.elements = generic;
-
-                                                                            sendAPI(senderID, {text: currentQuestion[1]}, null, pageID)
-                                                                                .then(result => sendAPI(senderID, messageSend, null, pageID)
-                                                                                    .then(result => console.log('messageSend', messageSend))
-                                                                                    .catch(err => console.log('sendAPI_err', err)))
-                                                                                .catch(err => console.log('sendAPI_err', err))
-
-                                                                        }
-
-                                                                        else if (askType == '3') {
-                                                                            var messageSend = {
-                                                                                attachment: {
-                                                                                    type: "template",
-                                                                                    payload: {
-                                                                                        template_type: "button",
-                                                                                        text: currentQuestion[1],
-                                                                                        buttons: []
-                                                                                    }
-                                                                                }
-
-                                                                            }
-                                                                            var buttons = []
-                                                                            var map = _.map(askOption, option => {
-                                                                                var button = {}
-                                                                                metadata.text = option[0]
-                                                                                if (option[2]) metadata.goto = option[2]
-                                                                                console.log('option[0].match("[")', option[0])
-                                                                                var str = option[0]
-
-                                                                                if (str.indexOf("[") != -1 && str.indexOf("]") != -1) {
-                                                                                    var n = str.indexOf("[") + 1;
-                                                                                    var b = str.indexOf("]");
-                                                                                    var sub = str.substr(n, b - n)
-                                                                                    var tit = str.substr(0, n - 2)
-                                                                                    var expression = "/((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[\\-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9\\.\\-]+|(?:www\\.|[\\-;:&=\\+\\$,\\w]+@)[A-Za-z0-9\\.\\-]+)((?:\\/[\\+~%\\/\\.\\w\\-_]*)?\\??(?:[\\-\\+=&;%@\\.\\w_]*)#?(?:[\\.\\!\\/\\\\\\w]*))?)/\n";
-                                                                                    var regex = new RegExp(expression);
-                                                                                    if (sub.match(regex)) button = {
-                                                                                        type: "web_url",
-                                                                                        url: sub,
-                                                                                        title: tit
-                                                                                    }
-                                                                                    else {
-                                                                                        button = {
-                                                                                            type: "phone_number",
-                                                                                            title: tit,
-                                                                                            payload: sub
-                                                                                        }
-                                                                                    }
-                                                                                } else button = {
-                                                                                    type: "postback",
-                                                                                    title: option[0],
-                                                                                    payload: JSON.stringify(metadata)
-                                                                                }
-
-
-                                                                                if (buttons.length < 3) buttons.push(button);
-                                                                                else console.log('buttons.length', buttons.length)
-
-
-                                                                            });
-                                                                            messageSend.attachment.payload.buttons = buttons
-                                                                            sendAPI(senderID, messageSend, null, pageID)
-                                                                                .then(resutl => console.log('messageSend', messageSend))
-                                                                                .catch(err => console.log('sendAPI_err', err))
-
-                                                                        } else {
-                                                                            var quick_replies = []
-                                                                            var map = _.map(askOption, option => {
-                                                                                metadata.text = option[0]
-                                                                                if (option[2]) metadata.goto = option[2]
-                                                                                if (quick_replies.length < 11) quick_replies.push({
-                                                                                    "content_type": "text",
-                                                                                    "title": option[0],
-                                                                                    "payload": JSON.stringify(metadata)
-
-                                                                                })
-                                                                                else console.log('quick_replies.length', quick_replies.length)
-                                                                            });
-                                                                            messageSend.quick_replies = quick_replies
-                                                                            sendAPI(senderID, messageSend, null, pageID)
-                                                                                .then(resutl => console.log('messageSend', messageSend))
-                                                                                .catch(err => console.log('sendAPI_err', err))
-                                                                        }
-
-
-                                                                    } else if (askStringStr.match(askType)) {
-
-                                                                        messageSend.metadata = JSON.stringify(metadata)
-                                                                        sendAPI(senderID, messageSend, null, pageID)
-                                                                            .then(resutl => console.log('messageSend', messageSend))
-                                                                            .catch(err => console.log('sendAPI_err', err))
-                                                                    }
-
-
-                                                                }
-                                                                else {
-                                                                    metadata.type = 'info'
-
-
-                                                                    response[currentQuestionId] = true
-                                                                    ladiResCol.findOneAndUpdate({
-                                                                        flow: senderData.flow,
-                                                                        page: pageID,
-                                                                        senderID,
-                                                                    }, {$set: response}, {upsert: true}).then(result => {
-
-                                                                        console.log('save info response', response)
-                                                                        q++
-
-                                                                        if (askType == 11 && currentQuestion[2]) sendingAPI(senderID, pageID, {
-                                                                            attachment: {
-                                                                                type: "image",
-                                                                                payload: {
-                                                                                    url: currentQuestion[2] || currentQuestion[1]
-                                                                                }
-                                                                            }
-                                                                        }, null, pageID)
-                                                                            .then(result => setTimeout(loop(q), 3000))
-                                                                        else if (askType == 12 && currentQuestion[6][3]) sendingAPI(senderID, pageID, {
-                                                                            text: `https://www.youtube.com/watch?v=${currentQuestion[6][3]}`
-                                                                        }, null, pageID)
-                                                                            .then(result => setTimeout(loop(q), 3000))
-                                                                        else if (askType == 6) sendAPI(senderID, messageSend, null, pageID)
-                                                                            .then(result => {
-                                                                                console.log('result', result)
-                                                                                setTimeout(loop(q), 3000)
-                                                                            })
-                                                                            .catch(err => console.log('err', err))
-
-                                                                    })
-
-
-                                                                }
-
-
-                                                            }
-
-
-                                                        } else go(-3)
 
                                                     }
 
@@ -3233,6 +3119,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     }, null, pageID)
                                                 }
                                             }
+
+
                                         }
 
 
@@ -3476,8 +3364,8 @@ function checkAvaible(senderID) {
             if (err) return
             if (conver.length == 0) {
                 console.log('change people')
-                db.ref('dumpling_account').child(senderID).child('match').remove()
-                    .then(result => db.ref('dumpling_account').child(senderData.match).child('match').remove())
+                accountRef.child(senderID).child('match').remove()
+                    .then(result => accountRef.child(senderData.match).child('match').remove())
                     .then(result => sendingAPI(senderData.match, facebookPage['dumpling'].id, {
                         text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
                         quick_replies: [
@@ -4417,6 +4305,10 @@ function sendOne(messageData, page) {
 app.listen(port, function () {
     console.log('Node app is running on port', port);
 });
+
+var webpage = require('webpage')
+console.log('webpage', webpage)
+
 
 module.exports = app;
 
