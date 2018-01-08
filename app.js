@@ -327,9 +327,12 @@ function getChat({url, page, access_token, name, pageID}) {
 
         axios.get(url)
             .then(result => {
-                console.log('axios.get(queryURL)', result);
+                console.log('axios.get(queryURL)', result.data);
 
-                if (result.data.match('FB_PUBLIC_LOAD_DATA_ = ') || result.data.match('FB_LOAD_DATA_ = ')) {
+                if (
+                    result.data.match('FB_PUBLIC_LOAD_DATA_ = ')
+                    || result.data.match('FB_LOAD_DATA_ = ')
+                ) {
                     var str = '';
 
                     if (result.data.match('FB_PUBLIC_LOAD_DATA_ = ')) str = 'FB_PUBLIC_LOAD_DATA_ = ';
@@ -369,7 +372,7 @@ function getChat({url, page, access_token, name, pageID}) {
                             var persistent_menu = {
                                 "call_to_actions": [],
                                 "locale": "default",
-                            }
+                            };
                             console.log('Get greeting & menu')
 
                             for (var i in flows) {
@@ -3926,7 +3929,7 @@ function sendAPI(recipientId, message, typing, page = 'jobo', meta) {
                     messageData.messengerId = recipientId
                     messageData.type = 'sent'
                     messageData.timestamp = Date.now()
-                    messageData.meta = meta
+                    if(meta) messageData.meta = meta
                     messageFactoryCol.insert(messageData)
                         .then(result => lastMessageRef.child(messageData.messengerId).update(messageData)
                             .then(result => resolve(messageData))
