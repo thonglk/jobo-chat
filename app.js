@@ -1378,6 +1378,8 @@ function matchingPayload(event) {
             if (payloadStr.length > 0) var payload = JSON.parse(payloadStr)
             else payload = {type: 'default'};
 
+            if (lastMessage.meta) payload = lastMessage.meta
+
             if (message.attachments) {
                 payload.source = 'attachment'
 
@@ -1403,6 +1405,8 @@ function matchingPayload(event) {
 
             } else if (message.text) {
                 console.log('message.text', message.text);
+
+
                 payload.source = 'text'
                 payload.text = message.text;
 
@@ -2397,15 +2401,14 @@ function loop(q, flow, senderID, pageID) {
                         });
                         messageSend.attachment.payload.elements = generic;
 
-                        sendAPI(senderID, {text: currentQuestion[1]}, null, pageID)
-                            .then(result => sendAPI(senderID, messageSend, null, pageID)
+
+                        sendAPI(senderID, {text: currentQuestion[1]}, null, pageID, metadata)
+                            .then(result => sendAPI(senderID, messageSend, null, pageID, metadata)
                                 .then(result => console.log('messageSend', messageSend))
                                 .catch(err => console.log('sendAPI_err', err)))
                             .catch(err => console.log('sendAPI_err', err))
 
-                    }
-
-                    else if (askType == '3') {
+                    } else if (askType == '3') {
                         var messageSend = {
                             attachment: {
                                 type: "template",
@@ -2422,6 +2425,8 @@ function loop(q, flow, senderID, pageID) {
                             var button = {}
                             metadata.text = option[0]
                             if (option[2]) metadata.goto = option[2]
+                            if (option[4] == 1) metadata.other = option[2]
+
                             console.log('option[0].match("[")', option[0])
                             var str = option[0]
 
@@ -2457,7 +2462,9 @@ function loop(q, flow, senderID, pageID) {
 
                         });
                         messageSend.attachment.payload.buttons = buttons
-                        sendAPI(senderID, messageSend, null, pageID)
+
+
+                        sendAPI(senderID, messageSend, null, pageID, metadata)
                             .then(resutl => console.log('messageSend', messageSend))
                             .catch(err => console.log('sendAPI_err', err))
 
@@ -2466,6 +2473,10 @@ function loop(q, flow, senderID, pageID) {
                         var map = _.map(askOption, option => {
                             metadata.text = option[0]
                             if (option[2]) metadata.goto = option[2]
+                            if (option[4] == 1) {
+                                metadata.other = option[2]
+                                console.log('metadata', metadata)
+                            }
                             if (quick_replies.length < 11) quick_replies.push({
                                 "content_type": "text",
                                 "title": option[0],
@@ -2474,8 +2485,10 @@ function loop(q, flow, senderID, pageID) {
                             })
                             else console.log('quick_replies.length', quick_replies.length)
                         });
+
                         messageSend.quick_replies = quick_replies
-                        sendAPI(senderID, messageSend, null, pageID)
+
+                        sendAPI(senderID, messageSend, null, pageID, metadata)
                             .then(resutl => console.log('messageSend', messageSend))
                             .catch(err => console.log('sendAPI_err', err))
                     }
@@ -2483,8 +2496,7 @@ function loop(q, flow, senderID, pageID) {
 
                 } else if (askStringStr.match(askType)) {
 
-                    messageSend.metadata = JSON.stringify(metadata)
-                    sendAPI(senderID, messageSend, null, pageID)
+                    sendAPI(senderID, messageSend, null, pageID, metadata)
                         .then(resutl => console.log('messageSend', messageSend))
                         .catch(err => console.log('sendAPI_err', err))
                 }
@@ -2505,20 +2517,20 @@ function loop(q, flow, senderID, pageID) {
                     console.log('save info response', response)
                     q++
 
-                    if (askType == 11 && currentQuestion[2]) sendingAPI(senderID, pageID, {
+                    if (askType == 11 && currentQuestion[2]) sendAPI(senderID, {
                         attachment: {
                             type: "image",
                             payload: {
                                 url: currentQuestion[2] || currentQuestion[1]
                             }
                         }
-                    }, null, pageID)
+                    }, null, pageID, metadata)
                         .then(result => setTimeout(loop(q, flow, senderID, pageID), 3000))
-                    else if (askType == 12 && currentQuestion[6][3]) sendingAPI(senderID, pageID, {
+                    else if (askType == 12 && currentQuestion[6][3]) sendAPI(senderID, {
                         text: `https://www.youtube.com/watch?v=${currentQuestion[6][3]}`
-                    }, null, pageID)
+                    }, null, pageID, metadata)
                         .then(result => setTimeout(loop(q, flow, senderID, pageID), 3000))
-                    else if (askType == 6) sendAPI(senderID, messageSend, null, pageID)
+                    else if (askType == 6) sendAPI(senderID, messageSend, null, pageID, metadata)
                         .then(result => {
                             console.log('result', result)
                             setTimeout(loop(q, flow, senderID, pageID), 3000)
@@ -2960,6 +2972,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }
 
                                                     }
+                                                } else if (refData[0] == 'start') {
+
                                                 } else {
                                                     var flow = refData[0]
                                                     senderData.flow = flow
@@ -2999,6 +3013,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         page: pageID,
                                                         senderID
                                                     }
+
                                                     if (payload.keyword == 'start-over' || payload.type == 'GET_STARTED') {
 
                                                         ladiResCol.remove({
@@ -3030,6 +3045,7 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                     }
                                                     else if (payload.text && payload.type == 'ask' && payload.questionId) {
+
                                                         response[payload.questionId] = payload.text
 
                                                         ladiResCol.findOneAndUpdate({
@@ -3043,81 +3059,48 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             0: payload.questionId
                                                         });
 
+
                                                         var goto = payload.goto
-                                                        go(goto, index, flow, senderID, pageID)
+                                                        if (payload.askType == 3 || payload.askType == 2) {
+                                                            if (payload.source == 'text' && payload.other) {
+                                                                go(payload.other, index, flow, senderID, pageID)
+
+                                                            } else go(goto, index, flow, senderID, pageID)
+
+                                                        } else if (payload.askType == 0 || payload.askType == 1) {
+                                                            var curQues = _.findWhere(questions, {0: payload.questionId});
+                                                            console.log('curQues[4][0][4]', curQues[4][0][4])
+                                                            if (curQues[4][0][4]) {
+
+                                                                var valid = curQues[4][0][4][0]
+
+                                                                if (valid[0] == 1) {
+                                                                    //number
+
+                                                                    if (valid[1] == 7) {
+                                                                        //between
+                                                                        console.log('payload.text', payload.text, Number(payload.text) > valid[2][0])
+                                                                        if (Number(payload.text) > valid[2][0] && Number(payload.text) < valid[2][1]) {
+                                                                            go(goto, index, flow, senderID, pageID)
+                                                                        } else {
+                                                                            sendAPI(senderID, {
+                                                                                text: valid[3]
+                                                                            }, null, pageID, payload)
+                                                                        }
+                                                                    }
 
 
-                                                    }
-                                                    else if (payload.state) {
-                                                        if (payload.state == 'undo') {
-                                                            response = {
-                                                                flow: senderData.flow,
-                                                                page: pageID,
-                                                                senderID
-                                                            }
-                                                            ladiResCol.remove({
-                                                                flow: senderData.flow,
-                                                                page: pageID,
-                                                                senderID
-                                                            }).then(result => {
-                                                                console.log('remove response', response)
-                                                            })
+                                                                }
 
-                                                        }
-                                                        if (payload.state == 'setFlow') {
-                                                            senderData.flow = payload.flow;
-                                                            db.ref(pageID + '_account').child(senderID).update(senderData)
-                                                        }
+
+                                                            } else go(goto, index, flow, senderID, pageID)
+
+                                                        } else go(goto, index, flow, senderID, pageID)
 
                                                     }
 
 
                                                 })
-                                                else {
-                                                    console.log('non-result')
-                                                    var flowList = _.where(dataLadiBot, {page: pageID})
-                                                    if (flowList && flowList.length > 0) {
-                                                        var quick_replies = []
-
-                                                        var each = _.each(flowList, flow => {
-                                                            if (quick_replies.length < 11) quick_replies.push({
-                                                                "content_type": "text",
-                                                                "title": flow.data[8],
-                                                                "payload": JSON.stringify({
-                                                                    state: 'setFlow',
-                                                                    flow: flow.flow
-                                                                })
-                                                            })
-                                                            else console.log('quick_replies.length', quick_replies.length)
-                                                        })
-                                                        sendingAPI(senderID, pageID, {
-                                                            text: 'Bạn cần giúp gì nhỉ?',
-                                                            quick_replies
-                                                        }, null, pageID)
-                                                    } else sendingAPI(senderID, pageID, {
-
-                                                        attachment: {
-                                                            type: "template",
-                                                            payload: {
-                                                                template_type: "button",
-                                                                text: 'Hi, if you want to create chatbot from your Google Form \nStep 1: Copy the link to your Google form.\n' +
-                                                                'Step 2. Enter Botform.asia and paste the link in the white box.\n' +
-                                                                'Step 3. That’s it — you have your own chat bot made from Google Forms! Feel free to share it with the world',
-                                                                buttons: [{
-                                                                    type: "web_url",
-                                                                    url: `https://botform.asia`,
-                                                                    title: "Connect your Fanpage"
-                                                                }, {
-                                                                    type: "postback",
-                                                                    title: "Chat with agent",
-                                                                    payload: JSON.stringify({
-                                                                        type: 'chat-with-agent'
-                                                                    })
-                                                                }]
-                                                            }
-                                                        }
-                                                    }, null, pageID)
-                                                }
                                             }
 
 
@@ -3923,7 +3906,7 @@ function sendingAPI(recipientId, senderId = facebookPage['jobo'].id, message, ty
     })
 }
 
-function sendAPI(recipientId, message, typing, page = 'jobo') {
+function sendAPI(recipientId, message, typing, page = 'jobo', meta) {
     return new Promise(function (resolve, reject) {
 
         if (message.text) message.text = templatelize(message.text, dataAccount[recipientId])
@@ -3943,6 +3926,7 @@ function sendAPI(recipientId, message, typing, page = 'jobo') {
                     messageData.messengerId = recipientId
                     messageData.type = 'sent'
                     messageData.timestamp = Date.now()
+                    messageData.meta = meta
                     messageFactoryCol.insert(messageData)
                         .then(result => lastMessageRef.child(messageData.messengerId).update(messageData)
                             .then(result => resolve(messageData))
