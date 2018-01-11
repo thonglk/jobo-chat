@@ -2975,12 +2975,11 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }
 
                                                     }
-                                                } else if (refData[0] == 'start') {
-
                                                 } else {
                                                     var flow = refData[0]
                                                     senderData.flow = flow
                                                 }
+
                                                 console.log('senderData', senderData)
                                                 saveSenderData(senderData, senderID, pageID)
 
@@ -2994,11 +2993,12 @@ db.ref('webhook').on('child_added', function (snap) {
                                             }
 
                                             if (payload.source != 'text') saveSenderData({bot_off: null}, senderID, pageID)
+
                                             console.log('flow', senderData.flow)
 
                                             if (senderData.flow && !senderData.bot_off && !facebookPage[pageID].page_off) {
 
-                                                console.log('flow', senderData.flow);
+
 
                                                 var result = _.findWhere(dataLadiBot, {flow: senderData.flow});
                                                 var flow = result.data;
@@ -3009,6 +3009,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     page: pageID,
                                                     senderID
                                                 }).then(response => {
+
                                                     console.log('response', response)
 
                                                     if (!response) response = {
@@ -3072,8 +3073,8 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                         } else if (payload.askType == 0 || payload.askType == 1) {
                                                             var curQues = _.findWhere(questions, {0: payload.questionId});
-                                                            console.log('curQues[4][0][4]', curQues[4][0][4])
-                                                            if (curQues[4][0][4]) {
+                                                            console.log('curQues[4][0][4][0]', curQues[4][0][4][0])
+                                                            if (curQues[4][0][4] && curQues[4][0][4][0]) {
 
                                                                 var valid = curQues[4][0][4][0]
 
