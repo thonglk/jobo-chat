@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-    </list>
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -19,8 +17,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="3081" column="84" lean-forward="true" selection-start-line="3081" selection-start-column="84" selection-end-line="3081" selection-end-column="84" />
+            <state relative-caret-position="399">
+              <caret line="2977" column="49" lean-forward="false" selection-start-line="2977" selection-start-column="49" selection-end-line="2977" selection-end-column="49" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
@@ -52,7 +50,7 @@
                 <element signature="e#107035#131348#0" expanded="false" />
                 <element signature="e#132550#134098#0" expanded="false" />
                 <element signature="e#134286#135700#0" expanded="false" />
-                <element signature="e#172953#173698#0" expanded="false" />
+                <element signature="e#172869#173614#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -109,7 +107,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>greeting</find>
       <find>setMenu</find>
       <find>messageSend</find>
       <find>webhook</find>
@@ -139,6 +136,7 @@
       <find>callSendAPI_success</find>
       <find>sendAPI</find>
       <find>console.log('response</find>
+      <find>'start</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -280,12 +278,12 @@
       <workItem from="1513083123090" duration="63557000" />
       <workItem from="1513390032275" duration="63296000" />
       <workItem from="1514089632262" duration="6609000" />
-      <workItem from="1514869061727" duration="53517000" />
+      <workItem from="1514869061727" duration="53836000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="613843000" />
+    <option name="totallyTimeSpent" value="614162000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -298,7 +296,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19591261" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -386,7 +383,7 @@
             <element signature="e#107035#131348#0" expanded="false" />
             <element signature="e#132550#134098#0" expanded="false" />
             <element signature="e#134286#135700#0" expanded="false" />
-            <element signature="e#172953#173698#0" expanded="false" />
+            <element signature="e#172869#173614#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -483,7 +480,7 @@
             <element signature="e#107035#131348#0" expanded="false" />
             <element signature="e#132550#134098#0" expanded="false" />
             <element signature="e#134286#135700#0" expanded="false" />
-            <element signature="e#172953#173698#0" expanded="false" />
+            <element signature="e#172869#173614#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -523,7 +520,7 @@
             <element signature="e#107035#131348#0" expanded="false" />
             <element signature="e#132550#134098#0" expanded="false" />
             <element signature="e#134286#135700#0" expanded="false" />
-            <element signature="e#172953#173698#0" expanded="false" />
+            <element signature="e#172869#173614#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -586,7 +583,7 @@
             <element signature="e#107035#131348#0" expanded="false" />
             <element signature="e#132550#134098#0" expanded="false" />
             <element signature="e#134286#135700#0" expanded="false" />
-            <element signature="e#172953#173698#0" expanded="false" />
+            <element signature="e#172869#173614#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -657,7 +654,7 @@
             <element signature="e#107035#131348#0" expanded="false" />
             <element signature="e#132550#134098#0" expanded="false" />
             <element signature="e#134286#135700#0" expanded="false" />
-            <element signature="e#172953#173698#0" expanded="false" />
+            <element signature="e#172869#173614#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -712,7 +709,7 @@
             <element signature="e#107035#131348#0" expanded="false" />
             <element signature="e#132550#134098#0" expanded="false" />
             <element signature="e#134286#135700#0" expanded="false" />
-            <element signature="e#172953#173698#0" expanded="false" />
+            <element signature="e#172869#173614#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -775,7 +772,7 @@
             <element signature="e#107035#131348#0" expanded="false" />
             <element signature="e#132550#134098#0" expanded="false" />
             <element signature="e#134286#135700#0" expanded="false" />
-            <element signature="e#172953#173698#0" expanded="false" />
+            <element signature="e#172869#173614#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -870,8 +867,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="3081" column="84" lean-forward="true" selection-start-line="3081" selection-start-column="84" selection-end-line="3081" selection-end-column="84" />
+        <state relative-caret-position="399">
+          <caret line="2977" column="49" lean-forward="false" selection-start-line="2977" selection-start-column="49" selection-end-line="2977" selection-end-column="49" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
@@ -903,7 +900,7 @@
             <element signature="e#107035#131348#0" expanded="false" />
             <element signature="e#132550#134098#0" expanded="false" />
             <element signature="e#134286#135700#0" expanded="false" />
-            <element signature="e#172953#173698#0" expanded="false" />
+            <element signature="e#172869#173614#0" expanded="false" />
           </folding>
         </state>
       </provider>
