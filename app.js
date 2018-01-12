@@ -3073,7 +3073,6 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                         } else if (payload.askType == 0 || payload.askType == 1) {
                                                             var curQues = _.findWhere(questions, {0: payload.questionId});
-                                                            console.log('curQues[4][0][4][0]', curQues[4][0][4][0])
                                                             if (curQues[4] && curQues[4][0] && curQues[4][0][4] && curQues[4][0][4][0]) {
 
                                                                 var valid = curQues[4][0][4][0]
