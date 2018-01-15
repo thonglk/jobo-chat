@@ -543,7 +543,7 @@ _.templateSettings = {
 
 function templatelize(text = 'loading...', data = {first_name: 'Thông'}) {
     var check = 0
-    console.log(text, data)
+    console.log('templatelize', text, data)
     for (var i in data) {
         if (text.match(i)) {
             check++
@@ -551,7 +551,7 @@ function templatelize(text = 'loading...', data = {first_name: 'Thông'}) {
     }
 
     if (check > 0) {
-        var template = _.template(text);
+        var template = _.template(text, data);
         return template(data);
     } else return text
 }
@@ -3044,8 +3044,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         var flowId = result.id
                                                         var data = {url: `https://docs.google.com/forms/d/${flowId}/viewform`}
 
-                                                        if (pageID && facebookPage[pageID] && facebookPage[pageID].access_token && facebookPage[pageID].name) data = Object.assign(data, facebookPage[pageID],{pageID})
-                                                       console.log('data',data)
+                                                        if (pageID && facebookPage[pageID] && facebookPage[pageID].access_token && facebookPage[pageID].name) data = Object.assign(data, facebookPage[pageID], {pageID})
+                                                        console.log('data', data)
                                                         getChat(data)
                                                             .then(form => sendAPI(senderID, {
                                                                 text: `Updated successful for ${form.data[8]} <3!`,
@@ -3245,7 +3245,7 @@ function loadsenderData(senderID, page = '493938347612411') {
 
         if (dataAccount[senderID]) {
             var user = dataAccount[senderID]
-            user.lastActive = Date.now()
+            user.lastActive = Date.now();
             saveSenderData(user, senderID, page)
                 .then(result => resolve(user))
                 .catch(err => reject(err))
@@ -3922,6 +3922,7 @@ function sendAPI(recipientId, message, typing, page = 'jobo', meta) {
     return new Promise(function (resolve, reject) {
 
         if (message.text) message.text = templatelize(message.text, dataAccount[recipientId])
+        else if (message.attachment && message.attachment.payload && message.attachment.payload.text) message.attachment.payload.text = templatelize(message.attachment.payload.text, dataAccount[recipientId])
 
         if (!typing) typing = 10
 
@@ -3931,7 +3932,6 @@ function sendAPI(recipientId, message, typing, page = 'jobo', meta) {
             },
             message
         };
-        console.log('recipientId',dataAccount[recipientId],facebookPage[page])
         sendTypingOn(recipientId, page)
             .then(result => setTimeout(function () {
                 callSendAPI(messageData, page).then(result => {
