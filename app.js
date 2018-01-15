@@ -202,8 +202,7 @@ var dataAccount = {}, accountRef = db.ref('account')
 initDataLoad(accountRef, dataAccount)
 var facebookPage = {}, facebookPageRef = db.ref('facebookPage')
 initDataLoad(facebookPageRef, facebookPage)
-var lastMessageData = {}, lastMessageRef = db.ref('last_message')
-initDataLoad(lastMessageRef, lastMessageData)
+
 var dataLadiBot = {}, ladiBotRef = db.ref('ladiBot')
 initDataLoad(ladiBotRef, dataLadiBot)
 
@@ -1382,7 +1381,7 @@ function matchingPayload(event) {
 
         } else if (message) {
 
-            var lastMessage = lastMessageData[senderID]
+            var lastMessage = dataAccount[senderID].lastSent
             console.log('lastMessage', lastMessage);
             if (lastMessage && lastMessage.message && lastMessage.message.metadata) payloadStr = lastMessage.message.metadata;
 
@@ -3139,6 +3138,7 @@ db.ref('webhook').on('child_added', function (snap) {
                         messagingEvent.type = 'received';
                         messageFactoryCol.insert(messagingEvent)
                             .then(result => {
+                                saveSenderData({lastReceive: messagingEvent}, senderID, pageID)
                             })
                             .catch(console.error)
 
@@ -3239,6 +3239,7 @@ app.get('/listen', function (req, res) {
     res.send(listen)
 })
 
+
 function loadsenderData(senderID, page = '493938347612411') {
     return new Promise(function (resolve, reject) {
 
@@ -3258,6 +3259,14 @@ function loadsenderData(senderID, page = '493938347612411') {
             user.createdAt = Date.now()
 
 
+            graph.get('me/conversations?access_token=' + facebookPage[page].access_token, (err, conversations) => {
+                console.log('conversations', conversations, err);
+                user.link = conversations.data[0].link
+                saveSenderData(user, senderID, page)
+                    .then(result => resolve(user))
+                    .catch(err => reject(err))
+            })
+
             var adminList = _.where(dataAccount, {pageID: page, subscribe: 'all'})
             if (adminList.length > 0) adminList.forEach(account => {
                 sendAPI(account.id, {
@@ -3265,9 +3274,7 @@ function loadsenderData(senderID, page = '493938347612411') {
                 }, null, page)
             })
 
-            saveSenderData(user, senderID, page)
-                .then(result => resolve(user))
-                .catch(err => reject(err))
+
         })
 
     })
@@ -3277,6 +3284,7 @@ function loadsenderData(senderID, page = '493938347612411') {
 function saveSenderData(data, senderID, page = '493938347612411') {
     return new Promise(function (resolve, reject) {
         data.pageID = page
+
         accountRef.child(senderID).update(data)
             .then(result => resolve(data))
             .catch(err => reject(err))
@@ -3733,7 +3741,7 @@ function receivedMessageRead(event) {
     var watermark = event.read.watermark;
     var sequenceNumber = event.read.seq;
 
-    var lastMessage = lastMessageData[senderID]
+    var lastMessage = dataAccount[senderID].lastSent
     if (lastMessage && lastMessage.notiId) {
         axios.get(CONFIG.AnaURL + '/messengerRead?notiId=' + lastMessage.notiId)
             .then(result => console.log("messengerRead", lastMessage))
@@ -3910,13 +3918,58 @@ function sendingAPI(recipientId, senderId = facebookPage['jobo'].id, message, ty
             dumpling_messageFactoryCol
                 .insert(messageData)
                 .then(result => {
-                    lastMessageRef.child(recipientId).update(messageData)
+                    saveSenderData({lastSent: messageData}, recipientId, page)
                     resolve(result)
                 })
                 .catch(err => reject(err))
         })
     })
 }
+
+app.get('/a', (req, res) => {
+    var {page} = req.query
+    bbb(page)
+
+})
+app.get('/queryPage', (req, res) => {
+    var {query} = req.query
+    res.send(queryPage(query))
+})
+
+function bbb(page) {
+
+
+    graph.get('me/conversations?limit=2000&access_token=' + facebookPage[page].access_token, (err, conversations) => {
+        console.log('conversations', conversations, err);
+
+        var dataFilter = _.filter(dataAccount, function (data) {
+            if (data.pageID == page && data.lastActive) return true
+            else return false
+        });
+        var sort = _.sortBy(dataFilter, function (data) {
+            return -data.lastActive
+        })
+        for (var i in sort) {
+            var data = sort[i]
+            var link = conversations.data[i].link
+
+            console.log(i, link)
+            saveSenderData({link}, data.id, data.pageID)
+        }
+
+    })
+
+}
+
+function queryPage(query) {
+    var data = _.filter(facebookPage, page => {
+        if (page.name &&page.name.toLowerCase().match(query.toLowerCase())) return true
+        else return false
+    })
+    return data
+}
+
+
 
 function sendAPI(recipientId, message, typing, page = 'jobo', meta) {
     return new Promise(function (resolve, reject) {
@@ -3936,12 +3989,12 @@ function sendAPI(recipientId, message, typing, page = 'jobo', meta) {
             .then(result => setTimeout(function () {
                 callSendAPI(messageData, page).then(result => {
                     sendTypingOff(recipientId, page)
-                    messageData.messengerId = recipientId
+                    messageData.sender = {id: page}
                     messageData.type = 'sent'
                     messageData.timestamp = Date.now()
                     if (meta) messageData.meta = meta
                     messageFactoryCol.insert(messageData)
-                        .then(result => lastMessageRef.child(messageData.messengerId).update(messageData)
+                        .then(result => saveSenderData({lastSent: messageData}, recipientId, page)
                             .then(result => resolve(messageData))
                             .catch(err => reject(err)))
                         .catch(err => reject(err))
@@ -4279,7 +4332,10 @@ function sendOne(messageData, page) {
                 if (!error && response.statusCode == 200) {
                     var recipientId = body.recipient_id;
                     var messageId = body.message_id;
-                    if (messageId) console.log("callSendAPI_success", messageId, recipientId);
+                    if (messageId) {
+                        console.log("callSendAPI_success", messageId, recipientId);
+
+                    }
                     resolve(messageData)
 
                 } else {
