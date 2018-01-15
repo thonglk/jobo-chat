@@ -542,7 +542,15 @@ _.templateSettings = {
 };
 
 function templatelize(text = 'loading...', data = {first_name: 'Thông'}) {
-    if (text.match('{{') && text.match('}}')) {
+    var check = 0
+    console.log(text, data)
+    for (var i in data) {
+        if (text.match(i)) {
+            check++
+        }
+    }
+
+    if (check > 0) {
         var template = _.template(text);
         return template(data);
     } else return text
@@ -2439,7 +2447,7 @@ function loop(q, flow, senderID, pageID) {
                                 var sub = str.substr(n, b - n)
                                 var tit = str.substr(0, n - 2)
                                 var expression = "/((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[\\-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9\\.\\-]+|(?:www\\.|[\\-;:&=\\+\\$,\\w]+@)[A-Za-z0-9\\.\\-]+)((?:\\/[\\+~%\\/\\.\\w\\-_]*)?\\??(?:[\\-\\+=&;%@\\.\\w_]*)#?(?:[\\.\\!\\/\\\\\\w]*))?)/\n";
-                                var regex = new RegExp(expression);
+                                var regex = 'http';
                                 if (sub.match(regex)) button = {
                                     type: "web_url",
                                     url: sub,
@@ -2958,7 +2966,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                 text: JSON.stringify(err)
                                                             }, null, pageID)))
                                                         .catch(err => sendAPI(senderID, {
-                                                            text: "Err: Can't read your form, make sure it was a google forms link and make it public"
+                                                            text: "Err: Can't read your form, make sure it was a google forms link and make it public, go https://botform.asia to try again"
                                                         }, null, pageID))
                                                 } else if (refData[0] == 'go') {
                                                     var result = _.findWhere(dataLadiBot, {page: pageID});
@@ -2992,12 +3000,10 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 saveSenderData(senderData, senderID, pageID)
                                             }
 
-                                            if (payload.source != 'text') saveSenderData({bot_off: null}, senderID, pageID)
 
                                             console.log('flow', senderData.flow)
 
-                                            if (senderData.flow && !senderData.bot_off && !facebookPage[pageID].page_off) {
-
+                                            if (senderData.flow && !facebookPage[pageID].page_off) {
 
 
                                                 var result = _.findWhere(dataLadiBot, {flow: senderData.flow});
@@ -3019,7 +3025,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     }
 
                                                     if (payload.keyword == 'start-over' || payload.type == 'GET_STARTED') {
-
+                                                        saveSenderData({bot_off: null}, senderID, pageID)
                                                         ladiResCol.remove({
                                                             flow: senderData.flow,
                                                             page: pageID,
@@ -3036,12 +3042,15 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         loop(0, flow, senderID, pageID)
                                                     } else if (payload.keyword == 'update-my-bot') {
                                                         var flowId = result.id
-                                                        var url = `https://docs.google.com/forms/d/${flowId}/viewform`
-                                                        getChat({url})
+                                                        var data = {url: `https://docs.google.com/forms/d/${flowId}/viewform`}
+
+                                                        if (pageID && facebookPage[pageID] && facebookPage[pageID].access_token && facebookPage[pageID].name) data = Object.assign(data, facebookPage[pageID],{pageID})
+                                                       console.log('data',data)
+                                                        getChat(data)
                                                             .then(form => sendAPI(senderID, {
                                                                 text: `Updated successful for ${form.data[8]} <3!`,
                                                             }, null, pageID))
-                                                    } else if (payload.keyword == 'subscribe-new-user') {
+                                                    } else if (payload.keyword == 'noti-new-user') {
                                                         saveSenderData({subscribe: 'all'}, senderID, pageID)
                                                             .then(result => sendAPI(senderID, {
                                                                 text: `Subscribe successful <3!`,
@@ -3922,6 +3931,7 @@ function sendAPI(recipientId, message, typing, page = 'jobo', meta) {
             },
             message
         };
+        console.log('recipientId',dataAccount[recipientId],facebookPage[page])
         sendTypingOn(recipientId, page)
             .then(result => setTimeout(function () {
                 callSendAPI(messageData, page).then(result => {
@@ -3929,7 +3939,7 @@ function sendAPI(recipientId, message, typing, page = 'jobo', meta) {
                     messageData.messengerId = recipientId
                     messageData.type = 'sent'
                     messageData.timestamp = Date.now()
-                    if(meta) messageData.meta = meta
+                    if (meta) messageData.meta = meta
                     messageFactoryCol.insert(messageData)
                         .then(result => lastMessageRef.child(messageData.messengerId).update(messageData)
                             .then(result => resolve(messageData))
