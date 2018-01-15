@@ -196,6 +196,9 @@ function initDataLoad(ref, store) {
     ref.on('child_changed', function (snap) {
         store[snap.key] = snap.val()
     });
+    ref.on('child_removed', function (snap) {
+        delete store[snap.key]
+    });
 }
 
 var dataAccount = {}, accountRef = db.ref('account')
@@ -3257,6 +3260,7 @@ function loadsenderData(senderID, page = '493938347612411') {
             var user = result;
             user.full_name = result.first_name + ' ' + result.last_name
             user.createdAt = Date.now()
+            user.lastActive = Date.now();
 
 
             graph.get('me/conversations?access_token=' + facebookPage[page].access_token, (err, conversations) => {
