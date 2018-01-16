@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -19,40 +21,38 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="416">
-              <caret line="207" column="0" lean-forward="true" selection-start-line="207" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
+            <state relative-caret-position="148">
+              <caret line="318" column="17" lean-forward="false" selection-start-line="318" selection-start-column="10" selection-end-line="318" selection-end-column="17" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
                 <element signature="e#15148#15351#0" expanded="false" />
                 <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-                <element signature="e#18274#23875#0" expanded="false" />
-                <element signature="e#24755#26482#0" expanded="false" />
-                <element signature="e#28664#28806#0" expanded="false" />
+                <element signature="e#18275#23876#0" expanded="false" />
+                <element signature="e#24756#26483#0" expanded="false" />
+                <element signature="e#28665#28807#0" expanded="false" />
                 <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-                <element signature="e#29747#32317#0" expanded="false" />
-                <element signature="e#32337#34798#0" expanded="false" />
-                <element signature="e#34825#35822#0" expanded="false" />
-                <element signature="e#34850#35820#0" expanded="false" />
-                <element signature="e#35864#36018#0" expanded="false" />
+                <element signature="e#29748#32318#0" expanded="false" />
+                <element signature="e#32338#34799#0" expanded="false" />
+                <element signature="e#34826#35823#0" expanded="false" />
+                <element signature="e#34851#35821#0" expanded="false" />
+                <element signature="e#35865#36019#0" expanded="false" />
                 <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-                <element signature="e#37172#37326#0" expanded="false" />
-                <element signature="e#37361#37488#0" expanded="false" />
+                <element signature="e#37173#37327#0" expanded="false" />
+                <element signature="e#37362#37489#0" expanded="false" />
                 <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-                <element signature="e#38177#38306#0" expanded="false" />
+                <element signature="e#38178#38307#0" expanded="false" />
                 <element signature="n#!!block;n#setWit#0" expanded="false" />
                 <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-                <element signature="e#39823#39891#0" expanded="false" />
+                <element signature="e#39824#39892#0" expanded="false" />
                 <element signature="n#!!block;n#referInital#0" expanded="false" />
                 <element signature="n#!!block;n#getNLP#0" expanded="false" />
-                <element signature="e#58344#62285#0" expanded="false" />
                 <element signature="n#!!block;n#sendInterviewOption#0" expanded="false" />
-                <element signature="e#97391#97969#0" expanded="false" />
-                <element signature="e#106025#146678#0" expanded="false" />
-                <element signature="e#107131#131444#0" expanded="false" />
-                <element signature="e#132646#134194#0" expanded="false" />
-                <element signature="e#134382#135796#0" expanded="false" />
-                <element signature="e#174847#175592#0" expanded="false" />
+                <element signature="e#97392#97970#0" expanded="false" />
+                <element signature="e#107132#131445#0" expanded="false" />
+                <element signature="e#132647#134195#0" expanded="false" />
+                <element signature="e#134383#135797#0" expanded="false" />
+                <element signature="e#174890#175635#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -73,6 +73,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="45">
               <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="28" column="27" lean-forward="false" selection-start-line="28" selection-start-column="27" selection-end-line="28" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -109,8 +119,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>saveSender</find>
-      <find>saveSenderData</find>
       <find>goto</find>
       <find>refData</find>
       <find>41</find>
@@ -139,6 +147,8 @@
       <find>lastMe</find>
       <find>lastMessageData</find>
       <find>lastMessage</find>
+      <find>db.re</find>
+      <find>getchat</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -215,6 +225,11 @@
             <path>
               <item name="jobo-chat" type="b2602c69:ProjectViewProjectNode" />
               <item name="jobo-chat" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="jobo-chat" type="b2602c69:ProjectViewProjectNode" />
+              <item name="jobo-chat" type="462c0819:PsiDirectoryNode" />
               <item name="public" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -280,12 +295,12 @@
       <workItem from="1513083123090" duration="63557000" />
       <workItem from="1513390032275" duration="63296000" />
       <workItem from="1514089632262" duration="6609000" />
-      <workItem from="1514869061727" duration="70262000" />
+      <workItem from="1514869061727" duration="80603000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="630588000" />
+    <option name="totallyTimeSpent" value="640929000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -360,33 +375,31 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#15148#15351#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#18274#23875#0" expanded="false" />
-            <element signature="e#24755#26482#0" expanded="false" />
-            <element signature="e#28664#28806#0" expanded="false" />
+            <element signature="e#18275#23876#0" expanded="false" />
+            <element signature="e#24756#26483#0" expanded="false" />
+            <element signature="e#28665#28807#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#29747#32317#0" expanded="false" />
-            <element signature="e#32337#34798#0" expanded="false" />
-            <element signature="e#34825#35822#0" expanded="false" />
-            <element signature="e#34850#35820#0" expanded="false" />
-            <element signature="e#35864#36018#0" expanded="false" />
+            <element signature="e#29748#32318#0" expanded="false" />
+            <element signature="e#32338#34799#0" expanded="false" />
+            <element signature="e#34826#35823#0" expanded="false" />
+            <element signature="e#34851#35821#0" expanded="false" />
+            <element signature="e#35865#36019#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#37172#37326#0" expanded="false" />
-            <element signature="e#37361#37488#0" expanded="false" />
+            <element signature="e#37173#37327#0" expanded="false" />
+            <element signature="e#37362#37489#0" expanded="false" />
             <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#38177#38306#0" expanded="false" />
+            <element signature="e#38178#38307#0" expanded="false" />
             <element signature="n#!!block;n#setWit#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#39823#39891#0" expanded="false" />
+            <element signature="e#39824#39892#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#58344#62285#0" expanded="false" />
             <element signature="n#!!block;n#sendInterviewOption#0" expanded="false" />
-            <element signature="e#97391#97969#0" expanded="false" />
-            <element signature="e#106025#146678#0" expanded="false" />
-            <element signature="e#107131#131444#0" expanded="false" />
-            <element signature="e#132646#134194#0" expanded="false" />
-            <element signature="e#134382#135796#0" expanded="false" />
-            <element signature="e#174847#175592#0" expanded="false" />
+            <element signature="e#97392#97970#0" expanded="false" />
+            <element signature="e#107132#131445#0" expanded="false" />
+            <element signature="e#132647#134195#0" expanded="false" />
+            <element signature="e#134383#135797#0" expanded="false" />
+            <element signature="e#174890#175635#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -457,33 +470,31 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#15148#15351#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#18274#23875#0" expanded="false" />
-            <element signature="e#24755#26482#0" expanded="false" />
-            <element signature="e#28664#28806#0" expanded="false" />
+            <element signature="e#18275#23876#0" expanded="false" />
+            <element signature="e#24756#26483#0" expanded="false" />
+            <element signature="e#28665#28807#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#29747#32317#0" expanded="false" />
-            <element signature="e#32337#34798#0" expanded="false" />
-            <element signature="e#34825#35822#0" expanded="false" />
-            <element signature="e#34850#35820#0" expanded="false" />
-            <element signature="e#35864#36018#0" expanded="false" />
+            <element signature="e#29748#32318#0" expanded="false" />
+            <element signature="e#32338#34799#0" expanded="false" />
+            <element signature="e#34826#35823#0" expanded="false" />
+            <element signature="e#34851#35821#0" expanded="false" />
+            <element signature="e#35865#36019#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#37172#37326#0" expanded="false" />
-            <element signature="e#37361#37488#0" expanded="false" />
+            <element signature="e#37173#37327#0" expanded="false" />
+            <element signature="e#37362#37489#0" expanded="false" />
             <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#38177#38306#0" expanded="false" />
+            <element signature="e#38178#38307#0" expanded="false" />
             <element signature="n#!!block;n#setWit#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#39823#39891#0" expanded="false" />
+            <element signature="e#39824#39892#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#58344#62285#0" expanded="false" />
             <element signature="n#!!block;n#sendInterviewOption#0" expanded="false" />
-            <element signature="e#97391#97969#0" expanded="false" />
-            <element signature="e#106025#146678#0" expanded="false" />
-            <element signature="e#107131#131444#0" expanded="false" />
-            <element signature="e#132646#134194#0" expanded="false" />
-            <element signature="e#134382#135796#0" expanded="false" />
-            <element signature="e#174847#175592#0" expanded="false" />
+            <element signature="e#97392#97970#0" expanded="false" />
+            <element signature="e#107132#131445#0" expanded="false" />
+            <element signature="e#132647#134195#0" expanded="false" />
+            <element signature="e#134383#135797#0" expanded="false" />
+            <element signature="e#174890#175635#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -497,33 +508,31 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#15148#15351#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#18274#23875#0" expanded="false" />
-            <element signature="e#24755#26482#0" expanded="false" />
-            <element signature="e#28664#28806#0" expanded="false" />
+            <element signature="e#18275#23876#0" expanded="false" />
+            <element signature="e#24756#26483#0" expanded="false" />
+            <element signature="e#28665#28807#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#29747#32317#0" expanded="false" />
-            <element signature="e#32337#34798#0" expanded="false" />
-            <element signature="e#34825#35822#0" expanded="false" />
-            <element signature="e#34850#35820#0" expanded="false" />
-            <element signature="e#35864#36018#0" expanded="false" />
+            <element signature="e#29748#32318#0" expanded="false" />
+            <element signature="e#32338#34799#0" expanded="false" />
+            <element signature="e#34826#35823#0" expanded="false" />
+            <element signature="e#34851#35821#0" expanded="false" />
+            <element signature="e#35865#36019#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#37172#37326#0" expanded="false" />
-            <element signature="e#37361#37488#0" expanded="false" />
+            <element signature="e#37173#37327#0" expanded="false" />
+            <element signature="e#37362#37489#0" expanded="false" />
             <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#38177#38306#0" expanded="false" />
+            <element signature="e#38178#38307#0" expanded="false" />
             <element signature="n#!!block;n#setWit#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#39823#39891#0" expanded="false" />
+            <element signature="e#39824#39892#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#58344#62285#0" expanded="false" />
             <element signature="n#!!block;n#sendInterviewOption#0" expanded="false" />
-            <element signature="e#97391#97969#0" expanded="false" />
-            <element signature="e#106025#146678#0" expanded="false" />
-            <element signature="e#107131#131444#0" expanded="false" />
-            <element signature="e#132646#134194#0" expanded="false" />
-            <element signature="e#134382#135796#0" expanded="false" />
-            <element signature="e#174847#175592#0" expanded="false" />
+            <element signature="e#97392#97970#0" expanded="false" />
+            <element signature="e#107132#131445#0" expanded="false" />
+            <element signature="e#132647#134195#0" expanded="false" />
+            <element signature="e#134383#135797#0" expanded="false" />
+            <element signature="e#174890#175635#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -560,33 +569,31 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#15148#15351#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#18274#23875#0" expanded="false" />
-            <element signature="e#24755#26482#0" expanded="false" />
-            <element signature="e#28664#28806#0" expanded="false" />
+            <element signature="e#18275#23876#0" expanded="false" />
+            <element signature="e#24756#26483#0" expanded="false" />
+            <element signature="e#28665#28807#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#29747#32317#0" expanded="false" />
-            <element signature="e#32337#34798#0" expanded="false" />
-            <element signature="e#34825#35822#0" expanded="false" />
-            <element signature="e#34850#35820#0" expanded="false" />
-            <element signature="e#35864#36018#0" expanded="false" />
+            <element signature="e#29748#32318#0" expanded="false" />
+            <element signature="e#32338#34799#0" expanded="false" />
+            <element signature="e#34826#35823#0" expanded="false" />
+            <element signature="e#34851#35821#0" expanded="false" />
+            <element signature="e#35865#36019#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#37172#37326#0" expanded="false" />
-            <element signature="e#37361#37488#0" expanded="false" />
+            <element signature="e#37173#37327#0" expanded="false" />
+            <element signature="e#37362#37489#0" expanded="false" />
             <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#38177#38306#0" expanded="false" />
+            <element signature="e#38178#38307#0" expanded="false" />
             <element signature="n#!!block;n#setWit#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#39823#39891#0" expanded="false" />
+            <element signature="e#39824#39892#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#58344#62285#0" expanded="false" />
             <element signature="n#!!block;n#sendInterviewOption#0" expanded="false" />
-            <element signature="e#97391#97969#0" expanded="false" />
-            <element signature="e#106025#146678#0" expanded="false" />
-            <element signature="e#107131#131444#0" expanded="false" />
-            <element signature="e#132646#134194#0" expanded="false" />
-            <element signature="e#134382#135796#0" expanded="false" />
-            <element signature="e#174847#175592#0" expanded="false" />
+            <element signature="e#97392#97970#0" expanded="false" />
+            <element signature="e#107132#131445#0" expanded="false" />
+            <element signature="e#132647#134195#0" expanded="false" />
+            <element signature="e#134383#135797#0" expanded="false" />
+            <element signature="e#174890#175635#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -631,33 +638,31 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#15148#15351#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#18274#23875#0" expanded="false" />
-            <element signature="e#24755#26482#0" expanded="false" />
-            <element signature="e#28664#28806#0" expanded="false" />
+            <element signature="e#18275#23876#0" expanded="false" />
+            <element signature="e#24756#26483#0" expanded="false" />
+            <element signature="e#28665#28807#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#29747#32317#0" expanded="false" />
-            <element signature="e#32337#34798#0" expanded="false" />
-            <element signature="e#34825#35822#0" expanded="false" />
-            <element signature="e#34850#35820#0" expanded="false" />
-            <element signature="e#35864#36018#0" expanded="false" />
+            <element signature="e#29748#32318#0" expanded="false" />
+            <element signature="e#32338#34799#0" expanded="false" />
+            <element signature="e#34826#35823#0" expanded="false" />
+            <element signature="e#34851#35821#0" expanded="false" />
+            <element signature="e#35865#36019#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#37172#37326#0" expanded="false" />
-            <element signature="e#37361#37488#0" expanded="false" />
+            <element signature="e#37173#37327#0" expanded="false" />
+            <element signature="e#37362#37489#0" expanded="false" />
             <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#38177#38306#0" expanded="false" />
+            <element signature="e#38178#38307#0" expanded="false" />
             <element signature="n#!!block;n#setWit#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#39823#39891#0" expanded="false" />
+            <element signature="e#39824#39892#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#58344#62285#0" expanded="false" />
             <element signature="n#!!block;n#sendInterviewOption#0" expanded="false" />
-            <element signature="e#97391#97969#0" expanded="false" />
-            <element signature="e#106025#146678#0" expanded="false" />
-            <element signature="e#107131#131444#0" expanded="false" />
-            <element signature="e#132646#134194#0" expanded="false" />
-            <element signature="e#134382#135796#0" expanded="false" />
-            <element signature="e#174847#175592#0" expanded="false" />
+            <element signature="e#97392#97970#0" expanded="false" />
+            <element signature="e#107132#131445#0" expanded="false" />
+            <element signature="e#132647#134195#0" expanded="false" />
+            <element signature="e#134383#135797#0" expanded="false" />
+            <element signature="e#174890#175635#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -686,33 +691,31 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#15148#15351#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#18274#23875#0" expanded="false" />
-            <element signature="e#24755#26482#0" expanded="false" />
-            <element signature="e#28664#28806#0" expanded="false" />
+            <element signature="e#18275#23876#0" expanded="false" />
+            <element signature="e#24756#26483#0" expanded="false" />
+            <element signature="e#28665#28807#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#29747#32317#0" expanded="false" />
-            <element signature="e#32337#34798#0" expanded="false" />
-            <element signature="e#34825#35822#0" expanded="false" />
-            <element signature="e#34850#35820#0" expanded="false" />
-            <element signature="e#35864#36018#0" expanded="false" />
+            <element signature="e#29748#32318#0" expanded="false" />
+            <element signature="e#32338#34799#0" expanded="false" />
+            <element signature="e#34826#35823#0" expanded="false" />
+            <element signature="e#34851#35821#0" expanded="false" />
+            <element signature="e#35865#36019#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#37172#37326#0" expanded="false" />
-            <element signature="e#37361#37488#0" expanded="false" />
+            <element signature="e#37173#37327#0" expanded="false" />
+            <element signature="e#37362#37489#0" expanded="false" />
             <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#38177#38306#0" expanded="false" />
+            <element signature="e#38178#38307#0" expanded="false" />
             <element signature="n#!!block;n#setWit#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#39823#39891#0" expanded="false" />
+            <element signature="e#39824#39892#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#58344#62285#0" expanded="false" />
             <element signature="n#!!block;n#sendInterviewOption#0" expanded="false" />
-            <element signature="e#97391#97969#0" expanded="false" />
-            <element signature="e#106025#146678#0" expanded="false" />
-            <element signature="e#107131#131444#0" expanded="false" />
-            <element signature="e#132646#134194#0" expanded="false" />
-            <element signature="e#134382#135796#0" expanded="false" />
-            <element signature="e#174847#175592#0" expanded="false" />
+            <element signature="e#97392#97970#0" expanded="false" />
+            <element signature="e#107132#131445#0" expanded="false" />
+            <element signature="e#132647#134195#0" expanded="false" />
+            <element signature="e#134383#135797#0" expanded="false" />
+            <element signature="e#174890#175635#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -749,33 +752,31 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#15148#15351#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#18274#23875#0" expanded="false" />
-            <element signature="e#24755#26482#0" expanded="false" />
-            <element signature="e#28664#28806#0" expanded="false" />
+            <element signature="e#18275#23876#0" expanded="false" />
+            <element signature="e#24756#26483#0" expanded="false" />
+            <element signature="e#28665#28807#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#29747#32317#0" expanded="false" />
-            <element signature="e#32337#34798#0" expanded="false" />
-            <element signature="e#34825#35822#0" expanded="false" />
-            <element signature="e#34850#35820#0" expanded="false" />
-            <element signature="e#35864#36018#0" expanded="false" />
+            <element signature="e#29748#32318#0" expanded="false" />
+            <element signature="e#32338#34799#0" expanded="false" />
+            <element signature="e#34826#35823#0" expanded="false" />
+            <element signature="e#34851#35821#0" expanded="false" />
+            <element signature="e#35865#36019#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#37172#37326#0" expanded="false" />
-            <element signature="e#37361#37488#0" expanded="false" />
+            <element signature="e#37173#37327#0" expanded="false" />
+            <element signature="e#37362#37489#0" expanded="false" />
             <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#38177#38306#0" expanded="false" />
+            <element signature="e#38178#38307#0" expanded="false" />
             <element signature="n#!!block;n#setWit#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#39823#39891#0" expanded="false" />
+            <element signature="e#39824#39892#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#58344#62285#0" expanded="false" />
             <element signature="n#!!block;n#sendInterviewOption#0" expanded="false" />
-            <element signature="e#97391#97969#0" expanded="false" />
-            <element signature="e#106025#146678#0" expanded="false" />
-            <element signature="e#107131#131444#0" expanded="false" />
-            <element signature="e#132646#134194#0" expanded="false" />
-            <element signature="e#134382#135796#0" expanded="false" />
-            <element signature="e#174847#175592#0" expanded="false" />
+            <element signature="e#97392#97970#0" expanded="false" />
+            <element signature="e#107132#131445#0" expanded="false" />
+            <element signature="e#132647#134195#0" expanded="false" />
+            <element signature="e#134383#135797#0" expanded="false" />
+            <element signature="e#174890#175635#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -852,14 +853,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="27" lean-forward="true" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/authorize.ejs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -868,42 +861,48 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="28" column="27" lean-forward="false" selection-start-line="28" selection-start-column="27" selection-end-line="28" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="207" column="0" lean-forward="true" selection-start-line="207" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
+        <state relative-caret-position="148">
+          <caret line="318" column="17" lean-forward="false" selection-start-line="318" selection-start-column="10" selection-end-line="318" selection-end-column="17" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#15148#15351#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#18274#23875#0" expanded="false" />
-            <element signature="e#24755#26482#0" expanded="false" />
-            <element signature="e#28664#28806#0" expanded="false" />
+            <element signature="e#18275#23876#0" expanded="false" />
+            <element signature="e#24756#26483#0" expanded="false" />
+            <element signature="e#28665#28807#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#29747#32317#0" expanded="false" />
-            <element signature="e#32337#34798#0" expanded="false" />
-            <element signature="e#34825#35822#0" expanded="false" />
-            <element signature="e#34850#35820#0" expanded="false" />
-            <element signature="e#35864#36018#0" expanded="false" />
+            <element signature="e#29748#32318#0" expanded="false" />
+            <element signature="e#32338#34799#0" expanded="false" />
+            <element signature="e#34826#35823#0" expanded="false" />
+            <element signature="e#34851#35821#0" expanded="false" />
+            <element signature="e#35865#36019#0" expanded="false" />
             <element signature="n#!!block;n#setDefautMenu#0" expanded="false" />
-            <element signature="e#37172#37326#0" expanded="false" />
-            <element signature="e#37361#37488#0" expanded="false" />
+            <element signature="e#37173#37327#0" expanded="false" />
+            <element signature="e#37362#37489#0" expanded="false" />
             <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#38177#38306#0" expanded="false" />
+            <element signature="e#38178#38307#0" expanded="false" />
             <element signature="n#!!block;n#setWit#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#39823#39891#0" expanded="false" />
+            <element signature="e#39824#39892#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#58344#62285#0" expanded="false" />
             <element signature="n#!!block;n#sendInterviewOption#0" expanded="false" />
-            <element signature="e#97391#97969#0" expanded="false" />
-            <element signature="e#106025#146678#0" expanded="false" />
-            <element signature="e#107131#131444#0" expanded="false" />
-            <element signature="e#132646#134194#0" expanded="false" />
-            <element signature="e#134382#135796#0" expanded="false" />
-            <element signature="e#174847#175592#0" expanded="false" />
+            <element signature="e#97392#97970#0" expanded="false" />
+            <element signature="e#107132#131445#0" expanded="false" />
+            <element signature="e#132647#134195#0" expanded="false" />
+            <element signature="e#134383#135797#0" expanded="false" />
+            <element signature="e#174890#175635#0" expanded="false" />
           </folding>
         </state>
       </provider>

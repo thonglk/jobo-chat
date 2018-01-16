@@ -26,7 +26,7 @@
     "node-wit": "^4.3.0",
     "request": "^2.72.0",
     "underscore": "^1.8.3",
-    "webpage": "^0.3.0"
+    "urlencode": "^1.1.0"
   },
   "engines": {
     "node": "6.11.1"

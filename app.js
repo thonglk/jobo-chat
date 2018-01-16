@@ -365,6 +365,7 @@ function getChat({url, page, access_token, name, pageID}) {
                                 flows.unshift(des)
                             }
 
+
                             //
                             var greeting = [];
                             var greetingPart = {}
@@ -3967,12 +3968,11 @@ function bbb(page) {
 
 function queryPage(query) {
     var data = _.filter(facebookPage, page => {
-        if (page.name &&page.name.toLowerCase().match(query.toLowerCase())) return true
+        if (page.name && page.name.toLowerCase().match(query.toLowerCase())) return true
         else return false
     })
     return data
 }
-
 
 
 function sendAPI(recipientId, message, typing, page = 'jobo', meta) {
@@ -4362,9 +4362,144 @@ function sendOne(messageData, page) {
 app.listen(port, function () {
     console.log('Node app is running on port', port);
 });
+var phantom = require("phantom")
 
-var webpage = require('webpage')
-console.log('webpage', webpage)
+function printArgs() {
+    var i, ilen;
+    for (i = 0, ilen = arguments.length; i < ilen; ++i) {
+        console.log("    arguments[" + i + "] = " + JSON.stringify(arguments[i]));
+    }
+    console.log("");
+}
+
+var sitepage = null;
+var phInstance = null;
+app.get('/phantom', (req, res) => {
+    var data = {
+        onResourceRequested: [],
+        onResourceReceived: [],
+
+
+    }
+
+
+    var {url} = req.query
+    phantom.create([])
+        .then(instance => {
+            phInstance = instance;
+            return instance.createPage();
+        })
+        .then(page => {
+            // use page
+
+
+            page.on('onResourceRequested', function () {
+                data.onResourceRequested.push(arguments)
+
+            });
+            page.on('onResourceReceived', function () {
+                data.onResourceReceived.push(arguments)
+            });
+
+
+            page.on('onLoadStarted', function () {
+                console.log('onLoadStarted.url')
+            });
+
+            page.on('onLoadFinished', function (requestData) {
+                console.log('onLoadFinished.url', requestData)
+
+                res.send(data)
+
+            });
+
+
+            page.open(url)
+        })
+        .catch(error => {
+            console.log(error);
+            phInstance.exit();
+        });
+
+
+})
+
+var urlencode = require('urlencode');
+var renderOps = {
+    "r0": ["image", {
+        "cosmoId": "1HeCtXoP7XdbqRTNoXEPiPsJlkeJZ2svVLYh3mSFSm-ynkA",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r1": ["image", {
+        "cosmoId": "1zzwsJ5qjMhZs23sSKaWgegO4G0HTDLWXxvR13YHY2wQRxg",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r2": ["image", {
+        "cosmoId": "1xKfNA8T11Am99YVS_J6jRzroh5V2qmAetoB69EA5WGJzpg",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r3": ["image", {
+        "cosmoId": "1Wop0zVtvOOj3Qe-BJjm1HRDl28C9ELjrfqNkUFMSTPBJFA",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r4": ["image", {
+        "cosmoId": "1-ckCb2YpE6rdq_WVhpGxY_c6_HQOgwiCBcnQLje7B5vnAA",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r5": ["image", {
+        "cosmoId": "1GW21nqXpc1XCAc5Z6TSIEhn8EemRkI8YXHoVprMCpSQ5nQ",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r6": ["image", {
+        "cosmoId": "1XwZYb8yi_q923sRUpkHxeM5yP8hVge4pPuasrhbTnzz0fg",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r7": ["image", {
+        "cosmoId": "1ysKPO2AksLLUDV3Hl5BhNVxCGaGaKu4kSlxCMw9-DFAP5g",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r8": ["image", {
+        "cosmoId": "1C4P0GtxCALN7c8I1A8PCHIYD4hBZWuT5oFBiuZ-85PR-2A",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r9": ["image", {
+        "cosmoId": "1QChpuN16TfmggQBwE8Ai4PBQ3b4e3qZ-rkYDCJPZw1U-sA",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r10": ["image", {
+        "cosmoId": "1xzQ8unWHUum2coXy5x-EkZW9pOZHjxbqonBACYEw6ONjNg",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r11": ["image", {
+        "cosmoId": "1vckSIuf_XRtVL_fpZPgDanQ8T-rTUb-7_t9X7IOw-lHUBg",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r12": ["image", {
+        "cosmoId": "1C24yh8c6wdBkQdcEWUk62vUxalKVn2dkZHtQ7g8XMwE3qQ",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r13": ["image", {
+        "cosmoId": "1DwuZZxeDSJLBn69xiUcycg1ly6dLAegSdqJNIq5oSAn7kw",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r14": ["image", {
+        "cosmoId": "1dEnDT521FNbpU-6QAMlQtkNe7c8jx5y1MBQXN73RVi_95Q",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r15": ["image", {
+        "cosmoId": "155R0TxyER5pnCTGhHtaqRXOVwgNEOCGpXUfygDy5ZRwNtA",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r16": ["image", {
+        "cosmoId": "13BCl-OxPSTWFezhSqQpTbgJ7W01yogEDAI6r8TL6G8L7Hw",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }]
+}
+var data = "renderOps=%7B%22r0%22%3A%5B%22image%22%2C%7B%22cosmoId%22%3A%221-ckCb2YpE6rdq_WVhpGxY_c6_HQOgwiCBcnQLje7B5vnAA%22%2C%22container%22%3A%221rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y%22%7D%5D%2C%22r1%22%3A%5B%22image%22%2C%7B%22cosmoId%22%3A%221GW21nqXpc1XCAc5Z6TSIEhn8EemRkI8YXHoVprMCpSQ5nQ%22%2C%22container%22%3A%221rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y%22%7D%5D%2C%22r2%22%3A%5B%22image%22%2C%7B%22cosmoId%22%3A%221XwZYb8yi_q923sRUpkHxeM5yP8hVge4pPuasrhbTnzz0fg%22%2C%22container%22%3A%221rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y%22%7D%5D%2C%22r3%22%3A%5B%22image%22%2C%7B%22cosmoId%22%3A%221ysKPO2AksLLUDV3Hl5BhNVxCGaGaKu4kSlxCMw9-DFAP5g%22%2C%22container%22%3A%221rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y%22%7D%5D%2C%22r4%22%3A%5B%22image%22%2C%7B%22cosmoId%22%3A%221C4P0GtxCALN7c8I1A8PCHIYD4hBZWuT5oFBiuZ-85PR-2A%22%2C%22container%22%3A%221rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y%22%7D%5D%2C%22r5%22%3A%5B%22image%22%2C%7B%22cosmoId%22%3A%221QChpuN16TfmggQBwE8Ai4PBQ3b4e3qZ-rkYDCJPZw1U-sA%22%2C%22container%22%3A%221rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y%22%7D%5D%2C%22r6%22%3A%5B%22image%22%2C%7B%22cosmoId%22%3A%221xzQ8unWHUum2coXy5x-EkZW9pOZHjxbqonBACYEw6ONjNg%22%2C%22container%22%3A%221rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y%22%7D%5D%2C%22r7%22%3A%5B%22image%22%2C%7B%22cosmoId%22%3A%221vckSIuf_XRtVL_fpZPgDanQ8T-rTUb-7_t9X7IOw-lHUBg%22%2C%22container%22%3A%221rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y%22%7D%5D%2C%22r8%22%3A%5B%22image%22%2C%7B%22cosmoId%22%3A%221C24yh8c6wdBkQdcEWUk62vUxalKVn2dkZHtQ7g8XMwE3qQ%22%2C%22container%22%3A%221rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y%22%7D%5D%2C%22r9%22%3A%5B%22image%22%2C%7B%22cosmoId%22%3A%221DwuZZxeDSJLBn69xiUcycg1ly6dLAegSdqJNIq5oSAn7kw%22%2C%22container%22%3A%221rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y%22%7D%5D%2C%22r10%22%3A%5B%22image%22%2C%7B%22cosmoId%22%3A%221dEnDT521FNbpU-6QAMlQtkNe7c8jx5y1MBQXN73RVi_95Q%22%2C%22container%22%3A%221rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y%22%7D%5D%2C%22r11%22%3A%5B%22image%22%2C%7B%22cosmoId%22%3A%22155R0TxyER5pnCTGhHtaqRXOVwgNEOCGpXUfygDy5ZRwNtA%22%2C%22container%22%3A%221rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y%22%7D%5D%2C%22r12%22%3A%5B%22image%22%2C%7B%22cosmoId%22%3A%2213BCl-OxPSTWFezhSqQpTbgJ7W01yogEDAI6r8TL6G8L7Hw%22%2C%22container%22%3A%221rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y%22%7D%5D%7D"
+data = 'renderOps=' + urlencode(JSON.stringify(renderOps))
+axios.post('https://docs.google.com/forms/d/1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y/renderdata?id=1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y&' + data)
+    .then(result => console.log(result.data))
+    .catch(err => console.log(err))
 
 
 module.exports = app;
