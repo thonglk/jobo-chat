@@ -3746,12 +3746,6 @@ function receivedMessageRead(event) {
     var watermark = event.read.watermark;
     var sequenceNumber = event.read.seq;
 
-    var lastMessage = dataAccount[senderID].lastSent
-    if (lastMessage && lastMessage.notiId) {
-        axios.get(CONFIG.AnaURL + '/messengerRead?notiId=' + lastMessage.notiId)
-            .then(result => console.log("messengerRead", lastMessage))
-            .catch(err => console.log(err))
-    }
     sendReadReceipt(senderID, recipientID)
 
 }
