@@ -3119,8 +3119,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         };
                                                         loop(0, flow, senderID, pageID)
                                                     } else if (payload.keyword == 'update-my-bot') {
-                                                        var flowId = result.id
-                                                        var data = {url: `https://docs.google.com/forms/d/${flowId}/viewform`}
+                                                        var flowId = result.editId || result.id
+                                                        var data = {url: `https://docs.google.com/forms/d/${flowId}`}
 
                                                         if (pageID && facebookPage[pageID] && facebookPage[pageID].access_token && facebookPage[pageID].name) data = Object.assign(data, facebookPage[pageID], {pageID})
                                                         console.log('data', data)
