@@ -144,7 +144,7 @@ const FIRE_BASE_ADMIN = {
     }
 }
 const vietnameseDecode = (str) => {
-    console.log('vietnameseDecode',str)
+    console.log('vietnameseDecode', str)
     if (str) {
         str = str.toLowerCase();
         str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
@@ -515,8 +515,8 @@ function getChat({url, page, access_token, name, pageID}) {
                                 }
 
                                 if (r > 0) {
-                                    var renderStr = 'renderOps=' + urlencode(JSON.stringify(renderOps))
-                                    axios.post(`https://docs.google.com/forms/d/${save.editId}/renderdata?id=${save.editId}&` + renderStr)
+
+                                    axios.post(`https://docs.google.com/forms/d/${save.editId}/renderdata?id=${save.editId}&renderOps=` + urlencode(JSON.stringify(renderOps)))
                                         .then(result => {
                                             var sub = result.data.substr(5)
 
