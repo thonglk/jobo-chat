@@ -329,208 +329,237 @@ function getChat({url, page, access_token, name, pageID}) {
 
         axios.get(url)
             .then(result => {
-                console.log('axios.get(queryURL)', result.data);
-
-                if (
-                    result.data.match('FB_PUBLIC_LOAD_DATA_ = ')
-                    || result.data.match('FB_LOAD_DATA_ = ')
-                ) {
-                    var str = '';
-
-                    if (result.data.match('FB_PUBLIC_LOAD_DATA_ = ')) str = 'FB_PUBLIC_LOAD_DATA_ = ';
-                    else str = 'FB_LOAD_DATA_ = ';
-
-                    var splitFirst = result.data.split(str);
-
-                    var two = splitFirst[1]
-                    //certain
-
-                    if (two.match(`;</script>`)) {
-                        var right = two.split(`;</script>`);
-                        var it = right[0]//certain
-                        if (JSON.parse(it)) {
-                            var array = JSON.parse(it)
-                            if (str == 'FB_LOAD_DATA_ = ') var allData = array[0]
-                            else allData = array
-                            var data = allData[1]
-                            console.log('data', data)
-                            var id = allData[14]
-                            var save = {
-                                id, data
-                            }
-                            var flows = data[1]
-                            // add description
-                            if (data[0]) {
-                                var des = [0, data[0], null, 6]
-                                flows.unshift(des)
-                            }
+                    console.log('axios.get(queryURL)', result.data);
 
 
-                            //
-                            var greeting = [];
-                            var greetingPart = {}
+                    if (
+                        result.data.match('FB_PUBLIC_LOAD_DATA_ = ')
+                        || result.data.match('FB_LOAD_DATA_ = ')
+                    ) {
+                        var str = '';
 
-                            var menuPart = {}
+                        if (result.data.match('FB_PUBLIC_LOAD_DATA_ = ')) str = 'FB_PUBLIC_LOAD_DATA_ = ';
+                        else str = 'FB_LOAD_DATA_ = ';
 
-                            var persistent_menu = {
-                                "call_to_actions": [],
-                                "locale": "default",
-                            };
-                            console.log('Get greeting & menu')
+                        var splitFirst = result.data.split(str);
 
-                            for (var i in flows) {
-                                var flow = flows[i]
-                                var title = flow[1] || 'undefined'
-                                var type = flow[3]
+                        var two = splitFirst[1]
+                        //certain
 
-                                if (!greetingPart.start && title.toLowerCase().match('greeting') && type == '8') greetingPart.start = i
-                                else if (!greetingPart.end && greetingPart.start && type == '8') greetingPart.end = i
-                                else if (!greetingPart.end && greetingPart.start) {
-                                    if (title.match(':')) {
-                                        var titleSplit = title.split(':')
-                                        var first = titleSplit[0].toLowerCase()
-                                        var supportLang = config.get('supportLang')
-                                        var checkLg = supportLang.indexOf(first);
-
-                                        if (checkLg != -1) {
-                                            var locale = supportLang.substring(checkLg, checkLg + 5)
-
-                                        } else if (first == 'default') {
-                                            var locale = first
-                                        }
-                                        if (locale) greeting.push({
-                                            text: titleSplit[1],
-                                            locale
-                                        })
-
-                                    }
+                        if (two.match(`;</script>`)) {
+                            var right = two.split(`;</script>`);
+                            var it = right[0]//certain
+                            if (JSON.parse(it)) {
+                                var array = JSON.parse(it)
+                                if (str == 'FB_LOAD_DATA_ = ') var allData = array[0]
+                                else allData = array
+                                var data = allData[1]
+                                console.log('data', data)
+                                var id = allData[14]
+                                var save = {
+                                    id, data
+                                }
+                                var flows = data[1]
+                                // add description
+                                if (data[0]) {
+                                    var des = [0, data[0], null, 6]
+                                    flows.unshift(des)
                                 }
 
-                                if (!menuPart.start && title.toLowerCase().match('menu') && type == '8') menuPart.start = i
-                                else if (!menuPart.end && menuPart.start && type == '8') menuPart.end = i
-                                else if (!menuPart.end && menuPart.start) {
-                                    var menuTitle = flow[1]
+                                if(!url.match('/forms/d/e/')) {
+                                    var urla = url.split('/forms/d/')
+                                    var editId = urla[1].split('/')[0]
+                                    save.editId = editId
+                                }
 
-                                    if (type == '2' && flow[4] && flow[4][0]) {
+                                //
+                                var greeting = [];
+                                var greetingPart = {}
 
-                                        var optionsList = flow[4][0][1]
+                                var menuPart = {}
 
-                                        if (optionsList.length > 1) {
-                                            console.log('optionsList', optionsList)
-                                            var call_to_actions = _.map(optionsList, option => {
-                                                var text = option[0]
-                                                if (text.match('{{') && text.match('}}')) {
-                                                    console.log('text', text)
+                                var persistent_menu = {
+                                    "call_to_actions": [],
+                                    "locale": "default",
+                                };
 
-                                                    var datastr = text.substring(text.indexOf('{{') + 2, text.indexOf('}}'))
-                                                    console.log('datastr', datastr)
+                                var renderOps = {
+                                    "r0": ["image", {
+                                        "cosmoId": "1HeCtXoP7XdbqRTNoXEPiPsJlkeJZ2svVLYh3mSFSm-ynkA",
+                                        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+                                    }]
+                                }
+                                var r = 0
 
-                                                    var title = text.substring(0, text.indexOf('{{'))
-                                                    console.log('title', title)
+                                console.log('Get greeting & menu')
 
-                                                    if (datastr.match('url')) return {
-                                                        title,
-                                                        "type": "web_url",
-                                                        "url": datastr.substring(4),
+                                for (var i in flows) {
+                                    var flow = flows[i]
+                                    var title = flow[1] || 'undefined'
+                                    var type = flow[3]
+
+                                    if (!greetingPart.start && title.toLowerCase().match('greeting') && type == '8') greetingPart.start = i
+                                    else if (!greetingPart.end && greetingPart.start && type == '8') greetingPart.end = i
+                                    else if (!greetingPart.end && greetingPart.start) {
+                                        if (title.match(':')) {
+                                            var titleSplit = title.split(':')
+                                            var first = titleSplit[0].toLowerCase()
+                                            var supportLang = config.get('supportLang')
+                                            var checkLg = supportLang.indexOf(first);
+
+                                            if (checkLg != -1) {
+                                                var locale = supportLang.substring(checkLg, checkLg + 5)
+
+                                            } else if (first == 'default') {
+                                                var locale = first
+                                            }
+                                            if (locale) greeting.push({
+                                                text: titleSplit[1],
+                                                locale
+                                            })
+
+                                        }
+                                    }
+
+                                    if (!menuPart.start && title.toLowerCase().match('menu') && type == '8') menuPart.start = i
+                                    else if (!menuPart.end && menuPart.start && type == '8') menuPart.end = i
+                                    else if (!menuPart.end && menuPart.start) {
+                                        var menuTitle = flow[1]
+
+                                        if (type == '2' && flow[4] && flow[4][0]) {
+
+                                            var optionsList = flow[4][0][1]
+
+                                            if (optionsList.length > 1) {
+                                                console.log('optionsList', optionsList)
+                                                var call_to_actions = _.map(optionsList, option => {
+                                                    var text = option[0]
+                                                    if (text.match('{{') && text.match('}}')) {
+                                                        console.log('text', text)
+
+                                                        var datastr = text.substring(text.indexOf('{{') + 2, text.indexOf('}}'))
+                                                        console.log('datastr', datastr)
+
+                                                        var title = text.substring(0, text.indexOf('{{'))
+                                                        console.log('title', title)
+
+                                                        if (datastr.match('url')) return {
+                                                            title,
+                                                            "type": "web_url",
+                                                            "url": datastr.substring(4),
+                                                        }
+                                                    } else if (option[2]) return {
+                                                        title: text,
+                                                        "type": "postback",
+                                                        "payload": JSON.stringify({
+                                                            type: 'ask',
+                                                            text: text,
+                                                            goto: option[2],
+                                                            questionId: flow[0]
+                                                        })
                                                     }
-                                                } else if (option[2]) return {
-                                                    title: text,
-                                                    "type": "postback",
-                                                    "payload": JSON.stringify({
-                                                        type: 'ask',
-                                                        text: text,
-                                                        goto: option[2],
-                                                        questionId: flow[0]
-                                                    })
+                                                })
+                                                console.log('call_to_actions', call_to_actions)
+
+                                                persistent_menu.call_to_actions.push({
+                                                    title: menuTitle,
+                                                    type: "nested",
+                                                    call_to_actions
+                                                })
+                                            }
+                                            else if (optionsList[0]) {
+                                                var option = optionsList[0]
+
+                                                var meta = {
+                                                    type: 'ask',
+                                                    text: menuTitle,
+                                                    questionId: flow[0]
                                                 }
-                                            })
-                                            console.log('call_to_actions', call_to_actions)
+                                                if (option[2]) {
+                                                    meta.goto = option[2]
+                                                }
+                                                persistent_menu.call_to_actions.push({
+                                                    title: menuTitle,
+                                                    "type": "postback",
+                                                    "payload": JSON.stringify(meta)
+                                                })
 
-                                            persistent_menu.call_to_actions.push({
-                                                title: menuTitle,
-                                                type: "nested",
-                                                call_to_actions
-                                            })
-                                        }
-                                        else if (optionsList[0]) {
-                                            var option = optionsList[0]
+                                            }
 
-                                            var meta = {
-                                                type: 'ask',
-                                                text: menuTitle,
-                                                questionId: flow[0]
-                                            }
-                                            if (option[2]) {
-                                                meta.goto = option[2]
-                                            }
-                                            persistent_menu.call_to_actions.push({
-                                                title: menuTitle,
-                                                "type": "postback",
-                                                "payload": JSON.stringify(meta)
-                                            })
 
                                         }
 
 
                                     }
+
+                                    if (type == '11' && save.editId) {
+                                        console.log(flow[6][0])
+                                        renderOps['r' + r] = ["image", {
+                                            "cosmoId": flow[6][0],
+                                            "container": save.editId
+                                        }]
+                                        r++
+                                    }
+
+                                }
+                                if(r>0)save.renderOps = renderOps
+                                console.log('Done greeting & menu')
+
+
+                                if (greeting.length > 0) save.greeting = greeting
+                                if (persistent_menu.call_to_actions.length > 0) save.menu = {persistent_menu: [persistent_menu]}
+                                if (dataLadiBot[id] && dataLadiBot[id].flow) {
+                                    save.flow = dataLadiBot[id].flow
+                                } else {
+                                    save.flow = vietnameseDecode(data[8] || 'untitled')
                                 }
 
-                            }
-                            console.log('Done greeting & menu')
+
+                                console.log('Get form', save)
+                                if (pageID) save.page = pageID
+                                db.ref('ladiBot').child(save.flow).update(save)
+                                    .then(result => {
+                                        if (access_token && name && pageID) {
+                                            page = pageID
+                                            getLongLiveToken(access_token).then(data => {
+                                                var new_access_token = data.access_token
+                                                var pageData = {
+                                                    access_token: new_access_token, name, id: pageID
+                                                };
+                                                subscribed_apps(new_access_token, pageID)
+                                                    .then(result => saveFacebookPage(pageData)
+                                                        .then(result => {
+                                                            facebookPage[page] = pageData
+                                                            save.page = `${facebookPage[page].id}`;
+                                                            db.ref('ladiBot').child(save.flow).update(save)
+                                                            setGreeting(save.greeting, pageID)
+                                                                .then(result => setGetstarted(pageID)
+                                                                    .then(result => setDefautMenu(pageID, save.menu)
+                                                                        .then(result => setWit(pageID)
+                                                                            .then(result => resolve(save)))
+                                                                    ))
+
+                                                        })
+                                                    )
 
 
-                            if (greeting.length > 0) save.greeting = greeting
-                            if (persistent_menu.call_to_actions.length > 0) save.menu = {persistent_menu: [persistent_menu]}
-                            if (dataLadiBot[id] && dataLadiBot[id].flow) {
-                                save.flow = dataLadiBot[id].flow
-                            } else {
-                                save.flow = vietnameseDecode(data[8] || 'untitled')
-                            }
-
-                            console.log('Get form', save.id)
-                            if (pageID) save.page = pageID
-                            db.ref('ladiBot').child(save.flow).update(save)
-                                .then(result => {
-                                    if (access_token && name && pageID) {
-                                        page = pageID
-                                        getLongLiveToken(access_token).then(data => {
-                                            var new_access_token = data.access_token
-                                            var pageData = {
-                                                access_token: new_access_token, name, id: pageID
-                                            };
-                                            subscribed_apps(new_access_token, pageID)
-                                                .then(result => saveFacebookPage(pageData)
-                                                    .then(result => {
-                                                        facebookPage[page] = pageData
-                                                        save.page = `${facebookPage[page].id}`;
-                                                        db.ref('ladiBot').child(save.flow).update(save)
-                                                        setGreeting(save.greeting, pageID)
-                                                            .then(result => setGetstarted(pageID)
-                                                                .then(result => setDefautMenu(pageID, save.menu)
-                                                                    .then(result => setWit(pageID)
-                                                                        .then(result => resolve(save)))
-                                                                ))
-
-                                                    })
-                                                )
+                                            })
 
 
-                                        })
+                                        } else resolve(save)
 
 
-                                    } else resolve(save)
+                                    })
+                                    .catch(err => reject({err: JSON.stringify(err)}))
+
+                            } else reject({err: 'This parse was not public'})
+                        } else reject({err: 'This script was not public'})
 
 
-                                })
-                                .catch(err => reject({err: JSON.stringify(err)}))
+                    } else reject({err: 'This data was not public'})
 
-                        } else reject({err: 'This parse was not public'})
-                    } else reject({err: 'This script was not public'})
-
-
-                } else reject({err: 'This data was not public'})
-
-            })
+                }
+            )
             .catch(err => {
                 console.log('get chat err', err)
                 reject(err)
@@ -3126,6 +3155,9 @@ db.ref('webhook').on('child_added', function (snap) {
                                     .catch(err => console.error())
                                 ).catch(err => console.error());
 
+                            messagingEvent.type = 'received';
+                            saveSenderData({lastReceive: messagingEvent}, senderID, pageID)
+
 
                         } else if (messagingEvent.read && pageID != facebookPage['dumpling'].id) {
                             receivedMessageRead(messagingEvent);
@@ -3139,14 +3171,12 @@ db.ref('webhook').on('child_added', function (snap) {
                             console.log("Webhook received unknown messagingEvent: ", messagingEvent);
                         }
 
-                        messagingEvent.type = 'received';
                         messageFactoryCol.insert(messagingEvent)
-                            .then(result => {
-                                saveSenderData({lastReceive: messagingEvent}, senderID, pageID)
-                            })
+                            .then(result => db.ref('webhook').child(snap.key).remove()
+                            )
                             .catch(console.error)
 
-                        db.ref('webhook').child(snap.key).remove()
+
 
 
                     }
@@ -4358,6 +4388,81 @@ app.listen(port, function () {
 });
 
 
+var urlencode = require('urlencode');
+var renderOps = {
+    "r0": ["image", {
+        "cosmoId": "1HeCtXoP7XdbqRTNoXEPiPsJlkeJZ2svVLYh3mSFSm-ynkA",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r1": ["image", {
+        "cosmoId": "1zzwsJ5qjMhZs23sSKaWgegO4G0HTDLWXxvR13YHY2wQRxg",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r2": ["image", {
+        "cosmoId": "1xKfNA8T11Am99YVS_J6jRzroh5V2qmAetoB69EA5WGJzpg",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r3": ["image", {
+        "cosmoId": "1Wop0zVtvOOj3Qe-BJjm1HRDl28C9ELjrfqNkUFMSTPBJFA",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r4": ["image", {
+        "cosmoId": "1-ckCb2YpE6rdq_WVhpGxY_c6_HQOgwiCBcnQLje7B5vnAA",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r5": ["image", {
+        "cosmoId": "1GW21nqXpc1XCAc5Z6TSIEhn8EemRkI8YXHoVprMCpSQ5nQ",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r6": ["image", {
+        "cosmoId": "1XwZYb8yi_q923sRUpkHxeM5yP8hVge4pPuasrhbTnzz0fg",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r7": ["image", {
+        "cosmoId": "1ysKPO2AksLLUDV3Hl5BhNVxCGaGaKu4kSlxCMw9-DFAP5g",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r8": ["image", {
+        "cosmoId": "1C4P0GtxCALN7c8I1A8PCHIYD4hBZWuT5oFBiuZ-85PR-2A",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r9": ["image", {
+        "cosmoId": "1QChpuN16TfmggQBwE8Ai4PBQ3b4e3qZ-rkYDCJPZw1U-sA",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r10": ["image", {
+        "cosmoId": "1xzQ8unWHUum2coXy5x-EkZW9pOZHjxbqonBACYEw6ONjNg",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r11": ["image", {
+        "cosmoId": "1vckSIuf_XRtVL_fpZPgDanQ8T-rTUb-7_t9X7IOw-lHUBg",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r12": ["image", {
+        "cosmoId": "1C24yh8c6wdBkQdcEWUk62vUxalKVn2dkZHtQ7g8XMwE3qQ",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r13": ["image", {
+        "cosmoId": "1DwuZZxeDSJLBn69xiUcycg1ly6dLAegSdqJNIq5oSAn7kw",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r14": ["image", {
+        "cosmoId": "1dEnDT521FNbpU-6QAMlQtkNe7c8jx5y1MBQXN73RVi_95Q",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r15": ["image", {
+        "cosmoId": "155R0TxyER5pnCTGhHtaqRXOVwgNEOCGpXUfygDy5ZRwNtA",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }],
+    "r16": ["image", {
+        "cosmoId": "13BCl-OxPSTWFezhSqQpTbgJ7W01yogEDAI6r8TL6G8L7Hw",
+        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
+    }]
+}
+var data = 'renderOps=' + urlencode(JSON.stringify(renderOps))
+axios.post('https://docs.google.com/forms/d/1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y/renderdata?id=1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y&' + data)
+    .then(result => console.log(result.data))
+    .catch(err => console.log(err))
 
 
 module.exports = app;
