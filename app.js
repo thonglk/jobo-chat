@@ -144,6 +144,7 @@ const FIRE_BASE_ADMIN = {
     }
 }
 const vietnameseDecode = (str) => {
+    console.log('vietnameseDecode',str)
     if (str) {
         str = str.toLowerCase();
         str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
@@ -514,8 +515,8 @@ function getChat({url, page, access_token, name, pageID}) {
                                 }
 
                                 if (r > 0) {
-                                    var data = 'renderOps=' + urlencode(JSON.stringify(renderOps))
-                                    axios.post(`https://docs.google.com/forms/d/${save.editId}/renderdata?id=${save.editId}&` + data)
+                                    var renderStr = 'renderOps=' + urlencode(JSON.stringify(renderOps))
+                                    axios.post(`https://docs.google.com/forms/d/${save.editId}/renderdata?id=${save.editId}&` + renderStr)
                                         .then(result => {
                                             var sub = result.data.substr(5)
 
@@ -539,11 +540,8 @@ function getChat({url, page, access_token, name, pageID}) {
 
                                 if (greeting.length > 0) save.greeting = greeting
                                 if (persistent_menu.call_to_actions.length > 0) save.menu = {persistent_menu: [persistent_menu]}
-                                if (dataLadiBot[id] && dataLadiBot[id].flow) {
-                                    save.flow = dataLadiBot[id].flow
-                                } else {
-                                    save.flow = vietnameseDecode(data[8] || 'untitled')
-                                }
+
+                                save.flow = vietnameseDecode(data[8] || 'untitled')
 
 
                                 console.log('Get form', save)
