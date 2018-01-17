@@ -360,8 +360,15 @@ function getChat({url, page, access_token, name, pageID}) {
                                 console.log('data', data)
                                 var id = allData[14]
                                 var save = {
-                                    id, data
+                                    id, data,flow: vietnameseDecode(data[8] || 'untitled')
+
                                 }
+                                if (!url.match('/forms/d/e/')) {
+                                    var urla = url.split('/forms/d/')
+                                    var editId = urla[1].split('/')[0]
+                                    save.editId = editId
+                                }
+
                                 var flows = data[1]
                                 // add description
                                 if (data[0]) {
@@ -369,11 +376,7 @@ function getChat({url, page, access_token, name, pageID}) {
                                     flows.unshift(des)
                                 }
 
-                                if (!url.match('/forms/d/e/')) {
-                                    var urla = url.split('/forms/d/')
-                                    var editId = urla[1].split('/')[0]
-                                    save.editId = editId
-                                }
+
 
                                 //
                                 var greeting = [];
@@ -541,7 +544,6 @@ function getChat({url, page, access_token, name, pageID}) {
                                 if (greeting.length > 0) save.greeting = greeting
                                 if (persistent_menu.call_to_actions.length > 0) save.menu = {persistent_menu: [persistent_menu]}
 
-                                save.flow = vietnameseDecode(data[8] || 'untitled')
 
 
                                 console.log('Get form', save)
