@@ -205,9 +205,11 @@ function initDataLoad(ref, store) {
 var dataAccount = {}, accountRef = db.ref('account')
 initDataLoad(accountRef, dataAccount)
 var facebookPage = {}, facebookPageRef = db.ref('facebookPage')
+
 initDataLoad(facebookPageRef, facebookPage)
 
 var dataLadiBot = {}, ladiBotRef = db.ref('ladiBot')
+
 initDataLoad(ladiBotRef, dataLadiBot)
 
 function SetOnOffPage(pageID, status) {
@@ -331,7 +333,6 @@ function getChat({url, page, access_token, name, pageID}) {
         axios.get(url)
             .then(result => {
                     console.log('axios.get(queryURL)', result.data);
-
 
                     if (
                         result.data.match('FB_PUBLIC_LOAD_DATA_ = ')
@@ -525,7 +526,7 @@ function getChat({url, page, access_token, name, pageID}) {
                                                 console.log(i, res[i])
                                                 save.data[20][renderOps[i][1].cosmoId] = res[i]
                                             }
-                                            db.ref('ladiBot').child(save.flow).update(save)
+                                            saveLadiBot(save, save.id)
 
 
                                         })
@@ -549,7 +550,7 @@ function getChat({url, page, access_token, name, pageID}) {
                                 if (pageID) save.page = pageID
 
 
-                                db.ref('ladiBot').child(save.flow).update(save)
+                                saveLadiBot(save, save.id)
                                     .then(result => {
                                         if (access_token && name && pageID) {
                                             page = pageID
@@ -563,7 +564,7 @@ function getChat({url, page, access_token, name, pageID}) {
                                                         .then(result => {
                                                             facebookPage[page] = pageData
                                                             save.page = `${facebookPage[page].id}`;
-                                                            db.ref('ladiBot').child(save.flow).update(save)
+                                                            saveLadiBot(save, save.id)
                                                             setGreeting(save.greeting, pageID)
                                                                 .then(result => setGetstarted(pageID)
                                                                     .then(result => setDefautMenu(pageID, save.menu)
@@ -597,6 +598,19 @@ function getChat({url, page, access_token, name, pageID}) {
                 reject(err)
             })
 
+    })
+
+}
+
+function saveLadiBot(save, id) {
+    return new Promise(function (resolve, reject) {
+        var find = _.where(dataLadiBot, {id})
+        if (find.length > 0) {
+            db.ref('ladiBot').child(find[0].key).update(save).then(result => resolve(save))
+        } else {
+            save.key = save.flow + Date.now()
+            db.ref('ladiBot').child(save.key).update(save).then(result => resolve(save))
+        }
     })
 
 }
