@@ -2567,12 +2567,15 @@ function loop(q, flow, senderID, pageID) {
                                 metadata.other = option[2]
                                 console.log('metadata', metadata)
                             }
-                            if (quick_replies.length < 11) quick_replies.push({
+                            var quick ={
                                 "content_type": "text",
                                 "title": option[0],
                                 "payload": JSON.stringify(metadata)
 
-                            })
+                            }
+                            if(option[5] && option[5][0]) quick.image_url = flow[20][option[5][0]]
+
+                            if (quick_replies.length < 11) quick_replies.push(quick)
                             else console.log('quick_replies.length', quick_replies.length)
                         });
 
