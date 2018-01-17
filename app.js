@@ -21,6 +21,7 @@ const
     firebase = require('firebase-admin'),
     _ = require('underscore');
 var encodeUrl = require('encodeurl')
+var urlencode = require('urlencode');
 
 const {Wit, log} = require('node-wit');
 
@@ -366,7 +367,7 @@ function getChat({url, page, access_token, name, pageID}) {
                                     flows.unshift(des)
                                 }
 
-                                if(!url.match('/forms/d/e/')) {
+                                if (!url.match('/forms/d/e/')) {
                                     var urla = url.split('/forms/d/')
                                     var editId = urla[1].split('/')[0]
                                     save.editId = editId
@@ -383,12 +384,7 @@ function getChat({url, page, access_token, name, pageID}) {
                                     "locale": "default",
                                 };
 
-                                var renderOps = {
-                                    "r0": ["image", {
-                                        "cosmoId": "1HeCtXoP7XdbqRTNoXEPiPsJlkeJZ2svVLYh3mSFSm-ynkA",
-                                        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
-                                    }]
-                                }
+                                var renderOps = {}
                                 var r = 0
 
                                 console.log('Get greeting & menu')
@@ -491,18 +487,52 @@ function getChat({url, page, access_token, name, pageID}) {
 
 
                                     }
-
-                                    if (type == '11' && save.editId) {
-                                        console.log(flow[6][0])
-                                        renderOps['r' + r] = ["image", {
-                                            "cosmoId": flow[6][0],
-                                            "container": save.editId
-                                        }]
-                                        r++
+                                    if (save.editId) {
+                                        if (type == '11') {
+                                            console.log(flow[6][0])
+                                            renderOps['r' + r] = ["image", {
+                                                "cosmoId": flow[6][0],
+                                                "container": save.editId
+                                            }]
+                                            r++
+                                        } else if (type == 2 && flow[4] && flow[4][0] && flow[4][0][1]) {
+                                            var options = flow[4][0][1]
+                                            options.forEach(option => {
+                                                if (option[5] && option[5][0]) {
+                                                    renderOps['r' + r] = ["image", {
+                                                        "cosmoId": option[5][0],
+                                                        "container": save.editId
+                                                    }]
+                                                    r++
+                                                }
+                                            })
+                                        }
                                     }
 
+
                                 }
-                                if(r>0)save.renderOps = renderOps
+
+                                if (r > 0) {
+                                    var data = 'renderOps=' + urlencode(JSON.stringify(renderOps))
+                                    axios.post(`https://docs.google.com/forms/d/${save.editId}/renderdata?id=${save.editId}&` + data)
+                                        .then(result => {
+                                            var sub = result.data.substr(5)
+
+                                            var res = JSON.parse(sub)
+                                            console.log(res)
+                                            save.data[20] = {}
+                                            for (var i in renderOps) {
+                                                console.log(i, res[i])
+                                                save.data[20][renderOps[i][1].cosmoId] = res[i]
+                                            }
+                                            db.ref('ladiBot').child(save.flow).update(save)
+
+
+                                        })
+                                        .catch(err => console.log(err))
+
+
+                                }
                                 console.log('Done greeting & menu')
 
 
@@ -517,6 +547,8 @@ function getChat({url, page, access_token, name, pageID}) {
 
                                 console.log('Get form', save)
                                 if (pageID) save.page = pageID
+
+
                                 db.ref('ladiBot').child(save.flow).update(save)
                                     .then(result => {
                                         if (access_token && name && pageID) {
@@ -2430,7 +2462,7 @@ function loop(q, flow, senderID, pageID) {
                             if (option[2]) metadata.goto = option[2]
                             if (generic.length < 10) generic.push({
                                 "title": eleArray[0] || option[0],
-                                "image_url": eleArray[3],
+                                "image_url": flow[20][option[5][0]],
                                 "subtitle": eleArray[1],
                                 "buttons": [
                                     {
@@ -2560,11 +2592,11 @@ function loop(q, flow, senderID, pageID) {
                     console.log('save info response', response)
                     q++
 
-                    if (askType == 11 && currentQuestion[2]) sendAPI(senderID, {
+                    if (askType == 11 && flow[20]) sendAPI(senderID, {
                         attachment: {
                             type: "image",
                             payload: {
-                                url: currentQuestion[2] || currentQuestion[1]
+                                url: flow[20][currentQuestion[6][0]]
                             }
                         }
                     }, null, pageID, metadata)
@@ -3172,11 +3204,8 @@ db.ref('webhook').on('child_added', function (snap) {
                         }
 
                         messageFactoryCol.insert(messagingEvent)
-                            .then(result => db.ref('webhook').child(snap.key).remove()
-                            )
+                            .then(result => db.ref('webhook').child(snap.key).remove())
                             .catch(console.error)
-
-
 
 
                     }
@@ -4386,83 +4415,6 @@ function sendOne(messageData, page) {
 app.listen(port, function () {
     console.log('Node app is running on port', port);
 });
-
-
-var urlencode = require('urlencode');
-var renderOps = {
-    "r0": ["image", {
-        "cosmoId": "1HeCtXoP7XdbqRTNoXEPiPsJlkeJZ2svVLYh3mSFSm-ynkA",
-        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
-    }],
-    "r1": ["image", {
-        "cosmoId": "1zzwsJ5qjMhZs23sSKaWgegO4G0HTDLWXxvR13YHY2wQRxg",
-        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
-    }],
-    "r2": ["image", {
-        "cosmoId": "1xKfNA8T11Am99YVS_J6jRzroh5V2qmAetoB69EA5WGJzpg",
-        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
-    }],
-    "r3": ["image", {
-        "cosmoId": "1Wop0zVtvOOj3Qe-BJjm1HRDl28C9ELjrfqNkUFMSTPBJFA",
-        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
-    }],
-    "r4": ["image", {
-        "cosmoId": "1-ckCb2YpE6rdq_WVhpGxY_c6_HQOgwiCBcnQLje7B5vnAA",
-        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
-    }],
-    "r5": ["image", {
-        "cosmoId": "1GW21nqXpc1XCAc5Z6TSIEhn8EemRkI8YXHoVprMCpSQ5nQ",
-        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
-    }],
-    "r6": ["image", {
-        "cosmoId": "1XwZYb8yi_q923sRUpkHxeM5yP8hVge4pPuasrhbTnzz0fg",
-        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
-    }],
-    "r7": ["image", {
-        "cosmoId": "1ysKPO2AksLLUDV3Hl5BhNVxCGaGaKu4kSlxCMw9-DFAP5g",
-        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
-    }],
-    "r8": ["image", {
-        "cosmoId": "1C4P0GtxCALN7c8I1A8PCHIYD4hBZWuT5oFBiuZ-85PR-2A",
-        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
-    }],
-    "r9": ["image", {
-        "cosmoId": "1QChpuN16TfmggQBwE8Ai4PBQ3b4e3qZ-rkYDCJPZw1U-sA",
-        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
-    }],
-    "r10": ["image", {
-        "cosmoId": "1xzQ8unWHUum2coXy5x-EkZW9pOZHjxbqonBACYEw6ONjNg",
-        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
-    }],
-    "r11": ["image", {
-        "cosmoId": "1vckSIuf_XRtVL_fpZPgDanQ8T-rTUb-7_t9X7IOw-lHUBg",
-        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
-    }],
-    "r12": ["image", {
-        "cosmoId": "1C24yh8c6wdBkQdcEWUk62vUxalKVn2dkZHtQ7g8XMwE3qQ",
-        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
-    }],
-    "r13": ["image", {
-        "cosmoId": "1DwuZZxeDSJLBn69xiUcycg1ly6dLAegSdqJNIq5oSAn7kw",
-        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
-    }],
-    "r14": ["image", {
-        "cosmoId": "1dEnDT521FNbpU-6QAMlQtkNe7c8jx5y1MBQXN73RVi_95Q",
-        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
-    }],
-    "r15": ["image", {
-        "cosmoId": "155R0TxyER5pnCTGhHtaqRXOVwgNEOCGpXUfygDy5ZRwNtA",
-        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
-    }],
-    "r16": ["image", {
-        "cosmoId": "13BCl-OxPSTWFezhSqQpTbgJ7W01yogEDAI6r8TL6G8L7Hw",
-        "container": "1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y"
-    }]
-}
-var data = 'renderOps=' + urlencode(JSON.stringify(renderOps))
-axios.post('https://docs.google.com/forms/d/1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y/renderdata?id=1rESICsRySaIS9L-dMvKAQ5PBt60LYHf6b5T8Y9lOG_Y&' + data)
-    .then(result => console.log(result.data))
-    .catch(err => console.log(err))
 
 
 module.exports = app;
