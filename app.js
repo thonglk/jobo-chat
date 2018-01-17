@@ -2471,12 +2471,13 @@ function loop(q, flow, senderID, pageID) {
                         var map = _.map(askOption, option => {
 
                             var eleArray = option[0].split('&&')
-
+                            var image_url = ''
+                            if(option[5] && option[5][0]) image_url = flow[20][option[5][0]]
 
                             if (option[2]) metadata.goto = option[2]
                             if (generic.length < 10) generic.push({
                                 "title": eleArray[0] || option[0],
-                                "image_url": flow[20][option[5][0]],
+                                "image_url": image_url,
                                 "subtitle": eleArray[1],
                                 "buttons": [
                                     {
