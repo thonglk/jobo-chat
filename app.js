@@ -652,8 +652,8 @@ function getPaginatedItems(items, page = 1, per_page = 15) {
 
 
 app.post('/noti', function (req, res) {
-    let {recipientId, message, page} = req.body;
-    if (page) sendAPI(recipientId, message, null, page)
+    let {recipientId, message, pageID} = req.body;
+    if (pageID) sendAPI(recipientId, message, null, pageID)
     else sendAPI(recipientId, message)
         .then(result => res.send(result))
         .catch(err => res.status(500).json(err))
@@ -1650,6 +1650,7 @@ function intention(payload, senderID, postback, message = {}) {
                                             }
                                         ]
                                     }
+
                                 ]
                             }
                         }
@@ -3123,7 +3124,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         };
                                                         loop(0, flow, senderID, pageID)
                                                     } else if (payload.keyword == 'update-my-bot') {
-                                                        var flowId = result.editId || result.id
+                                                        if(result.editId) var flowId = result.editId +'/edit'
+                                                        else flowId = result.id +'/viewform'
                                                         var data = {url: `https://docs.google.com/forms/d/${flowId}`}
 
                                                         if (pageID && facebookPage[pageID] && facebookPage[pageID].access_token && facebookPage[pageID].name) data = Object.assign(data, facebookPage[pageID], {pageID})
