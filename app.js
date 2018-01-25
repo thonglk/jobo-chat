@@ -3464,9 +3464,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }
 
                                                     }
-                                                } else {
-                                                    var flow = refData[0]
-                                                    senderData.flow = flow
                                                 }
 
                                                 console.log('senderData', senderData)
@@ -3475,24 +3472,16 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 /// case create
 
                                             }
-                                            else if (!senderData.flow) {
-                                                if(facebookPage[pageID].currentBot){
+
+
+                                            if (!facebookPage[pageID].page_off) {
+                                                if (facebookPage[pageID].currentBot) {
                                                     var flowId = facebookPage[pageID].currentBot
                                                     var result = _.findWhere(dataLadiBot, {id: flowId});
                                                 } else {
                                                     var result = _.findWhere(dataLadiBot, {page: pageID});
                                                 }
-                                                if (result) senderData.flow = result.flow
-                                                saveSenderData(senderData, senderID, pageID)
-                                            }
 
-
-                                            console.log('flow', senderData.flow)
-
-                                            if (senderData.flow && !facebookPage[pageID].page_off) {
-
-
-                                                var result = _.findWhere(dataLadiBot, {flow: senderData.flow});
                                                 var flow = result.data;
                                                 var questions = flow[1];
 
