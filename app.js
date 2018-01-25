@@ -360,7 +360,7 @@ function getChat({url, page, access_token, name, pageID}) {
                                 console.log('data', data)
                                 var id = allData[14]
                                 var save = {
-                                    id, data,flow: vietnameseDecode(data[8] || 'untitled')
+                                    id, data, flow: vietnameseDecode(data[8] || 'untitled')
 
                                 }
                                 if (!url.match('/forms/d/e/')) {
@@ -375,7 +375,6 @@ function getChat({url, page, access_token, name, pageID}) {
                                     var des = [0, data[0], null, 6]
                                     flows.unshift(des)
                                 }
-
 
 
                                 //
@@ -490,7 +489,6 @@ function getChat({url, page, access_token, name, pageID}) {
 
                                         }
 
-
                                     }
                                     if (save.editId) {
                                         if (type == '11') {
@@ -536,14 +534,12 @@ function getChat({url, page, access_token, name, pageID}) {
                                         })
                                         .catch(err => console.log(err))
 
-
                                 }
                                 console.log('Done greeting & menu')
 
 
                                 if (greeting.length > 0) save.greeting = greeting
                                 if (persistent_menu.call_to_actions.length > 0) save.menu = {persistent_menu: [persistent_menu]}
-
 
 
                                 console.log('Get form', save)
@@ -557,7 +553,7 @@ function getChat({url, page, access_token, name, pageID}) {
                                             getLongLiveToken(access_token).then(data => {
                                                 var new_access_token = data.access_token
                                                 var pageData = {
-                                                    access_token: new_access_token, name, id: pageID
+                                                    access_token: new_access_token, name, id: pageID, currentBot: id
                                                 };
                                                 subscribed_apps(new_access_token, pageID)
                                                     .then(result => saveFacebookPage(pageData)
@@ -2473,7 +2469,7 @@ function loop(q, flow, senderID, pageID) {
 
                             var eleArray = option[0].split('&&')
                             var image_url = ''
-                            if(option[5] && option[5][0]) image_url = flow[20][option[5][0]]
+                            if (option[5] && option[5][0]) image_url = flow[20][option[5][0]]
 
                             if (option[2]) metadata.goto = option[2]
                             if (generic.length < 10) generic.push({
@@ -2568,13 +2564,13 @@ function loop(q, flow, senderID, pageID) {
                                 metadata.other = option[2]
                                 console.log('metadata', metadata)
                             }
-                            var quick ={
+                            var quick = {
                                 "content_type": "text",
                                 "title": option[0],
                                 "payload": JSON.stringify(metadata)
 
                             }
-                            if(option[5] && option[5][0]) quick.image_url = flow[20][option[5][0]]
+                            if (option[5] && option[5][0]) quick.image_url = flow[20][option[5][0]]
 
                             if (quick_replies.length < 11) quick_replies.push(quick)
                             else console.log('quick_replies.length', quick_replies.length)
@@ -2644,6 +2640,408 @@ function loop(q, flow, senderID, pageID) {
 
 }
 
+
+function loadContentById(goto, flow, index = 0) {
+    var result = []
+    var questions = flow[1]
+    if (!index) {
+        var index = _.findLastIndex(questions, {
+            0: goto
+        });
+    }
+
+    for (var i = index; i < questions.length; i++) {
+        var currentQuestion = questions[i]
+        console.log('current', currentQuestion)
+        var nextId = +index + 1
+        var nextQuestion = questions[nextId]
+        if (currentQuestion[3] == 8) {
+            currentQuestion = nextQuestion
+        }
+        if (nextQuestion[3] == 8) break
+
+
+        var currentQuestionId = currentQuestion[0];
+        var messageSend = {
+            text: currentQuestion[1],
+        }
+        var metadata = {
+            questionId: currentQuestionId
+        }
+        var askStringStr = `0,1,7,9,10,13`;
+        var askOptionStr = `2,3,4,5`;
+        var askType = currentQuestion[3];
+        console.log('askType', askType);
+        if (currentQuestion[4]) {
+            metadata.askType = askType;
+            metadata.type = 'ask';
+
+            if (askOptionStr.match(askType)) {
+                var askOption = currentQuestion[4][0][1];
+                var check = askOption[0][0]
+                if (check.match('&&')) {
+                    var messageSend = {
+                        "attachment": {
+                            "type": "template",
+                            "payload": {
+                                "template_type": "generic",
+                                "elements": []
+                            }
+                        }
+                    }
+                    var generic = []
+
+                    var map = _.map(askOption, option => {
+
+                        var eleArray = option[0].split('&&')
+                        var image_url = ''
+                        if (option[5] && option[5][0]) image_url = flow[20][option[5][0]]
+
+                        if (option[2]) metadata.goto = option[2]
+                        if (generic.length < 10) generic.push({
+                            "title": eleArray[0] || option[0],
+                            "image_url": image_url,
+                            "subtitle": eleArray[1],
+                            "buttons": [
+                                {
+                                    "type": "postback",
+                                    "title": eleArray[2] || 'Choose',
+                                    "payload": JSON.stringify(metadata)
+                                }
+                            ]
+                        });
+                        else console.log('generic.length', generic.length)
+                    });
+                    messageSend.attachment.payload.elements = generic;
+                    result.push({text: currentQuestion[1], metadata})
+                    messageSend.metadata = metadata
+                    result.push(messageSend)
+
+                } else if (askType == '3') {
+                    var messageSend = {
+                        attachment: {
+                            type: "template",
+                            payload: {
+                                template_type: "button",
+                                text: currentQuestion[1],
+                                buttons: []
+                            }
+                        }
+                    }
+                    var buttons = []
+                    var map = _.map(askOption, option => {
+                        var button = {}
+                        metadata.text = option[0]
+                        if (option[2]) metadata.goto = option[2]
+                        if (option[4] == 1) metadata.other = option[2]
+
+                        console.log('option[0].match("[")', option[0])
+                        var str = option[0]
+
+                        if (str.indexOf("[") != -1 && str.indexOf("]") != -1) {
+                            var n = str.indexOf("[") + 1;
+                            var b = str.indexOf("]");
+                            var sub = str.substr(n, b - n)
+                            var tit = str.substr(0, n - 2)
+                            var expression = "/((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[\\-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9\\.\\-]+|(?:www\\.|[\\-;:&=\\+\\$,\\w]+@)[A-Za-z0-9\\.\\-]+)((?:\\/[\\+~%\\/\\.\\w\\-_]*)?\\??(?:[\\-\\+=&;%@\\.\\w_]*)#?(?:[\\.\\!\\/\\\\\\w]*))?)/\n";
+                            var regex = 'http';
+                            if (sub.match(regex)) button = {
+                                type: "web_url",
+                                url: sub,
+                                title: tit
+                            }
+                            else {
+                                button = {
+                                    type: "phone_number",
+                                    title: tit,
+                                    payload: sub
+                                }
+                            }
+                        } else button = {
+                            type: "postback",
+                            title: option[0],
+                            payload: JSON.stringify(metadata)
+                        }
+
+
+                        if (buttons.length < 3) buttons.push(button);
+                        else console.log('buttons.length', buttons.length)
+
+
+                    });
+                    messageSend.attachment.payload.buttons = buttons
+                    messageSend.metadata = metadata
+                    result.push(messageSend)
+                } else {
+                    var quick_replies = []
+                    var map = _.map(askOption, option => {
+                        metadata.text = option[0]
+                        if (option[2]) metadata.goto = option[2]
+                        if (option[4] == 1) {
+                            metadata.other = option[2]
+                            console.log('metadata', metadata)
+                        }
+                        var quick = {
+                            "content_type": "text",
+                            "title": option[0],
+                            "payload": JSON.stringify(metadata)
+
+                        }
+                        if (option[5] && option[5][0]) quick.image_url = flow[20][option[5][0]]
+
+                        if (quick_replies.length < 11) quick_replies.push(quick)
+                        else console.log('quick_replies.length', quick_replies.length)
+                    });
+
+                    messageSend.quick_replies = quick_replies
+                    messageSend.metadata = metadata
+                    result.push(messageSend)
+
+                }
+
+
+            } else if (askStringStr.match(askType)) {
+                messageSend.metadata = metadata
+                result.push(messageSend)
+            }
+
+            break
+        } else {
+            metadata.type = 'info';
+            if (askType == 11 && flow[20]) result.push({
+                attachment: {
+                    type: "image",
+                    payload: {
+                        url: flow[20][currentQuestion[6][0]]
+                    }
+                },
+                metadata
+            })
+            else if (askType == 12 && currentQuestion[6][3]) result.push({
+                text: `https://www.youtube.com/watch?v=${currentQuestion[6][3]}`,
+                metadata
+            })
+            else if (askType == 6) {
+                messageSend.metadata = metadata
+                result.push(messageSend)
+            }
+
+
+        }
+    }
+
+    return result
+}
+
+
+function convertContentById(goto, flow, index = 0) {
+    var result = []
+    var questions = flow[1]
+    if (!index) {
+        var index = _.findLastIndex(questions, {
+            0: goto
+        });
+    }
+
+    for (var i = index; i < questions.length; i++) {
+        var currentQuestion = questions[i]
+        console.log('current', currentQuestion)
+
+
+        var currentQuestionId = currentQuestion[0];
+        var messageSend = {
+            text: currentQuestion[1],
+        }
+        var metadata = {
+            questionId: currentQuestionId
+        }
+        var askStringStr = `0,1,7,9,10,13`;
+        var askOptionStr = `2,3,4,5`;
+        var askType = currentQuestion[3];
+        console.log('askType', askType);
+        if (currentQuestion[4]) {
+            metadata.askType = askType;
+            metadata.type = 'ask';
+
+            if (askOptionStr.match(askType)) {
+                var askOption = currentQuestion[4][0][1];
+                var check = askOption[0][0]
+                if (check.match('&&')) {
+                    var messageSend = {
+                        "attachment": {
+                            "type": "template",
+                            "payload": {
+                                "template_type": "generic",
+                                "elements": []
+                            }
+                        }
+                    }
+                    var generic = []
+
+                    var map = _.map(askOption, option => {
+
+                        var eleArray = option[0].split('&&')
+                        var image_url = ''
+                        if (option[5] && option[5][0]) image_url = flow[20][option[5][0]]
+
+                        if (option[2]) metadata.goto = option[2]
+                        if (generic.length < 10) generic.push({
+                            "title": eleArray[0] || option[0],
+                            "image_url": image_url,
+                            "subtitle": eleArray[1],
+                            "buttons": [
+                                {
+                                    "type": "postback",
+                                    "title": eleArray[2] || 'Choose',
+                                    "payload": JSON.stringify(metadata)
+                                }
+                            ]
+                        });
+                        else console.log('generic.length', generic.length)
+                    });
+                    messageSend.attachment.payload.elements = generic;
+                    result.push({text: currentQuestion[1], metadata})
+                    messageSend.metadata = metadata
+                    result.push(messageSend)
+
+                } else if (askType == '3') {
+                    var messageSend = {
+                        attachment: {
+                            type: "template",
+                            payload: {
+                                template_type: "button",
+                                text: currentQuestion[1],
+                                buttons: []
+                            }
+                        }
+                    }
+                    var buttons = []
+                    var map = _.map(askOption, option => {
+                        var button = {}
+                        metadata.text = option[0]
+                        if (option[2]) metadata.goto = option[2]
+                        if (option[4] == 1) metadata.other = option[2]
+
+                        console.log('option[0].match("[")', option[0])
+                        var str = option[0]
+
+                        if (str.indexOf("[") != -1 && str.indexOf("]") != -1) {
+                            var n = str.indexOf("[") + 1;
+                            var b = str.indexOf("]");
+                            var sub = str.substr(n, b - n)
+                            var tit = str.substr(0, n - 2)
+                            var expression = "/((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[\\-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9\\.\\-]+|(?:www\\.|[\\-;:&=\\+\\$,\\w]+@)[A-Za-z0-9\\.\\-]+)((?:\\/[\\+~%\\/\\.\\w\\-_]*)?\\??(?:[\\-\\+=&;%@\\.\\w_]*)#?(?:[\\.\\!\\/\\\\\\w]*))?)/\n";
+                            var regex = 'http';
+                            if (sub.match(regex)) button = {
+                                type: "web_url",
+                                url: sub,
+                                title: tit
+                            }
+                            else {
+                                button = {
+                                    type: "phone_number",
+                                    title: tit,
+                                    payload: sub
+                                }
+                            }
+                        } else button = {
+                            type: "postback",
+                            title: option[0],
+                            payload: JSON.stringify(metadata)
+                        }
+
+
+                        if (buttons.length < 3) buttons.push(button);
+                        else console.log('buttons.length', buttons.length)
+
+
+                    });
+                    messageSend.attachment.payload.buttons = buttons
+                    messageSend.metadata = metadata
+                    result.push(messageSend)
+                } else {
+                    var quick_replies = []
+                    var map = _.map(askOption, option => {
+                        metadata.text = option[0]
+                        if (option[2]) metadata.goto = option[2]
+                        if (option[4] == 1) {
+                            metadata.other = option[2]
+                            console.log('metadata', metadata)
+                        }
+                        var quick = {
+                            "content_type": "text",
+                            "title": option[0],
+                            "payload": JSON.stringify(metadata)
+
+                        }
+                        if (option[5] && option[5][0]) quick.image_url = flow[20][option[5][0]]
+
+                        if (quick_replies.length < 11) quick_replies.push(quick)
+                        else console.log('quick_replies.length', quick_replies.length)
+                    });
+
+                    messageSend.quick_replies = quick_replies
+                    messageSend.metadata = metadata
+                    result.push(messageSend)
+
+                }
+
+
+            } else if (askStringStr.match(askType)) {
+                messageSend.metadata = metadata
+                result.push(messageSend)
+            }
+
+            break
+        } else {
+            metadata.type = 'info';
+            if (askType == 11 && flow[20]) result.push({
+                attachment: {
+                    type: "image",
+                    payload: {
+                        url: flow[20][currentQuestion[6][0]]
+                    }
+                },
+                metadata
+            })
+            else if (askType == 12 && currentQuestion[6][3]) result.push({
+                text: `https://www.youtube.com/watch?v=${currentQuestion[6][3]}`,
+                metadata
+            })
+            else if (askType == 6) {
+                messageSend.metadata = metadata
+                result.push(messageSend)
+            }
+
+
+        }
+    }
+
+    return result
+}
+
+app.get('/loadContentById', (req, res) => {
+    var {pageID, index} = req.query
+    var result = _.findWhere(dataLadiBot, {page: pageID});
+    if (result) {
+        var flow = result.data;
+        res.send(loadContentById(null, flow, index))
+
+    }
+
+})
+
+
+app.get('/convertContentById', (req, res) => {
+    var {pageID, index} = req.query
+    var result = _.findWhere(dataLadiBot, {page: pageID});
+    if (result) {
+        var flow = result.data;
+        res.send(convertContentById(null, flow, index))
+
+    }
+
+})
 db.ref('webhook').on('child_added', function (snap) {
     var data = snap.val()
     if (data.object == 'page') {
@@ -3078,7 +3476,12 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                             }
                                             else if (!senderData.flow) {
-                                                var result = _.findWhere(dataLadiBot, {page: pageID});
+                                                if(facebookPage[pageID].currentBot){
+                                                    var flowId = facebookPage[pageID].currentBot
+                                                    var result = dataLadiBot[flowId]
+                                                } else {
+                                                    var result = _.findWhere(dataLadiBot, {page: pageID});
+                                                }
                                                 if (result) senderData.flow = result.flow
                                                 saveSenderData(senderData, senderID, pageID)
                                             }
@@ -3124,8 +3527,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         };
                                                         loop(0, flow, senderID, pageID)
                                                     } else if (payload.keyword == 'update-my-bot') {
-                                                        if(result.editId) var flowId = result.editId +'/edit'
-                                                        else flowId = result.id +'/viewform'
+                                                        if (result.editId) var flowId = result.editId + '/edit'
+                                                        else flowId = result.id + '/viewform'
                                                         var data = {url: `https://docs.google.com/forms/d/${flowId}`}
 
                                                         if (pageID && facebookPage[pageID] && facebookPage[pageID].access_token && facebookPage[pageID].name) data = Object.assign(data, facebookPage[pageID], {pageID})
@@ -4434,6 +4837,14 @@ function sendOne(messageData, page) {
 // certificate authority.
 app.listen(port, function () {
     console.log('Node app is running on port', port);
+});
+
+
+app.get('/botform/viewResponse', (req, res) => {
+    viewResponse(req.query)
+        .then(result => res.send(result))
+        .catch(err => res.status(500).json(err))
+
 });
 
 
