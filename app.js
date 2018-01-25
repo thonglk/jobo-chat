@@ -3478,7 +3478,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                             else if (!senderData.flow) {
                                                 if(facebookPage[pageID].currentBot){
                                                     var flowId = facebookPage[pageID].currentBot
-                                                    var result = dataLadiBot[flowId]
+                                                    var result = _.findWhere(dataLadiBot, {id: flowId});
                                                 } else {
                                                     var result = _.findWhere(dataLadiBot, {page: pageID});
                                                 }
