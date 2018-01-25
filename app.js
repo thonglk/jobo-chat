@@ -2429,7 +2429,18 @@ function loop(q, flow, senderID, pageID) {
     console.log('current', q)
     if (q < questions.length) {
         var currentQuestion = questions[q];
-        if (currentQuestion[3] == 8) {
+        if (currentQuestion[4] && currentQuestion[1] && currentQuestion[1].match('locale')) {
+            var askOption = currentQuestion[4][0][1];
+            var lang = senderData.locale.substring(0,2)
+            for(var i in askOption){
+                var option = askOption[i]
+                if(option[0].match(lang)){
+                    go(option[2], q, flow, senderID, pageID)
+                    break
+                }
+            }
+
+        }else if (currentQuestion[3] == 8) {
             var goto = currentQuestion[5]
 
             go(goto, q, flow, senderID, pageID)
@@ -3486,7 +3497,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 var questions = flow[1];
 
                                                 if (result) ladiResCol.findOne({
-                                                    flow: senderData.flow,
                                                     page: pageID,
                                                     senderID
                                                 }).then(response => {
@@ -3494,7 +3504,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     console.log('response', response)
 
                                                     if (!response) response = {
-                                                        flow: senderData.flow,
                                                         page: pageID,
                                                         senderID
                                                     }
@@ -3502,7 +3511,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     if (payload.keyword == 'start-over' || payload.type == 'GET_STARTED') {
                                                         saveSenderData({bot_off: null}, senderID, pageID)
                                                         ladiResCol.remove({
-                                                            flow: senderData.flow,
                                                             page: pageID,
                                                             senderID
                                                         }).then(result => {
@@ -3510,7 +3518,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         });
                                                         payload = {}
                                                         response = {
-                                                            flow: senderData.flow,
                                                             page: pageID,
                                                             senderID,
                                                         };
@@ -3538,7 +3545,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         response[payload.questionId] = payload.text
 
                                                         ladiResCol.findOneAndUpdate({
-                                                            flow: senderData.flow,
                                                             page: pageID,
                                                             senderID
                                                         }, {$set: response}, {upsert: true}).then(result => {
@@ -3547,7 +3553,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         var index = _.findLastIndex(questions, {
                                                             0: payload.questionId
                                                         });
-
 
                                                         var goto = payload.goto
                                                         if (payload.askType == 3 || payload.askType == 2) {
