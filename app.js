@@ -2631,12 +2631,28 @@ function loop(q, flow, senderID, pageID) {
                         text: `https://www.youtube.com/watch?v=${currentQuestion[6][3]}`
                     }, null, pageID, metadata)
                         .then(result => setTimeout(loop(q, flow, senderID, pageID), 3000))
-                    else if (askType == 6) sendAPI(senderID, messageSend, null, pageID, metadata)
-                        .then(result => {
-                            console.log('result', result)
-                            setTimeout(loop(q, flow, senderID, pageID), 3000)
-                        })
-                        .catch(err => console.log('err', err))
+                    else if (askType == 6) {
+                        if(currentQuestion[1].match('pdf')) sendAPI(senderID, {
+                            attachment: {
+                                type: "file",
+                                payload: {
+                                    url: currentQuestion[1]
+                                }
+                            }
+                        }, null, pageID, metadata)
+                            .then(result => {
+                                console.log('result', result)
+                                setTimeout(loop(q, flow, senderID, pageID), 3000)
+                            })
+                            .catch(err => console.log('err', err))
+                        else sendAPI(senderID, messageSend, null, pageID, metadata)
+                            .then(result => {
+                                console.log('result', result)
+                                setTimeout(loop(q, flow, senderID, pageID), 3000)
+                            })
+                            .catch(err => console.log('err', err))
+
+                    }
 
                 })
 
