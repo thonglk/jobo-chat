@@ -2531,6 +2531,7 @@ function loop(q, flow, senderID, pageID) {
 
                             console.log('option[0].match("[")', option[0])
                             var str = option[0]
+                            str = templatelize(str, senderData)
 
                             if (str.indexOf("[") != -1 && str.indexOf("]") != -1) {
                                 var n = str.indexOf("[") + 1;
@@ -2565,8 +2566,11 @@ function loop(q, flow, senderID, pageID) {
                         });
                         messageSend.attachment.payload.buttons = buttons
 
-
-                        sendAPI(senderID, messageSend, null, pageID, metadata)
+                        if (currentQuestion[2] && currentQuestion[2].toLowerCase() == 'notification') sendNotiSub(messageSend, pageID).then(result => {
+                            q++
+                            loop(q, flow, senderID, pageID)
+                        })
+                        else sendAPI(senderID, messageSend, null, pageID, metadata)
                             .then(resutl => console.log('messageSend', messageSend))
                             .catch(err => console.log('sendAPI_err', err))
 
@@ -2579,6 +2583,8 @@ function loop(q, flow, senderID, pageID) {
                                 metadata.other = option[2]
                                 console.log('metadata', metadata)
                             }
+
+
                             var quick = {
                                 "content_type": "text",
                                 "title": option[0],
@@ -2659,8 +2665,7 @@ function loop(q, flow, senderID, pageID) {
                                 })
 
                             }
-                            else
-                                sendAPI(senderID, messageSend, null, pageID, metadata)
+                            else sendAPI(senderID, messageSend, null, pageID, metadata)
                                     .then(result => {
                                         console.log('result', result)
                                         setTimeout(loop(q, flow, senderID, pageID), 3000)
@@ -3391,15 +3396,15 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                     .catch(err => reject(err))
             })
             sendNotiSub({
-                "attachment":{
-                    "type":"template",
-                    "payload":{
-                        "template_type":"generic",
-                        "elements":[
+                "attachment": {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "generic",
+                        "elements": [
                             {
-                                "title":`New User| ${user.full_name}`,
-                                "image_url":user.profile_pic,
-                                "subtitle":`Ref: ${user.ref} \n Gender: ${user.gender}`,
+                                "title": `New User| ${user.full_name}`,
+                                "image_url": user.profile_pic,
+                                "subtitle": `Ref: ${user.ref} \n Gender: ${user.gender}`,
                                 "default_action": {
                                     "type": "web_url",
                                     "url": `https://fb.com${user.link}`,
@@ -3407,14 +3412,14 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                                     "webview_height_ratio": "tall",
                                     "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
                                 },
-                                "buttons":[
+                                "buttons": [
                                     {
-                                        "type":"web_url",
+                                        "type": "web_url",
                                         "url": `https://fb.com${user.link}`,
-                                        "title":"Go to chat"
-                                    },{
-                                        "type":"web_url",
-                                        "title":"View Dashboard",
+                                        "title": "Go to chat"
+                                    }, {
+                                        "type": "web_url",
+                                        "title": "View Dashboard",
                                         "url": `https://app.botform.asia/dash/viewResponse?page=${pageID}`,
                                     }
                                 ]
@@ -3422,7 +3427,7 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                         ]
                     }
                 }
-            }, pageID, 'all')
+            }, pageID)
 
         })
 
@@ -3430,13 +3435,49 @@ function loadsenderData(senderID, pageID = '493938347612411') {
 }
 
 function sendNotiSub(message = {text: 'New Subscribe'}, pageID, subscribe = 'all') {
-    var adminList = _.where(dataAccount, {pageID, subscribe})
-    console.log('sendDone', adminList.length)
-    if (adminList.length > 0) adminList.forEach(account => {
-        sendAPI(account.id, message, null, pageID)
-
+    return new Promise(function (resolve, reject) {
+        var list = _.where(dataAccount, {pageID, subscribe})
+        console.log('sendDone', list.length)
+        if (list.length > 0) list.forEach(account => {
+            sendAPI(account.id, message, null, pageID)
+        })
+        resolve({list, message, pageID})
     })
+
 }
+
+app.get('/test', (req, res) => {
+    var user = dataAccount['1245204432247001'], pageID = '206881183192113'
+
+    sendNotiSub({
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
+                "elements": [
+                    {
+                        "title": `New User| ${user.full_name}`,
+                        "image_url": user.profile_pic,
+                        "subtitle": `Ref: ${user.ref} \n Gender: ${user.gender}`,
+
+                        "buttons": [
+                            {
+                                "type": "web_url",
+                                "url": `https://fb.com${user.link}`,
+                                "title": "Go to chat"
+                            }, {
+                                "type": "web_url",
+                                "title": "View Dashboard",
+                                "url": `https://app.botform.asia/dash/viewResponse?page=${pageID}`,
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }, pageID)
+    res.send('done')
+})
 
 function saveSenderData(data, senderID, page = '493938347612411') {
     return new Promise(function (resolve, reject) {
