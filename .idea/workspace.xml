@@ -19,8 +19,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="3220" column="47" lean-forward="false" selection-start-line="3220" selection-start-column="47" selection-end-line="3220" selection-end-column="47" />
+            <state relative-caret-position="1126">
+              <caret line="2449" column="29" lean-forward="true" selection-start-line="2449" selection-start-column="29" selection-end-line="2449" selection-end-column="29" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
@@ -47,11 +47,11 @@
                 <element signature="n#!!block;n#referInital#0" expanded="false" />
                 <element signature="n#!!block;n#getNLP#0" expanded="false" />
                 <element signature="e#63209#66333#0" expanded="false" />
-                <element signature="e#114233#138546#0" expanded="false" />
-                <element signature="e#138669#145125#0" expanded="false" />
-                <element signature="e#139748#141296#0" expanded="false" />
-                <element signature="e#141484#142898#0" expanded="false" />
-                <element signature="e#151663#153085#0" expanded="false" />
+                <element signature="e#114301#138614#0" expanded="false" />
+                <element signature="e#138737#145193#0" expanded="false" />
+                <element signature="e#139816#141364#0" expanded="false" />
+                <element signature="e#141552#142966#0" expanded="false" />
+                <element signature="e#151731#153153#0" expanded="false" />
                 <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
                 <element signature="n#!!block;n#getJob#0" expanded="false" />
                 <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
@@ -145,7 +145,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>bot_off</find>
       <find>getChat</find>
       <find>sendAPI</find>
       <find>callSendAPI_success</find>
@@ -175,6 +174,7 @@
       <find>noti</find>
       <find>db.ref</find>
       <find>db.ref('w</find>
+      <find>locale</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -318,12 +318,12 @@
       <workItem from="1514869061727" duration="82992000" />
       <workItem from="1516181732845" duration="21067000" />
       <workItem from="1516627118687" duration="7199000" />
-      <workItem from="1517069684445" duration="15415000" />
+      <workItem from="1517069684445" duration="16796000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="686999000" />
+    <option name="totallyTimeSpent" value="688380000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -427,11 +427,11 @@
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
             <element signature="e#63209#66333#0" expanded="false" />
-            <element signature="e#114233#138546#0" expanded="false" />
-            <element signature="e#138669#145125#0" expanded="false" />
-            <element signature="e#139748#141296#0" expanded="false" />
-            <element signature="e#141484#142898#0" expanded="false" />
-            <element signature="e#151663#153085#0" expanded="false" />
+            <element signature="e#114301#138614#0" expanded="false" />
+            <element signature="e#138737#145193#0" expanded="false" />
+            <element signature="e#139816#141364#0" expanded="false" />
+            <element signature="e#141552#142966#0" expanded="false" />
+            <element signature="e#151731#153153#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
             <element signature="n#!!block;n#getJob#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
@@ -532,11 +532,11 @@
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
             <element signature="e#63209#66333#0" expanded="false" />
-            <element signature="e#114233#138546#0" expanded="false" />
-            <element signature="e#138669#145125#0" expanded="false" />
-            <element signature="e#139748#141296#0" expanded="false" />
-            <element signature="e#141484#142898#0" expanded="false" />
-            <element signature="e#151663#153085#0" expanded="false" />
+            <element signature="e#114301#138614#0" expanded="false" />
+            <element signature="e#138737#145193#0" expanded="false" />
+            <element signature="e#139816#141364#0" expanded="false" />
+            <element signature="e#141552#142966#0" expanded="false" />
+            <element signature="e#151731#153153#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
             <element signature="n#!!block;n#getJob#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
@@ -580,11 +580,11 @@
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
             <element signature="e#63209#66333#0" expanded="false" />
-            <element signature="e#114233#138546#0" expanded="false" />
-            <element signature="e#138669#145125#0" expanded="false" />
-            <element signature="e#139748#141296#0" expanded="false" />
-            <element signature="e#141484#142898#0" expanded="false" />
-            <element signature="e#151663#153085#0" expanded="false" />
+            <element signature="e#114301#138614#0" expanded="false" />
+            <element signature="e#138737#145193#0" expanded="false" />
+            <element signature="e#139816#141364#0" expanded="false" />
+            <element signature="e#141552#142966#0" expanded="false" />
+            <element signature="e#151731#153153#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
             <element signature="n#!!block;n#getJob#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
@@ -651,11 +651,11 @@
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
             <element signature="e#63209#66333#0" expanded="false" />
-            <element signature="e#114233#138546#0" expanded="false" />
-            <element signature="e#138669#145125#0" expanded="false" />
-            <element signature="e#139748#141296#0" expanded="false" />
-            <element signature="e#141484#142898#0" expanded="false" />
-            <element signature="e#151663#153085#0" expanded="false" />
+            <element signature="e#114301#138614#0" expanded="false" />
+            <element signature="e#138737#145193#0" expanded="false" />
+            <element signature="e#139816#141364#0" expanded="false" />
+            <element signature="e#141552#142966#0" expanded="false" />
+            <element signature="e#151731#153153#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
             <element signature="n#!!block;n#getJob#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
@@ -730,11 +730,11 @@
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
             <element signature="e#63209#66333#0" expanded="false" />
-            <element signature="e#114233#138546#0" expanded="false" />
-            <element signature="e#138669#145125#0" expanded="false" />
-            <element signature="e#139748#141296#0" expanded="false" />
-            <element signature="e#141484#142898#0" expanded="false" />
-            <element signature="e#151663#153085#0" expanded="false" />
+            <element signature="e#114301#138614#0" expanded="false" />
+            <element signature="e#138737#145193#0" expanded="false" />
+            <element signature="e#139816#141364#0" expanded="false" />
+            <element signature="e#141552#142966#0" expanded="false" />
+            <element signature="e#151731#153153#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
             <element signature="n#!!block;n#getJob#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
@@ -793,11 +793,11 @@
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
             <element signature="e#63209#66333#0" expanded="false" />
-            <element signature="e#114233#138546#0" expanded="false" />
-            <element signature="e#138669#145125#0" expanded="false" />
-            <element signature="e#139748#141296#0" expanded="false" />
-            <element signature="e#141484#142898#0" expanded="false" />
-            <element signature="e#151663#153085#0" expanded="false" />
+            <element signature="e#114301#138614#0" expanded="false" />
+            <element signature="e#138737#145193#0" expanded="false" />
+            <element signature="e#139816#141364#0" expanded="false" />
+            <element signature="e#141552#142966#0" expanded="false" />
+            <element signature="e#151731#153153#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
             <element signature="n#!!block;n#getJob#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
@@ -864,11 +864,11 @@
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
             <element signature="e#63209#66333#0" expanded="false" />
-            <element signature="e#114233#138546#0" expanded="false" />
-            <element signature="e#138669#145125#0" expanded="false" />
-            <element signature="e#139748#141296#0" expanded="false" />
-            <element signature="e#141484#142898#0" expanded="false" />
-            <element signature="e#151663#153085#0" expanded="false" />
+            <element signature="e#114301#138614#0" expanded="false" />
+            <element signature="e#138737#145193#0" expanded="false" />
+            <element signature="e#139816#141364#0" expanded="false" />
+            <element signature="e#141552#142966#0" expanded="false" />
+            <element signature="e#151731#153153#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
             <element signature="n#!!block;n#getJob#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
@@ -986,8 +986,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="3220" column="47" lean-forward="false" selection-start-line="3220" selection-start-column="47" selection-end-line="3220" selection-end-column="47" />
+        <state relative-caret-position="1126">
+          <caret line="2449" column="29" lean-forward="true" selection-start-line="2449" selection-start-column="29" selection-end-line="2449" selection-end-column="29" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
@@ -1014,11 +1014,11 @@
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
             <element signature="e#63209#66333#0" expanded="false" />
-            <element signature="e#114233#138546#0" expanded="false" />
-            <element signature="e#138669#145125#0" expanded="false" />
-            <element signature="e#139748#141296#0" expanded="false" />
-            <element signature="e#141484#142898#0" expanded="false" />
-            <element signature="e#151663#153085#0" expanded="false" />
+            <element signature="e#114301#138614#0" expanded="false" />
+            <element signature="e#138737#145193#0" expanded="false" />
+            <element signature="e#139816#141364#0" expanded="false" />
+            <element signature="e#141552#142966#0" expanded="false" />
+            <element signature="e#151731#153153#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
             <element signature="n#!!block;n#getJob#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />

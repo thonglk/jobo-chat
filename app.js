@@ -3111,7 +3111,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                         text: `Step 2: \n Connect this form to your Facebook Page`,
                                                                         buttons: [{
                                                                             type: "web_url",
-                                                                            url: `https://app.botform.asia/dash/create?url=${url}`,
+                                                                            url: `https://app.botform.asia/null/create?url=${url}`,
                                                                             title: "Connect your Fanpage"
                                                                         }, {
                                                                             type: "web_url",
@@ -3447,7 +3447,7 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                                     }, {
                                         "type": "web_url",
                                         "title": "View Dashboard",
-                                        "url": `https://app.botform.asia/dash/viewResponse?page=${pageID}`,
+                                        "url": `https://app.botform.asia/${pageID}/viewResponse`,
                                     }
                                 ]
                             }
