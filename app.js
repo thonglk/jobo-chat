@@ -615,23 +615,40 @@ _.templateSettings = {
     interpolate: /\{\{(.+?)\}\}/g
 };
 
+function isObject(a) {
+    return (!!a) && (a.constructor === Object);
+};
 
 function templatelize(text = 'loading...', data = {first_name: 'Thông'}) {
     var check = 0
-
-
     console.log('templatelize', text, data)
 
-    for (var i in data) {
-        if (text.match(i)) {
-            check++
+    if (isObject(text)) {
+        var string = JSON.stringify(text)
+        for (var i in data) {
+            if (string.match(i)) {
+                check++
+            }
         }
+        console.log('check', check)
+        if (check > 0) {
+            var template = _.template(string, data);
+            return JSON.parse(template(data));
+        } else return text
+    } else {
+        for (var i in data) {
+            if (text.match(i)) {
+                check++
+            }
+        }
+        console.log('check', check)
+        if (check > 0) {
+            var template = _.template(text, data);
+            return template(data);
+        } else return text
     }
-    console.log('check', check)
-    if (check > 0) {
-        var template = _.template(text, data);
-        return template(data);
-    } else return text
+
+
 }
 
 
@@ -2566,7 +2583,7 @@ function loop(q, flow, senderID, pageID) {
                         });
                         messageSend.attachment.payload.buttons = buttons
 
-                        if (currentQuestion[2] && currentQuestion[2].toLowerCase() == 'notification') sendNotiSub(messageSend, pageID).then(result => {
+                        if (currentQuestion[2] && currentQuestion[2].toLowerCase() == 'notification') sendNotiSub(templatelize(messageSend,senderData), pageID).then(result => {
                             q++
                             loop(q, flow, senderID, pageID)
                         })
