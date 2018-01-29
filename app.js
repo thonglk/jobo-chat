@@ -2453,13 +2453,17 @@ function loop(q, flow, senderID, pageID) {
         if (currentQuestion[4] && currentQuestion[1] && currentQuestion[1].match('locale')) {
             var askOption = currentQuestion[4][0][1];
             var lang = senderData.locale.substring(0, 2)
+            var choose = askOption[0]
             for (var i in askOption) {
                 var option = askOption[i]
                 if (option[0].match(lang)) {
-                    go(option[2], q, flow, senderID, pageID)
+                    choose = option
                     break
                 }
             }
+
+            go(choose[2], q, flow, senderID, pageID)
+
 
         } else if (currentQuestion[3] == 8) {
             var goto = currentQuestion[5]
