@@ -2583,7 +2583,7 @@ function loop(q, flow, senderID, pageID) {
                         });
                         messageSend.attachment.payload.buttons = buttons
 
-                        if (currentQuestion[2] && currentQuestion[2].toLowerCase() == 'notification') sendNotiSub(templatelize(messageSend,senderData), pageID).then(result => {
+                        if (currentQuestion[2] && currentQuestion[2].toLowerCase() == 'notification') sendNotiSub(templatelize(messageSend, senderData), pageID).then(result => {
                             q++
                             loop(q, flow, senderID, pageID)
                         })
@@ -2715,6 +2715,7 @@ function sendMessages(senderID, messages, typing, pageID, metadata) {
     })
 }
 
+var waiting = {}
 db.ref('webhook').on('child_added', function (snap) {
     var data = snap.val()
     if (data.object == 'page') {
@@ -3203,7 +3204,6 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                     }
                                                     else if (payload.text && payload.type == 'ask' && payload.questionId) {
-
                                                         response[payload.questionId] = payload.text
 
                                                         ladiResCol.findOneAndUpdate({
@@ -3224,32 +3224,38 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             } else go(goto, index, flow, senderID, pageID)
 
                                                         } else if (payload.askType == 0 || payload.askType == 1) {
-                                                            var curQues = _.findWhere(questions, {0: payload.questionId});
-                                                            if (curQues[4] && curQues[4][0] && curQues[4][0][4] && curQues[4][0][4][0]) {
+                                                            if (!waiting[senderID]) {
+                                                                waiting[senderID] = true
+                                                                setTimeout(function () {
+                                                                    delete waiting[senderID]
+                                                                    console.log('delete waiting[senderID]')
+                                                                }, 5000)
+                                                                var curQues = _.findWhere(questions, {0: payload.questionId});
+                                                                if (curQues[4] && curQues[4][0] && curQues[4][0][4] && curQues[4][0][4][0]) {
 
-                                                                var valid = curQues[4][0][4][0]
+                                                                    var valid = curQues[4][0][4][0]
 
-                                                                if (valid[0] == 1) {
-                                                                    //number
+                                                                    if (valid[0] == 1) {
+                                                                        //number
 
-                                                                    if (valid[1] == 7) {
-                                                                        //between
-                                                                        console.log('payload.text', payload.text, Number(payload.text) > valid[2][0])
-                                                                        if (Number(payload.text) > valid[2][0] && Number(payload.text) < valid[2][1]) {
-                                                                            setTimeout(() => go(goto, index, flow, senderID, pageID), 5000)
-                                                                        } else sendAPI(senderID, {
-                                                                            text: valid[3]
-                                                                        }, null, pageID, payload)
+                                                                        if (valid[1] == 7) {
+                                                                            //between
+                                                                            console.log('payload.text', payload.text, Number(payload.text) > valid[2][0])
+                                                                            if (Number(payload.text) > valid[2][0] && Number(payload.text) < valid[2][1]) {
+                                                                                setTimeout(() => go(goto, index, flow, senderID, pageID), 5000)
+                                                                            } else sendAPI(senderID, {
+                                                                                text: valid[3]
+                                                                            }, null, pageID, payload)
+
+                                                                        }
+
 
                                                                     }
 
 
-                                                                }
-
-
-                                                            } else setTimeout(() => go(goto, index, flow, senderID, pageID), 5000)
-
-                                                        } else setTimeout(() => go(goto, index, flow, senderID, pageID), 5000)
+                                                                } else setTimeout(() => go(goto, index, flow, senderID, pageID), 5000)
+                                                            }
+                                                        }
 
                                                     } else if (payload.url) axios.get(payload.url).then(result => {
                                                         var messages = result.data
