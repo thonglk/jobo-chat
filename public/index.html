@@ -59,7 +59,22 @@ LICENSE file in the root directory of this source tree.
         //    your app or not.
         //
         // These three cases are handled in the callback function.
+        FB.Event.subscribe('messenger_checkbox', function(e) {
+            console.log("messenger_checkbox event");
+            console.log(e);
 
+            if (e.event == 'rendered') {
+                console.log("Plugin was rendered");
+            } else if (e.event == 'checkbox') {
+                var checkboxState = e.state;
+                console.log("Checkbox state: " + checkboxState);
+            } else if (e.event == 'not_you') {
+                console.log("User clicked 'not you'");
+            } else if (e.event == 'hidden') {
+                console.log("Plugin was hidden");
+            }
+
+        });
         FB.getLoginStatus(function (response) {
             statusChangeCallback(response);
         });
