@@ -3093,7 +3093,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                     text: `Done <3! \n We had just turn your "${form.data[8]}" form into chatbot to help you convert more leads! \n Step 2: Connect this form to your Facebook Page`,
                                                                     buttons: [{
                                                                         type: "web_url",
-                                                                        url: `https://app.botform.asia/null/create?url=${url}`,
+                                                                        url: `https://app.botform.asia/create?url=${url}`,
                                                                         title: "Connect your Fanpage"
                                                                     }, {
                                                                         type: "web_url",

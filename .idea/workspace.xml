@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -20,7 +19,7 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
+            <state relative-caret-position="377">
               <caret line="3096" column="70" lean-forward="false" selection-start-line="3096" selection-start-column="70" selection-end-line="3096" selection-end-column="70" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
@@ -258,12 +257,12 @@
       <workItem from="1514869061727" duration="82992000" />
       <workItem from="1516181732845" duration="21067000" />
       <workItem from="1516627118687" duration="7199000" />
-      <workItem from="1517069684445" duration="21512000" />
+      <workItem from="1517069684445" duration="21956000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="693096000" />
+    <option name="totallyTimeSpent" value="693540000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -897,7 +896,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
+        <state relative-caret-position="377">
           <caret line="3096" column="70" lean-forward="false" selection-start-line="3096" selection-start-column="70" selection-end-line="3096" selection-end-column="70" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
