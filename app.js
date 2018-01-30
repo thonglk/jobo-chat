@@ -3086,31 +3086,25 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                     getChat({url})
                                                         .then(form => sendAPI(senderID, {
-                                                            text: `Done <3! \n We had just turn your "${form.data[8]}" form into chatbot to help you convert more leads! \nLink: https://m.me/206881183192113?ref=${form.flow}`,
-                                                        }, null, pageID)
-                                                            .then(result => sendAPI(senderID, {
-                                                                attachment: {
-                                                                    type: "template",
-                                                                    payload: {
-                                                                        template_type: "button",
-                                                                        text: `Step 2: \n Connect this form to your Facebook Page`,
-                                                                        buttons: [{
-                                                                            type: "web_url",
-                                                                            url: `https://app.botform.asia/create?url=${url}`,
-                                                                            title: "Connect your Fanpage"
-                                                                        }, {
-                                                                            type: "web_url",
-                                                                            url: `https://www.facebook.com/pages/create`,
-                                                                            title: "Create new page"
-                                                                        }]
-                                                                    }
+                                                            attachment: {
+                                                                type: "template",
+                                                                payload: {
+                                                                    template_type: "button",
+                                                                    text: `Done <3! \n We had just turn your "${form.data[8]}" form into chatbot to help you convert more leads! \n Step 2: Connect this form to your Facebook Page`,
+                                                                    buttons: [{
+                                                                        type: "web_url",
+                                                                        url: `https://app.botform.asia/null/create?url=${url}`,
+                                                                        title: "Connect your Fanpage"
+                                                                    }, {
+                                                                        type: "web_url",
+                                                                        url: `https://www.facebook.com/pages/create`,
+                                                                        title: "Create new page"
+                                                                    }]
                                                                 }
-                                                            }, null, pageID))
-                                                            .catch(err => sendAPI(senderID, {
-                                                                text: JSON.stringify(err)
-                                                            }, null, pageID)))
+                                                            }
+                                                        }, null, pageID))
                                                         .catch(err => sendAPI(senderID, {
-                                                            text: "Err: Can't read your form, make sure it was a google forms link and make it public, go https://botform.asia to try again"
+                                                            text: "Err: Can't read your form, make sure it was a google forms link and make it public, go https://botform.asia to try again" + JSON.stringify(err)
                                                         }, null, pageID))
                                                 } else if (refData[0] == 'go') {
                                                     var result = _.findWhere(dataLadiBot, {page: pageID});
