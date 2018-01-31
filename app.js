@@ -396,29 +396,29 @@ function getChat({url, page, access_token, name, pageID}) {
                                 for (var i in flows) {
                                     var flow = flows[i]
                                     var title = flow[1] || 'undefined'
+                                    var description = flow[2]
                                     var type = flow[3]
 
                                     if (!greetingPart.start && title.toLowerCase().match('greeting') && type == '8') greetingPart.start = i
                                     else if (!greetingPart.end && greetingPart.start && type == '8') greetingPart.end = i
                                     else if (!greetingPart.end && greetingPart.start) {
-                                        if (title.match(':')) {
-                                            var titleSplit = title.split(':')
-                                            var first = titleSplit[0].toLowerCase()
+                                        if (description && isObject(strToObj(description)) && strToObj(description).locale) {
+                                            var obj = strToObj(description)
+                                            var first = obj.locale
                                             var supportLang = config.get('supportLang')
                                             var checkLg = supportLang.indexOf(first);
 
                                             if (checkLg != -1) {
                                                 var locale = supportLang.substring(checkLg, checkLg + 5)
-
-                                            } else if (first == 'default') {
-                                                var locale = first
                                             }
-                                            if (locale) greeting.push({
-                                                text: titleSplit[1],
-                                                locale
-                                            })
 
-                                        }
+
+                                        } else var locale = 'default'
+
+                                        if (locale) greeting.push({
+                                            text: title,
+                                            locale
+                                        })
                                     }
 
                                     if (!menuPart.start && title.toLowerCase().match('menu') && type == '8') menuPart.start = i
@@ -434,21 +434,7 @@ function getChat({url, page, access_token, name, pageID}) {
                                                 console.log('optionsList', optionsList)
                                                 var call_to_actions = _.map(optionsList, option => {
                                                     var text = option[0]
-                                                    if (text.match('{{') && text.match('}}')) {
-                                                        console.log('text', text)
-
-                                                        var datastr = text.substring(text.indexOf('{{') + 2, text.indexOf('}}'))
-                                                        console.log('datastr', datastr)
-
-                                                        var title = text.substring(0, text.indexOf('{{'))
-                                                        console.log('title', title)
-
-                                                        if (datastr.match('url')) return {
-                                                            title,
-                                                            "type": "web_url",
-                                                            "url": datastr.substring(4),
-                                                        }
-                                                    } else if (option[2]) return {
+                                                    if (option[2]) return {
                                                         title: text,
                                                         "type": "postback",
                                                         "payload": JSON.stringify({
@@ -539,7 +525,7 @@ function getChat({url, page, access_token, name, pageID}) {
 
 
                                 if (greeting.length > 0) save.greeting = greeting
-                                if (persistent_menu.call_to_actions.length > 0) save.menu = {persistent_menu: [persistent_menu]}
+                                if (persistent_menu.call_to_actions.length > 0) save.persistent_menu = [persistent_menu]
 
 
                                 console.log('Get form', save)
@@ -563,7 +549,7 @@ function getChat({url, page, access_token, name, pageID}) {
                                                             saveLadiBot(save, save.id)
                                                             setGreeting(save.greeting, pageID)
                                                                 .then(result => setGetstarted(pageID)
-                                                                    .then(result => setDefautMenu(pageID, save.menu)
+                                                                    .then(result => setDefautMenu(pageID, save.persistent_menu)
                                                                         .then(result => setWit(pageID)
                                                                             .then(result => resolve(save)))
                                                                     ))
@@ -595,7 +581,24 @@ function getChat({url, page, access_token, name, pageID}) {
             })
 
     })
+}
 
+function strToObj(str) {
+    if (str.match('&')) {
+        var keyvalue = str.split('&')
+    } else keyvalue = [str]
+    var obj = {}
+    keyvalue.forEach(each => {
+        if (each.match('=')) {
+            var split = each.split('=')
+            var key = split[0]
+            var value = split[1]
+            obj[key] = value
+        }
+
+    })
+    console.log('strToObj', obj)
+    return obj
 }
 
 function saveLadiBot(save, id) {
@@ -920,31 +923,29 @@ menu['206881183192113'] = {
 
 app.get('/setMenu', function (req, res) {
     var page = req.param('page')
-    setDefautMenu(page, menu[page]).then(result => res.send(result))
+    setDefautMenu(page, menu[page].persistent_menu).then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 })
 
-function setDefautMenu(page = 'jobo', menu = {
-    "persistent_menu": [
-        {
-            "call_to_actions": [{
-                "title": "Start Over",
-                "type": "postback",
-                "payload": JSON.stringify({
-                    type: 'start-over',
-                })
-            }, {
-                "title": "Create Own Chatbot",
-                "type": "web_url",
-                "url": "https://botform.asia"
-            }],
-            "locale": "default",
+function setDefautMenu(page = 'jobo', persistent_menu = [
+    {
+        "call_to_actions": [{
+            "title": "Start Over",
+            "type": "postback",
+            "payload": JSON.stringify({
+                type: 'start-over',
+            })
+        }, {
+            "title": "Create Own Chatbot",
+            "type": "web_url",
+            "url": "https://botform.asia"
+        }],
+        "locale": "default",
 
-        }
-    ]
-}) {
+    }
+]) {
+    var menu = {persistent_menu}
     console.error("setDefautMenu-ing", page, menu);
-
     return new Promise(function (resolve, reject) {
         request({
             uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
