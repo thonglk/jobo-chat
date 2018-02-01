@@ -4170,8 +4170,13 @@ function sendOne(messageData, page) {
                 } else {
                     console.error("callSendAPI_error", JSON.stringify(body), JSON.stringify(messageData));
                     var messageErr = {message: {text: 'Error'}, recipient: messageData.recipient}
-                    sendOne(messageErr, page)
+                    request({
+                        uri: 'https://graph.facebook.com/v2.6/me/messages',
+                        qs: {access_token: facebookPage[page].access_token},
+                        method: 'POST',
+                        json: messageErr
 
+                    })
                     reject(error)
                 }
             });
