@@ -3239,7 +3239,7 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                                 } else setTimeout(() => go(goto, index, flow, senderID, pageID), 5000)
                                                             }
-                                                        }
+                                                        } else go(goto, index, flow, senderID, pageID)
 
                                                     } else if (payload.url) axios.get(payload.url).then(result => {
                                                         var messages = result.data
