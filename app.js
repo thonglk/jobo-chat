@@ -3412,13 +3412,6 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                                 "title": `New User| ${user.full_name}`,
                                 "image_url": user.profile_pic,
                                 "subtitle": `Ref: ${user.ref} \n Gender: ${user.gender}`,
-                                "default_action": {
-                                    "type": "web_url",
-                                    "url": `https://fb.com${user.link}`,
-                                    "messenger_extensions": true,
-                                    "webview_height_ratio": "tall",
-                                    "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
-                                },
                                 "buttons": [
                                     {
                                         "type": "web_url",
@@ -4176,7 +4169,7 @@ function sendOne(messageData, page) {
 
                 } else {
                     console.error("callSendAPI_error", JSON.stringify(body), JSON.stringify(messageData));
-                   var  messageErr = {message : {text:'Error'},recipient:messageData.recipient}
+                    var messageErr = {message: {text: 'Error'}, recipient: messageData.recipient}
                     sendOne(messageErr, page)
 
                     reject(error)
