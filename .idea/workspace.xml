@@ -19,33 +19,33 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="4178" column="63" lean-forward="false" selection-start-line="4178" selection-start-column="63" selection-end-line="4178" selection-end-column="63" />
+            <state relative-caret-position="313">
+              <caret line="363" column="0" lean-forward="true" selection-start-line="363" selection-start-column="0" selection-end-line="363" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
                 <element signature="e#15229#15432#0" expanded="false" />
                 <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-                <element signature="e#32290#32432#0" expanded="false" />
+                <element signature="e#32278#32420#0" expanded="false" />
                 <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-                <element signature="e#33373#35943#0" expanded="false" />
-                <element signature="e#35963#38424#0" expanded="false" />
-                <element signature="e#38451#39448#0" expanded="false" />
-                <element signature="e#38476#39446#0" expanded="false" />
-                <element signature="e#40770#40924#0" expanded="false" />
-                <element signature="e#40959#41086#0" expanded="false" />
+                <element signature="e#33361#35931#0" expanded="false" />
+                <element signature="e#35951#38412#0" expanded="false" />
+                <element signature="e#38439#39436#0" expanded="false" />
+                <element signature="e#38464#39434#0" expanded="false" />
+                <element signature="e#40758#40912#0" expanded="false" />
+                <element signature="e#40947#41074#0" expanded="false" />
                 <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-                <element signature="e#41775#41904#0" expanded="false" />
+                <element signature="e#41763#41892#0" expanded="false" />
                 <element signature="n#!!block;n#setWit#0" expanded="false" />
-                <element signature="e#43421#43489#0" expanded="false" />
+                <element signature="e#43409#43477#0" expanded="false" />
                 <element signature="n#!!block;n#shortAddress#0" expanded="false" />
                 <element signature="n#!!block;n#referInital#0" expanded="false" />
                 <element signature="n#!!block;n#getNLP#0" expanded="false" />
-                <element signature="e#62568#65692#0" expanded="false" />
-                <element signature="e#112554#151766#0" expanded="false" />
-                <element signature="e#113660#137973#0" expanded="false" />
-                <element signature="e#138096#142682#0" expanded="false" />
-                <element signature="e#149220#150642#0" expanded="false" />
+                <element signature="e#62556#65680#0" expanded="false" />
+                <element signature="e#112542#151754#0" expanded="false" />
+                <element signature="e#113648#137961#0" expanded="false" />
+                <element signature="e#138084#142670#0" expanded="false" />
+                <element signature="e#149208#150630#0" expanded="false" />
                 <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
                 <element signature="n#!!block;n#getJob#0" expanded="false" />
                 <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
@@ -255,12 +255,12 @@
       <workItem from="1514869061727" duration="82992000" />
       <workItem from="1516181732845" duration="21067000" />
       <workItem from="1516627118687" duration="7199000" />
-      <workItem from="1517069684445" duration="25672000" />
+      <workItem from="1517069684445" duration="26147000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="697256000" />
+    <option name="totallyTimeSpent" value="697731000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -273,7 +273,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19591261" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -282,7 +281,7 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25272068" sideWeight="0.4918957" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25272068" sideWeight="0.4918957" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -343,26 +342,26 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#15229#15432#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#32290#32432#0" expanded="false" />
+            <element signature="e#32278#32420#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#33373#35943#0" expanded="false" />
-            <element signature="e#35963#38424#0" expanded="false" />
-            <element signature="e#38451#39448#0" expanded="false" />
-            <element signature="e#38476#39446#0" expanded="false" />
-            <element signature="e#40770#40924#0" expanded="false" />
-            <element signature="e#40959#41086#0" expanded="false" />
+            <element signature="e#33361#35931#0" expanded="false" />
+            <element signature="e#35951#38412#0" expanded="false" />
+            <element signature="e#38439#39436#0" expanded="false" />
+            <element signature="e#38464#39434#0" expanded="false" />
+            <element signature="e#40758#40912#0" expanded="false" />
+            <element signature="e#40947#41074#0" expanded="false" />
             <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#41775#41904#0" expanded="false" />
+            <element signature="e#41763#41892#0" expanded="false" />
             <element signature="n#!!block;n#setWit#0" expanded="false" />
-            <element signature="e#43421#43489#0" expanded="false" />
+            <element signature="e#43409#43477#0" expanded="false" />
             <element signature="n#!!block;n#shortAddress#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#62568#65692#0" expanded="false" />
-            <element signature="e#112554#151766#0" expanded="false" />
-            <element signature="e#113660#137973#0" expanded="false" />
-            <element signature="e#138096#142682#0" expanded="false" />
-            <element signature="e#149220#150642#0" expanded="false" />
+            <element signature="e#62556#65680#0" expanded="false" />
+            <element signature="e#112542#151754#0" expanded="false" />
+            <element signature="e#113648#137961#0" expanded="false" />
+            <element signature="e#138084#142670#0" expanded="false" />
+            <element signature="e#149208#150630#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
             <element signature="n#!!block;n#getJob#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
@@ -442,26 +441,26 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#15229#15432#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#32290#32432#0" expanded="false" />
+            <element signature="e#32278#32420#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#33373#35943#0" expanded="false" />
-            <element signature="e#35963#38424#0" expanded="false" />
-            <element signature="e#38451#39448#0" expanded="false" />
-            <element signature="e#38476#39446#0" expanded="false" />
-            <element signature="e#40770#40924#0" expanded="false" />
-            <element signature="e#40959#41086#0" expanded="false" />
+            <element signature="e#33361#35931#0" expanded="false" />
+            <element signature="e#35951#38412#0" expanded="false" />
+            <element signature="e#38439#39436#0" expanded="false" />
+            <element signature="e#38464#39434#0" expanded="false" />
+            <element signature="e#40758#40912#0" expanded="false" />
+            <element signature="e#40947#41074#0" expanded="false" />
             <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#41775#41904#0" expanded="false" />
+            <element signature="e#41763#41892#0" expanded="false" />
             <element signature="n#!!block;n#setWit#0" expanded="false" />
-            <element signature="e#43421#43489#0" expanded="false" />
+            <element signature="e#43409#43477#0" expanded="false" />
             <element signature="n#!!block;n#shortAddress#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#62568#65692#0" expanded="false" />
-            <element signature="e#112554#151766#0" expanded="false" />
-            <element signature="e#113660#137973#0" expanded="false" />
-            <element signature="e#138096#142682#0" expanded="false" />
-            <element signature="e#149220#150642#0" expanded="false" />
+            <element signature="e#62556#65680#0" expanded="false" />
+            <element signature="e#112542#151754#0" expanded="false" />
+            <element signature="e#113648#137961#0" expanded="false" />
+            <element signature="e#138084#142670#0" expanded="false" />
+            <element signature="e#149208#150630#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
             <element signature="n#!!block;n#getJob#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
@@ -484,26 +483,26 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#15229#15432#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#32290#32432#0" expanded="false" />
+            <element signature="e#32278#32420#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#33373#35943#0" expanded="false" />
-            <element signature="e#35963#38424#0" expanded="false" />
-            <element signature="e#38451#39448#0" expanded="false" />
-            <element signature="e#38476#39446#0" expanded="false" />
-            <element signature="e#40770#40924#0" expanded="false" />
-            <element signature="e#40959#41086#0" expanded="false" />
+            <element signature="e#33361#35931#0" expanded="false" />
+            <element signature="e#35951#38412#0" expanded="false" />
+            <element signature="e#38439#39436#0" expanded="false" />
+            <element signature="e#38464#39434#0" expanded="false" />
+            <element signature="e#40758#40912#0" expanded="false" />
+            <element signature="e#40947#41074#0" expanded="false" />
             <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#41775#41904#0" expanded="false" />
+            <element signature="e#41763#41892#0" expanded="false" />
             <element signature="n#!!block;n#setWit#0" expanded="false" />
-            <element signature="e#43421#43489#0" expanded="false" />
+            <element signature="e#43409#43477#0" expanded="false" />
             <element signature="n#!!block;n#shortAddress#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#62568#65692#0" expanded="false" />
-            <element signature="e#112554#151766#0" expanded="false" />
-            <element signature="e#113660#137973#0" expanded="false" />
-            <element signature="e#138096#142682#0" expanded="false" />
-            <element signature="e#149220#150642#0" expanded="false" />
+            <element signature="e#62556#65680#0" expanded="false" />
+            <element signature="e#112542#151754#0" expanded="false" />
+            <element signature="e#113648#137961#0" expanded="false" />
+            <element signature="e#138084#142670#0" expanded="false" />
+            <element signature="e#149208#150630#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
             <element signature="n#!!block;n#getJob#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
@@ -549,26 +548,26 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#15229#15432#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#32290#32432#0" expanded="false" />
+            <element signature="e#32278#32420#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#33373#35943#0" expanded="false" />
-            <element signature="e#35963#38424#0" expanded="false" />
-            <element signature="e#38451#39448#0" expanded="false" />
-            <element signature="e#38476#39446#0" expanded="false" />
-            <element signature="e#40770#40924#0" expanded="false" />
-            <element signature="e#40959#41086#0" expanded="false" />
+            <element signature="e#33361#35931#0" expanded="false" />
+            <element signature="e#35951#38412#0" expanded="false" />
+            <element signature="e#38439#39436#0" expanded="false" />
+            <element signature="e#38464#39434#0" expanded="false" />
+            <element signature="e#40758#40912#0" expanded="false" />
+            <element signature="e#40947#41074#0" expanded="false" />
             <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#41775#41904#0" expanded="false" />
+            <element signature="e#41763#41892#0" expanded="false" />
             <element signature="n#!!block;n#setWit#0" expanded="false" />
-            <element signature="e#43421#43489#0" expanded="false" />
+            <element signature="e#43409#43477#0" expanded="false" />
             <element signature="n#!!block;n#shortAddress#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#62568#65692#0" expanded="false" />
-            <element signature="e#112554#151766#0" expanded="false" />
-            <element signature="e#113660#137973#0" expanded="false" />
-            <element signature="e#138096#142682#0" expanded="false" />
-            <element signature="e#149220#150642#0" expanded="false" />
+            <element signature="e#62556#65680#0" expanded="false" />
+            <element signature="e#112542#151754#0" expanded="false" />
+            <element signature="e#113648#137961#0" expanded="false" />
+            <element signature="e#138084#142670#0" expanded="false" />
+            <element signature="e#149208#150630#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
             <element signature="n#!!block;n#getJob#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
@@ -622,26 +621,26 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#15229#15432#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#32290#32432#0" expanded="false" />
+            <element signature="e#32278#32420#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#33373#35943#0" expanded="false" />
-            <element signature="e#35963#38424#0" expanded="false" />
-            <element signature="e#38451#39448#0" expanded="false" />
-            <element signature="e#38476#39446#0" expanded="false" />
-            <element signature="e#40770#40924#0" expanded="false" />
-            <element signature="e#40959#41086#0" expanded="false" />
+            <element signature="e#33361#35931#0" expanded="false" />
+            <element signature="e#35951#38412#0" expanded="false" />
+            <element signature="e#38439#39436#0" expanded="false" />
+            <element signature="e#38464#39434#0" expanded="false" />
+            <element signature="e#40758#40912#0" expanded="false" />
+            <element signature="e#40947#41074#0" expanded="false" />
             <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#41775#41904#0" expanded="false" />
+            <element signature="e#41763#41892#0" expanded="false" />
             <element signature="n#!!block;n#setWit#0" expanded="false" />
-            <element signature="e#43421#43489#0" expanded="false" />
+            <element signature="e#43409#43477#0" expanded="false" />
             <element signature="n#!!block;n#shortAddress#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#62568#65692#0" expanded="false" />
-            <element signature="e#112554#151766#0" expanded="false" />
-            <element signature="e#113660#137973#0" expanded="false" />
-            <element signature="e#138096#142682#0" expanded="false" />
-            <element signature="e#149220#150642#0" expanded="false" />
+            <element signature="e#62556#65680#0" expanded="false" />
+            <element signature="e#112542#151754#0" expanded="false" />
+            <element signature="e#113648#137961#0" expanded="false" />
+            <element signature="e#138084#142670#0" expanded="false" />
+            <element signature="e#149208#150630#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
             <element signature="n#!!block;n#getJob#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
@@ -679,26 +678,26 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#15229#15432#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#32290#32432#0" expanded="false" />
+            <element signature="e#32278#32420#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#33373#35943#0" expanded="false" />
-            <element signature="e#35963#38424#0" expanded="false" />
-            <element signature="e#38451#39448#0" expanded="false" />
-            <element signature="e#38476#39446#0" expanded="false" />
-            <element signature="e#40770#40924#0" expanded="false" />
-            <element signature="e#40959#41086#0" expanded="false" />
+            <element signature="e#33361#35931#0" expanded="false" />
+            <element signature="e#35951#38412#0" expanded="false" />
+            <element signature="e#38439#39436#0" expanded="false" />
+            <element signature="e#38464#39434#0" expanded="false" />
+            <element signature="e#40758#40912#0" expanded="false" />
+            <element signature="e#40947#41074#0" expanded="false" />
             <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#41775#41904#0" expanded="false" />
+            <element signature="e#41763#41892#0" expanded="false" />
             <element signature="n#!!block;n#setWit#0" expanded="false" />
-            <element signature="e#43421#43489#0" expanded="false" />
+            <element signature="e#43409#43477#0" expanded="false" />
             <element signature="n#!!block;n#shortAddress#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#62568#65692#0" expanded="false" />
-            <element signature="e#112554#151766#0" expanded="false" />
-            <element signature="e#113660#137973#0" expanded="false" />
-            <element signature="e#138096#142682#0" expanded="false" />
-            <element signature="e#149220#150642#0" expanded="false" />
+            <element signature="e#62556#65680#0" expanded="false" />
+            <element signature="e#112542#151754#0" expanded="false" />
+            <element signature="e#113648#137961#0" expanded="false" />
+            <element signature="e#138084#142670#0" expanded="false" />
+            <element signature="e#149208#150630#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
             <element signature="n#!!block;n#getJob#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
@@ -744,26 +743,26 @@
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#15229#15432#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#32290#32432#0" expanded="false" />
+            <element signature="e#32278#32420#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#33373#35943#0" expanded="false" />
-            <element signature="e#35963#38424#0" expanded="false" />
-            <element signature="e#38451#39448#0" expanded="false" />
-            <element signature="e#38476#39446#0" expanded="false" />
-            <element signature="e#40770#40924#0" expanded="false" />
-            <element signature="e#40959#41086#0" expanded="false" />
+            <element signature="e#33361#35931#0" expanded="false" />
+            <element signature="e#35951#38412#0" expanded="false" />
+            <element signature="e#38439#39436#0" expanded="false" />
+            <element signature="e#38464#39434#0" expanded="false" />
+            <element signature="e#40758#40912#0" expanded="false" />
+            <element signature="e#40947#41074#0" expanded="false" />
             <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#41775#41904#0" expanded="false" />
+            <element signature="e#41763#41892#0" expanded="false" />
             <element signature="n#!!block;n#setWit#0" expanded="false" />
-            <element signature="e#43421#43489#0" expanded="false" />
+            <element signature="e#43409#43477#0" expanded="false" />
             <element signature="n#!!block;n#shortAddress#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#62568#65692#0" expanded="false" />
-            <element signature="e#112554#151766#0" expanded="false" />
-            <element signature="e#113660#137973#0" expanded="false" />
-            <element signature="e#138096#142682#0" expanded="false" />
-            <element signature="e#149220#150642#0" expanded="false" />
+            <element signature="e#62556#65680#0" expanded="false" />
+            <element signature="e#112542#151754#0" expanded="false" />
+            <element signature="e#113648#137961#0" expanded="false" />
+            <element signature="e#138084#142670#0" expanded="false" />
+            <element signature="e#149208#150630#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
             <element signature="n#!!block;n#getJob#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
@@ -881,33 +880,33 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="4178" column="63" lean-forward="false" selection-start-line="4178" selection-start-column="63" selection-end-line="4178" selection-end-column="63" />
+        <state relative-caret-position="313">
+          <caret line="363" column="0" lean-forward="true" selection-start-line="363" selection-start-column="0" selection-end-line="363" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="e#15229#15432#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#32290#32432#0" expanded="false" />
+            <element signature="e#32278#32420#0" expanded="false" />
             <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#33373#35943#0" expanded="false" />
-            <element signature="e#35963#38424#0" expanded="false" />
-            <element signature="e#38451#39448#0" expanded="false" />
-            <element signature="e#38476#39446#0" expanded="false" />
-            <element signature="e#40770#40924#0" expanded="false" />
-            <element signature="e#40959#41086#0" expanded="false" />
+            <element signature="e#33361#35931#0" expanded="false" />
+            <element signature="e#35951#38412#0" expanded="false" />
+            <element signature="e#38439#39436#0" expanded="false" />
+            <element signature="e#38464#39434#0" expanded="false" />
+            <element signature="e#40758#40912#0" expanded="false" />
+            <element signature="e#40947#41074#0" expanded="false" />
             <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#41775#41904#0" expanded="false" />
+            <element signature="e#41763#41892#0" expanded="false" />
             <element signature="n#!!block;n#setWit#0" expanded="false" />
-            <element signature="e#43421#43489#0" expanded="false" />
+            <element signature="e#43409#43477#0" expanded="false" />
             <element signature="n#!!block;n#shortAddress#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#62568#65692#0" expanded="false" />
-            <element signature="e#112554#151766#0" expanded="false" />
-            <element signature="e#113660#137973#0" expanded="false" />
-            <element signature="e#138096#142682#0" expanded="false" />
-            <element signature="e#149220#150642#0" expanded="false" />
+            <element signature="e#62556#65680#0" expanded="false" />
+            <element signature="e#112542#151754#0" expanded="false" />
+            <element signature="e#113648#137961#0" expanded="false" />
+            <element signature="e#138084#142670#0" expanded="false" />
+            <element signature="e#149208#150630#0" expanded="false" />
             <element signature="n#!!block;n#receivedMessage#0" expanded="false" />
             <element signature="n#!!block;n#getJob#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />

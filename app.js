@@ -363,8 +363,8 @@ function getChat({url, page, access_token, name, pageID}) {
                                     id, data, flow: vietnameseDecode(data[8] || 'untitled')
 
                                 }
-                                if (!url.match('/forms/d/e/')) {
-                                    var urla = url.split('/forms/d/')
+                                if (!url.match('/d/e/')) {
+                                    var urla = url.split('/d/')
                                     var editId = urla[1].split('/')[0]
                                     save.editId = editId
                                 }
