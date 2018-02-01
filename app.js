@@ -4171,12 +4171,14 @@ function sendOne(messageData, page) {
                     var messageId = body.message_id;
                     if (messageId) {
                         console.log("callSendAPI_success", messageId, recipientId);
-
                     }
                     resolve(messageData)
 
                 } else {
                     console.error("callSendAPI_error", JSON.stringify(body), JSON.stringify(messageData));
+                   var  messageErr = {message : {text:'Error'},recipient:messageData.recipient}
+                    sendOne(messageErr, page)
+
                     reject(error)
                 }
             });
