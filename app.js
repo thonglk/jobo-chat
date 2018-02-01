@@ -3427,7 +3427,7 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                                     }, {
                                         "type": "web_url",
                                         "title": "View Dashboard",
-                                        "url": `https://app.botform.asia/${pageID}/viewResponse`,
+                                        "url": `https://app.botform.asia/bot?page=${pageID}`,
                                     }
                                 ]
                             }
