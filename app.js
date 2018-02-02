@@ -2532,26 +2532,16 @@ function loop(q, flow, senderID, pageID) {
                                 .catch(err => console.log('sendAPI_err', err)))
                             .catch(err => console.log('sendAPI_err', err))
 
-                    } else if (askType == '3') {
-                        var messageSend = {
-                            attachment: {
-                                type: "template",
-                                payload: {
-                                    template_type: "button",
-                                    text: currentQuestion[1],
-                                    buttons: []
-                                }
-                            }
-
-                        }
+                    }
+                    else if (askType == 3) {
+                        console.log('askOption[0][2]', askOption[0][2])
+                        var array_mes = []
                         var buttons = []
-                        var map = _.map(askOption, option => {
-                            var button = {}
+                        var each = _.each(askOption, option => {
                             metadata.text = option[0]
                             if (option[2]) metadata.goto = option[2]
                             if (option[4] == 1) metadata.other = option[2]
 
-                            console.log('option[0].match("[")', option[0])
                             var str = option[0]
                             str = templatelize(str, senderData)
 
@@ -2562,37 +2552,74 @@ function loop(q, flow, senderID, pageID) {
                                 var tit = str.substr(0, n - 2)
                                 var expression = "/((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[\\-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9\\.\\-]+|(?:www\\.|[\\-;:&=\\+\\$,\\w]+@)[A-Za-z0-9\\.\\-]+)((?:\\/[\\+~%\\/\\.\\w\\-_]*)?\\??(?:[\\-\\+=&;%@\\.\\w_]*)#?(?:[\\.\\!\\/\\\\\\w]*))?)/\n";
                                 var regex = 'http';
-                                if (sub.match(regex)) button = {
+                                if (sub.match(regex)) var button = {
                                     type: "web_url",
                                     url: sub,
-                                    title: tit
+                                    title: tit,
+                                    messenger_extensions:false
                                 }
-                                else {
-                                    button = {
-                                        type: "phone_number",
-                                        title: tit,
-                                        payload: sub
-                                    }
+                                else button = {
+                                    type: "phone_number",
+                                    title: tit,
+                                    payload: sub
                                 }
-                            } else button = {
+
+                            } else if (option[0]) button = {
                                 type: "postback",
                                 title: option[0],
                                 payload: JSON.stringify(metadata)
                             }
-
-
-                            if (buttons.length < 3) buttons.push(button);
-                            else console.log('buttons.length', buttons.length)
-
+                            if(button) buttons.push(button)
 
                         });
-                        messageSend.attachment.payload.buttons = buttons
+                        console.log('buttons', buttons)
+                        var length = buttons.length
+                        console.log('length', length)
+
+                        var max = 0
+                        for (var i = 1; i <= length / 3; i++) {
+                            console.log('i', i, length / 3)
+                            var max = i
+                            var messageSend = {
+                                attachment: {
+                                    type: "template",
+                                    payload: {
+                                        template_type: "button",
+                                        text: '---',
+                                        buttons: [buttons[3 * i - 3], buttons[3 * i - 2], buttons[3 * i - 1]]
+                                    }
+                                }
+                            }
+                            if (i == 1) messageSend.attachment.payload.text = currentQuestion[1]
+
+                            array_mes.push(messageSend)
+                        }
+
+                        if (length % 3 != 0) {
+                            var rest = _.rest(buttons, 3 * max)
+
+                            console.log('rest', rest)
+
+                            messageSend = {
+                                attachment: {
+                                    type: "template",
+                                    payload: {
+                                        template_type: "button",
+                                        text: '---',
+                                        buttons: rest
+                                    }
+                                }
+                            }
+                            array_mes.push(messageSend)
+
+                        }
+
 
                         if (currentQuestion[2] && currentQuestion[2].toLowerCase() == 'notification') sendNotiSub(templatelize(messageSend, senderData), pageID).then(result => {
                             q++
                             loop(q, flow, senderID, pageID)
                         })
-                        else sendAPI(senderID, messageSend, null, pageID, metadata)
+                        else sendMessages(senderID, array_mes, null, pageID, metadata)
                             .then(resutl => console.log('messageSend', messageSend))
                             .catch(err => console.log('sendAPI_err', err))
 
@@ -2605,7 +2632,6 @@ function loop(q, flow, senderID, pageID) {
                                 metadata.other = option[2]
                                 console.log('metadata', metadata)
                             }
-
 
                             var quick = {
                                 "content_type": "text",
