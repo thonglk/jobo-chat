@@ -2595,7 +2595,7 @@ function loop(q, flow, senderID, pageID) {
                             array_mes.push(messageSend)
                         }
 
-                        if (length % 3 != 0) {
+                        if (length % 3 != 0 ) {
                             var rest = _.rest(buttons, 3 * max)
 
                             console.log('rest', rest)
@@ -2610,6 +2610,7 @@ function loop(q, flow, senderID, pageID) {
                                     }
                                 }
                             }
+                            if(length < 3) messageSend.attachment.payload.text = currentQuestion[1]
                             array_mes.push(messageSend)
 
                         }
