@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-    </list>
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -16,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
-              <caret line="2617" column="0" lean-forward="true" selection-start-line="2617" selection-start-column="0" selection-end-line="2617" selection-end-column="0" />
+            <state relative-caret-position="362">
+              <caret line="2612" column="15" lean-forward="false" selection-start-line="2612" selection-start-column="15" selection-end-line="2612" selection-end-column="15" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
@@ -59,6 +57,23 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="sample.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/sample.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="385">
+              <caret line="44" column="1" lean-forward="true" selection-start-line="44" selection-start-column="1" selection-end-line="44" selection-end-column="1" />
+              <folding>
+                <element signature="n#!!block;n#sendFileMessage#0" expanded="false" />
+                <element signature="n#!!block;n#sendGenericMessage#0" expanded="false" />
+                <element signature="e#3368#4923#0" expanded="false" />
+                <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
+                <element signature="n#!!block;n#sendQuickReply#0" expanded="false" />
+                <element signature="n#!!block;n#sendAccountLinking#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -71,7 +86,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>phantom</find>
       <find>renderO</find>
       <find>save.flow</find>
       <find>ladiBot</find>
@@ -100,6 +114,7 @@
       <find>callSendAPI_error</find>
       <find>db.ref</find>
       <find>getchat</find>
+      <find>loop</find>
       <find>loop</find>
     </findStrings>
     <replaceStrings>
@@ -254,12 +269,12 @@
       <workItem from="1514869061727" duration="82992000" />
       <workItem from="1516181732845" duration="21067000" />
       <workItem from="1516627118687" duration="7199000" />
-      <workItem from="1517069684445" duration="35780000" />
+      <workItem from="1517069684445" duration="36163000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="707364000" />
+    <option name="totallyTimeSpent" value="707747000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -856,25 +871,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sample.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="91">
-          <caret line="337" column="4" lean-forward="false" selection-start-line="337" selection-start-column="4" selection-end-line="367" selection-end-column="5" />
-          <folding>
-            <element signature="n#!!block;n#sendFileMessage#0" expanded="false" />
-            <element signature="n#!!block;n#sendGenericMessage#0" expanded="false" />
-            <element signature="e#3368#4923#0" expanded="false" />
-            <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
-            <element signature="n#!!block;n#sendQuickReply#0" expanded="false" />
-            <element signature="n#!!block;n#sendAccountLinking#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="2617" column="0" lean-forward="true" selection-start-line="2617" selection-start-column="0" selection-end-line="2617" selection-end-column="0" />
+        <state relative-caret-position="362">
+          <caret line="2612" column="15" lean-forward="false" selection-start-line="2612" selection-start-column="15" selection-end-line="2612" selection-end-column="15" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
@@ -908,6 +908,21 @@
             <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#callSendAPI#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sample.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="385">
+          <caret line="44" column="1" lean-forward="true" selection-start-line="44" selection-start-column="1" selection-end-line="44" selection-end-column="1" />
+          <folding>
+            <element signature="n#!!block;n#sendFileMessage#0" expanded="false" />
+            <element signature="n#!!block;n#sendGenericMessage#0" expanded="false" />
+            <element signature="e#3368#4923#0" expanded="false" />
+            <element signature="n#!!block;n#sendReceiptMessage#0" expanded="false" />
+            <element signature="n#!!block;n#sendQuickReply#0" expanded="false" />
+            <element signature="n#!!block;n#sendAccountLinking#0" expanded="false" />
           </folding>
         </state>
       </provider>
