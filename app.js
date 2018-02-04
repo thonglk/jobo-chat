@@ -3256,7 +3256,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                     if (valid[1] == 7) {
                                                                         //between
                                                                         console.log('payload.text', payload.text, Number(payload.text) > valid[2][0])
-                                                                        if (Number(payload.text) > valid[2][0] && Number(payload.text) < valid[2][1]) go(goto, index, flow, senderID, pageID) else sendAPI(senderID, {
+                                                                        if (Number(payload.text) > valid[2][0] && Number(payload.text) < valid[2][1]) go(goto, index, flow, senderID, pageID)
+                                                                        else sendAPI(senderID, {
                                                                             text: valid[3]
                                                                         }, null, pageID, payload)
 
