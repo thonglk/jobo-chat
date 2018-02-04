@@ -17,8 +17,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="3261" column="0" lean-forward="false" selection-start-line="3261" selection-start-column="0" selection-end-line="3261" selection-end-column="0" />
+            <state relative-caret-position="361">
+              <caret line="3264" column="0" lean-forward="true" selection-start-line="3264" selection-start-column="0" selection-end-line="3264" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
@@ -270,12 +270,12 @@
       <workItem from="1516181732845" duration="21067000" />
       <workItem from="1516627118687" duration="7199000" />
       <workItem from="1517069684445" duration="37049000" />
-      <workItem from="1517749067465" duration="1851000" />
+      <workItem from="1517749067465" duration="2139000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="710484000" />
+    <option name="totallyTimeSpent" value="710772000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -874,8 +874,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="3261" column="0" lean-forward="false" selection-start-line="3261" selection-start-column="0" selection-end-line="3261" selection-end-column="0" />
+        <state relative-caret-position="361">
+          <caret line="3264" column="0" lean-forward="true" selection-start-line="3264" selection-start-column="0" selection-end-line="3264" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
