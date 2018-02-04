@@ -3429,35 +3429,35 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                 console.log('conversations', conversations, err);
                 user.link = conversations.data[0].link
                 saveSenderData(user, senderID, pageID)
-                    .then(result => resolve(user))
-                    .catch(err => reject(err))
-            })
-            sendNotiSub({
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "generic",
-                        "elements": [
-                            {
-                                "title": `New User| ${user.full_name}`,
-                                "image_url": user.profile_pic,
-                                "subtitle": `Ref: ${user.ref} \n Gender: ${user.gender}`,
-                                "buttons": [
+                    .then(result => sendNotiSub({
+                        "attachment": {
+                            "type": "template",
+                            "payload": {
+                                "template_type": "generic",
+                                "elements": [
                                     {
-                                        "type": "web_url",
-                                        "url": `https://fb.com${user.link}`,
-                                        "title": "Go to chat"
-                                    }, {
-                                        "type": "web_url",
-                                        "title": "View Dashboard",
-                                        "url": `https://app.botform.asia/bot?page=${pageID}`,
+                                        "title": `New User| ${user.full_name}`,
+                                        "image_url": user.profile_pic,
+                                        "subtitle": `Ref: ${user.ref} \n Gender: ${user.gender}`,
+                                        "buttons": [
+                                            {
+                                                "type": "web_url",
+                                                "url": `https://fb.com${user.link}`,
+                                                "title": "Go to chat"
+                                            }, {
+                                                "type": "web_url",
+                                                "title": "View Dashboard",
+                                                "url": `https://app.botform.asia/bot?page=${pageID}`,
+                                            }
+                                        ]
                                     }
                                 ]
                             }
-                        ]
-                    }
-                }
-            }, pageID)
+                        }
+                    }, pageID))
+                    .then(result => resolve(user))
+                    .catch(err => reject(err))
+            })
 
         })
 
