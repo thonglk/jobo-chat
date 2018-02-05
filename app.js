@@ -3201,6 +3201,9 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                         if (pageID && facebookPage[pageID] && facebookPage[pageID].access_token && facebookPage[pageID].name) data = Object.assign(data, facebookPage[pageID], {pageID})
                                                         console.log('data', data)
+                                                        sendAPI(senderID, {
+                                                            text: `Updating...`,
+                                                        }, null, pageID)
                                                         getChat(data)
                                                             .then(form => sendAPI(senderID, {
                                                                 text: `Updated successful for ${form.data[8]} <3!`,
@@ -3511,11 +3514,14 @@ app.get('/test', (req, res) => {
 
 function saveSenderData(data, senderID, page = '493938347612411') {
     return new Promise(function (resolve, reject) {
-        data.pageID = page
+       if(senderID != page){
+           data.pageID = page
 
-        accountRef.child(senderID).update(data)
-            .then(result => resolve(data))
-            .catch(err => reject(err))
+           accountRef.child(senderID).update(data)
+               .then(result => resolve(data))
+               .catch(err => reject(err))
+       } else reject({err:'same'})
+
 
     })
 }
