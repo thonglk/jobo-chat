@@ -2556,7 +2556,7 @@ function loop(q, flow, senderID, pageID) {
                                     type: "web_url",
                                     url: sub,
                                     title: tit,
-                                    messenger_extensions:false
+                                    messenger_extensions: false
                                 }
                                 else button = {
                                     type: "phone_number",
@@ -2569,7 +2569,7 @@ function loop(q, flow, senderID, pageID) {
                                 title: option[0],
                                 payload: JSON.stringify(metadata)
                             }
-                            if(button) buttons.push(button)
+                            if (button) buttons.push(button)
 
                         });
                         console.log('buttons', buttons)
@@ -2595,7 +2595,7 @@ function loop(q, flow, senderID, pageID) {
                             array_mes.push(messageSend)
                         }
 
-                        if (length % 3 != 0 ) {
+                        if (length % 3 != 0) {
                             var rest = _.rest(buttons, 3 * max)
 
                             console.log('rest', rest)
@@ -2610,7 +2610,7 @@ function loop(q, flow, senderID, pageID) {
                                     }
                                 }
                             }
-                            if(length < 3) messageSend.attachment.payload.text = currentQuestion[1]
+                            if (length < 3) messageSend.attachment.payload.text = currentQuestion[1]
                             array_mes.push(messageSend)
 
                         }
@@ -3243,9 +3243,9 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                     console.log('delete waiting[senderID]')
                                                                     go(goto, index, flow, senderID, pageID)
                                                                 }, 10000)
-                                                              }
+                                                            }
 
-                                                        } else if(payload.askType == 0){
+                                                        } else if (payload.askType == 0) {
                                                             var curQues = _.findWhere(questions, {0: payload.questionId});
                                                             if (curQues[4] && curQues[4][0] && curQues[4][0][4] && curQues[4][0][4][0]) {
 
@@ -3512,15 +3512,31 @@ app.get('/test', (req, res) => {
     res.send('done')
 })
 
+process.on('exit', function (err) {
+    console.log('exception: ' + err);
+
+    sendAPI('1245204432247001', {
+        text: 'Jobo-chat_exception' + err
+    }, null, '206881183192113')
+});
+
+process.on('uncaughtException', function (err) {
+    console.log('Caught exception: ' + err);
+    //1100401513397714;1460902087301324;1226124860830528
+    sendAPI('1245204432247001', {
+        text: 'Jobo-chat_uncaughtException' + err
+    }, null, '206881183192113')
+});
+
 function saveSenderData(data, senderID, page = '493938347612411') {
     return new Promise(function (resolve, reject) {
-       if(senderID != page){
-           data.pageID = page
+        if (senderID != page) {
+            data.pageID = page
 
-           accountRef.child(senderID).update(data)
-               .then(result => resolve(data))
-               .catch(err => reject(err))
-       } else reject({err:'same'})
+            accountRef.child(senderID).update(data)
+                .then(result => resolve(data))
+                .catch(err => reject(err))
+        } else reject({err: 'same'})
 
 
     })
