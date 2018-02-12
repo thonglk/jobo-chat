@@ -2749,12 +2749,23 @@ function loop(q, flow, senderID, pageID) {
                             else if (currentQuestion[2] && currentQuestion[2].toLowerCase() == 'notification') sendNotiUser(templatelize(currentQuestion[1], senderData), senderData, pageID)
                                 .then(result => loop(q, flow, senderID, pageID))
 
-                            else sendAPI(senderID, messageSend, null, pageID, metadata)
+                            else if (currentQuestion[2] && currentQuestion[2].match('|')) {
+                                console.log('random')
+                                var array = currentQuestion[2].split('|')
+                                array.push(currentQuestion[1])
+                                var pick = _.sample(array)
+                                messageSend.text = templatelize(pick, senderData)
+                                sendAPI(senderID, messageSend, null, pageID, metadata)
                                     .then(result => {
-                                        console.log('result', result)
                                         setTimeout(loop(q, flow, senderID, pageID), 3000)
                                     })
                                     .catch(err => console.log('err', err))
+
+                            } else sendAPI(senderID, messageSend, null, pageID, metadata)
+                                .then(result => {
+                                    setTimeout(loop(q, flow, senderID, pageID), 3000)
+                                })
+                                .catch(err => console.log('err', err))
 
                         }
 
