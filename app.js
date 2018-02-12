@@ -206,7 +206,9 @@ function initDataLoad(ref, store) {
 var dataAccount = {}, accountRef = db.ref('account')
 initDataLoad(accountRef, dataAccount)
 var facebookPage = {}, facebookPageRef = db.ref('facebookPage')
-
+// accountRef.on('child_added', function (snap) {
+//     if(!snap.val().id)snap.ref.remove(()=>console.log('remove'))
+// });
 initDataLoad(facebookPageRef, facebookPage)
 
 var dataLadiBot = {}, ladiBotRef = db.ref('ladiBot')
@@ -2843,7 +2845,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             type: 'getLocation',
                                                             case: 'search'
                                                         })
-                                                    }],null,recipientID))
+                                                    }], null, recipientID))
                                             }
                                             else if (payload.type == 'getLocation' || payload.location) {
 
@@ -2910,9 +2912,10 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 if (senderData && senderData.match) sendingAPI(senderID, recipientID, {
                                                     text: "[Hệ Thống] Hãy huỷ cuộc hội thoại hiện có !",
                                                 }, null, 'dumpling');
-                                                else  sendAPI(senderID, {
+                                                else sendAPI(senderID, {
                                                     text: `[Hệ Thống] Đang tìm kiếm....`,
-                                                }, null, '493938347612411').then(result => matchingPeople(senderID))
+                                                }, null, '493938347612411')
+                                                    .then(result => matchingPeople(senderID))
                                             }
                                             else if (payload.type == 'share') {
                                                 sendingAPI(senderID, recipientID, {
@@ -3561,15 +3564,15 @@ function removeSenderData(data, senderID, page = '493938347612411') {
 
 
 function matchingPeople(senderID) {
-    var pageID ='493938347612411';
+    var pageID = '493938347612411';
 
     var senderData = dataAccount[senderID]
 
     var avaible = _.filter(dataAccount, function (card) {
-        if (card.pageID == '493938347612411' && !card.match && card.status != 0 && card.gender != senderData.gender && card.id != facebookPage['493938347612411'].id) return true
+        if (card.pageID == '493938347612411' && !card.match && !card.sent_error && card.status != 0 && card.gender != senderData.gender && card.id != facebookPage['493938347612411'].id) return true
         else return false
     })
-
+    console.log('avaible.length', avaible.length)
     if (avaible.length > 0) {
         var random = _.sample(avaible)
         var matched = random.id
