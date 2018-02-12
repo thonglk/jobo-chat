@@ -219,9 +219,28 @@ function SetOnOffPage(pageID, status) {
         else page_off = false
         facebookPageRef.child(pageID).update({page_off}).then(result => resolve(facebookPage[pageID]))
             .catch(err => reject(err))
-
     })
 }
+
+function SetOnOffPagePerUser(pageID, senderID, time_off) {
+    return new Promise(function (resolve, reject) {
+        if (time_off) saveSenderData({time_off}, senderID, pageID).then(result => {
+            setTimeout(function () {
+                saveSenderData({time_off:null}, senderID, pageID).then(result => console.log('remove'))
+            }, time_off)
+            resolve(facebookPage[pageID])
+        })
+            .catch(err => reject(err))
+    })
+}
+
+app.get('/setoff', (req, res) => {
+    var {pageID, senderID, time_off} = req.query
+    SetOnOffPagePerUser(pageID, senderID, time_off)
+        .then(result => res.send(result))
+        .catch(err => res.status(500).json(err))
+
+})
 
 app.get('/SetOnOffPage', (req, res) => {
     var {pageID, status} = req.query
@@ -624,7 +643,6 @@ function isObject(a) {
 
 function templatelize(text = 'loading...', data = {first_name: 'Thông'}) {
     var check = 0
-    console.log('templatelize', text, data)
 
     if (isObject(text)) {
         var string = JSON.stringify(text)
@@ -2616,11 +2634,7 @@ function loop(q, flow, senderID, pageID) {
                         }
 
 
-                        if (currentQuestion[2] && currentQuestion[2].toLowerCase() == 'notification') sendNotiSub(templatelize(messageSend, senderData), pageID).then(result => {
-                            q++
-                            loop(q, flow, senderID, pageID)
-                        })
-                        else sendMessages(senderID, array_mes, null, pageID, metadata)
+                        sendMessages(senderID, array_mes, null, pageID, metadata)
                             .then(resutl => console.log('messageSend', messageSend))
                             .catch(err => console.log('sendAPI_err', err))
 
@@ -2673,8 +2687,6 @@ function loop(q, flow, senderID, pageID) {
                     page: pageID,
                     senderID,
                 }, {$set: response}, {upsert: true}).then(result => {
-
-                        console.log('save info response', response)
                         q++
 
                         if (askType == 11 && flow[20]) sendAPI(senderID, {
@@ -2714,6 +2726,9 @@ function loop(q, flow, senderID, pageID) {
                                 })
 
                             }
+                            else if (currentQuestion[2] && currentQuestion[2].toLowerCase() == 'notification') sendNotiUser(templatelize(currentQuestion[1], senderData), senderData, pageID)
+                                .then(result => loop(q, flow, senderID, pageID))
+
                             else sendAPI(senderID, messageSend, null, pageID, metadata)
                                     .then(result => {
                                         console.log('result', result)
@@ -3180,8 +3195,9 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         senderID
                                                     }
 
+
                                                     if (payload.keyword == 'start-over' || payload.type == 'GET_STARTED') {
-                                                        saveSenderData({bot_off: null}, senderID, pageID)
+                                                        saveSenderData({time_off: null}, senderID, pageID)
                                                         ladiResCol.remove({
                                                             page: pageID,
                                                             senderID
@@ -3214,6 +3230,20 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                 text: `Subscribe successful <3!`,
                                                             }, null, pageID))
 
+                                                    } else if (payload.keyword && payload.keyword.match('mute-bot')) {
+                                                        var time_off = 10 * 60 * 1000
+                                                        var date_until = new Date(Date.now() + time_off)
+
+                                                        SetOnOffPagePerUser(pageID, payload.subID, time_off).then(result => sendAPI(senderID, {
+                                                            text: `Bot was off for ${dataAccount[payload.subID].full_name} until  ${date_until}, click 'Mute bot' again to get more time!`,
+                                                        }, null, pageID))
+                                                    } else if (payload.keyword == 'stop-agent') {
+                                                        saveSenderData({time_off: null}, senderID, pageID)
+                                                            .then(result => loop(0, flow, senderID, pageID))
+
+                                                    }
+                                                    else if (senderData.time_off) {
+                                                        console.log('senderData.time_off')
                                                     }
                                                     else if (payload.text && payload.type == 'ask' && payload.questionId) {
                                                         response[payload.questionId] = payload.text
@@ -3432,32 +3462,7 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                 console.log('conversations', conversations, err);
                 user.link = conversations.data[0].link
                 saveSenderData(user, senderID, pageID)
-                    .then(result => sendNotiSub({
-                        "attachment": {
-                            "type": "template",
-                            "payload": {
-                                "template_type": "generic",
-                                "elements": [
-                                    {
-                                        "title": `New User| ${user.full_name}`,
-                                        "image_url": user.profile_pic,
-                                        "subtitle": `Ref: ${user.ref} \n Gender: ${user.gender}`,
-                                        "buttons": [
-                                            {
-                                                "type": "web_url",
-                                                "url": `https://fb.com${user.link}`,
-                                                "title": "Go to chat"
-                                            }, {
-                                                "type": "web_url",
-                                                "title": "View Dashboard",
-                                                "url": `https://app.botform.asia/bot?page=${pageID}`,
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        }
-                    }, pageID))
+                    .then(result => sendNotiUser('New User', user, pageID))
                     .then(result => resolve(user))
                     .catch(err => reject(err))
             })
@@ -3465,6 +3470,49 @@ function loadsenderData(senderID, pageID = '493938347612411') {
         })
 
     })
+}
+
+function sendNotiUser(text = 'New User', user, pageID) {
+    return new Promise(function (resolve, reject) {
+
+        var message = {
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "generic",
+                    "elements": [
+                        {
+                            "title": text,
+                            "image_url": user.profile_pic,
+                            "subtitle": `${user.full_name} \n Ref: ${user.ref} \n Gender: ${user.gender}`,
+                            "buttons": [
+                                {
+                                    "type": "web_url",
+                                    "url": `https://fb.com${user.link}`,
+                                    "title": "Go to chat"
+                                }, {
+                                    "type": "web_url",
+                                    "title": "View Dashboard",
+                                    "url": `https://app.botform.asia/bot?page=${pageID}`,
+                                }, {
+                                    "type": "postback",
+                                    "title": "Mute bot 10 minutes",
+                                    "payload": JSON.stringify({
+                                        subID: user.id
+                                    }),
+                                }
+
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+        sendNotiSub(message, pageID)
+            .then(result => resolve({message, pageID})
+                .catch(err => reject(err)))
+    })
+
 }
 
 function sendNotiSub(message = {text: 'New Subscribe'}, pageID, subscribe = 'all') {
@@ -3501,7 +3549,7 @@ app.get('/test', (req, res) => {
                             }, {
                                 "type": "web_url",
                                 "title": "View Dashboard",
-                                "url": `https://app.botform.asia/dash/viewResponse?page=${pageID}`,
+                                "url": `https://app.botform.asia/bot?page=${pageID}`,
                             }
                         ]
                     }
@@ -3512,21 +3560,6 @@ app.get('/test', (req, res) => {
     res.send('done')
 })
 
-process.on('exit', function (err) {
-    console.log('exception: ' + err);
-
-    sendAPI('1245204432247001', {
-        text: 'Jobo-chat_exception' + err
-    }, null, '206881183192113')
-});
-
-process.on('uncaughtException', function (err) {
-    console.log('Caught exception: ' + err);
-    //1100401513397714;1460902087301324;1226124860830528
-    sendAPI('1245204432247001', {
-        text: 'Jobo-chat_uncaughtException' + err
-    }, null, '206881183192113')
-});
 
 function saveSenderData(data, senderID, page = '493938347612411') {
     return new Promise(function (resolve, reject) {
@@ -3535,6 +3568,20 @@ function saveSenderData(data, senderID, page = '493938347612411') {
 
             accountRef.child(senderID).update(data)
                 .then(result => resolve(data))
+                .catch(err => reject(err))
+        } else reject({err: 'same'})
+
+
+    })
+}
+
+function removeSenderData(data, senderID, page = '493938347612411') {
+    return new Promise(function (resolve, reject) {
+        if (senderID != page) {
+            data.pageID = page
+
+            accountRef.child(senderID).child(data)
+                .remove(result => resolve(data))
                 .catch(err => reject(err))
         } else reject({err: 'same'})
 
@@ -4240,6 +4287,21 @@ function sendOne(messageData, page) {
     })
 }
 
+process.on('exit', function (err) {
+    console.log('exception: ' + err);
+
+    sendAPI('1245204432247001', {
+        text: 'Jobo-chat_exception' + err
+    }, null, '206881183192113')
+});
+
+process.on('uncaughtException', function (err) {
+    console.log('Caught exception: ' + err);
+
+    sendAPI('1245204432247001', {
+        text: 'Jobo-chat_uncaughtException' + err
+    }, null, '206881183192113')
+});
 
 // Start server
 // Webhooks must be available via SSL with a certificate signed by a valid
