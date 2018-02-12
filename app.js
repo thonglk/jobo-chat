@@ -518,8 +518,26 @@ function getChat({url, page, access_token, name, pageID}) {
                                             })
                                         }
                                     }
+                                    if (title == 'freetext' && type == 2) {
+                                        var freetext = {}
 
+                                        var optionsLists = flow[4][0][1]
 
+                                        if (optionsLists) {
+                                            console.log('optionsList', optionsLists)
+                                            var call = _.each(optionsLists, option => {
+                                                var text = option[0]
+                                                if (text.match('|')) {
+                                                    var array = text.split('|')
+                                                    array.forEach(ar => {
+                                                        freetext[vietnameseDecode(ar)] = option[2]
+                                                    })
+                                                } else freetext[vietnameseDecode(text)] = option[2]
+                                            })
+                                        }
+                                        save.data[21] = freetext
+
+                                    }
                                 }
 
                                 if (r > 0) {
@@ -3276,6 +3294,15 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                         }
                                                         else go(goto, index, flow, senderID, pageID)
+
+                                                    } else if (payload.keyword && flow[21]) {
+                                                        for (var i in flow[21]) {
+                                                            var goto = flow[21][i]
+                                                            if (payload.keyword.match(i)) {
+                                                                go(goto, null, flow, senderID, pageID)
+                                                                break
+                                                            }
+                                                        }
 
                                                     } else if (payload.url) axios.get(payload.url).then(result => {
                                                         var messages = result.data
