@@ -226,7 +226,7 @@ function SetOnOffPagePerUser(pageID, senderID, time_off) {
     return new Promise(function (resolve, reject) {
         if (time_off) saveSenderData({time_off}, senderID, pageID).then(result => {
             setTimeout(function () {
-                saveSenderData({time_off:null}, senderID, pageID).then(result => console.log('remove'))
+                saveSenderData({time_off: null}, senderID, pageID).then(result => console.log('remove'))
             }, time_off)
             resolve(facebookPage[pageID])
         })
@@ -2825,42 +2825,25 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     if (refData[0] != 'start') senderData.topic = refData[0]
                                                 }
 
-                                                saveSenderData(senderData, senderID, pageID).then(result => sendingAPI(senderID, recipientID, {
+                                                saveSenderData(senderData, senderID, pageID)
+                                                    .then(result => sendMessages(senderID, [{
                                                         text: `Dumpling kết nối hai người lạ nói chuyện với nhau bằng một cuộc trò chuyện bí mật`,
-                                                    }, null, 'dumpling')
-                                                        .then(result => sendingAPI(senderID, recipientID, {
-                                                            text: `đảm bảo 100% bí mật thông tin và nội dung trò chuyện`,
-                                                        }, null, 'dumpling'))
-                                                        .then(result => {
-                                                            if (senderData.topic) sendingAPI(senderID, recipientID, {
-                                                                text: `Bạn đang tham gia Dumpling #${refData[0]}, hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện`,
-                                                                quick_replies: [
-                                                                    {
-                                                                        "content_type": "text",
-                                                                        "title": "💬 Bắt Đầu",
-                                                                        "payload": JSON.stringify({
-                                                                            type: 'matching'
-                                                                        })
-                                                                    }
-                                                                ]
-                                                            }, null, 'dumpling')
-                                                            else sendingAPI(senderID, recipientID, {
-                                                                text: `Hãy gửi vị trí của bạn`,
-                                                                quick_replies: [{
-                                                                    "content_type": "location",
-                                                                    "payload": JSON.stringify({
-                                                                        type: 'getLocation',
-                                                                        case:'quick'
-                                                                    })
-                                                                }],
-                                                                metadata: JSON.stringify({
-                                                                    type: 'getLocation',
-                                                                    case:'search'
-                                                                })
-                                                            }, null, 'dumpling')
-
+                                                    }, {
+                                                        text: `đảm bảo 100% bí mật thông tin và nội dung trò chuyện`,
+                                                    }, {
+                                                        text: `Hãy gửi vị trí của bạn`,
+                                                        quick_replies: [{
+                                                            "content_type": "location",
+                                                            "payload": JSON.stringify({
+                                                                type: 'getLocation',
+                                                                case: 'quick'
+                                                            })
+                                                        }],
+                                                        metadata: JSON.stringify({
+                                                            type: 'getLocation',
+                                                            case: 'search'
                                                         })
-                                                )
+                                                    }],null,recipientID))
                                             }
                                             else if (payload.type == 'getLocation' || payload.location) {
 
@@ -2927,7 +2910,9 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 if (senderData && senderData.match) sendingAPI(senderID, recipientID, {
                                                     text: "[Hệ Thống] Hãy huỷ cuộc hội thoại hiện có !",
                                                 }, null, 'dumpling');
-                                                else matchingPeople(senderID)
+                                                else  sendAPI(senderID, {
+                                                    text: `[Hệ Thống] Đang tìm kiếm....`,
+                                                }, null, '493938347612411').then(result => matchingPeople(senderID))
                                             }
                                             else if (payload.type == 'share') {
                                                 sendingAPI(senderID, recipientID, {
@@ -3222,7 +3207,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     }
                                                     else if (senderData.time_off) {
                                                         console.log('senderData.time_off')
-                                                        if(!timeOff[senderID]){
+                                                        if (!timeOff[senderID]) {
                                                             sendAPI(senderID, {
                                                                 text: `You are chatting with agent. Type 'stop agent' to switch to bot`,
                                                             }, null, pageID)
@@ -3576,8 +3561,10 @@ function removeSenderData(data, senderID, page = '493938347612411') {
 
 
 function matchingPeople(senderID) {
+    var pageID ='493938347612411';
 
     var senderData = dataAccount[senderID]
+
     var avaible = _.filter(dataAccount, function (card) {
         if (card.pageID == '493938347612411' && !card.match && card.status != 0 && card.gender != senderData.gender && card.id != facebookPage['493938347612411'].id) return true
         else return false
