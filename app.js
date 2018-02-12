@@ -3234,6 +3234,9 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }, null, pageID))
                                                     } else if (payload.keyword == 'stop-agent') {
                                                         saveSenderData({time_off: null}, senderID, pageID)
+                                                            .then(result => sendAPI(senderID, {
+                                                                text: `Switched to bot`,
+                                                            }, null, pageID))
                                                             .then(result => loop(0, flow, senderID, pageID))
 
                                                     }
