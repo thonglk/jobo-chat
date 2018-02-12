@@ -2763,6 +2763,7 @@ function sendMessages(senderID, messages, typing, pageID, metadata) {
 }
 
 var waiting = {}
+var time_off = {}
 db.ref('webhook').on('child_added', function (snap) {
     var data = snap.val()
     if (data.object == 'page') {
@@ -3244,6 +3245,13 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     }
                                                     else if (senderData.time_off) {
                                                         console.log('senderData.time_off')
+                                                        if(!time_off[senderID]){
+                                                            sendAPI(senderID, {
+                                                                text: `You are chatting with agent. Type 'stop agent' to switch to bot`,
+                                                            }, null, pageID)
+                                                            time_off[senderID] = true
+                                                        }
+
                                                     }
                                                     else if (payload.text && payload.type == 'ask' && payload.questionId) {
                                                         response[payload.questionId] = payload.text
