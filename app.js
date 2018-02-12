@@ -2845,15 +2845,26 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                 ]
                                                             }, null, 'dumpling')
                                                             else sendingAPI(senderID, recipientID, {
-                                                                text: `Hãy chọn chủ đề liên quan đến bạn nhất?`,
-                                                                quick_replies: quick_topic
+                                                                text: `Hãy gửi vị trí của bạn`,
+                                                                quick_replies: [{
+                                                                    "content_type": "location",
+                                                                    "payload": JSON.stringify({
+                                                                        type: 'getLocation',
+                                                                        case:'quick'
+                                                                    })
+                                                                }],
+                                                                metadata: JSON.stringify({
+                                                                    type: 'getLocation',
+                                                                    case:'search'
+                                                                })
                                                             }, null, 'dumpling')
 
                                                         })
                                                 )
                                             }
-                                            else if (payload.type == 'selectTopic') {
-                                                saveSenderData({topic: payload.topic}, senderID, pageID)
+                                            else if (payload.type == 'getLocation' || payload.location) {
+
+                                                saveSenderData({location: payload.location}, senderID, pageID)
                                                     .then(result => sendingAPI(senderID, recipientID, {
                                                         text: `Bạn đang tham gia Dumpling #${payload.topic}, hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện`,
                                                         quick_replies: [
@@ -2866,18 +2877,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             }
                                                         ]
                                                     }, null, 'dumpling'))
-                                                if (!topic[payload.topic]) {
-                                                    topic[payload.topic] = 1
-                                                    quick_topic.push({
-                                                        "content_type": "text",
-                                                        "title": `#${payload.topic}`,
-                                                        "payload": JSON.stringify({
-                                                            type: 'selectTopic',
-                                                            topic: payload.topic
-                                                        })
-                                                    })
-                                                }
-                                                else topic[payload.topic]++
 
                                             }
                                             else if (payload.type == 'stop') {
@@ -3038,28 +3037,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     ]
                                                 }, null, 'dumpling'))
 
-                                            }
-                                            else if (payload.type == 'learn_english') {
-                                                if (senderData.vocal_off) sendVocalRes(senderID)
-                                                else sendingAPI(senderID, recipientID, {
-                                                    text: '[Hệ thống] Bạn đang mở tính năng từ vựng tiếng anh của Dumpling',
-                                                    quick_replies: [
-                                                        {
-                                                            "content_type": "text",
-                                                            "title": "Tắt",
-                                                            "payload": JSON.stringify({
-                                                                type: 'learn_english_off',
-                                                            })
-                                                        }
-                                                    ]
-                                                }, null, 'dumpling')
-                                            }
-                                            else if (payload.type == 'learn_english_off') {
-                                                accountRef.child(senderID).update({vocal_off: true})
-                                                    .then(result => sendingAPI(senderID, recipientID, {
-                                                        text: '[Hệ thống] Đã tắt tính năng từ vựng tiếng anh',
-
-                                                    }, null, 'dumpling'))
                                             }
                                             else if (messagingEvent.optin) {
                                                 receivedAuthentication(messagingEvent);
