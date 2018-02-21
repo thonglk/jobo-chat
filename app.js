@@ -2655,8 +2655,6 @@ function loop(q, flow, senderID, pageID) {
 
 
                         sendMessages(senderID, array_mes, null, pageID, metadata)
-                            .then(resutl => console.log('messageSend', messageSend))
-                            .catch(err => console.log('sendAPI_err', err))
 
                     } else {
                         var quick_replies = []
@@ -3257,7 +3255,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             page: pageID,
                                                             senderID
                                                         }, {$set: response}, {upsert: true}).then(result => {
-                                                            console.log('save response', result)
                                                         }).catch(err => console.log('err', err))
                                                         var index = _.findLastIndex(questions, {
                                                             0: payload.questionId
@@ -3474,7 +3471,8 @@ function loadsenderData(senderID, pageID = '493938347612411') {
 
             graph.get('me/conversations?access_token=' + facebookPage[pageID].access_token, (err, conversations) => {
                 console.log('conversations', conversations, err);
-                user.link = conversations.data[0].link
+                if (conversations && conversations.data && conversations.data[0] && conversations.data[0].link) user.link = conversations.data[0].link
+
                 saveSenderData(user, senderID, pageID)
                     .then(result => sendNotiUser('New User', user, pageID))
                     .then(result => resolve(user))
