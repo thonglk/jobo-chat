@@ -2759,11 +2759,14 @@ function loop(q, flow, senderID, pageID) {
                                     })
                                     .catch(err => console.log('err', err))
 
-                            } else sendAPI(senderID, messageSend, null, pageID, metadata)
-                                .then(result => {
-                                    setTimeout(loop(q, flow, senderID, pageID), 3000)
-                                })
-                                .catch(err => console.log('err', err))
+                            } else {
+                                sendAPI(senderID, messageSend, null, pageID, metadata)
+                                    .then(result => {
+                                        if (currentQuestion[2]) sendAPI(senderID, {text: currentQuestion[2]}, null, pageID, metadata)
+                                        setTimeout(loop(q, flow, senderID, pageID), 3000)
+                                    })
+                                    .catch(err => console.log('err', err))
+                            }
 
                         }
 
@@ -2836,7 +2839,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                         var referral = result.referral;
                                         var postback = result.postback;
 
-                                        if (senderData.bot_off) console.log('this bot is off');
 
                                         if (pageID == facebookPage['jobo'].id) intention(payload, senderID, postback, message)
 
@@ -3101,6 +3103,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                             }
                                         }
                                         else {
+                                            if (senderData.bot_off) console.log('this bot is off');
 
                                             if (referral && referral.ref) {
 
