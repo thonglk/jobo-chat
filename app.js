@@ -3100,7 +3100,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                             }
                                         }
                                         else {
-                                            if (senderData.bot_off) console.log('this bot is off');
+
+
 
                                             if (referral && referral.ref) {
 
