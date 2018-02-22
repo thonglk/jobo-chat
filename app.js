@@ -1143,13 +1143,7 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
 // })
 
 
-/*
- * All callbacks for Messenger are POST-ed. They will be sent to the same
- * webhook. Be sure to subscribe your app to your page to receive callbacks
- * for your page.
- * https://developers.facebook.com/docs/messenger-platform/product-overview/setup#subscribe_app
- *
- */
+
 function shortAddress(fullAddress) {
     if (fullAddress) {
         var mixAddress = fullAddress.split(",")
@@ -2812,9 +2806,9 @@ db.ref('webhook').on('child_added', function (snap) {
                     var timeOfMessage = messagingEvent.timestamp;
 
                     var isDeveloper = false
-                    if (CONFIG && CONFIG.facebookPage[pageID]
-                        && CONFIG.facebookPage[pageID].developer
-                        && CONFIG.facebookPage[pageID].developer.match(senderID)) {
+                    if (facebookPage[pageID]
+                        && facebookPage[pageID].developer
+                        && facebookPage[pageID].developer.match(senderID)) {
                         isDeveloper = true
                     }
 
@@ -4057,14 +4051,6 @@ function receivedMessageRead(event) {
 
 }
 
-/*
- * Account Link Event
- *
- * This event is called when the Link Account or UnLink Account action has been
- * tapped.
- * https://developers.facebook.com/docs/messenger-platform/webhook-reference/account-linking
- *
- */
 
 function receivedAccountLink(event) {
     var senderID = event.sender.id;
