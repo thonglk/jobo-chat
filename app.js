@@ -2759,12 +2759,10 @@ function loop(q, flow, senderID, pageID) {
                                     .catch(err => console.log('err', err))
 
                             } else {
-                                sendAPI(senderID, messageSend, null, pageID, metadata)
-                                    .then(result => {
-                                        if (currentQuestion[2]) sendAPI(senderID, {text: currentQuestion[2]}, null, pageID, metadata)
-                                        setTimeout(loop(q, flow, senderID, pageID), 3000)
-                                    })
-                                    .catch(err => console.log('err', err))
+                                var messages = [{text:currentQuestion[1]}]
+                                if (currentQuestion[2]) messages.push({text:currentQuestion[2]})
+                                sendMessages(senderID, messages, null, pageID, metadata)
+                                setTimeout(loop(q, flow, senderID, pageID), 3000)
                             }
 
                         }
