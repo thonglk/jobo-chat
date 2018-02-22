@@ -671,7 +671,7 @@ function templatelize(text = 'loading...', data = {first_name: 'Thông'}) {
                 check++
             }
         }
-        console.log('check', check)
+
         if (check > 0) {
             var template = _.template(string, data);
             return JSON.parse(template(data));
@@ -682,7 +682,7 @@ function templatelize(text = 'loading...', data = {first_name: 'Thông'}) {
                 check++
             }
         }
-        console.log('check', check)
+
         if (check > 0) {
             var template = _.template(text, data);
             return template(data);
@@ -1141,7 +1141,6 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
 //         })
 //     // Make sure this is a page subscription
 // })
-
 
 
 function shortAddress(fullAddress) {
@@ -2740,10 +2739,10 @@ function loop(q, flow, senderID, pageID) {
                             else if (currentQuestion[2] && currentQuestion[2].toLowerCase() == 'notification') sendNotiUser(templatelize(currentQuestion[1], senderData), senderData, pageID)
                                 .then(result => loop(q, flow, senderID, pageID))
 
-                            else if (currentQuestion[2] && currentQuestion[2].match('|')) {
-                                console.log('random')
-                                var array = currentQuestion[2].split('|')
-                                array.push(currentQuestion[1])
+                            else if (currentQuestion[2] && currentQuestion[2].match('<>')) {
+                                console.log('random',currentQuestion[2])
+                                var array = currentQuestion[2].split('<>');
+                                array.push(currentQuestion[1]);
                                 var pick = _.sample(array)
                                 messageSend.text = templatelize(pick, senderData)
                                 sendAPI(senderID, messageSend, null, pageID, metadata)
@@ -2753,8 +2752,12 @@ function loop(q, flow, senderID, pageID) {
                                     .catch(err => console.log('err', err))
 
                             } else {
-                                var messages = [{text:currentQuestion[1]}]
-                                if (currentQuestion[2]) messages.push({text:currentQuestion[2]})
+                                var messages = [{text: currentQuestion[1]}]
+                                if (currentQuestion[2]) {
+                                    messages.push({text: currentQuestion[2]})
+                                    console.log('messages',messages)
+                                }
+
                                 sendMessages(senderID, messages, null, pageID, metadata)
                                 setTimeout(loop(q, flow, senderID, pageID), 3000)
                             }
@@ -2812,9 +2815,7 @@ db.ref('webhook').on('child_added', function (snap) {
                         isDeveloper = true
                     }
 
-                    if ((isDeveloper && port == '5000')
-                        || (!isDeveloper && port != '5000')
-                    ) {
+                    if ((isDeveloper && port == '5000') || (!isDeveloper && port != '5000')) {
 
                         if (messagingEvent.message || messagingEvent.postback || messagingEvent.referral) {
 
@@ -3094,7 +3095,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                             }
                                         }
                                         else {
-
 
 
                                             if (referral && referral.ref) {
