@@ -2445,7 +2445,6 @@ function go(goto, q = 0, flow, senderID, pageID) {
     var senderData = dataAccount[senderID]
     var questions = flow[1]
     if (goto == '-3') {
-        saveSenderData({bot_off: true}, senderID, pageID)
         sendAPI(senderID, {
             text: flow[2][0] || 'Thanks for contact us <3!'
         }, null, pageID)
