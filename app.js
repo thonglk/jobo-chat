@@ -228,7 +228,10 @@ function SetOnOffPagePerUser(pageID, senderID, time_off) {
     return new Promise(function (resolve, reject) {
         if (time_off) saveSenderData({time_off}, senderID, pageID).then(result => {
             setTimeout(function () {
-                saveSenderData({time_off: null}, senderID, pageID).then(result => console.log('remove'))
+                saveSenderData({time_off: null}, senderID, pageID).then(result => {
+                    console.log('remove')
+                    sendAPI(senderID, {text: 'Chat with agent has closed. Type "start over" \n Gặp tư vấn viên đã kết thúc. Tiếp tục gõ "start over"'}, null, pageID)
+                })
             }, time_off)
             resolve(facebookPage[pageID])
         })
@@ -2740,7 +2743,7 @@ function loop(q, flow, senderID, pageID) {
                                 .then(result => loop(q, flow, senderID, pageID))
 
                             else if (currentQuestion[2] && currentQuestion[2].match('<>')) {
-                                console.log('random',currentQuestion[2])
+                                console.log('random', currentQuestion[2])
                                 var array = currentQuestion[2].split('<>');
                                 array.push(currentQuestion[1]);
                                 var pick = _.sample(array)
@@ -2755,7 +2758,7 @@ function loop(q, flow, senderID, pageID) {
                                 var messages = [{text: currentQuestion[1]}]
                                 if (currentQuestion[2]) {
                                     messages.push({text: currentQuestion[2]})
-                                    console.log('messages',messages)
+                                    console.log('messages', messages)
                                 }
 
                                 sendMessages(senderID, messages, null, pageID, metadata)
@@ -3170,154 +3173,148 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                 var flow = result.data;
                                                 var questions = flow[1];
-
-                                                if (result) ladiResCol.findOne({
+                                                var response = {
                                                     page: pageID,
                                                     senderID
-                                                }).then(response => {
+                                                }
 
-                                                    console.log('response', response)
-
-                                                    if (!response) response = {
+                                                if (payload.keyword == 'start-over' || payload.type == 'GET_STARTED') {
+                                                    saveSenderData({time_off: null}, senderID, pageID)
+                                                    ladiResCol.remove({
                                                         page: pageID,
                                                         senderID
-                                                    }
+                                                    }).then(result => {
+                                                        console.log('remove response', response)
+                                                    });
+                                                    payload = {}
+                                                    response = {
+                                                        page: pageID,
+                                                        senderID,
+                                                    };
+                                                    loop(0, flow, senderID, pageID)
+                                                }
+                                                else if (payload.keyword == 'update-my-bot') {
+                                                    if (result.editId) var flowId = result.editId + '/edit'
+                                                    else flowId = result.id + '/viewform'
+                                                    var data = {url: `https://docs.google.com/forms/d/${flowId}`}
 
-
-                                                    if (payload.keyword == 'start-over' || payload.type == 'GET_STARTED') {
-                                                        saveSenderData({time_off: null}, senderID, pageID)
-                                                        ladiResCol.remove({
-                                                            page: pageID,
-                                                            senderID
-                                                        }).then(result => {
-                                                            console.log('remove response', response)
-                                                        });
-                                                        payload = {}
-                                                        response = {
-                                                            page: pageID,
-                                                            senderID,
-                                                        };
-                                                        loop(0, flow, senderID, pageID)
-                                                    } else if (payload.keyword == 'update-my-bot') {
-                                                        if (result.editId) var flowId = result.editId + '/edit'
-                                                        else flowId = result.id + '/viewform'
-                                                        var data = {url: `https://docs.google.com/forms/d/${flowId}`}
-
-                                                        if (pageID && facebookPage[pageID] && facebookPage[pageID].access_token && facebookPage[pageID].name) data = Object.assign(data, facebookPage[pageID], {pageID})
-                                                        console.log('data', data)
-                                                        sendAPI(senderID, {
-                                                            text: `Updating...`,
-                                                        }, null, pageID)
-                                                        getChat(data)
-                                                            .then(form => sendAPI(senderID, {
-                                                                text: `Updated successful for ${form.data[8]} <3!`,
-                                                            }, null, pageID))
-                                                    } else if (payload.keyword == 'get-noti') {
-                                                        saveSenderData({subscribe: 'all'}, senderID, pageID)
-                                                            .then(result => sendAPI(senderID, {
-                                                                text: `Subscribe successful <3!`,
-                                                            }, null, pageID))
-
-                                                    } else if (payload.keyword && payload.keyword.match('mute-bot')) {
-                                                        var time_off = 10 * 60 * 1000
-                                                        var date_until = new Date(Date.now() + time_off)
-
-                                                        SetOnOffPagePerUser(pageID, payload.subID, time_off).then(result => sendAPI(senderID, {
-                                                            text: `Bot was off for ${dataAccount[payload.subID].full_name} until  ${date_until}, click 'Mute bot' again to get more time!`,
+                                                    if (pageID && facebookPage[pageID] && facebookPage[pageID].access_token && facebookPage[pageID].name) data = Object.assign(data, facebookPage[pageID], {pageID})
+                                                    console.log('data', data)
+                                                    sendAPI(senderID, {
+                                                        text: `Updating...`,
+                                                    }, null, pageID)
+                                                    getChat(data)
+                                                        .then(form => sendAPI(senderID, {
+                                                            text: `Updated successful for ${form.data[8]} <3!`,
                                                         }, null, pageID))
-                                                    } else if (payload.keyword == 'stop-agent') {
-                                                        saveSenderData({time_off: null}, senderID, pageID)
-                                                            .then(result => sendAPI(senderID, {
-                                                                text: `Switched to bot`,
-                                                            }, null, pageID))
-                                                            .then(result => loop(0, flow, senderID, pageID))
+                                                }
+                                                else if (payload.keyword == 'get-noti') {
+                                                    saveSenderData({subscribe: 'all'}, senderID, pageID)
+                                                        .then(result => sendAPI(senderID, {
+                                                            text: `Subscribe successful <3!`,
+                                                        }, null, pageID))
 
+                                                }
+                                                else if (payload.keyword && payload.keyword.match('mute-bot')) {
+                                                    var time_off = 10 * 60 * 1000
+                                                    var date_until = new Date(Date.now() + time_off)
+
+                                                    SetOnOffPagePerUser(pageID, payload.subID, time_off).then(result => sendAPI(senderID, {
+                                                        text: `Bot was off for ${dataAccount[payload.subID].full_name} until  ${date_until}, click 'Mute bot' again to get more time!`,
+                                                    }, null, pageID))
+                                                }
+                                                else if (payload.keyword == 'stop-agent') {
+                                                    saveSenderData({time_off: null}, senderID, pageID)
+                                                        .then(result => sendAPI(senderID, {
+                                                            text: `Switched to bot`,
+                                                        }, null, pageID))
+                                                        .then(result => loop(0, flow, senderID, pageID))
+
+                                                }
+                                                else if (senderData.time_off) {
+                                                    console.log('senderData.time_off')
+                                                    if (!timeOff[senderID]) {
+                                                        sendAPI(senderID, {
+                                                            text: `You are chatting with agent. Type 'stop agent' to switch to bot`,
+                                                        }, null, pageID)
+                                                        timeOff[senderID] = true
                                                     }
-                                                    else if (senderData.time_off) {
-                                                        console.log('senderData.time_off')
-                                                        if (!timeOff[senderID]) {
-                                                            sendAPI(senderID, {
-                                                                text: `You are chatting with agent. Type 'stop agent' to switch to bot`,
-                                                            }, null, pageID)
-                                                            timeOff[senderID] = true
+
+                                                }
+                                                else if (payload.text && payload.type == 'ask' && payload.questionId) {
+                                                    response[payload.questionId] = payload.text
+
+                                                    ladiResCol.findOneAndUpdate({
+                                                        page: pageID,
+                                                        senderID
+                                                    }, {$set: response}, {upsert: true}).then(result => {
+                                                    }).catch(err => console.log('err', err))
+                                                    var index = _.findLastIndex(questions, {
+                                                        0: payload.questionId
+                                                    });
+
+                                                    var goto = payload.goto
+                                                    if (payload.askType == 3 || payload.askType == 2) {
+                                                        if (payload.source == 'text' && payload.other) {
+                                                            go(payload.other, index, flow, senderID, pageID)
+
+                                                        } else go(goto, index, flow, senderID, pageID)
+
+                                                    } else if (payload.askType == 1) {
+                                                        if (!waiting[senderID]) {
+                                                            waiting[senderID] = true
+                                                            setTimeout(function () {
+                                                                delete waiting[senderID]
+                                                                console.log('delete waiting[senderID]')
+                                                                go(goto, index, flow, senderID, pageID)
+                                                            }, 10000)
                                                         }
 
-                                                    }
-                                                    else if (payload.text && payload.type == 'ask' && payload.questionId) {
-                                                        response[payload.questionId] = payload.text
+                                                    } else if (payload.askType == 0) {
+                                                        var curQues = _.findWhere(questions, {0: payload.questionId});
+                                                        if (curQues[4] && curQues[4][0] && curQues[4][0][4] && curQues[4][0][4][0]) {
 
-                                                        ladiResCol.findOneAndUpdate({
-                                                            page: pageID,
-                                                            senderID
-                                                        }, {$set: response}, {upsert: true}).then(result => {
-                                                        }).catch(err => console.log('err', err))
-                                                        var index = _.findLastIndex(questions, {
-                                                            0: payload.questionId
-                                                        });
+                                                            var valid = curQues[4][0][4][0]
 
-                                                        var goto = payload.goto
-                                                        if (payload.askType == 3 || payload.askType == 2) {
-                                                            if (payload.source == 'text' && payload.other) {
-                                                                go(payload.other, index, flow, senderID, pageID)
+                                                            if (valid[0] == 1) {
+                                                                //number
 
-                                                            } else go(goto, index, flow, senderID, pageID)
-
-                                                        } else if (payload.askType == 1) {
-                                                            if (!waiting[senderID]) {
-                                                                waiting[senderID] = true
-                                                                setTimeout(function () {
-                                                                    delete waiting[senderID]
-                                                                    console.log('delete waiting[senderID]')
-                                                                    go(goto, index, flow, senderID, pageID)
-                                                                }, 10000)
-                                                            }
-
-                                                        } else if (payload.askType == 0) {
-                                                            var curQues = _.findWhere(questions, {0: payload.questionId});
-                                                            if (curQues[4] && curQues[4][0] && curQues[4][0][4] && curQues[4][0][4][0]) {
-
-                                                                var valid = curQues[4][0][4][0]
-
-                                                                if (valid[0] == 1) {
-                                                                    //number
-
-                                                                    if (valid[1] == 7) {
-                                                                        //between
-                                                                        console.log('payload.text', payload.text, Number(payload.text) > valid[2][0])
-                                                                        if (Number(payload.text) > valid[2][0] && Number(payload.text) < valid[2][1]) go(goto, index, flow, senderID, pageID)
-                                                                        else sendAPI(senderID, {
-                                                                            text: valid[3]
-                                                                        }, null, pageID, payload)
-
-                                                                    }
-
+                                                                if (valid[1] == 7) {
+                                                                    //between
+                                                                    console.log('payload.text', payload.text, Number(payload.text) > valid[2][0])
+                                                                    if (Number(payload.text) > valid[2][0] && Number(payload.text) < valid[2][1]) go(goto, index, flow, senderID, pageID)
+                                                                    else sendAPI(senderID, {
+                                                                        text: valid[3]
+                                                                    }, null, pageID, payload)
 
                                                                 }
 
 
                                                             }
-                                                            else go(goto, index, flow, senderID, pageID)
+
 
                                                         }
                                                         else go(goto, index, flow, senderID, pageID)
 
-                                                    } else if (payload.keyword && flow[21]) {
-                                                        for (var i in flow[21]) {
-                                                            var goto = flow[21][i]
-                                                            if (payload.keyword.match(i)) {
-                                                                go(goto, null, flow, senderID, pageID)
-                                                                break
-                                                            }
+                                                    }
+                                                    else go(goto, index, flow, senderID, pageID)
+
+                                                }
+                                                else if (payload.keyword && flow[21]) {
+                                                    for (var i in flow[21]) {
+                                                        var goto = flow[21][i]
+                                                        if (payload.keyword.match(i)) {
+                                                            go(goto, null, flow, senderID, pageID)
+                                                            break
                                                         }
-
-                                                    } else if (payload.url) axios.get(payload.url).then(result => {
-                                                        var messages = result.data
-                                                        console.log(messages)
-                                                        sendMessages(senderID, messages, null, pageID)
-                                                    })
-
-
+                                                    }
+                                                }
+                                                else if (payload.url) axios.get(payload.url).then(result => {
+                                                    var messages = result.data
+                                                    console.log(messages)
+                                                    sendMessages(senderID, messages, null, pageID)
                                                 })
+
                                             }
 
 
