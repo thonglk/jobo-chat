@@ -215,10 +215,8 @@ var dataLadiBot = {}, ladiBotRef = db.ref('ladiBot')
 
 initDataLoad(ladiBotRef, dataLadiBot)
 
-function SetOnOffPage(pageID, status) {
+function SetOnOffPage(pageID, page_off = null) {
     return new Promise(function (resolve, reject) {
-        if (status == '1') var page_off = true
-        else page_off = false
         facebookPageRef.child(pageID).update({page_off}).then(result => resolve(facebookPage[pageID]))
             .catch(err => reject(err))
     })
@@ -3162,6 +3160,14 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 /// case create
 
                                             }
+                                            else if (payload.keyword == 'page-on') {
+                                                SetOnOffPage(pageID)
+                                                    .then(result => sendAPI(senderID, {
+                                                        text: `Page on ;)`,
+                                                    }, null, pageID))
+                                                    .catch(err => console.log(err))
+
+                                            }
                                             else if (!facebookPage[pageID].page_off) {
                                                 if (facebookPage[pageID].currentBot) {
                                                     var flowId = facebookPage[pageID].currentBot
@@ -3215,17 +3221,12 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                 }
                                                 else if (payload.keyword == 'page-off') {
-                                                    SetOnOffPage(pageID, 1)
+                                                    SetOnOffPage(pageID, true)
                                                         .then(result => sendAPI(senderID, {
                                                             text: `Page off :(`,
                                                         }, null, pageID))
+                                                        .catch(err => console.log(err))
 
-                                                }
-                                                else if (payload.keyword == 'page-on') {
-                                                    SetOnOffPage(pageID)
-                                                        .then(result => sendAPI(senderID, {
-                                                            text: `Page on ;)`,
-                                                        }, null, pageID))
 
                                                 }
 
