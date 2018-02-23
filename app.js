@@ -3099,7 +3099,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                         }
                                         else {
 
-
                                             if (referral && referral.ref) {
 
                                                 senderData.ref = referral.ref;
@@ -3215,6 +3214,21 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }, null, pageID))
 
                                                 }
+                                                else if (payload.keyword == 'page-off') {
+                                                    SetOnOffPage(pageID, 1)
+                                                        .then(result => sendAPI(senderID, {
+                                                            text: `Page off :(`,
+                                                        }, null, pageID))
+
+                                                }
+                                                else if (payload.keyword == 'page-on') {
+                                                    SetOnOffPage(pageID)
+                                                        .then(result => sendAPI(senderID, {
+                                                            text: `Page on ;)`,
+                                                        }, null, pageID))
+
+                                                }
+
                                                 else if (payload.keyword && payload.keyword.match('mute-bot')) {
                                                     var time_off = 10 * 60 * 1000
                                                     var date_until = new Date(Date.now() + time_off)
