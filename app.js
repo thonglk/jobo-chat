@@ -574,34 +574,32 @@ function getChat({url, page, access_token, name, pageID}) {
 
                                 saveLadiBot(save, save.id)
                                     .then(result => {
-                                        if (access_token && name && pageID) {
-                                            page = pageID
-                                            getLongLiveToken(access_token).then(data => {
-                                                var new_access_token = data.access_token
-                                                var pageData = {
-                                                    access_token: new_access_token, name, id: pageID, currentBot: id
-                                                };
-                                                subscribed_apps(new_access_token, pageID)
-                                                    .then(result => saveFacebookPage(pageData)
-                                                        .then(result => {
-                                                            facebookPage[page] = pageData
-                                                            save.page = `${facebookPage[page].id}`;
-                                                            saveLadiBot(save, save.id)
-                                                            setGreeting(save.greeting, pageID)
-                                                                .then(result => setGetstarted(pageID)
-                                                                    .then(result => setDefautMenu(pageID, save.persistent_menu)
-                                                                        .then(result => setWit(pageID)
-                                                                            .then(result => resolve(save)))
-                                                                    ))
+                                        if (!access_token || !name || !pageID) resolve(save)
 
-                                                        })
-                                                    )
+                                        page = pageID
+                                        getLongLiveToken(access_token).then(data => {
+                                            var new_access_token = data.access_token
+                                            var pageData = {
+                                                access_token: new_access_token, name, id: pageID, currentBot: id
+                                            };
+                                            subscribed_apps(new_access_token, pageID)
+                                                .then(result => saveFacebookPage(pageData)
+                                                    .then(result => {
+                                                        facebookPage[page] = pageData
+                                                        save.page = `${facebookPage[page].id}`;
+                                                        saveLadiBot(save, save.id)
+                                                        setGetstarted( pageID)
+                                                            .then(result => setGreeting(save.greeting,pageID)
+                                                                .then(result => setDefautMenu(pageID, save.persistent_menu)
+                                                                    .then(result => setWit(pageID)
+                                                                        .then(result => resolve(save)))
+                                                                ))
 
-
-                                            })
+                                                    })
+                                                )
 
 
-                                        } else resolve(save)
+                                        })
 
 
                                     })
@@ -2759,7 +2757,7 @@ function loop(q, flow, senderID, pageID) {
                                     console.log('messages', messages)
                                 }
 
-                                sendMessages(senderID, messages, null, pageID, metadata).then(result =>{
+                                sendMessages(senderID, messages, null, pageID, metadata).then(result => {
                                     setTimeout(loop(q, flow, senderID, pageID), 3000)
                                 })
                             }
@@ -2781,7 +2779,7 @@ function loop(q, flow, senderID, pageID) {
 }
 
 function sendMessages(senderID, messages, typing, pageID, metadata) {
-    return new Promise(function (resolve,reject) {
+    return new Promise(function (resolve, reject) {
         var promises = messages.map(function (obj) {
             return sendAPI(senderID, obj, typing, pageID, metadata)
                 .then(function (results) {
@@ -3102,16 +3100,27 @@ db.ref('webhook').on('child_added', function (snap) {
                                             }
                                         }
                                         else {
+                                            if (facebookPage[pageID].currentBot) var result = _.findWhere(dataLadiBot, {id: facebookPage[pageID].currentBot});
+                                            else result = _.findWhere(dataLadiBot, {page: pageID});
+
+                                            var flow = result.data;
+                                            var questions = flow[1];
+                                            var response = {
+                                                page: pageID,
+                                                senderID
+                                            }
 
                                             if (referral && referral.ref) {
 
                                                 senderData.ref = referral.ref;
+                                                saveSenderData(senderData, senderID, pageID)
 
                                                 if (referral.ref.match('_')) {
                                                     var refData = referral.ref.split('_');
-                                                    console.log('refData', refData);
 
                                                 } else refData = [referral.ref]
+
+                                                console.log('refData', refData);
 
                                                 if (refData[0] == 'create') {
                                                     var url = senderData.ref.slice(7);
@@ -3143,27 +3152,19 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         .catch(err => sendAPI(senderID, {
                                                             text: "Err: Can't read your form, make sure it was a google forms link and make it public, go https://botform.asia to try again" + JSON.stringify(err)
                                                         }, null, pageID))
-                                                } else if (refData[0] == 'go') {
-                                                    var result = _.findWhere(dataLadiBot, {page: pageID});
-                                                    if (result) {
-                                                        var flow = result.data;
-                                                        var questions = flow[1];
-                                                        for (var i in questions) {
-                                                            var quest = questions[i]
-                                                            console.log(vietnameseDecode(refData[1]), vietnameseDecode(quest[1]))
-                                                            if (vietnameseDecode(refData[1]) == vietnameseDecode(quest[1])) {
-                                                                go(quest[0], null, flow, senderID, pageID)
-                                                                break
-                                                            }
+                                                } else if (refData[1]) {
+
+                                                    for (var i in questions) {
+                                                        var quest = questions[i]
+                                                        console.log(vietnameseDecode(refData[1]), vietnameseDecode(quest[1]))
+                                                        if (vietnameseDecode(refData[1]) == vietnameseDecode(quest[1])) {
+                                                            go(quest[0], null, flow, senderID, pageID)
+                                                            break
                                                         }
-
                                                     }
-                                                }
 
-                                                console.log('senderData', senderData)
-                                                saveSenderData(senderData, senderID, pageID)
 
-                                                /// case create
+                                                } else loop(0, flow, senderID, pageID)
 
                                             }
                                             else if (payload.keyword == 'page-on') {
@@ -3175,19 +3176,7 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                             }
                                             else if (!facebookPage[pageID].page_off) {
-                                                if (facebookPage[pageID].currentBot) {
-                                                    var flowId = facebookPage[pageID].currentBot
-                                                    var result = _.findWhere(dataLadiBot, {id: flowId});
-                                                } else {
-                                                    var result = _.findWhere(dataLadiBot, {page: pageID});
-                                                }
 
-                                                var flow = result.data;
-                                                var questions = flow[1];
-                                                var response = {
-                                                    page: pageID,
-                                                    senderID
-                                                }
 
                                                 if (payload.keyword == 'start-over' || payload.type == 'GET_STARTED') {
                                                     saveSenderData({time_off: null}, senderID, pageID)
