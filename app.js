@@ -2761,8 +2761,9 @@ function loop(q, flow, senderID, pageID) {
                                     console.log('messages', messages)
                                 }
 
-                                sendMessages(senderID, messages, null, pageID, metadata)
-                                setTimeout(loop(q, flow, senderID, pageID), 3000)
+                                sendMessages(senderID, messages, null, pageID, metadata).then(result =>{
+                                    setTimeout(loop(q, flow, senderID, pageID), 3000)
+                                })
                             }
 
                         }
@@ -2782,13 +2783,18 @@ function loop(q, flow, senderID, pageID) {
 }
 
 function sendMessages(senderID, messages, typing, pageID, metadata) {
-    var i = 0
-    messages.forEach(message => {
-        i++
-        setTimeout(function () {
-            sendAPI(senderID, message, typing, pageID, metadata)
-        }, i * 1000)
+    return new Promise(function (resolve,reject) {
+        var promises = messages.map(function (obj) {
+            return sendAPI(senderID, obj, typing, pageID, metadata)
+                .then(function (results) {
+                    return results
+                })
+        })
+        Promise.all(promises).then(function (results) {
+            resolve(results)
+        })
     })
+
 }
 
 var waiting = {}
