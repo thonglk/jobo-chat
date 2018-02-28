@@ -60,7 +60,11 @@ app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
 app.use(bodyParser.json({verify: verifyRequestSignature}));
 app.use(express.static('public'));
-var port = app.get('port')
+
+var port = process.env.PORT || 5000;
+app.listen(port, function () {
+    console.log('Node app is running on port', port);
+});
 /*
  * Be sure to setup your config values before running this code. You can
  * set them using environment variables or modifying the config file in /config.
@@ -4051,11 +4055,11 @@ function sendOne(messageData, page) {
 }
 
 process.on('exit', function (err) {
-    sendLog('Jobo-chat_exception' + err)
+    sendLog('exit ' + err)
 });
 
 process.on('uncaughtException', function (err) {
-    sendLog('chat_uncaughtException' + err)
+    sendLog('uncaughtException ' + err)
 });
 function sendLog(text) {
     console.log(text)
@@ -4530,13 +4534,11 @@ function checkSender() {
             .then(results => resolve(results))
     })
 }
+
 app.get('/checkSender', (req, res) => checkSender().then(result => res.send(result)))
 
 // Start server
 
-app.listen(port, function () {
-    console.log('Node app is running on port', port);
-});
 
 
 module.exports = app;
