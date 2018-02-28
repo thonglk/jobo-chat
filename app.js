@@ -745,41 +745,6 @@ app.get('/setGetstarted', function (req, res) {
         .catch(err => res.status(500).json(err))
 })
 
-function setGetstarted(page = 'jobo') {
-    console.error("setGetstarted-ing", page);
-
-    var message = {
-        "setting_type": "call_to_actions",
-        "thread_state": "new_thread",
-        "call_to_actions": [
-            {
-                "payload": JSON.stringify({
-                    type: 'GET_STARTED'
-                })
-            }
-        ]
-    }
-
-    return new Promise(function (resolve, reject) {
-        request({
-            uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
-            qs: {access_token: facebookPage[page].access_token},
-            method: 'POST',
-            json: message
-
-        }, function (error, response, body) {
-            console.error("setGetstarted", error, body);
-            if (!error && response.statusCode == 200) {
-
-                resolve(response)
-
-            } else {
-                reject(error)
-
-            }
-        });
-    })
-}
 
 var menu = {}
 menu['jobo'] = {
@@ -965,6 +930,51 @@ app.get('/setMenu', function (req, res) {
         .catch(err => res.status(500).json(err))
 })
 
+
+app.get('/setGreeting', function (req, res) {
+    var {page, greeting} = req.query
+    setGreeting(greeting, page).then(result => res.send(result))
+        .catch(err => res.status(500).json(err))
+})
+
+app.get('/setWit', function (req, res) {
+    var {page} = req.query
+    setWit(page).then(result => res.send(result))
+        .catch(err => res.status(500).json(err))
+})
+function setGreeting(greeting = [
+    {
+        "locale": "default",
+        "text": 'Hello {{user_first_name}}, Click "Get started" to engage with us'
+    }
+], page = 'jobo') {
+    console.error("setGreeting-ing", page, menu);
+
+
+    return new Promise(function (resolve, reject) {
+        request({
+            uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
+            qs: {access_token: facebookPage[page].access_token},
+            method: 'POST',
+            json: {
+                greeting
+            }
+
+        }, function (error, response, body) {
+            console.error("setGreeting", error, body);
+
+            if (!error && response.statusCode == 200) {
+
+                resolve(response)
+
+            } else {
+                reject(error)
+
+            }
+        });
+    })
+
+}
 function setDefautMenu(page = 'jobo', persistent_menu = [
     {
         "call_to_actions": [{
@@ -1005,34 +1015,30 @@ function setDefautMenu(page = 'jobo', persistent_menu = [
     })
 
 }
+function setGetstarted(page = 'jobo') {
+    console.error("setGetstarted-ing", page);
 
-app.get('/setGreeting', function (req, res) {
-    var {page, greeting} = req.query
-    setGreeting(greeting, page).then(result => res.send(result))
-        .catch(err => res.status(500).json(err))
-})
-
-function setGreeting(greeting = [
-    {
-        "locale": "default",
-        "text": 'Hello {{user_first_name}}, Click "Get started" to engage with us'
+    var message = {
+        "setting_type": "call_to_actions",
+        "thread_state": "new_thread",
+        "call_to_actions": [
+            {
+                "payload": JSON.stringify({
+                    type: 'GET_STARTED'
+                })
+            }
+        ]
     }
-], page = 'jobo') {
-    console.error("setGreeting-ing", page, menu);
-
 
     return new Promise(function (resolve, reject) {
         request({
-            uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
+            uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
             qs: {access_token: facebookPage[page].access_token},
             method: 'POST',
-            json: {
-                greeting
-            }
+            json: message
 
         }, function (error, response, body) {
-            console.error("setGreeting", error, body);
-
+            console.error("setGetstarted", error, body);
             if (!error && response.statusCode == 200) {
 
                 resolve(response)
@@ -1043,15 +1049,7 @@ function setGreeting(greeting = [
             }
         });
     })
-
 }
-
-app.get('/setWit', function (req, res) {
-    var {page} = req.query
-    setWit(page).then(result => res.send(result))
-        .catch(err => res.status(500).json(err))
-})
-
 function setWit(page = 'jobo') {
     console.log("setWit-ing", page, menu);
 
@@ -1076,12 +1074,6 @@ function setWit(page = 'jobo') {
     })
 
 }
-
-app.get('/setWhiteListDomain', function (req, res) {
-    setWhiteListDomain().then(result => res.send(result))
-        .catch(err => res.status(500).json(err))
-});
-
 function setWhiteListDomain() {
     var mes = {
         "whitelisted_domains": WHITE_LIST
@@ -1109,6 +1101,12 @@ function setWhiteListDomain() {
     })
 
 }
+
+app.get('/setWhiteListDomain', function (req, res) {
+    setWhiteListDomain().then(result => res.send(result))
+        .catch(err => res.status(500).json(err))
+});
+
 
 
 if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
@@ -4066,14 +4064,6 @@ function sendLog(text) {
     }, null, '233214007218284')
 }
 
-
-// Start server
-// Webhooks must be available via SSL with a certificate signed by a valid
-
-app.listen(port, function () {
-    console.log('Node app is running on port', port);
-});
-
 function viewResponse(query) {
     return new Promise(function (resolve, reject) {
         console.log('query', query)
@@ -4480,7 +4470,8 @@ function buildMessage(blockName, pageID) {
     })
 
 }
-app.get('/buildMessage', ({query: {pageID, blockName}}, res) => buildMessage(blockName, pageID).then(result => res.send(result)))
+app.get('/buildMessage', ({query: {pageID, blockName}}, res) => buildMessage(blockName, pageID).then(result => res.send(result)));
+
 var Broadcast = require("./broadcast");
 
 function sendBroadCasting(query, blockName) {
@@ -4539,8 +4530,14 @@ function checkSender() {
             .then(results => resolve(results))
     })
 }
-app.get('/checkSender', (req, res) => checkSender()
-    .then(result => res.send(result)))
+app.get('/checkSender', (req, res) => checkSender().then(result => res.send(result)))
+
+// Start server
+
+app.listen(port, function () {
+    console.log('Node app is running on port', port);
+});
+
 
 module.exports = app;
 
