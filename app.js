@@ -604,13 +604,13 @@ function getChat({url, page, access_token, name, pageID}) {
 
 
                                     })
-                                    .catch(err => reject({err: JSON.stringify(err),url}))
+                                    .catch(err => reject({err: JSON.stringify(err), url}))
 
-                            } else reject({err: 'This parse was not public',url})
-                        } else reject({err: 'This script was not public',url})
+                            } else reject({err: 'This parse was not public', url})
+                        } else reject({err: 'This script was not public', url})
 
 
-                    } else reject({err: 'This data was not public',url})
+                    } else reject({err: 'This data was not public', url})
 
                 }
             )
@@ -650,7 +650,6 @@ function saveLadiBot(save, id) {
             db.ref('ladiBot').child(save.key).update(save).then(result => resolve(save))
         }
     })
-
 }
 
 _.templateSettings = {
@@ -707,7 +706,6 @@ function getPaginatedItems(items, page = 1, per_page = 15) {
         data: paginatedItems
     };
 }
-
 
 app.post('/noti', function (req, res) {
     let {recipientId, message, pageID} = req.body;
@@ -1115,33 +1113,6 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
     console.error("Missing config values");
     process.exit(1);
 }
-
-/*
- * Use your own validation token. Check that the token used in the Webhook
- * setup is the same token used here.
- *
- */
-// app.get('/webhook', function (req, res) {
-//     if (req.query['hub.mode'] === 'subscribe' &&
-//         req.query['hub.verify_token'] === VALIDATION_TOKEN) {
-//         console.log("Validating webhook");
-//         res.status(200).send(req.query['hub.challenge']);
-//     } else {
-//         console.error("Failed validation. Make sure the validation tokens match.");
-//         res.sendStatus(403);
-//     }
-// });
-// app.post('/webhook', function (req, res) {
-//     var data = req.body;
-//     console.log('webhook', JSON.stringify(data))
-//     db.ref('webhook').push(data).then(result => res.sendStatus(200))
-//         .catch(err => {
-//             console.log('webhook_error', JSON.stringify(err))
-//             res.sendStatus(200)
-//         })
-//     // Make sure this is a page subscription
-// })
-
 
 function shortAddress(fullAddress) {
     if (fullAddress) {
@@ -1878,16 +1849,6 @@ function intention(payload, senderID, postback, message = {}) {
                                             case: 'confirmJobSeeker',
                                         })
                                     })
-                                    // sendAPI(senderID, {
-                                    //     text: "* Lưu ý khi nhận việc\n " +
-                                    //     "- Xem kỹ yêu câu công việc trước khi ứng tuyển\n" +
-                                    //     "- Vui lòng đi phỏng vấn đúng giờ, theo như lịch đã hẹn\n" +
-                                    //     "- Nếu có việc đột xuất không tham gia được, bạn phải báo lại cho mình ngay\n",
-                                    //     metadata: JSON.stringify({
-                                    //         type: 'welcome_note_requirement',
-                                    //         case: 'confirmJobSeeker',
-                                    //     })
-                                    // }, 3000)
 
                                 })
 
@@ -2431,7 +2392,6 @@ app.get('/findOne', function (req, res) {
         .catch(err => res.status(500).json(err))
 })
 
-
 var listen = 'on'
 
 function go(goto, q = 0, flow, senderID, pageID) {
@@ -2802,16 +2762,6 @@ function sendMessages(senderID, messages, typing, pageID, metadata) {
         sendPer()
 
 
-        //
-        // var promises = messages.map(function (obj) {
-        //     return sendAPI(senderID, obj, typing, pageID, metadata)
-        //         .then(results => {
-        //             console.log('results',results)
-        //             return results
-        //         })
-        // })
-        //
-        // Promise.all(promises).then(results=> resolve(results))
     })
 
 }
@@ -3434,7 +3384,6 @@ function flowAI({keyword, senderID, pageID}) {
     }, null, pageID)
 }
 
-
 app.get('/submitResponse', function (req, res) {
     var {flow, senderID} = req.query
     submitResponse(flow, senderID)
@@ -3485,7 +3434,6 @@ app.get('/listen', function (req, res) {
     listen = type
     res.send(listen)
 })
-
 
 function loadsenderData(senderID, pageID = '493938347612411') {
     return new Promise(function (resolve, reject) {
@@ -3609,7 +3557,6 @@ app.get('/test', (req, res) => {
     }, pageID)
     res.send('done')
 })
-
 
 function saveSenderData(data, senderID, page = '493938347612411') {
     return new Promise(function (resolve, reject) {
@@ -3736,11 +3683,7 @@ function checkAvaible(senderID) {
 
 }
 
-/*
- * This path is used for account linking. The account linking call-to-action
- * (sendAccountLinking) is pointed to this URL.
- *
- */
+
 app.get('/authorize', function (req, res) {
     var accountLinkingToken = req.query.account_linking_token;
     var redirectURI = req.query.redirect_uri;
@@ -3759,14 +3702,8 @@ app.get('/authorize', function (req, res) {
     });
 });
 
-/*
- * Verify that the callback came from Facebook. Using the App Secret from
- * the App Dashboard, we can verify the signature that is sent with each
- * callback in the x-hub-signature field, located in the header.
- *
- * https://developers.facebook.com/docs/graph-api/webhooks#setup
- *
- */
+
+
 function verifyRequestSignature(req, res, buf) {
     var signature = req.headers["x-hub-signature"];
 
@@ -3789,14 +3726,6 @@ function verifyRequestSignature(req, res, buf) {
     }
 }
 
-/*
- * Authorization Event
- *
- * The value for 'optin.ref' is defined in the entry point. For the "Send to
- * Messenger" plugin, it is the 'data-ref' field. Read more at
- * https://developers.facebook.com/docs/messenger-platform/webhook-reference/authentication
- *
- */
 function receivedAuthentication(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
@@ -3909,14 +3838,6 @@ function loadJob(jobId) {
     })
 }
 
-
-/*
- * Message Read Event
- *
- * This event is called when a previously-sent message has been read.
- * https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-read
- *
- */
 function receivedMessageRead(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
@@ -3927,7 +3848,6 @@ function receivedMessageRead(event) {
     sendReadReceipt(senderID, recipientID)
 
 }
-
 
 function receivedAccountLink(event) {
     var senderID = event.sender.id;
@@ -3940,10 +3860,6 @@ function receivedAccountLink(event) {
         "and auth code %s ", senderID, status, authCode);
 }
 
-/*
- * Send a text message using the Send API.
- *
- */
 function sendTextMessage(recipientId, messageText, metadata) {
     return new Promise(function (resolve, reject) {
         var messageData = {
@@ -3963,7 +3879,6 @@ function sendTextMessage(recipientId, messageText, metadata) {
     })
 
 }
-
 
 function sendingAPI(recipientId, senderId = facebookPage['jobo'].id, message, typing, page = 'jobo') {
     return new Promise(function (resolve, reject) {
@@ -4014,7 +3929,6 @@ function sendReadReceipt(recipientId, page) {
 
 }
 
-
 function sendTypingOn(recipientId, page = 'jobo') {
     return new Promise(function (resolve, reject) {
 
@@ -4032,7 +3946,6 @@ function sendTypingOn(recipientId, page = 'jobo') {
 
 }
 
-
 function sendTypingOff(recipientId, page = 'jobo') {
     return new Promise(function (resolve, reject) {
 
@@ -4047,7 +3960,6 @@ function sendTypingOff(recipientId, page = 'jobo') {
             .catch(err => reject(err));
     })
 }
-
 
 function sendAPI(recipientId, message, typing, page = 'jobo', meta) {
     return new Promise(function (resolve, reject) {
@@ -4127,14 +4039,7 @@ function sendOne(messageData, page) {
 
                 } else {
                     console.error("callSendAPI_error", JSON.stringify(body), JSON.stringify(messageData));
-                    var messageErr = {message: {text: 'Error'}, recipient: messageData.recipient}
-                    request({
-                        uri: 'https://graph.facebook.com/v2.6/me/messages',
-                        qs: {access_token: facebookPage[page].access_token},
-                        method: 'POST',
-                        json: messageErr
-
-                    })
+                    sendLog("callSendAPI_error "+ JSON.stringify(body)+ JSON.stringify(messageData))
                     reject(body)
                 }
             });
@@ -4148,23 +4053,24 @@ function sendOne(messageData, page) {
 
 process.on('exit', function (err) {
     console.log('exception: ' + err);
+    sendLog('Jobo-chat_exception' + err)
 
-    sendAPI('1245204432247001', {
-        text: 'Jobo-chat_exception' + err
-    }, null, '206881183192113')
 });
 
 process.on('uncaughtException', function (err) {
     console.log('Caught exception: ' + err);
-
-    sendAPI('1245204432247001', {
-        text: 'Jobo-chat_uncaughtException' + err
-    }, null, '206881183192113')
+    sendLog('chat_uncaughtException' + err)
 });
+function sendLog(text) {
+    sendAPI('1980317535315791', {
+        text
+    }, null, '233214007218284')
+}
+
 
 // Start server
 // Webhooks must be available via SSL with a certificate signed by a valid
-// certificate authority.
+
 app.listen(port, function () {
     console.log('Node app is running on port', port);
 });
@@ -4194,10 +4100,47 @@ function viewResponse(query) {
             } else return 0
         })
         resolve(sort)
+    })
+}
+app.get('/viewResponse', ({query}, res) => viewResponse(query).then(result => res.send(result)).catch(err => res.status(500).json(err)))
 
+function sendBroadCast(query, blockName) {
+    return new Promise(function (resolve, reject) {
+
+        var pageID = query.page;
+
+        buildMessage(blockName, pageID)
+            .then(messages => viewResponse(query)
+                .then(users => {
+
+                    var i = -1
+                    var log = []
+
+                    function sendPer() {
+                        i++
+                        if (i < users.length) {
+                            var obj = users[i]
+                            sendMessages(obj.id, messages, null, pageID).then(result => setTimeout(() => {
+                                log.push(result)
+                                sendPer()
+                            }, 1000))
+                                .catch(err => {
+                                    log.push(err)
+                                    sendPer()
+                                })
+                        } else {
+                            console.log('sendBroadCast_done', i, messages.length)
+                            resolve(log)
+                        }
+
+                    }
+
+                    sendPer()
+                }))
     })
 
 }
+app.get('/sendBroadCast', ({query}, res) => sendBroadCast(query, query.blockName).then(result => res.send(result)).catch(err => res.status(500).json(err)))
 
 function getBotfromPageID(pageID) {
 
@@ -4538,7 +4481,6 @@ function buildMessage(blockName, pageID) {
     })
 
 }
-
 app.get('/buildMessage', ({query: {pageID, blockName}}, res) => buildMessage(blockName, pageID).then(result => res.send(result)))
 
 function Creating_a_Broadcast_Message(messages) {
@@ -4570,7 +4512,7 @@ function Sending_a_Message_with_a_Label(message_creative_id, custom_label_id) {
     })
 }
 
-function sendBroadCast(query, blockName) {
+function sendBroadCasting(query, blockName) {
     var pageID = query.page
 
 
@@ -4628,7 +4570,7 @@ function Associating_a_Label_to_a_PSID(LabelId, id, pageID) {
 function Starting_a_Reach_Estimation(pageID, custom_label_id = null) {
     return new Promise(function (resolve, reject) {
         var params = {}
-        if(custom_label_id) params.custom_label_id = custom_label_id
+        if (custom_label_id) params.custom_label_id = custom_label_id
         graph.post(`me/broadcast_reach_estimations?access_token=${facebookPage[pageID].access_token}`, function (err, result) {
             console.log('Starting_a_Reach_Estimation', err, result)
             if (err) reject(err)
@@ -4640,6 +4582,7 @@ function Starting_a_Reach_Estimation(pageID, custom_label_id = null) {
 
     })
 }
+app.get('/Starting_a_Reach_Estimation', ({query: {pageID, custom_label_id}}, res) => Starting_a_Reach_Estimation(pageID, custom_label_id).then(result => res.send(result)))
 
 function Messaging_Feature_Review(pageID) {
     return new Promise(function (resolve, reject) {
@@ -4651,9 +4594,6 @@ function Messaging_Feature_Review(pageID) {
     })
 }
 app.get('/Messaging_Feature_Review', ({query: {pageID}}, res) => Messaging_Feature_Review(pageID).then(result => res.send(result)))
-
-app.get('/Starting_a_Reach_Estimation', ({query: {pageID, custom_label_id}}, res) => Starting_a_Reach_Estimation(pageID, custom_label_id).then(result => res.send(result)))
-
 
 function checkSender() {
     return new Promise(function (resolve, reject) {
@@ -4674,7 +4614,6 @@ function checkSender() {
             .then(results => resolve(results))
     })
 }
-
 app.get('/checkSender', (req, res) => checkSender()
     .then(result => res.send(result)))
 
