@@ -4038,7 +4038,6 @@ function sendOne(messageData, page) {
                     resolve(messageData)
 
                 } else {
-                    console.error("callSendAPI_error", JSON.stringify(body), JSON.stringify(messageData));
                     sendLog("callSendAPI_error "+ JSON.stringify(body)+ JSON.stringify(messageData))
                     reject(body)
                 }
@@ -4052,16 +4051,14 @@ function sendOne(messageData, page) {
 }
 
 process.on('exit', function (err) {
-    console.log('exception: ' + err);
     sendLog('Jobo-chat_exception' + err)
-
 });
 
 process.on('uncaughtException', function (err) {
-    console.log('Caught exception: ' + err);
     sendLog('chat_uncaughtException' + err)
 });
 function sendLog(text) {
+    console.log(text)
     sendAPI('1980317535315791', {
         text
     }, null, '233214007218284')
