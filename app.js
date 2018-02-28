@@ -22,6 +22,8 @@ const
     _ = require('underscore');
 var encodeUrl = require('encodeurl')
 var urlencode = require('urlencode');
+var cors = require('cors')
+
 
 const {Wit, log} = require('node-wit');
 
@@ -53,7 +55,7 @@ MongoClient.connect(uri, function (err, db) {
 
 var app = express();
 
-
+app.use(cors());
 app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
 app.use(bodyParser.json({verify: verifyRequestSignature}));
@@ -4479,35 +4481,7 @@ function buildMessage(blockName, pageID) {
 
 }
 app.get('/buildMessage', ({query: {pageID, blockName}}, res) => buildMessage(blockName, pageID).then(result => res.send(result)))
-
-function Creating_a_Broadcast_Message(messages) {
-    return new Promise(function (resolve, reject) {
-        graph.post(`me/message_creatives?access_token=${facebookPage[pageID].access_token}`, {messages},
-            function (err, result) {
-                console.log('Creating_a_Broadcast_Message', err, result)
-                if (err) reject(err)
-                resolve(result)
-            }
-        )
-
-    })
-}
-
-function Sending_a_Message_with_a_Label(message_creative_id, custom_label_id) {
-    return new Promise(function (resolve, reject) {
-        graph.post(`me/broadcast_messages?access_token=${facebookPage[pageID].access_token}`, {
-                message_creative_id, custom_label_id
-
-            },
-            function (err, result) {
-                console.log('Sending_a_Message_with_a_Label', err, result)
-                if (err) reject(err)
-                resolve(result)
-            }
-        )
-
-    })
-}
+var Broadcast = require("./broadcast");
 
 function sendBroadCasting(query, blockName) {
     var pageID = query.page
@@ -4516,11 +4490,11 @@ function sendBroadCasting(query, blockName) {
     var name_of_label = JSON.stringify(query)
 
     viewResponse(query)
-        .then(results => Creating_a_Label(pageID, name_of_label)
+        .then(results => Broadcast.Creating_a_Label(pageID, name_of_label)
             .then(({id}) => {
                 var custom_label_id = id
                 var promises = results.map(function (obj) {
-                    return Associating_a_Label_to_a_PSID(custom_label_id, obj.id, pageID)
+                    return Broadcast.Associating_a_Label_to_a_PSID(custom_label_id, obj.id, pageID)
                         .then(results => {
                             return results
                         })
@@ -4531,66 +4505,20 @@ function sendBroadCasting(query, blockName) {
 
                 Promise.all(promises)
                     .then(results => buildMessage(blockName, pageID)
-                        .then(messages => Creating_a_Broadcast_Message(messages)
-                            .then(({message_creative_id}) => {
-                                Sending_a_Message_with_a_Label(message_creative_id, custom_label_id)
-                            })
+                        .then(messages => Broadcast.Creating_a_Broadcast_Message(messages)
+                            .then(({message_creative_id}) =>
+                                Broadcast.Sending_a_Message_with_a_Label(message_creative_id, custom_label_id)
+                            )
                         )
                     )
 
             }))
 }
 
-function Creating_a_Label(pageID, name) {
-    return new Promise(function (resolve, reject) {
-        graph.post(`me/custom_labels?access_token=${facebookPage[pageID].access_token}`, {name}, function (err, result) {
-            console.log('subscribed_apps', err, result)
-            if (err) reject(err)
-            resolve(result)
-        })
 
-    })
-}
+app.get('/Starting_a_Reach_Estimation', ({query: {pageID, custom_label_id}}, res) => Broadcast.Starting_a_Reach_Estimation(pageID, custom_label_id).then(result => res.send(result)))
 
-function Associating_a_Label_to_a_PSID(LabelId, id, pageID) {
-    return new Promise(function (resolve, reject) {
-        graph.post(`${LabelId}/label?access_token=${facebookPage[pageID].access_token}`, {user: id}, function (err, result) {
-            console.log('subscribed_apps', err, result)
-            if (err) reject(err)
-            resolve(result)
-        })
-
-    })
-
-}
-
-function Starting_a_Reach_Estimation(pageID, custom_label_id = null) {
-    return new Promise(function (resolve, reject) {
-        var params = {}
-        if (custom_label_id) params.custom_label_id = custom_label_id
-        graph.post(`me/broadcast_reach_estimations?access_token=${facebookPage[pageID].access_token}`, function (err, result) {
-            console.log('Starting_a_Reach_Estimation', err, result)
-            if (err) reject(err)
-            graph.get(`${result.reach_estimation_id}?access_token=${facebookPage[pageID].access_token}`, (err, result) => {
-                if (err) reject(err)
-                resolve(result)
-            })
-        })
-
-    })
-}
-app.get('/Starting_a_Reach_Estimation', ({query: {pageID, custom_label_id}}, res) => Starting_a_Reach_Estimation(pageID, custom_label_id).then(result => res.send(result)))
-
-function Messaging_Feature_Review(pageID) {
-    return new Promise(function (resolve, reject) {
-        graph.get(`me/messaging_feature_review?access_token=${facebookPage[pageID].access_token}`, (err, result) => {
-            if (err) reject(err)
-            resolve(result)
-        })
-
-    })
-}
-app.get('/Messaging_Feature_Review', ({query: {pageID}}, res) => Messaging_Feature_Review(pageID).then(result => res.send(result)))
+app.get('/Messaging_Feature_Review', ({query: {pageID}}, res) => Broadcast.Messaging_Feature_Review(pageID).then(result => res.send(result)))
 
 function checkSender() {
     return new Promise(function (resolve, reject) {
