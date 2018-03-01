@@ -20,8 +20,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="4107" column="0" lean-forward="false" selection-start-line="4107" selection-start-column="0" selection-end-line="4107" selection-end-column="0" />
+            <state relative-caret-position="360">
+              <caret line="4081" column="42" lean-forward="false" selection-start-line="4081" selection-start-column="42" selection-end-line="4081" selection-end-column="42" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
@@ -101,11 +101,10 @@
                 <element signature="n#!!block;n#sendReadReceipt#0" expanded="false" />
                 <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
                 <element signature="n#!!block;n#sendAPI#0" expanded="false" />
-                <element signature="n#!!block;n#sendLog#0" expanded="false" />
                 <element signature="n#!!block;n#viewResponse#0" expanded="false" />
                 <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
                 <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-                <element signature="e#183957#184626#0" expanded="false" />
+                <element signature="e#184549#185218#0" expanded="false" />
                 <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
                 <element signature="n#!!block;n#checkSender#0" expanded="false" />
               </folding>
@@ -316,12 +315,12 @@
       <workItem from="1518332714456" duration="20113000" />
       <workItem from="1519703597393" duration="13369000" />
       <workItem from="1519787045104" duration="12837000" />
-      <workItem from="1519885465734" duration="979000" />
+      <workItem from="1519885465734" duration="1132000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="767740000" />
+    <option name="totallyTimeSpent" value="767893000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -469,11 +468,10 @@
             <element signature="n#!!block;n#sendReadReceipt#0" expanded="false" />
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
-            <element signature="n#!!block;n#sendLog#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#183957#184626#0" expanded="false" />
+            <element signature="e#184549#185218#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
           </folding>
@@ -614,11 +612,10 @@
             <element signature="n#!!block;n#sendReadReceipt#0" expanded="false" />
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
-            <element signature="n#!!block;n#sendLog#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#183957#184626#0" expanded="false" />
+            <element signature="e#184549#185218#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
           </folding>
@@ -708,11 +705,10 @@
             <element signature="n#!!block;n#sendReadReceipt#0" expanded="false" />
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
-            <element signature="n#!!block;n#sendLog#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#183957#184626#0" expanded="false" />
+            <element signature="e#184549#185218#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
           </folding>
@@ -823,11 +819,10 @@
             <element signature="n#!!block;n#sendReadReceipt#0" expanded="false" />
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
-            <element signature="n#!!block;n#sendLog#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#183957#184626#0" expanded="false" />
+            <element signature="e#184549#185218#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
           </folding>
@@ -945,11 +940,10 @@
             <element signature="n#!!block;n#sendReadReceipt#0" expanded="false" />
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
-            <element signature="n#!!block;n#sendLog#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#183957#184626#0" expanded="false" />
+            <element signature="e#184549#185218#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
           </folding>
@@ -1053,11 +1047,10 @@
             <element signature="n#!!block;n#sendReadReceipt#0" expanded="false" />
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
-            <element signature="n#!!block;n#sendLog#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#183957#184626#0" expanded="false" />
+            <element signature="e#184549#185218#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
           </folding>
@@ -1168,11 +1161,10 @@
             <element signature="n#!!block;n#sendReadReceipt#0" expanded="false" />
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
-            <element signature="n#!!block;n#sendLog#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#183957#184626#0" expanded="false" />
+            <element signature="e#184549#185218#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
           </folding>
@@ -1269,8 +1261,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="4107" column="0" lean-forward="false" selection-start-line="4107" selection-start-column="0" selection-end-line="4107" selection-end-column="0" />
+        <state relative-caret-position="360">
+          <caret line="4081" column="42" lean-forward="false" selection-start-line="4081" selection-start-column="42" selection-end-line="4081" selection-end-column="42" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
@@ -1350,11 +1342,10 @@
             <element signature="n#!!block;n#sendReadReceipt#0" expanded="false" />
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
-            <element signature="n#!!block;n#sendLog#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#183957#184626#0" expanded="false" />
+            <element signature="e#184549#185218#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
           </folding>

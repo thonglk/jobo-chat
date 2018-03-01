@@ -4065,7 +4065,7 @@ function sendLog(text) {
     console.log(text)
     var page = '233214007218284'
     var messageData = {text,recipient:{id:'1980317535315791'}}
-    request({
+    if(facebookPage[page] && facebookPage[page].access_token) request({
         uri: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token: facebookPage[page].access_token},
         method: 'POST',
