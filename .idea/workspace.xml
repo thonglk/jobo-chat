@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-    </list>
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -19,8 +17,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="4034" column="0" lean-forward="true" selection-start-line="4034" selection-start-column="0" selection-end-line="4034" selection-end-column="0" />
+            <state relative-caret-position="181">
+              <caret line="152" column="0" lean-forward="false" selection-start-line="152" selection-start-column="0" selection-end-line="171" selection-end-column="1" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
@@ -104,7 +102,6 @@
                 <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
                 <element signature="n#!!block;n#viewResponse#0" expanded="false" />
                 <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
-                <element signature="n#!!block;n#buildMessage#0" expanded="false" />
                 <element signature="e#185671#186340#0" expanded="false" />
                 <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
                 <element signature="n#!!block;n#checkSender#0" expanded="false" />
@@ -333,12 +330,12 @@
       <workItem from="1518332714456" duration="20113000" />
       <workItem from="1519703597393" duration="13369000" />
       <workItem from="1519787045104" duration="12837000" />
-      <workItem from="1519885465734" duration="3423000" />
+      <workItem from="1519885465734" duration="4450000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="770184000" />
+    <option name="totallyTimeSpent" value="771211000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -491,7 +488,6 @@
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
-            <element signature="n#!!block;n#buildMessage#0" expanded="false" />
             <element signature="e#185671#186340#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
@@ -637,7 +633,6 @@
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
-            <element signature="n#!!block;n#buildMessage#0" expanded="false" />
             <element signature="e#185671#186340#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
@@ -732,7 +727,6 @@
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
-            <element signature="n#!!block;n#buildMessage#0" expanded="false" />
             <element signature="e#185671#186340#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
@@ -848,7 +842,6 @@
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
-            <element signature="n#!!block;n#buildMessage#0" expanded="false" />
             <element signature="e#185671#186340#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
@@ -971,7 +964,6 @@
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
-            <element signature="n#!!block;n#buildMessage#0" expanded="false" />
             <element signature="e#185671#186340#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
@@ -1080,7 +1072,6 @@
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
-            <element signature="n#!!block;n#buildMessage#0" expanded="false" />
             <element signature="e#185671#186340#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
@@ -1196,7 +1187,6 @@
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
-            <element signature="n#!!block;n#buildMessage#0" expanded="false" />
             <element signature="e#185671#186340#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
@@ -1313,8 +1303,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="4034" column="0" lean-forward="true" selection-start-line="4034" selection-start-column="0" selection-end-line="4034" selection-end-column="0" />
+        <state relative-caret-position="181">
+          <caret line="152" column="0" lean-forward="false" selection-start-line="152" selection-start-column="0" selection-end-line="171" selection-end-column="1" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
@@ -1398,7 +1388,6 @@
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
-            <element signature="n#!!block;n#buildMessage#0" expanded="false" />
             <element signature="e#185671#186340#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
