@@ -946,6 +946,7 @@ app.get('/setWit', function (req, res) {
     setWit(page).then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 })
+
 function setGreeting(greeting = [
     {
         "locale": "default",
@@ -979,6 +980,7 @@ function setGreeting(greeting = [
     })
 
 }
+
 function setDefautMenu(page = 'jobo', persistent_menu = [
     {
         "call_to_actions": [{
@@ -1019,6 +1021,7 @@ function setDefautMenu(page = 'jobo', persistent_menu = [
     })
 
 }
+
 function setGetstarted(page = 'jobo') {
     console.error("setGetstarted-ing", page);
 
@@ -1054,6 +1057,7 @@ function setGetstarted(page = 'jobo') {
         });
     })
 }
+
 function setWit(page = 'jobo') {
     console.log("setWit-ing", page, menu);
 
@@ -1078,6 +1082,7 @@ function setWit(page = 'jobo') {
     })
 
 }
+
 function setWhiteListDomain() {
     var mes = {
         "whitelisted_domains": WHITE_LIST
@@ -1110,7 +1115,6 @@ app.get('/setWhiteListDomain', function (req, res) {
     setWhiteListDomain().then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 });
-
 
 
 if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
@@ -3707,7 +3711,6 @@ app.get('/authorize', function (req, res) {
 });
 
 
-
 function verifyRequestSignature(req, res, buf) {
     var signature = req.headers["x-hub-signature"];
 
@@ -4007,21 +4010,56 @@ function callSendAPI(messageData, page = 'jobo') {
             console.log('messageData.message.text.length', messageData.message.text.length)
             var longtext = messageData.message.text
             var split = longtext.split('.\n')
-            console.log('split',split)
+            console.log('split', split)
             var messages = split.map(text => {
-                var mes = messageData
-                mes.text = text
-                return mes
+                var mess = {
+                    recipient: {
+                        id: messageData.recipient.id
+                    },
+                    message: {
+                        text: text
+                    }
+                };
+                return mess
             });
-            console.log('messages',messages)
+            console.log('messages', messages)
 
-            sendMessages(messageData.recipient.id, messages, null, page)
+            sendMessageNoSave(messageData.recipient.id, messages, null, page)
                 .then(result => resolve(result))
                 .catch(err => reject(err))
 
         } else sendOne(messageData, page)
             .then(result => resolve(result))
             .catch(err => reject(err))
+    })
+
+}
+function sendMessageNoSave(senderID, messages, typing, pageID, metadata) {
+    return new Promise(function (resolve, reject) {
+
+        var i = -1
+
+        function sendPer() {
+            i++
+            if (i < messages.length) {
+                var messageData = messages[i]
+                sendOne(messageData, pageID).then(result => setTimeout(() => {
+                    sendPer()
+                },100))
+                    .catch(err => {
+                        console.log('err', i, err)
+                        reject(err)
+                    })
+            } else {
+                console.log('done', i, messages.length)
+                resolve(messages)
+            }
+
+        }
+
+        sendPer()
+
+
     })
 
 }
@@ -4045,7 +4083,7 @@ function sendOne(messageData, page) {
                     resolve(messageData)
 
                 } else {
-                    sendLog("callSendAPI_error "+ JSON.stringify(body)+ JSON.stringify(messageData))
+                    sendLog("callSendAPI_error " + JSON.stringify(body) + JSON.stringify(messageData))
                     reject(body)
                 }
             });
@@ -4064,28 +4102,29 @@ process.on('exit', function (err) {
 process.on('uncaughtException', function (err) {
     sendLog('uncaughtException ' + err)
 });
+
 function sendLog(text) {
     console.log(text)
-    var page = '233214007218284'
-    var messageData = {text,recipient:{id:'1980317535315791'}}
-    if(facebookPage[page] && facebookPage[page].access_token) request({
-        uri: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token: facebookPage[page].access_token},
-        method: 'POST',
-        json: messageData
-
-    }, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var recipientId = body.recipient_id;
-            var messageId = body.message_id;
-            if (messageId) {
-                console.log("callSendAPI_success", messageId, recipientId);
-            }
-        } else {
-            console.log("sendLog_err",body);
-
-        }
-    });
+    // var page = '233214007218284'
+    // var messageData = {text, recipient: {id: '1980317535315791'}}
+    // if (facebookPage[page] && facebookPage[page].access_token) request({
+    //     uri: 'https://graph.facebook.com/v2.6/me/messages',
+    //     qs: {access_token: facebookPage[page].access_token},
+    //     method: 'POST',
+    //     json: messageData
+    //
+    // }, function (error, response, body) {
+    //     if (!error && response.statusCode == 200) {
+    //         var recipientId = body.recipient_id;
+    //         var messageId = body.message_id;
+    //         if (messageId) {
+    //             console.log("callSendAPI_success", messageId, recipientId);
+    //         }
+    //     } else {
+    //         console.log("sendLog_err", body);
+    //
+    //     }
+    // });
 
 }
 
@@ -4116,6 +4155,7 @@ function viewResponse(query) {
         resolve(sort)
     })
 }
+
 app.get('/viewResponse', ({query}, res) => viewResponse(query).then(result => res.send(result)).catch(err => res.status(500).json(err)))
 
 function sendBroadCast(query, blockName) {
@@ -4154,6 +4194,7 @@ function sendBroadCast(query, blockName) {
     })
 
 }
+
 app.get('/sendBroadCast', ({query}, res) => sendBroadCast(query, query.blockName).then(result => res.send(result)).catch(err => res.status(500).json(err)))
 
 function getBotfromPageID(pageID) {
@@ -4495,6 +4536,7 @@ function buildMessage(blockName, pageID) {
     })
 
 }
+
 app.get('/buildMessage', ({query: {pageID, blockName}}, res) => buildMessage(blockName, pageID).then(result => res.send(result)));
 
 var Broadcast = require("./broadcast");
@@ -4559,7 +4601,6 @@ function checkSender() {
 app.get('/checkSender', (req, res) => checkSender().then(result => res.send(result)))
 
 // Start server
-
 
 
 module.exports = app;
