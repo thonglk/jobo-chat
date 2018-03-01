@@ -2693,7 +2693,7 @@ function loop(q, flow, senderID, pageID) {
                                 })
                                 .catch(err => console.log('err', err))
                             else if (currentQuestion[1].match('JSON')) {
-                                var url = templatelize(currentQuestion[2], senderData)
+                                var url = urlencode(templatelize(currentQuestion[2], senderData))
                                 console.log('url ', url)
                                 axios.get(url).then(result => {
                                     var messages = result.data
