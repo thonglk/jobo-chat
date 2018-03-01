@@ -4011,7 +4011,7 @@ function callSendAPI(messageData, page = 'jobo') {
                 var mes = messageData
                 mes.message.text = text
                 return mes
-            })
+            });
             sendMessages(messageData.recipient.id, messages, null, page)
                 .then(result => resolve(result))
                 .catch(err => reject(err))
@@ -4063,9 +4063,27 @@ process.on('uncaughtException', function (err) {
 });
 function sendLog(text) {
     console.log(text)
-    sendAPI('1980317535315791', {
-        text
-    }, null, '233214007218284')
+    var page = '233214007218284'
+    var messageData = {text,recipient:{id:'1980317535315791'}}
+    request({
+        uri: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token: facebookPage[page].access_token},
+        method: 'POST',
+        json: messageData
+
+    }, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var recipientId = body.recipient_id;
+            var messageId = body.message_id;
+            if (messageId) {
+                console.log("callSendAPI_success", messageId, recipientId);
+            }
+        } else {
+            console.log("sendLog_err",body);
+
+        }
+    });
+
 }
 
 function viewResponse(query) {
@@ -4122,7 +4140,7 @@ function sendBroadCast(query, blockName) {
                                     sendPer()
                                 })
                         } else {
-                            console.log('sendBroadCast_done', i, messages.length)
+                            console.log('sendBroadCast_done', i, users.length)
                             resolve(log)
                         }
 
