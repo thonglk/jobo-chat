@@ -31,6 +31,7 @@ const client = new Wit({
     accessToken: 'CR6XEPRE2F3FLVWYJA6XFYJSVUO4SCN7',
     logger: new log.Logger(log.DEBUG) // optional
 });
+var Broadcast = require("./broadcast");
 
 
 var uri = 'mongodb://joboapp:joboApp.1234@ec2-54-157-20-214.compute-1.amazonaws.com:27017/joboapp';
@@ -62,9 +63,7 @@ app.use(bodyParser.json({verify: verifyRequestSignature}));
 app.use(express.static('public'));
 
 var port = process.env.PORT || 5000;
-app.listen(port, function () {
-    console.log('Node app is running on port', port);
-});
+
 /*
  * Be sure to setup your config values before running this code. You can
  * set them using environment variables or modifying the config file in /config.
@@ -89,7 +88,6 @@ const PAGE_ACCESS_TOKEN = (process.env.MESSENGER_PAGE_ACCESS_TOKEN) ?
 const WHITE_LIST = config.get('whiteListDomains')
 
 var graph = require('fbgraph');
-graph.setAccessToken(PAGE_ACCESS_TOKEN);
 graph.setVersion("2.12");
 
 
@@ -2484,7 +2482,7 @@ function loop(q, flow, senderID, pageID) {
             if (currentQuestion[4]) {
                 metadata.askType = askType;
                 metadata.type = 'ask';
-
+                if(currentQuestion[2] && currentQuestion[2].match(/=>\w+\S/g)) metadata.setCustom = currentQuestion[2].match(/=>\w+\S/g)[0].substring(2)
                 if (askOptionStr.match(askType)) {
                     var askOption = currentQuestion[4][0][1];
                     var check = askOption[0][0]
@@ -3234,6 +3232,14 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 }
                                                 else if (payload.text && payload.type == 'ask' && payload.questionId) {
                                                     response[payload.questionId] = payload.text
+
+                                                    if(payload.setCustom) {
+                                                        var custom = senderData.custom || {}
+                                                        custom[payload.setCustom] = payload.text
+                                                        console.log('custom',custom)
+
+                                                        saveSenderData({custom},senderID,pageID)
+                                                    }
 
                                                     ladiResCol.findOneAndUpdate({
                                                         page: pageID,
@@ -4105,26 +4111,26 @@ process.on('uncaughtException', function (err) {
 
 function sendLog(text) {
     console.log(text)
-    // var page = '233214007218284'
-    // var messageData = {text, recipient: {id: '1980317535315791'}}
-    // if (facebookPage[page] && facebookPage[page].access_token) request({
-    //     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    //     qs: {access_token: facebookPage[page].access_token},
-    //     method: 'POST',
-    //     json: messageData
-    //
-    // }, function (error, response, body) {
-    //     if (!error && response.statusCode == 200) {
-    //         var recipientId = body.recipient_id;
-    //         var messageId = body.message_id;
-    //         if (messageId) {
-    //             console.log("callSendAPI_success", messageId, recipientId);
-    //         }
-    //     } else {
-    //         console.log("sendLog_err", body);
-    //
-    //     }
-    // });
+    var page = '233214007218284'
+    var messageData = {text, recipient: {id: '1980317535315791'}}
+    if (facebookPage[page] && facebookPage[page].access_token) request({
+        uri: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token: facebookPage[page].access_token},
+        method: 'POST',
+        json: messageData
+
+    }, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var recipientId = body.recipient_id;
+            var messageId = body.message_id;
+            if (messageId) {
+                console.log("callSendAPI_success", messageId, recipientId);
+            }
+        } else {
+            console.log("sendLog_err", body);
+
+        }
+    });
 
 }
 
@@ -4539,7 +4545,6 @@ function buildMessage(blockName, pageID) {
 
 app.get('/buildMessage', ({query: {pageID, blockName}}, res) => buildMessage(blockName, pageID).then(result => res.send(result)));
 
-var Broadcast = require("./broadcast");
 
 function sendBroadCasting(query, blockName) {
     var pageID = query.page
@@ -4601,7 +4606,52 @@ function checkSender() {
 app.get('/checkSender', (req, res) => checkSender().then(result => res.send(result)))
 
 // Start server
+var amsURL = 'http://jobo-chat.herokuapp.com'
+app.get('/amser/company', ({query}, res) => axios.get('http://jobo-ana.herokuapp.com/getData?spreadsheetId=1XcZYxuNdwiw8f5DMbSvibg2p7AX5105gUgYWqoFifgk&range=restaurant', {params:query}).then(result => {
+  var data = result.data.data
+    if(data.length  == 0) res.send([{text:'Không có doanh nghiệp phù hợp'}])
+
+    var elements = data.map(obj =>{
+        return {
+            "title":obj.storeName,
+            "image_url":obj.image_url,
+            "subtitle":obj.address,
+            "buttons":[
+                {
+                    "title":"Xem các ưu đãi",
+                    "url": `${amsURL}/amser/company/${obj.id}/offer`,
+                    "type":"json_plugin_url"
+                }
+            ]
+        }
+
+    })
+    var message = {
+        "messages":[
+            {
+                "attachment":{
+                    "type":"template",
+                    "payload":{
+                        "template_type":"generic",
+                        "elements": elements
+                    }
+                }
+            }
+        ]
+    }
+
+    res.send([{text: `Đây là ${data.length} doanh nghiệp phù hợp với yêu cầu tìm kiếm của bạn`},message])
 
 
+
+
+}));
+
+
+
+
+app.listen(port, function () {
+    console.log('Node app is running on port', port);
+});
 module.exports = app;
 

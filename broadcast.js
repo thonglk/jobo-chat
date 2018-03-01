@@ -1,5 +1,4 @@
 var graph = require('fbgraph');
-graph.setAccessToken(PAGE_ACCESS_TOKEN);
 graph.setVersion("2.12");
 
 
