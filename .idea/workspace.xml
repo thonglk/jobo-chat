@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-    </list>
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -20,8 +17,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="4081" column="42" lean-forward="false" selection-start-line="4081" selection-start-column="42" selection-end-line="4081" selection-end-column="42" />
+            <state relative-caret-position="210">
+              <caret line="4008" column="44" lean-forward="true" selection-start-line="4008" selection-start-column="44" selection-end-line="4008" selection-end-column="44" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
@@ -104,7 +101,7 @@
                 <element signature="n#!!block;n#viewResponse#0" expanded="false" />
                 <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
                 <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-                <element signature="e#184549#185218#0" expanded="false" />
+                <element signature="e#184607#185276#0" expanded="false" />
                 <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
                 <element signature="n#!!block;n#checkSender#0" expanded="false" />
               </folding>
@@ -315,12 +312,12 @@
       <workItem from="1518332714456" duration="20113000" />
       <workItem from="1519703597393" duration="13369000" />
       <workItem from="1519787045104" duration="12837000" />
-      <workItem from="1519885465734" duration="1132000" />
+      <workItem from="1519885465734" duration="1563000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="767893000" />
+    <option name="totallyTimeSpent" value="768324000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -333,6 +330,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19591261" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -341,7 +339,7 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25272068" sideWeight="0.4918957" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25272068" sideWeight="0.4918957" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -471,7 +469,7 @@
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#184549#185218#0" expanded="false" />
+            <element signature="e#184607#185276#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
           </folding>
@@ -615,7 +613,7 @@
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#184549#185218#0" expanded="false" />
+            <element signature="e#184607#185276#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
           </folding>
@@ -708,7 +706,7 @@
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#184549#185218#0" expanded="false" />
+            <element signature="e#184607#185276#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
           </folding>
@@ -822,7 +820,7 @@
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#184549#185218#0" expanded="false" />
+            <element signature="e#184607#185276#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
           </folding>
@@ -943,7 +941,7 @@
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#184549#185218#0" expanded="false" />
+            <element signature="e#184607#185276#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
           </folding>
@@ -1050,7 +1048,7 @@
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#184549#185218#0" expanded="false" />
+            <element signature="e#184607#185276#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
           </folding>
@@ -1164,7 +1162,7 @@
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#184549#185218#0" expanded="false" />
+            <element signature="e#184607#185276#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
           </folding>
@@ -1261,8 +1259,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="4081" column="42" lean-forward="false" selection-start-line="4081" selection-start-column="42" selection-end-line="4081" selection-end-column="42" />
+        <state relative-caret-position="210">
+          <caret line="4008" column="44" lean-forward="true" selection-start-line="4008" selection-start-column="44" selection-end-line="4008" selection-end-column="44" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
@@ -1345,7 +1343,7 @@
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#getBotfromPageID#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#184549#185218#0" expanded="false" />
+            <element signature="e#184607#185276#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
             <element signature="n#!!block;n#checkSender#0" expanded="false" />
           </folding>

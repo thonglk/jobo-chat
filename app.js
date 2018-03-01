@@ -4006,12 +4006,15 @@ function callSendAPI(messageData, page = 'jobo') {
         if (messageData.message && messageData.message.text && messageData.message.text.length > 640) {
             console.log('messageData.message.text.length', messageData.message.text.length)
             var longtext = messageData.message.text
-            var split = longtext.split('. ')
+            var split = longtext.split('.\n')
+            console.log('split',split)
             var messages = split.map(text => {
                 var mes = messageData
-                mes.message.text = text
+                mes.text = text
                 return mes
             });
+            console.log('messages',messages)
+
             sendMessages(messageData.recipient.id, messages, null, page)
                 .then(result => resolve(result))
                 .catch(err => reject(err))
