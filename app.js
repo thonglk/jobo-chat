@@ -4659,7 +4659,7 @@ app.get('/amser/company', ({query}, res) => axios.get('http://jobo-ana.herokuapp
             "buttons": [
                 {
                     "title": "Xem các ưu đãi",
-                    "url": `${amsURL}/amser/company/${obj.id}/offer`,
+                    "url": `${amsURL}/amser/company/${obj.storeId}/offer`,
                     "type": "json_plugin_url"
                 }
             ]
