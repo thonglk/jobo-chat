@@ -4627,17 +4627,13 @@ app.get('/amser/company', ({query}, res) => axios.get('http://jobo-ana.herokuapp
 
     })
     var message = {
-        "messages":[
-            {
-                "attachment":{
-                    "type":"template",
-                    "payload":{
-                        "template_type":"generic",
-                        "elements": elements
-                    }
-                }
+        "attachment":{
+            "type":"template",
+            "payload":{
+                "template_type":"generic",
+                "elements": elements
             }
-        ]
+        }
     }
 
     res.send([{text: `Đây là ${data.length} doanh nghiệp phù hợp với yêu cầu tìm kiếm của bạn`},message])
