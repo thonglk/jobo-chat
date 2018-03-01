@@ -2482,7 +2482,7 @@ function loop(q, flow, senderID, pageID) {
             if (currentQuestion[4]) {
                 metadata.askType = askType;
                 metadata.type = 'ask';
-                if(currentQuestion[2] && currentQuestion[2].match(/=>\w+\S/g)) metadata.setCustom = currentQuestion[2].match(/=>\w+\S/g)[0].substring(2)
+                if (currentQuestion[2] && currentQuestion[2].match(/=>\w+\S/g)) metadata.setCustom = currentQuestion[2].match(/=>\w+\S/g)[0].substring(2)
                 if (askOptionStr.match(askType)) {
                     var askOption = currentQuestion[4][0][1];
                     var check = askOption[0][0]
@@ -2697,8 +2697,7 @@ function loop(q, flow, senderID, pageID) {
                                 console.log('url ', url)
                                 axios.get(url).then(result => {
                                     var messages = result.data
-                                    console.log(messages)
-                                    sendMessages(senderID, messages, null, pageID, metadata)
+                                    sendjson_plugin_url(senderID, messages, null, pageID)
                                 })
 
                             }
@@ -3233,12 +3232,12 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 else if (payload.text && payload.type == 'ask' && payload.questionId) {
                                                     response[payload.questionId] = payload.text
 
-                                                    if(payload.setCustom) {
+                                                    if (payload.setCustom) {
                                                         var custom = senderData.custom || {}
                                                         custom[payload.setCustom] = payload.text
-                                                        console.log('custom',custom)
+                                                        console.log('custom', custom)
 
-                                                        saveSenderData({custom},senderID,pageID)
+                                                        saveSenderData({custom}, senderID, pageID)
                                                     }
 
                                                     ladiResCol.findOneAndUpdate({
@@ -3306,13 +3305,13 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }
                                                     }
                                                 }
-                                                else if (payload.url)
+                                                else if (payload.json_plugin_url)
                                                     sendTypingOn(senderID, pageID)
-                                                        .then(result => axios.get(payload.url)
+                                                        .then(result => axios.get(payload.json_plugin_url)
                                                             .then(result => {
+
                                                                 var messages = result.data
-                                                                console.log(messages)
-                                                                sendMessages(senderID, messages, null, pageID)
+                                                                sendjson_plugin_url(senderID, messages, null, pageID)
                                                             }))
                                                 else if (payload.block_names) {
                                                     for (var i in questions) {
@@ -4009,6 +4008,46 @@ function sendAPI(recipientId, message, typing, page = 'jobo', meta) {
     })
 }
 
+function sendjson_plugin_url(senderID, messages, typing, pageID) {
+    console.log(messages)
+    messages = messages.map(chatfuelMes => chatFuelToBoform(chatfuelMes))
+    sendMessages(senderID, messages, typing, pageID)
+}
+
+function chatFuelToBoform(chatfuelMes) {
+    if (chatfuelMes.attachment && chatfuelMes.attachment.payload && chatfuelMes.attachment.payload.elements) {
+        chatfuelMes.attachment.payload.elements = chatfuelMes.attachment.payload.elements.map(ele => chatfuelEle(ele))
+    }
+    console.log('chatFuelToBoform,', JSON.stringify(chatfuelMes))
+
+    return chatfuelMes
+}
+
+function chatfuelEle(ele) {
+    if (ele.buttons) {
+        ele.buttons = ele.buttons.map(but => chatfuelBut(but))
+    }
+    console.log('chatfuelEle,', JSON.stringify(ele))
+
+    return ele
+}
+
+function chatfuelBut(buttons = {
+    "title": "Not really...",
+    "url": "https://rockets.chatfuel.com/api/sad-match",
+    "type": "json_plugin_url"
+}) {
+    var newbuttons = buttons
+    if (buttons && buttons.type == 'json_plugin_url') {
+        newbuttons.type = 'postback'
+        newbuttons.payload = JSON.stringify({json_plugin_url: buttons.url})
+        delete newbuttons.url
+    }
+    console.log('newbuttons', newbuttons)
+
+    return newbuttons
+}
+
 function callSendAPI(messageData, page = 'jobo') {
     return new Promise(function (resolve, reject) {
 
@@ -4040,6 +4079,7 @@ function callSendAPI(messageData, page = 'jobo') {
     })
 
 }
+
 function sendMessageNoSave(senderID, messages, typing, pageID, metadata) {
     return new Promise(function (resolve, reject) {
 
@@ -4051,7 +4091,7 @@ function sendMessageNoSave(senderID, messages, typing, pageID, metadata) {
                 var messageData = messages[i]
                 sendOne(messageData, pageID).then(result => setTimeout(() => {
                     sendPer()
-                },100))
+                }, 100))
                     .catch(err => {
                         console.log('err', i, err)
                         reject(err)
@@ -4607,43 +4647,60 @@ app.get('/checkSender', (req, res) => checkSender().then(result => res.send(resu
 
 // Start server
 var amsURL = 'http://jobo-chat.herokuapp.com'
-app.get('/amser/company', ({query}, res) => axios.get('http://jobo-ana.herokuapp.com/getData?spreadsheetId=1XcZYxuNdwiw8f5DMbSvibg2p7AX5105gUgYWqoFifgk&range=restaurant', {params:query}).then(result => {
-  var data = result.data.data
-    if(data.length  == 0) res.send([{text:'Không có doanh nghiệp phù hợp'}])
+app.get('/amser/company', ({query}, res) => axios.get('http://jobo-ana.herokuapp.com/getData?spreadsheetId=1XcZYxuNdwiw8f5DMbSvibg2p7AX5105gUgYWqoFifgk&range=restaurant', {params: query}).then(result => {
+    var data = result.data.data
+    if (data.length == 0) res.send([{text: 'Không có doanh nghiệp phù hợp'}])
 
-    var elements = data.map(obj =>{
+    var elements = data.map(obj => {
         return {
-            "title":obj.storeName,
-            "image_url":obj.image_url,
-            "subtitle":obj.address,
-            "buttons":[
+            "title": obj.storeName,
+            "image_url": obj.image_url,
+            "subtitle": obj.address,
+            "buttons": [
                 {
-                    "title":"Xem các ưu đãi",
+                    "title": "Xem các ưu đãi",
                     "url": `${amsURL}/amser/company/${obj.id}/offer`,
-                    "type":"json_plugin_url"
+                    "type": "json_plugin_url"
                 }
             ]
         }
 
     })
     var message = {
-        "attachment":{
-            "type":"template",
-            "payload":{
-                "template_type":"generic",
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
                 "elements": elements
             }
         }
     }
 
-    res.send([{text: `Đây là ${data.length} doanh nghiệp phù hợp với yêu cầu tìm kiếm của bạn`},message])
-
-
+    res.send([{text: `Đây là ${data.length} doanh nghiệp phù hợp với yêu cầu tìm kiếm của bạn`}, message])
 
 
 }));
+app.get('/amser/company/:storeId/offer', ({params}, res) => axios.get('http://jobo-ana.herokuapp.com/getData?spreadsheetId=1XcZYxuNdwiw8f5DMbSvibg2p7AX5105gUgYWqoFifgk&range=restaurant').then(result => {
+    console.log('query', params)
+    var data = result.data.data
+    var storeData = _.findWhere(data, {storeId: params.storeId})
+    var message = {
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
+                "elements": [{
+                    "title": storeData.offerName,
+                    "image_url": storeData.offerImage,
+                    "subtitle": storeData.storeName
+                }]
+            }
+        }
+    }
+    res.send([message])
 
 
+}));
 
 
 app.listen(port, function () {
