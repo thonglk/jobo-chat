@@ -3193,6 +3193,14 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }, null, pageID))
 
                                                 }
+                                                else if (payload.keyword == 'stop-noti') {
+                                                    saveSenderData({subscribe: null}, senderID, pageID)
+                                                        .then(result => sendAPI(senderID, {
+                                                            text: `UnSubscribe successful (Y)!`,
+                                                        }, null, pageID))
+
+                                                }
+
                                                 else if (payload.keyword == 'page-off') {
                                                     SetOnOffPage(pageID, true)
                                                         .then(result => sendAPI(senderID, {
@@ -3204,12 +3212,16 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 }
 
                                                 else if (payload.keyword && payload.keyword.match('mute-bot')) {
-                                                    var time_off = 10 * 60 * 1000
+                                                    var time_off = 24 * 60 * 60 * 1000
                                                     var date_until = new Date(Date.now() + time_off)
 
-                                                    SetOnOffPagePerUser(pageID, payload.subID, time_off).then(result => sendAPI(senderID, {
-                                                        text: `Bot was off for ${dataAccount[payload.subID].full_name} until  ${date_until}, click 'Mute bot' again to get more time!`,
-                                                    }, null, pageID))
+                                                    SetOnOffPagePerUser(pageID, payload.subID, time_off)
+                                                        .then(result => sendAPI(senderID, {
+                                                            text: `Bot was off for ${dataAccount[payload.subID].full_name} until  ${date_until}, click 'Mute bot' again to get more time!`,
+                                                        }, null, pageID)
+                                                            .then(result => sendAPI(payload.subID, {
+                                                            text: `You are chatting with agent. Type 'stop agent' to switch to bot`,
+                                                        }, null, pageID)))
                                                 }
                                                 else if (payload.keyword == 'stop-agent') {
                                                     saveSenderData({time_off: null}, senderID, pageID)
@@ -3223,7 +3235,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     console.log('senderData.time_off')
                                                     if (!timeOff[senderID]) {
                                                         sendAPI(senderID, {
-                                                            text: `You are chatting with agent. Type 'stop agent' to switch to bot`,
+                                                            text: `You are chatting with agent. Type 'stop agent' to switch to bot (Gõ 'stop agent' để tiếp tục với bot) `,
                                                         }, null, pageID)
                                                         timeOff[senderID] = true
                                                     }
@@ -3473,7 +3485,6 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                 if (conversations && conversations.data && conversations.data[0] && conversations.data[0].link) user.link = conversations.data[0].link
 
                 saveSenderData(user, senderID, pageID)
-                    .then(result => sendNotiUser('New User', user, pageID))
                     .then(result => resolve(user))
                     .catch(err => reject(err))
             })
@@ -3507,7 +3518,7 @@ function sendNotiUser(text = 'New User', user, pageID) {
                                     "url": `https://app.botform.asia/bot?page=${pageID}`,
                                 }, {
                                     "type": "postback",
-                                    "title": "Mute bot 10 minutes",
+                                    "title": "Mute bot 1 day",
                                     "payload": JSON.stringify({
                                         subID: user.id
                                     }),
