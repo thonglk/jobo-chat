@@ -3189,14 +3189,14 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 else if (payload.keyword == 'get-noti') {
                                                     saveSenderData({subscribe: 'all'}, senderID, pageID)
                                                         .then(result => sendAPI(senderID, {
-                                                            text: `Subscribe successful <3!`,
+                                                            text: `Subscribe noti successful <3!`,
                                                         }, null, pageID))
 
                                                 }
                                                 else if (payload.keyword == 'stop-noti') {
                                                     saveSenderData({subscribe: null}, senderID, pageID)
                                                         .then(result => sendAPI(senderID, {
-                                                            text: `UnSubscribe successful (Y)!`,
+                                                            text: `Unsubscribe noti successful (Y)!`,
                                                         }, null, pageID))
 
                                                 }
@@ -3475,8 +3475,8 @@ function loadsenderData(senderID, pageID = '493938347612411') {
             if (err) reject(err);
             console.log('account', result);
             var user = result;
-            user.full_name = result.first_name + ' ' + result.last_name
-            user.createdAt = Date.now()
+            user.full_name = result.first_name + ' ' + result.last_name;
+            user.createdAt = Date.now();
             user.lastActive = Date.now();
 
 
