@@ -1461,12 +1461,13 @@ function matchingPayload(event) {
 
 
         var payloadStr = '';
+        var payload = {}
 
-        if (message && message.quick_reply && message.quick_reply.payload) payloadStr = message.quick_reply.payload
+        if (message && message.quick_reply && message.quick_reply.payload && message.quick_reply.payload.match('{')) payloadStr = message.quick_reply.payload
         else if (postback && postback.payload) payloadStr = postback.payload
 
-        if (payloadStr.length > 0) var payload = JSON.parse(payloadStr)
-        else payload = {type: 'default'};
+        if (payloadStr.length > 0) payload = JSON.parse(payloadStr)
+
 
         var referral = event.referral
         if (postback && postback.referral) referral = postback.referral
@@ -1474,15 +1475,11 @@ function matchingPayload(event) {
         if (referral) {
             payload.source = 'referral'
             console.log('referral', payload)
-            if (recipientID == facebookPage['jobo'].id) referInital(referral, senderID)
 
         } else if (postback) {
 
             payload.source = 'postback'
             payload.text = postback.title
-
-        } else if (message && message.quick_reply) {
-            payload.source = 'quick_reply'
 
         } else if (message) {
 
@@ -1490,12 +1487,15 @@ function matchingPayload(event) {
             console.log('lastMessage', lastMessage);
             if (lastMessage && lastMessage.message && lastMessage.message.metadata) payloadStr = lastMessage.message.metadata;
 
-            if (payloadStr.length > 0) var payload = JSON.parse(payloadStr)
-            else payload = {type: 'default'};
+            if (payloadStr.length > 0) payload = Object.assign({}, JSON.parse(payloadStr),payload )
 
-            if (lastMessage.meta) payload = lastMessage.meta
 
-            if (message.attachments) {
+            if (lastMessage.meta) payload = Object.assign({},lastMessage.meta ,payload )
+
+            if (message.quick_reply) {
+                payload.source = 'quick_reply'
+
+            } else if (message.attachments) {
                 payload.source = 'attachment'
 
                 if (message.attachments[0].payload.coordinates) {
@@ -1513,8 +1513,7 @@ function matchingPayload(event) {
                     console.log('url', url)
                     payload.text = url
                 } else {
-                    console.log('something donnt know', event)
-
+                    console.log('something donot know', event)
                 }
 
 
@@ -1534,12 +1533,10 @@ function matchingPayload(event) {
 
             }
 
-        } else {
-            console.log('something donnt know', event)
-        }
+        } else console.log('something donnt know', event)
 
 
-        if (message && message.text && !message.text.nlp) client.message(message.text, {})
+        if (message && message.text && !message.nlp) client.message(message.text, {})
             .then(data => {
                 console.log('Yay, got Wit.ai response: ', data);
                 var entities = data.entities
@@ -2623,13 +2620,23 @@ function loop(q, flow, senderID, pageID) {
                                 metadata.other = option[2]
                                 console.log('metadata', metadata)
                             }
-
                             var quick = {
                                 "content_type": "text",
                                 "title": option[0],
                                 "payload": JSON.stringify(metadata)
 
                             }
+
+                            if (option[0] == 'location') quick = {
+                                "content_type": "location"
+                            }
+                            else if (option[0] == 'phone_number') quick = {
+                                "content_type": "user_phone_number"
+                            }
+                            else if (option[0] == 'email') quick = {
+                                "content_type": "user_email"
+                            }
+
                             if (option[5] && option[5][0]) quick.image_url = flow[20][option[5][0]]
 
                             if (quick_replies.length < 11) quick_replies.push(quick)
@@ -3220,8 +3227,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             text: `Bot was off for ${dataAccount[payload.subID].full_name} until  ${date_until}, click 'Mute bot' again to get more time!`,
                                                         }, null, pageID)
                                                             .then(result => sendAPI(payload.subID, {
-                                                            text: `You are chatting with agent. Type 'stop agent' to switch to bot`,
-                                                        }, null, pageID)))
+                                                                text: `You are chatting with agent. Type 'stop agent' to switch to bot`,
+                                                            }, null, pageID)))
                                                 }
                                                 else if (payload.keyword == 'stop-agent') {
                                                     saveSenderData({time_off: null}, senderID, pageID)
