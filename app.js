@@ -988,9 +988,9 @@ function setDefautMenu(page = 'jobo', persistent_menu = [
                 type: 'start-over',
             })
         }, {
-            "title": "Create Own Chatbot",
+            "title": "Create a bot in Botform",
             "type": "web_url",
-            "url": "https://botform.asia"
+            "url": "https://app.botform.asia/create"
         }],
         "locale": "default",
 
