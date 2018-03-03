@@ -2403,7 +2403,8 @@ function go(goto, q = 0, flow, senderID, pageID) {
     if (goto == '-3') {
         if(flow[2] && flow[2][0])var mes = {
             text: flow[2][0]
-        } else mes = {
+        }
+        else mes = {
             text: '.'
         }
         sendAPI(senderID, {
