@@ -2407,9 +2407,7 @@ function go(goto, q = 0, flow, senderID, pageID) {
         else mes = {
             text: '.'
         }
-        sendAPI(senderID, {
-            text: mes
-        }, null, pageID)
+        sendAPI(senderID, mes, null, pageID)
 
         submitResponse(senderData.flow, senderID)
             .then(result => console.log('done', result))
