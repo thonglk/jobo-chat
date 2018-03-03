@@ -1490,7 +1490,7 @@ function matchingPayload(event) {
             if (payloadStr.length > 0) payload = Object.assign({}, JSON.parse(payloadStr),payload )
 
 
-            if (lastMessage.meta) payload = Object.assign({},lastMessage.meta ,payload )
+            if (lastMessage.meta) payload = Object.assign({},lastMessage.meta ,payload)
 
             if (message.quick_reply) {
                 payload.source = 'quick_reply'
@@ -2401,26 +2401,23 @@ function go(goto, q = 0, flow, senderID, pageID) {
     var senderData = dataAccount[senderID]
     var questions = flow[1]
     if (goto == '-3') {
+        if(flow[2] && flow[2][0])var mes = {
+            text: flow[2][0]
+        } else mes = {
+            text: '.'
+        }
         sendAPI(senderID, {
-            text: flow[2][0] || '.'
+            text: mes
         }, null, pageID)
+
         submitResponse(senderData.flow, senderID)
             .then(result => console.log('done', result))
             .catch(err => console.log('err', err))
     }
 
     else if (goto == '-2') {
-
-        for (var i in questions) {
-            q++
-            console.log('index', q, questions[q][3])
-            if (questions[q][3] == 8) {
-                q++
-                loop(q, flow, senderID, pageID)
-                break
-            }
-
-        }
+        q++
+        loop(q, flow, senderID, pageID)
 
     }
     else if (!goto) {
@@ -3264,6 +3261,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         senderID
                                                     }, {$set: response}, {upsert: true}).then(result => {
                                                     }).catch(err => console.log('err', err))
+
                                                     var index = _.findLastIndex(questions, {
                                                         0: payload.questionId
                                                     });
