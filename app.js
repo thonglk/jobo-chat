@@ -208,12 +208,11 @@ function initDataLoad(ref, store) {
     });
 }
 
+
 var dataAccount = {}, accountRef = db.ref('account')
 initDataLoad(accountRef, dataAccount)
 var facebookPage = {}, facebookPageRef = db.ref('facebookPage')
-// accountRef.on('child_added', function (snap) {
-//     if(!snap.val().id)snap.ref.remove(()=>console.log('remove'))
-// });
+
 initDataLoad(facebookPageRef, facebookPage)
 
 var dataLadiBot = {}, ladiBotRef = db.ref('ladiBot')
@@ -273,7 +272,6 @@ var quick_topic = [];
 var topic = {}
 var a = 0
 
-
 app.get('/send', (req, res) => {
     var {body} = req.query
     sendVocal(body)
@@ -304,12 +302,6 @@ function sendVocal(vocal) {
 }
 
 
-app.get('/quick_topic', function (req, res) {
-    res.send(quick_topic)
-})
-app.get('/topic', function (req, res) {
-    res.send(topic)
-})
 
 function getLongLiveToken(shortLiveToken) {
     console.log('getLongLiveToken-ing', shortLiveToken)
@@ -357,6 +349,7 @@ app.get('/getchat', function (req, res) {
 function getChat({url, page, access_token, name, pageID}) {
     return new Promise(function (resolve, reject) {
         console.log('getChat-ing', url, page, access_token, name, pageID)
+if(!url) reject({err: 'Set your url first'})
 
         axios.get(url)
             .then(result => {
@@ -1487,10 +1480,10 @@ function matchingPayload(event) {
             console.log('lastMessage', lastMessage);
             if (lastMessage && lastMessage.message && lastMessage.message.metadata) payloadStr = lastMessage.message.metadata;
 
-            if (payloadStr.length > 0) payload = Object.assign({}, JSON.parse(payloadStr),payload )
+            if (payloadStr.length > 0) payload = Object.assign({}, JSON.parse(payloadStr), payload)
 
 
-            if (lastMessage.meta) payload = Object.assign({},lastMessage.meta ,payload)
+            if (lastMessage.meta) payload = Object.assign({}, lastMessage.meta, payload)
 
             if (message.quick_reply) {
                 payload.source = 'quick_reply'
@@ -2401,7 +2394,7 @@ function go(goto, q = 0, flow, senderID, pageID) {
     var senderData = dataAccount[senderID]
     var questions = flow[1]
     if (goto == '-3') {
-        if(flow[2] && flow[2][0])var mes = {
+        if (flow[2] && flow[2][0]) var mes = {
             text: flow[2][0]
         }
         else mes = {
@@ -4659,6 +4652,7 @@ function checkSender() {
 }
 
 app.get('/checkSender', (req, res) => checkSender().then(result => res.send(result)))
+
 
 // Start server
 var amsURL = 'http://jobo-chat.herokuapp.com'
