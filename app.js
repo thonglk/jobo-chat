@@ -1757,13 +1757,13 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 else if (payload.json_plugin_url)
                                                     sendTypingOn(senderID, pageID)
                                                         .then(result => axios.get(payload.json_plugin_url)
-                                                            .then(result => sendjson_plugin_url(senderID, result.data.messages, null, pageID)
+                                                            .then(result => sendjson_plugin_url(senderID, result.data.messages, null, pageID, result.data.go_to_block)
                                                             ))
                                                 else if (payload.block_names) {
                                                     for (var i in questions) {
                                                         var quest = questions[i]
-                                                        console.log(vietnameseDecode(payload.block_names), vietnameseDecode(quest[1]))
-                                                        if (vietnameseDecode(payload.block_names) == vietnameseDecode(quest[1])) {
+                                                        console.log(vietnameseDecode(payload.block_names[0]), vietnameseDecode(quest[1]))
+                                                        if (vietnameseDecode(payload.block_names[0]) == vietnameseDecode(quest[1])) {
                                                             go(quest[0], null, flow, senderID, pageID)
                                                             break
                                                         }
@@ -2890,7 +2890,27 @@ function loop(q, flow, senderID, pageID) {
                             else if (currentQuestion[1].match('JSON')) {
                                 var url = templatelize(currentQuestion[2], senderData)
                                 console.log('url ', url)
-                                axios.get(url).then(result => sendjson_plugin_url(senderID, result.data.messages, null, pageID))
+                                var newurl = url
+                                var url_para = url.split("?")
+                                var para = url_para[1]
+                                if(para){
+                                    newurl = url_para[0] + '?'
+                                    if (para.match("&")) {
+                                        var per = para.split("&")
+
+
+                                    } else per = [para]
+
+                                    per.forEach(kv => {
+                                        var k_v = kv.split("=")
+                                        newurl = newurl + k_v[0] + "=" + urlencode(k_v[1])
+                                    })
+                                }
+
+                                console.log('newurl ', newurl)
+
+
+                                axios.get(newurl).then(result => sendjson_plugin_url(senderID, result.data.messages, null, pageID))
 
                             }
                             else if (currentQuestion[2] && currentQuestion[2].toLowerCase() == 'notification') sendNotiUser(templatelize(currentQuestion[1], senderData), senderData, pageID)
@@ -3347,10 +3367,23 @@ function sendingAPI(recipientId, senderId = facebookPage['jobo'].id, message, ty
 }
 
 
-function sendjson_plugin_url(senderID, messages, typing, pageID) {
-    console.log(messages)
-    messages = messages.map(chatfuelMes => chatFuelToBoform(chatfuelMes))
-    sendMessages(senderID, messages, typing, pageID)
+function sendjson_plugin_url(senderID, messages, typing, pageID, go_to_block) {
+    if (messages) {
+        messages = messages.map(chatfuelMes => chatFuelToBoform(chatfuelMes))
+        console.log('sendjson_plugin_url', JSON.stringify(messages))
+        sendMessages(senderID, messages, typing, pageID)
+    } else if (go_to_block) {
+        var flow = getBotfromPageID(pageID)
+        var questions = flow[1];
+        for (var i in questions) {
+            var quest = questions[i]
+            console.log(vietnameseDecode(go_to_block), vietnameseDecode(quest[1]))
+            if (vietnameseDecode(go_to_block) == vietnameseDecode(quest[1])) {
+                go(quest[0], null, flow, senderID, pageID)
+                break
+            }
+        }
+    }
 }
 
 function chatFuelToBoform(chatfuelMes) {
@@ -3376,11 +3409,18 @@ function chatfuelBut(buttons = {
     "url": "https://rockets.chatfuel.com/api/sad-match",
     "type": "json_plugin_url"
 }) {
-    var newbuttons = buttons
+    var newbuttons = {}
     if (buttons && buttons.type == 'json_plugin_url') {
-        newbuttons.type = 'postback'
-        newbuttons.payload = JSON.stringify({json_plugin_url: buttons.url})
-        delete newbuttons.url
+
+        newbuttons = {type: 'postback', payload: JSON.stringify({json_plugin_url: buttons.url}), title: buttons.title}
+    } else if (buttons && buttons.block_names) {
+
+        newbuttons = {
+            type: 'postback',
+            payload: JSON.stringify({block_names: buttons.block_names}),
+            title: buttons.title
+        }
+
     }
     console.log('newbuttons', newbuttons)
 
@@ -3873,40 +3913,6 @@ function sendBroadCasting(query, blockName) {
 
 app.get('/Starting_a_Reach_Estimation', ({query: {pageID, custom_label_id}}, res) => Broadcast.Starting_a_Reach_Estimation(pageID, custom_label_id).then(result => res.send(result)))
 app.get('/Messaging_Feature_Review', ({query: {pageID}}, res) => Broadcast.Messaging_Feature_Review(pageID).then(result => res.send(result)))
-
-function checkSender() {
-    return new Promise(function (resolve, reject) {
-        var users = _.toArray(dataAccount)
-        var i = -1
-        var log = []
-
-        function sendPer() {
-            i++
-            if (i < users.length) {
-                var obj = users[i]
-                sendTypingOn(obj.id, obj.pageID).then(result => {
-                    saveSenderData({sent_error: null}, obj.id, obj.pageID)
-                    log.push(result)
-                    sendPer()
-                }).catch(err => {
-                    saveSenderData({sent_error: err.error.message}, obj.id, obj.pageID)
-                    log.push(err)
-                    sendPer()
-                })
-            } else {
-                console.log('checkSender_done', i, users.length)
-                resolve(log)
-            }
-
-        }
-
-        sendPer()
-
-
-    })
-}
-
-app.get('/checkSender', (req, res) => checkSender().then(result => res.send(result)))
 
 
 ///// Jobo
@@ -4442,66 +4448,8 @@ function loadJob(jobId) {
     })
 }
 
-// Amser
-var amsURL = 'http://jobo-chat.herokuapp.com'
-app.get('/amser/company', ({query}, res) => axios.get('http://jobo-ana.herokuapp.com/getData?spreadsheetId=1XcZYxuNdwiw8f5DMbSvibg2p7AX5105gUgYWqoFifgk&range=restaurant', {params: query}).then(result => {
-    var data = result.data.data
-    if (data.length == 0) res.send([{text: 'Không có doanh nghiệp phù hợp'}])
-
-    var elements = data.map(obj => {
-        return {
-            "title": obj.storeName,
-            "image_url": obj.image_url,
-            "subtitle": obj.address,
-            "buttons": [
-                {
-                    "title": "Xem các ưu đãi",
-                    "url": `${amsURL}/amser/company/${obj.storeId}/offer`,
-                    "type": "json_plugin_url"
-                }
-            ]
-        }
-
-    })
-    var message = {
-        "attachment": {
-            "type": "template",
-            "payload": {
-                "template_type": "generic",
-                "elements": elements
-            }
-        }
-    }
-
-    res.send([{text: `Đây là ${data.length} doanh nghiệp phù hợp với yêu cầu tìm kiếm của bạn`}, message])
-
-
-}));
-app.get('/amser/company/:storeId/offer', ({params}, res) => axios.get('http://jobo-ana.herokuapp.com/getData?spreadsheetId=1XcZYxuNdwiw8f5DMbSvibg2p7AX5105gUgYWqoFifgk&range=restaurant').then(result => {
-    console.log('query', params)
-    var data = result.data.data
-    var storeData = _.findWhere(data, {storeId: params.storeId})
-    var message = {
-        "attachment": {
-            "type": "template",
-            "payload": {
-                "template_type": "generic",
-                "elements": [{
-                    "title": storeData.offerName,
-                    "image_url": storeData.offerImage,
-                    "subtitle": storeData.storeName
-                }]
-            }
-        }
-    }
-    res.send([message])
-
-
-}));
-
 
 app.listen(port, function () {
     console.log('Node app is running on port', port);
 });
 module.exports = app;
-
