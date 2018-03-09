@@ -293,6 +293,8 @@ function saveSenderData(data, senderID, page = '493938347612411') {
             accountRef.child(senderID).update(data)
                 .then(result => resolve(data))
                 .catch(err => reject(err))
+
+
         } else reject({err: 'same'})
 
 
@@ -1070,7 +1072,7 @@ function sendReadReceipt(recipientId, page) {
             },
             sender_action: "mark_seen"
         };
-
+        console.log('sendReadReceipt', recipientId, page)
         callSendAPI(messageData, page)
             .then(result => resolve(result))
             .catch(err => console.log(err));
@@ -1159,7 +1161,7 @@ function sendOne(messageData, page) {
                     resolve(messageData)
 
                 } else {
-                    sendLog("callSendAPI_error " + JSON.stringify(body) + JSON.stringify(messageData))
+                    sendLog("callSendAPI_error:" + JSON.stringify(body.error.message) + '\n to page' + facebookPage[page].name + JSON.stringify(messageData))
                     reject(body)
                 }
             });
@@ -1923,6 +1925,7 @@ function setGreeting(greeting = [
         "text": 'Hello {{user_first_name}}, Click "Get started" to engage with us'
     }
 ], page = 'jobo') {
+
     console.error("setGreeting-ing", page);
 
     return new Promise(function (resolve, reject) {
@@ -1939,7 +1942,7 @@ function setGreeting(greeting = [
 
             if (!error && response.statusCode == 200) {
 
-                resolve(response)
+                resolve(body)
 
             } else {
                 reject(error)
@@ -1956,12 +1959,17 @@ app.get('/setGreeting', function (req, res) {
         .catch(err => res.status(500).json(err))
 })
 
-function setDefautMenu(page = 'jobo', persistent_menu = [
-    {
-        "call_to_actions": [],
-        "locale": "default",
+function setDefautMenu(page = 'jobo', persistent_menu, branding = true) {
+    if (!persistent_menu) {
+        var form = getBotfromPageID(page)
+        if (form && form.persistent_menu) persistent_menu = form.persistent_menu
+        else persistent_menu = [
+            {
+                "call_to_actions": [],
+                "locale": "default",
+            }
+        ]
     }
-], branding = true) {
 
     if (branding) persistent_menu = persistent_menu.map(per => {
         per.call_to_actions.push({
@@ -1974,7 +1982,9 @@ function setDefautMenu(page = 'jobo', persistent_menu = [
 
 
     var menu = {persistent_menu}
-    console.error("setDefautMenu-ing", page, menu);
+
+    console.log("setDefautMenu-ing", page, menu);
+
     return new Promise(function (resolve, reject) {
         request({
             uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
@@ -1983,11 +1993,10 @@ function setDefautMenu(page = 'jobo', persistent_menu = [
             json: menu
 
         }, function (error, response, body) {
-            console.error("setDefautMenu", error, body);
+            console.log("setDefautMenu", error, body);
 
             if (!error && response.statusCode == 200) {
-                resolve(response)
-
+                resolve(body)
             } else {
                 reject(error)
 
@@ -2029,7 +2038,7 @@ function setGetstarted(page = 'jobo') {
             console.error("setGetstarted", error, body);
             if (!error && response.statusCode == 200) {
 
-                resolve(response)
+                resolve(body)
 
             } else {
                 reject(error)
@@ -2428,34 +2437,6 @@ app.get('/getchat', function ({query}, res) {
         .catch(err => res.status(500).json(err))
 });
 
-function removeChatfuelBranding(page) {
-    return new Promise(function (resolve, reject) {
-        graph.get('/me/messenger_profile?fields=persistent_menu&access_token=' + facebookPage[page].access_token, (err, result) => {
-            var menu = result.data[0]
-            var per = menu.persistent_menu
-            var call = per[0].call_to_actions
-            var newcall = _.initial(call)
-            menu.persistent_menu = menu.persistent_menu.map(per => {
-                var call = per.call_to_actions
-                var lastTitle = _.last(call).title.toLocaleLowerCase()
-                if (lastTitle.match('manychat') || lastTitle.match('chatfuel')) call = _.initial(call)
-                per.call_to_actions = call
-                return per
-            })
-            console.log('newmenu', JSON.stringify(menu))
-
-            setDefautMenu(page, menu.persistent_menu, null)
-                .then(result => resolve(result))
-                .catch(err => reject(err))
-        })
-    })
-
-}
-
-app.get('/removeChatfuelBranding', ({query}, res) =>
-    removeChatfuelBranding(query.page)
-        .then(result => res.send(result))
-        .catch(err => res.status(500).json(err)))
 
 function getNLP(entities) {
     var nlp = {}
@@ -2893,7 +2874,7 @@ function loop(q, flow, senderID, pageID) {
                                 var newurl = url
                                 var url_para = url.split("?")
                                 var para = url_para[1]
-                                if(para){
+                                if (para) {
                                     newurl = url_para[0] + '?'
                                     if (para.match("&")) {
                                         var per = para.split("&")
@@ -3310,9 +3291,7 @@ function receivedMessageRead(event) {
     // All messages before watermark (a timestamp) or sequence have been seen.
     var watermark = event.read.watermark;
     var sequenceNumber = event.read.seq;
-
     sendReadReceipt(senderID, recipientID)
-
 }
 
 function receivedAccountLink(event) {
@@ -3373,7 +3352,7 @@ function sendjson_plugin_url(senderID, messages, typing, pageID, go_to_block) {
         console.log('sendjson_plugin_url', JSON.stringify(messages))
         sendMessages(senderID, messages, typing, pageID)
     } else if (go_to_block) {
-        var flow = getBotfromPageID(pageID)
+        var flow = getBotfromPageID(pageID).data
         var questions = flow[1];
         for (var i in questions) {
             var quest = questions[i]
@@ -3544,16 +3523,15 @@ function sendBroadCast(query, blockName) {
 app.get('/sendBroadCast', ({query}, res) => sendBroadCast(query, query.blockName).then(result => res.send(result)).catch(err => res.status(500).json(err)))
 
 function getBotfromPageID(pageID) {
-
+    if(!pageID) return null
     if (facebookPage[pageID].currentBot) var result = _.findWhere(dataLadiBot, {id: facebookPage[pageID].currentBot});
     else result = _.findWhere(dataLadiBot, {page: pageID});
-
-    return result.data;
+    if(result) return result;
 }
 
 function buildMessage(blockName, pageID) {
     return new Promise(function (resolve, reject) {
-        var flow = getBotfromPageID(pageID)
+        var flow = getBotfromPageID(pageID).data
         var allMessages = []
         var questions = flow[1]
 

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -20,8 +19,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="2896" column="62" lean-forward="false" selection-start-line="2896" selection-start-column="62" selection-end-line="2896" selection-end-column="62" />
+            <state relative-caret-position="147">
+              <caret line="3872" column="26" lean-forward="true" selection-start-line="3872" selection-start-column="26" selection-end-line="3872" selection-end-column="26" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#1395#1717#0" expanded="false" />
@@ -31,7 +30,6 @@
                 <element signature="e#12715#12751#0" expanded="false" />
                 <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
                 <element signature="n#!!block;n#saveData#0" expanded="false" />
-                <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
                 <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
                 <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
                 <element signature="n#!!block;n#intention#0" expanded="false" />
@@ -39,36 +37,33 @@
                 <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
                 <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
                 <element signature="n#!!block;n#sendOne#0" expanded="false" />
-                <element signature="e#56676#77916#0" expanded="false" />
-                <element signature="e#64776#64961#0" expanded="false" />
-                <element signature="e#79831#81414#0" expanded="false" />
-                <element signature="e#93049#94259#0" expanded="false" />
+                <element signature="e#56790#78030#0" expanded="false" />
+                <element signature="e#64890#65075#0" expanded="false" />
+                <element signature="e#79945#81528#0" expanded="false" />
+                <element signature="e#93163#94373#0" expanded="false" />
                 <element signature="n#!!block;n#SetOnOffPage#0" expanded="false" />
-                <element signature="e#98303#98458#0" expanded="false" />
+                <element signature="e#98417#98572#0" expanded="false" />
                 <element signature="n#!!block;n#SetOnOffPagePerUser#0" expanded="false" />
-                <element signature="e#99164#99360#0" expanded="false" />
+                <element signature="e#99278#99474#0" expanded="false" />
                 <element signature="n#!!block;n#saveFacebookPage#0" expanded="false" />
                 <element signature="n#!!block;n#queryPage#0" expanded="false" />
-                <element signature="e#99899#99961#0" expanded="false" />
+                <element signature="e#100013#100075#0" expanded="false" />
                 <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
-                <element signature="e#100450#100694#0" expanded="false" />
-                <element signature="e#100747#101060#0" expanded="false" />
-                <element signature="e#101338#101861#0" expanded="false" />
-                <element signature="e#101911#102065#0" expanded="false" />
-                <element signature="e#102124#102199#0" expanded="false" />
-                <element signature="e#103161#103303#0" expanded="false" />
-                <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-                <element signature="e#104261#104403#0" expanded="false" />
-                <element signature="e#105060#105189#0" expanded="false" />
+                <element signature="e#100564#100808#0" expanded="false" />
+                <element signature="e#100861#101174#0" expanded="false" />
+                <element signature="e#101211#101338#0" expanded="false" />
+                <element signature="e#102022#102176#0" expanded="false" />
+                <element signature="e#103491#103633#0" expanded="false" />
+                <element signature="e#105386#105515#0" expanded="false" />
                 <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-                <element signature="e#105896#106006#0" expanded="false" />
+                <element signature="e#106222#106332#0" expanded="false" />
                 <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
                 <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-                <element signature="e#107033#107236#0" expanded="false" />
-                <element signature="e#121927#122040#0" expanded="false" />
-                <element signature="n#!!block;n#removeChatfuelBranding#0" expanded="false" />
+                <element signature="e#107359#107562#0" expanded="false" />
+                <element signature="n#!!block;n#getChat#0" expanded="false" />
+                <element signature="e#122253#122366#0" expanded="false" />
                 <element signature="n#!!block;n#getNLP#0" expanded="false" />
-                <element signature="e#123675#123743#0" expanded="false" />
+                <element signature="e#122816#122884#0" expanded="false" />
                 <element signature="n#!!block;n#shortAddress#0" expanded="false" />
                 <element signature="n#!!block;n#strTime#0" expanded="false" />
                 <element signature="n#!!block;n#timeAgo#0" expanded="false" />
@@ -76,28 +71,26 @@
                 <element signature="n#!!block;n#sendMessages#0" expanded="false" />
                 <element signature="n#!!block;n#flowAI#0" expanded="false" />
                 <element signature="n#!!block;n#submitResponse#0" expanded="false" />
-                <element signature="e#145594#145760#0" expanded="false" />
+                <element signature="e#144737#144903#0" expanded="false" />
                 <element signature="n#!!block;n#sendNotiUser#0" expanded="false" />
                 <element signature="n#!!block;n#sendNotiSub#0" expanded="false" />
                 <element signature="n#!!block;n#matchingPeople#0" expanded="false" />
                 <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-                <element signature="e#152271#152853#0" expanded="false" />
+                <element signature="e#151414#151996#0" expanded="false" />
                 <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
                 <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
                 <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-                <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
                 <element signature="n#!!block;n#receivedAccountLink#0" expanded="false" />
                 <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
                 <element signature="n#!!block;n#chatFuelToBoform#0" expanded="false" />
                 <element signature="n#!!block;n#chatfuelEle#0" expanded="false" />
-                <element signature="e#158237#158357#0" expanded="false" />
+                <element signature="e#157383#157503#0" expanded="false" />
                 <element signature="n#!!block;n#sendLog#0" expanded="false" />
                 <element signature="n#!!block;n#viewResponse#0" expanded="false" />
                 <element signature="n#!!block;n#sendBroadCast#0" expanded="false" />
                 <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-                <element signature="e#164397#165066#0" expanded="false" />
-                <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
+                <element signature="e#163580#164249#0" expanded="false" />
                 <element signature="n#!!block;n#jobJD#0" expanded="false" />
                 <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
                 <element signature="n#!!block;n#referInital#0" expanded="false" />
@@ -167,12 +160,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>loop</find>
-      <find>payload.url</find>
-      <find>JSON'</find>
-      <find>urlencode</find>
-      <find>isOb</find>
-      <find>Create Ow</find>
       <find>initData</find>
       <find>count</find>
       <find>graph</find>
@@ -197,6 +184,12 @@
       <find>sendjson</find>
       <find>block_names</find>
       <find>JSON</find>
+      <find>mark_seen</find>
+      <find>setGetstarted</find>
+      <find>setDefautMenu-i</find>
+      <find>setDefautMenu</find>
+      <find>getBotfromPageID</find>
+      <find>setDe</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -351,12 +344,12 @@
       <workItem from="1520333235082" duration="2931000" />
       <workItem from="1520398759746" duration="2044000" />
       <workItem from="1520402529647" duration="560000" />
-      <workItem from="1520414294845" duration="10242000" />
+      <workItem from="1520414294845" duration="20546000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="837016000" />
+    <option name="totallyTimeSpent" value="847320000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -369,6 +362,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19591261" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -434,7 +428,6 @@
             <element signature="e#12715#12751#0" expanded="false" />
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
             <element signature="n#!!block;n#saveData#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
@@ -442,36 +435,33 @@
             <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="n#!!block;n#sendOne#0" expanded="false" />
-            <element signature="e#56676#77916#0" expanded="false" />
-            <element signature="e#64776#64961#0" expanded="false" />
-            <element signature="e#79831#81414#0" expanded="false" />
-            <element signature="e#93049#94259#0" expanded="false" />
+            <element signature="e#56790#78030#0" expanded="false" />
+            <element signature="e#64890#65075#0" expanded="false" />
+            <element signature="e#79945#81528#0" expanded="false" />
+            <element signature="e#93163#94373#0" expanded="false" />
             <element signature="n#!!block;n#SetOnOffPage#0" expanded="false" />
-            <element signature="e#98303#98458#0" expanded="false" />
+            <element signature="e#98417#98572#0" expanded="false" />
             <element signature="n#!!block;n#SetOnOffPagePerUser#0" expanded="false" />
-            <element signature="e#99164#99360#0" expanded="false" />
+            <element signature="e#99278#99474#0" expanded="false" />
             <element signature="n#!!block;n#saveFacebookPage#0" expanded="false" />
             <element signature="n#!!block;n#queryPage#0" expanded="false" />
-            <element signature="e#99899#99961#0" expanded="false" />
+            <element signature="e#100013#100075#0" expanded="false" />
             <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
-            <element signature="e#100450#100694#0" expanded="false" />
-            <element signature="e#100747#101060#0" expanded="false" />
-            <element signature="e#101338#101861#0" expanded="false" />
-            <element signature="e#101911#102065#0" expanded="false" />
-            <element signature="e#102124#102199#0" expanded="false" />
-            <element signature="e#103161#103303#0" expanded="false" />
-            <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#104261#104403#0" expanded="false" />
-            <element signature="e#105060#105189#0" expanded="false" />
+            <element signature="e#100564#100808#0" expanded="false" />
+            <element signature="e#100861#101174#0" expanded="false" />
+            <element signature="e#101211#101338#0" expanded="false" />
+            <element signature="e#102022#102176#0" expanded="false" />
+            <element signature="e#103491#103633#0" expanded="false" />
+            <element signature="e#105386#105515#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#105896#106006#0" expanded="false" />
+            <element signature="e#106222#106332#0" expanded="false" />
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#107033#107236#0" expanded="false" />
-            <element signature="e#121927#122040#0" expanded="false" />
-            <element signature="n#!!block;n#removeChatfuelBranding#0" expanded="false" />
+            <element signature="e#107359#107562#0" expanded="false" />
+            <element signature="n#!!block;n#getChat#0" expanded="false" />
+            <element signature="e#122253#122366#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#123675#123743#0" expanded="false" />
+            <element signature="e#122816#122884#0" expanded="false" />
             <element signature="n#!!block;n#shortAddress#0" expanded="false" />
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
@@ -479,28 +469,26 @@
             <element signature="n#!!block;n#sendMessages#0" expanded="false" />
             <element signature="n#!!block;n#flowAI#0" expanded="false" />
             <element signature="n#!!block;n#submitResponse#0" expanded="false" />
-            <element signature="e#145594#145760#0" expanded="false" />
+            <element signature="e#144737#144903#0" expanded="false" />
             <element signature="n#!!block;n#sendNotiUser#0" expanded="false" />
             <element signature="n#!!block;n#sendNotiSub#0" expanded="false" />
             <element signature="n#!!block;n#matchingPeople#0" expanded="false" />
             <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#152271#152853#0" expanded="false" />
+            <element signature="e#151414#151996#0" expanded="false" />
             <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
             <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
             <element signature="n#!!block;n#receivedAccountLink#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#chatFuelToBoform#0" expanded="false" />
             <element signature="n#!!block;n#chatfuelEle#0" expanded="false" />
-            <element signature="e#158237#158357#0" expanded="false" />
+            <element signature="e#157383#157503#0" expanded="false" />
             <element signature="n#!!block;n#sendLog#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCast#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#164397#165066#0" expanded="false" />
-            <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
+            <element signature="e#163580#164249#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
@@ -582,7 +570,6 @@
             <element signature="e#12715#12751#0" expanded="false" />
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
             <element signature="n#!!block;n#saveData#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
@@ -590,36 +577,33 @@
             <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="n#!!block;n#sendOne#0" expanded="false" />
-            <element signature="e#56676#77916#0" expanded="false" />
-            <element signature="e#64776#64961#0" expanded="false" />
-            <element signature="e#79831#81414#0" expanded="false" />
-            <element signature="e#93049#94259#0" expanded="false" />
+            <element signature="e#56790#78030#0" expanded="false" />
+            <element signature="e#64890#65075#0" expanded="false" />
+            <element signature="e#79945#81528#0" expanded="false" />
+            <element signature="e#93163#94373#0" expanded="false" />
             <element signature="n#!!block;n#SetOnOffPage#0" expanded="false" />
-            <element signature="e#98303#98458#0" expanded="false" />
+            <element signature="e#98417#98572#0" expanded="false" />
             <element signature="n#!!block;n#SetOnOffPagePerUser#0" expanded="false" />
-            <element signature="e#99164#99360#0" expanded="false" />
+            <element signature="e#99278#99474#0" expanded="false" />
             <element signature="n#!!block;n#saveFacebookPage#0" expanded="false" />
             <element signature="n#!!block;n#queryPage#0" expanded="false" />
-            <element signature="e#99899#99961#0" expanded="false" />
+            <element signature="e#100013#100075#0" expanded="false" />
             <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
-            <element signature="e#100450#100694#0" expanded="false" />
-            <element signature="e#100747#101060#0" expanded="false" />
-            <element signature="e#101338#101861#0" expanded="false" />
-            <element signature="e#101911#102065#0" expanded="false" />
-            <element signature="e#102124#102199#0" expanded="false" />
-            <element signature="e#103161#103303#0" expanded="false" />
-            <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#104261#104403#0" expanded="false" />
-            <element signature="e#105060#105189#0" expanded="false" />
+            <element signature="e#100564#100808#0" expanded="false" />
+            <element signature="e#100861#101174#0" expanded="false" />
+            <element signature="e#101211#101338#0" expanded="false" />
+            <element signature="e#102022#102176#0" expanded="false" />
+            <element signature="e#103491#103633#0" expanded="false" />
+            <element signature="e#105386#105515#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#105896#106006#0" expanded="false" />
+            <element signature="e#106222#106332#0" expanded="false" />
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#107033#107236#0" expanded="false" />
-            <element signature="e#121927#122040#0" expanded="false" />
-            <element signature="n#!!block;n#removeChatfuelBranding#0" expanded="false" />
+            <element signature="e#107359#107562#0" expanded="false" />
+            <element signature="n#!!block;n#getChat#0" expanded="false" />
+            <element signature="e#122253#122366#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#123675#123743#0" expanded="false" />
+            <element signature="e#122816#122884#0" expanded="false" />
             <element signature="n#!!block;n#shortAddress#0" expanded="false" />
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
@@ -627,28 +611,26 @@
             <element signature="n#!!block;n#sendMessages#0" expanded="false" />
             <element signature="n#!!block;n#flowAI#0" expanded="false" />
             <element signature="n#!!block;n#submitResponse#0" expanded="false" />
-            <element signature="e#145594#145760#0" expanded="false" />
+            <element signature="e#144737#144903#0" expanded="false" />
             <element signature="n#!!block;n#sendNotiUser#0" expanded="false" />
             <element signature="n#!!block;n#sendNotiSub#0" expanded="false" />
             <element signature="n#!!block;n#matchingPeople#0" expanded="false" />
             <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#152271#152853#0" expanded="false" />
+            <element signature="e#151414#151996#0" expanded="false" />
             <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
             <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
             <element signature="n#!!block;n#receivedAccountLink#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#chatFuelToBoform#0" expanded="false" />
             <element signature="n#!!block;n#chatfuelEle#0" expanded="false" />
-            <element signature="e#158237#158357#0" expanded="false" />
+            <element signature="e#157383#157503#0" expanded="false" />
             <element signature="n#!!block;n#sendLog#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCast#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#164397#165066#0" expanded="false" />
-            <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
+            <element signature="e#163580#164249#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
@@ -679,7 +661,6 @@
             <element signature="e#12715#12751#0" expanded="false" />
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
             <element signature="n#!!block;n#saveData#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
@@ -687,36 +668,33 @@
             <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="n#!!block;n#sendOne#0" expanded="false" />
-            <element signature="e#56676#77916#0" expanded="false" />
-            <element signature="e#64776#64961#0" expanded="false" />
-            <element signature="e#79831#81414#0" expanded="false" />
-            <element signature="e#93049#94259#0" expanded="false" />
+            <element signature="e#56790#78030#0" expanded="false" />
+            <element signature="e#64890#65075#0" expanded="false" />
+            <element signature="e#79945#81528#0" expanded="false" />
+            <element signature="e#93163#94373#0" expanded="false" />
             <element signature="n#!!block;n#SetOnOffPage#0" expanded="false" />
-            <element signature="e#98303#98458#0" expanded="false" />
+            <element signature="e#98417#98572#0" expanded="false" />
             <element signature="n#!!block;n#SetOnOffPagePerUser#0" expanded="false" />
-            <element signature="e#99164#99360#0" expanded="false" />
+            <element signature="e#99278#99474#0" expanded="false" />
             <element signature="n#!!block;n#saveFacebookPage#0" expanded="false" />
             <element signature="n#!!block;n#queryPage#0" expanded="false" />
-            <element signature="e#99899#99961#0" expanded="false" />
+            <element signature="e#100013#100075#0" expanded="false" />
             <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
-            <element signature="e#100450#100694#0" expanded="false" />
-            <element signature="e#100747#101060#0" expanded="false" />
-            <element signature="e#101338#101861#0" expanded="false" />
-            <element signature="e#101911#102065#0" expanded="false" />
-            <element signature="e#102124#102199#0" expanded="false" />
-            <element signature="e#103161#103303#0" expanded="false" />
-            <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#104261#104403#0" expanded="false" />
-            <element signature="e#105060#105189#0" expanded="false" />
+            <element signature="e#100564#100808#0" expanded="false" />
+            <element signature="e#100861#101174#0" expanded="false" />
+            <element signature="e#101211#101338#0" expanded="false" />
+            <element signature="e#102022#102176#0" expanded="false" />
+            <element signature="e#103491#103633#0" expanded="false" />
+            <element signature="e#105386#105515#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#105896#106006#0" expanded="false" />
+            <element signature="e#106222#106332#0" expanded="false" />
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#107033#107236#0" expanded="false" />
-            <element signature="e#121927#122040#0" expanded="false" />
-            <element signature="n#!!block;n#removeChatfuelBranding#0" expanded="false" />
+            <element signature="e#107359#107562#0" expanded="false" />
+            <element signature="n#!!block;n#getChat#0" expanded="false" />
+            <element signature="e#122253#122366#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#123675#123743#0" expanded="false" />
+            <element signature="e#122816#122884#0" expanded="false" />
             <element signature="n#!!block;n#shortAddress#0" expanded="false" />
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
@@ -724,28 +702,26 @@
             <element signature="n#!!block;n#sendMessages#0" expanded="false" />
             <element signature="n#!!block;n#flowAI#0" expanded="false" />
             <element signature="n#!!block;n#submitResponse#0" expanded="false" />
-            <element signature="e#145594#145760#0" expanded="false" />
+            <element signature="e#144737#144903#0" expanded="false" />
             <element signature="n#!!block;n#sendNotiUser#0" expanded="false" />
             <element signature="n#!!block;n#sendNotiSub#0" expanded="false" />
             <element signature="n#!!block;n#matchingPeople#0" expanded="false" />
             <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#152271#152853#0" expanded="false" />
+            <element signature="e#151414#151996#0" expanded="false" />
             <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
             <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
             <element signature="n#!!block;n#receivedAccountLink#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#chatFuelToBoform#0" expanded="false" />
             <element signature="n#!!block;n#chatfuelEle#0" expanded="false" />
-            <element signature="e#158237#158357#0" expanded="false" />
+            <element signature="e#157383#157503#0" expanded="false" />
             <element signature="n#!!block;n#sendLog#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCast#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#164397#165066#0" expanded="false" />
-            <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
+            <element signature="e#163580#164249#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
@@ -797,7 +773,6 @@
             <element signature="e#12715#12751#0" expanded="false" />
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
             <element signature="n#!!block;n#saveData#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
@@ -805,36 +780,33 @@
             <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="n#!!block;n#sendOne#0" expanded="false" />
-            <element signature="e#56676#77916#0" expanded="false" />
-            <element signature="e#64776#64961#0" expanded="false" />
-            <element signature="e#79831#81414#0" expanded="false" />
-            <element signature="e#93049#94259#0" expanded="false" />
+            <element signature="e#56790#78030#0" expanded="false" />
+            <element signature="e#64890#65075#0" expanded="false" />
+            <element signature="e#79945#81528#0" expanded="false" />
+            <element signature="e#93163#94373#0" expanded="false" />
             <element signature="n#!!block;n#SetOnOffPage#0" expanded="false" />
-            <element signature="e#98303#98458#0" expanded="false" />
+            <element signature="e#98417#98572#0" expanded="false" />
             <element signature="n#!!block;n#SetOnOffPagePerUser#0" expanded="false" />
-            <element signature="e#99164#99360#0" expanded="false" />
+            <element signature="e#99278#99474#0" expanded="false" />
             <element signature="n#!!block;n#saveFacebookPage#0" expanded="false" />
             <element signature="n#!!block;n#queryPage#0" expanded="false" />
-            <element signature="e#99899#99961#0" expanded="false" />
+            <element signature="e#100013#100075#0" expanded="false" />
             <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
-            <element signature="e#100450#100694#0" expanded="false" />
-            <element signature="e#100747#101060#0" expanded="false" />
-            <element signature="e#101338#101861#0" expanded="false" />
-            <element signature="e#101911#102065#0" expanded="false" />
-            <element signature="e#102124#102199#0" expanded="false" />
-            <element signature="e#103161#103303#0" expanded="false" />
-            <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#104261#104403#0" expanded="false" />
-            <element signature="e#105060#105189#0" expanded="false" />
+            <element signature="e#100564#100808#0" expanded="false" />
+            <element signature="e#100861#101174#0" expanded="false" />
+            <element signature="e#101211#101338#0" expanded="false" />
+            <element signature="e#102022#102176#0" expanded="false" />
+            <element signature="e#103491#103633#0" expanded="false" />
+            <element signature="e#105386#105515#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#105896#106006#0" expanded="false" />
+            <element signature="e#106222#106332#0" expanded="false" />
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#107033#107236#0" expanded="false" />
-            <element signature="e#121927#122040#0" expanded="false" />
-            <element signature="n#!!block;n#removeChatfuelBranding#0" expanded="false" />
+            <element signature="e#107359#107562#0" expanded="false" />
+            <element signature="n#!!block;n#getChat#0" expanded="false" />
+            <element signature="e#122253#122366#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#123675#123743#0" expanded="false" />
+            <element signature="e#122816#122884#0" expanded="false" />
             <element signature="n#!!block;n#shortAddress#0" expanded="false" />
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
@@ -842,28 +814,26 @@
             <element signature="n#!!block;n#sendMessages#0" expanded="false" />
             <element signature="n#!!block;n#flowAI#0" expanded="false" />
             <element signature="n#!!block;n#submitResponse#0" expanded="false" />
-            <element signature="e#145594#145760#0" expanded="false" />
+            <element signature="e#144737#144903#0" expanded="false" />
             <element signature="n#!!block;n#sendNotiUser#0" expanded="false" />
             <element signature="n#!!block;n#sendNotiSub#0" expanded="false" />
             <element signature="n#!!block;n#matchingPeople#0" expanded="false" />
             <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#152271#152853#0" expanded="false" />
+            <element signature="e#151414#151996#0" expanded="false" />
             <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
             <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
             <element signature="n#!!block;n#receivedAccountLink#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#chatFuelToBoform#0" expanded="false" />
             <element signature="n#!!block;n#chatfuelEle#0" expanded="false" />
-            <element signature="e#158237#158357#0" expanded="false" />
+            <element signature="e#157383#157503#0" expanded="false" />
             <element signature="n#!!block;n#sendLog#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCast#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#164397#165066#0" expanded="false" />
-            <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
+            <element signature="e#163580#164249#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
@@ -922,7 +892,6 @@
             <element signature="e#12715#12751#0" expanded="false" />
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
             <element signature="n#!!block;n#saveData#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
@@ -930,36 +899,33 @@
             <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="n#!!block;n#sendOne#0" expanded="false" />
-            <element signature="e#56676#77916#0" expanded="false" />
-            <element signature="e#64776#64961#0" expanded="false" />
-            <element signature="e#79831#81414#0" expanded="false" />
-            <element signature="e#93049#94259#0" expanded="false" />
+            <element signature="e#56790#78030#0" expanded="false" />
+            <element signature="e#64890#65075#0" expanded="false" />
+            <element signature="e#79945#81528#0" expanded="false" />
+            <element signature="e#93163#94373#0" expanded="false" />
             <element signature="n#!!block;n#SetOnOffPage#0" expanded="false" />
-            <element signature="e#98303#98458#0" expanded="false" />
+            <element signature="e#98417#98572#0" expanded="false" />
             <element signature="n#!!block;n#SetOnOffPagePerUser#0" expanded="false" />
-            <element signature="e#99164#99360#0" expanded="false" />
+            <element signature="e#99278#99474#0" expanded="false" />
             <element signature="n#!!block;n#saveFacebookPage#0" expanded="false" />
             <element signature="n#!!block;n#queryPage#0" expanded="false" />
-            <element signature="e#99899#99961#0" expanded="false" />
+            <element signature="e#100013#100075#0" expanded="false" />
             <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
-            <element signature="e#100450#100694#0" expanded="false" />
-            <element signature="e#100747#101060#0" expanded="false" />
-            <element signature="e#101338#101861#0" expanded="false" />
-            <element signature="e#101911#102065#0" expanded="false" />
-            <element signature="e#102124#102199#0" expanded="false" />
-            <element signature="e#103161#103303#0" expanded="false" />
-            <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#104261#104403#0" expanded="false" />
-            <element signature="e#105060#105189#0" expanded="false" />
+            <element signature="e#100564#100808#0" expanded="false" />
+            <element signature="e#100861#101174#0" expanded="false" />
+            <element signature="e#101211#101338#0" expanded="false" />
+            <element signature="e#102022#102176#0" expanded="false" />
+            <element signature="e#103491#103633#0" expanded="false" />
+            <element signature="e#105386#105515#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#105896#106006#0" expanded="false" />
+            <element signature="e#106222#106332#0" expanded="false" />
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#107033#107236#0" expanded="false" />
-            <element signature="e#121927#122040#0" expanded="false" />
-            <element signature="n#!!block;n#removeChatfuelBranding#0" expanded="false" />
+            <element signature="e#107359#107562#0" expanded="false" />
+            <element signature="n#!!block;n#getChat#0" expanded="false" />
+            <element signature="e#122253#122366#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#123675#123743#0" expanded="false" />
+            <element signature="e#122816#122884#0" expanded="false" />
             <element signature="n#!!block;n#shortAddress#0" expanded="false" />
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
@@ -967,28 +933,26 @@
             <element signature="n#!!block;n#sendMessages#0" expanded="false" />
             <element signature="n#!!block;n#flowAI#0" expanded="false" />
             <element signature="n#!!block;n#submitResponse#0" expanded="false" />
-            <element signature="e#145594#145760#0" expanded="false" />
+            <element signature="e#144737#144903#0" expanded="false" />
             <element signature="n#!!block;n#sendNotiUser#0" expanded="false" />
             <element signature="n#!!block;n#sendNotiSub#0" expanded="false" />
             <element signature="n#!!block;n#matchingPeople#0" expanded="false" />
             <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#152271#152853#0" expanded="false" />
+            <element signature="e#151414#151996#0" expanded="false" />
             <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
             <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
             <element signature="n#!!block;n#receivedAccountLink#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#chatFuelToBoform#0" expanded="false" />
             <element signature="n#!!block;n#chatfuelEle#0" expanded="false" />
-            <element signature="e#158237#158357#0" expanded="false" />
+            <element signature="e#157383#157503#0" expanded="false" />
             <element signature="n#!!block;n#sendLog#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCast#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#164397#165066#0" expanded="false" />
-            <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
+            <element signature="e#163580#164249#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
@@ -1033,7 +997,6 @@
             <element signature="e#12715#12751#0" expanded="false" />
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
             <element signature="n#!!block;n#saveData#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
@@ -1041,36 +1004,33 @@
             <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="n#!!block;n#sendOne#0" expanded="false" />
-            <element signature="e#56676#77916#0" expanded="false" />
-            <element signature="e#64776#64961#0" expanded="false" />
-            <element signature="e#79831#81414#0" expanded="false" />
-            <element signature="e#93049#94259#0" expanded="false" />
+            <element signature="e#56790#78030#0" expanded="false" />
+            <element signature="e#64890#65075#0" expanded="false" />
+            <element signature="e#79945#81528#0" expanded="false" />
+            <element signature="e#93163#94373#0" expanded="false" />
             <element signature="n#!!block;n#SetOnOffPage#0" expanded="false" />
-            <element signature="e#98303#98458#0" expanded="false" />
+            <element signature="e#98417#98572#0" expanded="false" />
             <element signature="n#!!block;n#SetOnOffPagePerUser#0" expanded="false" />
-            <element signature="e#99164#99360#0" expanded="false" />
+            <element signature="e#99278#99474#0" expanded="false" />
             <element signature="n#!!block;n#saveFacebookPage#0" expanded="false" />
             <element signature="n#!!block;n#queryPage#0" expanded="false" />
-            <element signature="e#99899#99961#0" expanded="false" />
+            <element signature="e#100013#100075#0" expanded="false" />
             <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
-            <element signature="e#100450#100694#0" expanded="false" />
-            <element signature="e#100747#101060#0" expanded="false" />
-            <element signature="e#101338#101861#0" expanded="false" />
-            <element signature="e#101911#102065#0" expanded="false" />
-            <element signature="e#102124#102199#0" expanded="false" />
-            <element signature="e#103161#103303#0" expanded="false" />
-            <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#104261#104403#0" expanded="false" />
-            <element signature="e#105060#105189#0" expanded="false" />
+            <element signature="e#100564#100808#0" expanded="false" />
+            <element signature="e#100861#101174#0" expanded="false" />
+            <element signature="e#101211#101338#0" expanded="false" />
+            <element signature="e#102022#102176#0" expanded="false" />
+            <element signature="e#103491#103633#0" expanded="false" />
+            <element signature="e#105386#105515#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#105896#106006#0" expanded="false" />
+            <element signature="e#106222#106332#0" expanded="false" />
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#107033#107236#0" expanded="false" />
-            <element signature="e#121927#122040#0" expanded="false" />
-            <element signature="n#!!block;n#removeChatfuelBranding#0" expanded="false" />
+            <element signature="e#107359#107562#0" expanded="false" />
+            <element signature="n#!!block;n#getChat#0" expanded="false" />
+            <element signature="e#122253#122366#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#123675#123743#0" expanded="false" />
+            <element signature="e#122816#122884#0" expanded="false" />
             <element signature="n#!!block;n#shortAddress#0" expanded="false" />
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
@@ -1078,28 +1038,26 @@
             <element signature="n#!!block;n#sendMessages#0" expanded="false" />
             <element signature="n#!!block;n#flowAI#0" expanded="false" />
             <element signature="n#!!block;n#submitResponse#0" expanded="false" />
-            <element signature="e#145594#145760#0" expanded="false" />
+            <element signature="e#144737#144903#0" expanded="false" />
             <element signature="n#!!block;n#sendNotiUser#0" expanded="false" />
             <element signature="n#!!block;n#sendNotiSub#0" expanded="false" />
             <element signature="n#!!block;n#matchingPeople#0" expanded="false" />
             <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#152271#152853#0" expanded="false" />
+            <element signature="e#151414#151996#0" expanded="false" />
             <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
             <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
             <element signature="n#!!block;n#receivedAccountLink#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#chatFuelToBoform#0" expanded="false" />
             <element signature="n#!!block;n#chatfuelEle#0" expanded="false" />
-            <element signature="e#158237#158357#0" expanded="false" />
+            <element signature="e#157383#157503#0" expanded="false" />
             <element signature="n#!!block;n#sendLog#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCast#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#164397#165066#0" expanded="false" />
-            <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
+            <element signature="e#163580#164249#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
@@ -1151,7 +1109,6 @@
             <element signature="e#12715#12751#0" expanded="false" />
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
             <element signature="n#!!block;n#saveData#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
@@ -1159,36 +1116,33 @@
             <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="n#!!block;n#sendOne#0" expanded="false" />
-            <element signature="e#56676#77916#0" expanded="false" />
-            <element signature="e#64776#64961#0" expanded="false" />
-            <element signature="e#79831#81414#0" expanded="false" />
-            <element signature="e#93049#94259#0" expanded="false" />
+            <element signature="e#56790#78030#0" expanded="false" />
+            <element signature="e#64890#65075#0" expanded="false" />
+            <element signature="e#79945#81528#0" expanded="false" />
+            <element signature="e#93163#94373#0" expanded="false" />
             <element signature="n#!!block;n#SetOnOffPage#0" expanded="false" />
-            <element signature="e#98303#98458#0" expanded="false" />
+            <element signature="e#98417#98572#0" expanded="false" />
             <element signature="n#!!block;n#SetOnOffPagePerUser#0" expanded="false" />
-            <element signature="e#99164#99360#0" expanded="false" />
+            <element signature="e#99278#99474#0" expanded="false" />
             <element signature="n#!!block;n#saveFacebookPage#0" expanded="false" />
             <element signature="n#!!block;n#queryPage#0" expanded="false" />
-            <element signature="e#99899#99961#0" expanded="false" />
+            <element signature="e#100013#100075#0" expanded="false" />
             <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
-            <element signature="e#100450#100694#0" expanded="false" />
-            <element signature="e#100747#101060#0" expanded="false" />
-            <element signature="e#101338#101861#0" expanded="false" />
-            <element signature="e#101911#102065#0" expanded="false" />
-            <element signature="e#102124#102199#0" expanded="false" />
-            <element signature="e#103161#103303#0" expanded="false" />
-            <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#104261#104403#0" expanded="false" />
-            <element signature="e#105060#105189#0" expanded="false" />
+            <element signature="e#100564#100808#0" expanded="false" />
+            <element signature="e#100861#101174#0" expanded="false" />
+            <element signature="e#101211#101338#0" expanded="false" />
+            <element signature="e#102022#102176#0" expanded="false" />
+            <element signature="e#103491#103633#0" expanded="false" />
+            <element signature="e#105386#105515#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#105896#106006#0" expanded="false" />
+            <element signature="e#106222#106332#0" expanded="false" />
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#107033#107236#0" expanded="false" />
-            <element signature="e#121927#122040#0" expanded="false" />
-            <element signature="n#!!block;n#removeChatfuelBranding#0" expanded="false" />
+            <element signature="e#107359#107562#0" expanded="false" />
+            <element signature="n#!!block;n#getChat#0" expanded="false" />
+            <element signature="e#122253#122366#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#123675#123743#0" expanded="false" />
+            <element signature="e#122816#122884#0" expanded="false" />
             <element signature="n#!!block;n#shortAddress#0" expanded="false" />
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
@@ -1196,28 +1150,26 @@
             <element signature="n#!!block;n#sendMessages#0" expanded="false" />
             <element signature="n#!!block;n#flowAI#0" expanded="false" />
             <element signature="n#!!block;n#submitResponse#0" expanded="false" />
-            <element signature="e#145594#145760#0" expanded="false" />
+            <element signature="e#144737#144903#0" expanded="false" />
             <element signature="n#!!block;n#sendNotiUser#0" expanded="false" />
             <element signature="n#!!block;n#sendNotiSub#0" expanded="false" />
             <element signature="n#!!block;n#matchingPeople#0" expanded="false" />
             <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#152271#152853#0" expanded="false" />
+            <element signature="e#151414#151996#0" expanded="false" />
             <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
             <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
             <element signature="n#!!block;n#receivedAccountLink#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#chatFuelToBoform#0" expanded="false" />
             <element signature="n#!!block;n#chatfuelEle#0" expanded="false" />
-            <element signature="e#158237#158357#0" expanded="false" />
+            <element signature="e#157383#157503#0" expanded="false" />
             <element signature="n#!!block;n#sendLog#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCast#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#164397#165066#0" expanded="false" />
-            <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
+            <element signature="e#163580#164249#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
@@ -1325,8 +1277,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="2896" column="62" lean-forward="false" selection-start-line="2896" selection-start-column="62" selection-end-line="2896" selection-end-column="62" />
+        <state relative-caret-position="147">
+          <caret line="3872" column="26" lean-forward="true" selection-start-line="3872" selection-start-column="26" selection-end-line="3872" selection-end-column="26" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#1395#1717#0" expanded="false" />
@@ -1336,7 +1288,6 @@
             <element signature="e#12715#12751#0" expanded="false" />
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
             <element signature="n#!!block;n#saveData#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
@@ -1344,36 +1295,33 @@
             <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="n#!!block;n#sendOne#0" expanded="false" />
-            <element signature="e#56676#77916#0" expanded="false" />
-            <element signature="e#64776#64961#0" expanded="false" />
-            <element signature="e#79831#81414#0" expanded="false" />
-            <element signature="e#93049#94259#0" expanded="false" />
+            <element signature="e#56790#78030#0" expanded="false" />
+            <element signature="e#64890#65075#0" expanded="false" />
+            <element signature="e#79945#81528#0" expanded="false" />
+            <element signature="e#93163#94373#0" expanded="false" />
             <element signature="n#!!block;n#SetOnOffPage#0" expanded="false" />
-            <element signature="e#98303#98458#0" expanded="false" />
+            <element signature="e#98417#98572#0" expanded="false" />
             <element signature="n#!!block;n#SetOnOffPagePerUser#0" expanded="false" />
-            <element signature="e#99164#99360#0" expanded="false" />
+            <element signature="e#99278#99474#0" expanded="false" />
             <element signature="n#!!block;n#saveFacebookPage#0" expanded="false" />
             <element signature="n#!!block;n#queryPage#0" expanded="false" />
-            <element signature="e#99899#99961#0" expanded="false" />
+            <element signature="e#100013#100075#0" expanded="false" />
             <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
-            <element signature="e#100450#100694#0" expanded="false" />
-            <element signature="e#100747#101060#0" expanded="false" />
-            <element signature="e#101338#101861#0" expanded="false" />
-            <element signature="e#101911#102065#0" expanded="false" />
-            <element signature="e#102124#102199#0" expanded="false" />
-            <element signature="e#103161#103303#0" expanded="false" />
-            <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#104261#104403#0" expanded="false" />
-            <element signature="e#105060#105189#0" expanded="false" />
+            <element signature="e#100564#100808#0" expanded="false" />
+            <element signature="e#100861#101174#0" expanded="false" />
+            <element signature="e#101211#101338#0" expanded="false" />
+            <element signature="e#102022#102176#0" expanded="false" />
+            <element signature="e#103491#103633#0" expanded="false" />
+            <element signature="e#105386#105515#0" expanded="false" />
             <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#105896#106006#0" expanded="false" />
+            <element signature="e#106222#106332#0" expanded="false" />
             <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
             <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#107033#107236#0" expanded="false" />
-            <element signature="e#121927#122040#0" expanded="false" />
-            <element signature="n#!!block;n#removeChatfuelBranding#0" expanded="false" />
+            <element signature="e#107359#107562#0" expanded="false" />
+            <element signature="n#!!block;n#getChat#0" expanded="false" />
+            <element signature="e#122253#122366#0" expanded="false" />
             <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="e#123675#123743#0" expanded="false" />
+            <element signature="e#122816#122884#0" expanded="false" />
             <element signature="n#!!block;n#shortAddress#0" expanded="false" />
             <element signature="n#!!block;n#strTime#0" expanded="false" />
             <element signature="n#!!block;n#timeAgo#0" expanded="false" />
@@ -1381,28 +1329,26 @@
             <element signature="n#!!block;n#sendMessages#0" expanded="false" />
             <element signature="n#!!block;n#flowAI#0" expanded="false" />
             <element signature="n#!!block;n#submitResponse#0" expanded="false" />
-            <element signature="e#145594#145760#0" expanded="false" />
+            <element signature="e#144737#144903#0" expanded="false" />
             <element signature="n#!!block;n#sendNotiUser#0" expanded="false" />
             <element signature="n#!!block;n#sendNotiSub#0" expanded="false" />
             <element signature="n#!!block;n#matchingPeople#0" expanded="false" />
             <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#152271#152853#0" expanded="false" />
+            <element signature="e#151414#151996#0" expanded="false" />
             <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
             <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
             <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
             <element signature="n#!!block;n#receivedAccountLink#0" expanded="false" />
             <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
             <element signature="n#!!block;n#chatFuelToBoform#0" expanded="false" />
             <element signature="n#!!block;n#chatfuelEle#0" expanded="false" />
-            <element signature="e#158237#158357#0" expanded="false" />
+            <element signature="e#157383#157503#0" expanded="false" />
             <element signature="n#!!block;n#sendLog#0" expanded="false" />
             <element signature="n#!!block;n#viewResponse#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCast#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="e#164397#165066#0" expanded="false" />
-            <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
+            <element signature="e#163580#164249#0" expanded="false" />
             <element signature="n#!!block;n#jobJD#0" expanded="false" />
             <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
             <element signature="n#!!block;n#referInital#0" expanded="false" />
