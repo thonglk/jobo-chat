@@ -1144,6 +1144,7 @@ function sendMessageNoSave(senderID, messages, typing, pageID, metadata) {
 
 function sendOne(messageData, page) {
     return new Promise(function (resolve, reject) {
+        messageData.tag = "NON_PROMOTIONAL_SUBSCRIPTION"
         if (facebookPage[page] && facebookPage[page].access_token) {
             request({
                 uri: 'https://graph.facebook.com/v2.6/me/messages',
@@ -1161,7 +1162,7 @@ function sendOne(messageData, page) {
                     resolve(messageData)
 
                 } else {
-                    sendLog("callSendAPI_error:" + JSON.stringify(body.error.message) + '\n to page' + facebookPage[page].name + JSON.stringify(messageData))
+                    sendLog("callSendAPI_error:" + JSON.stringify(body.error.message) + '\n page: ' + facebookPage[page].name+'\n Message:' + JSON.stringify(messageData))
                     reject(body)
                 }
             });
@@ -2574,26 +2575,22 @@ function go(goto, q = 0, flow, senderID, pageID) {
     var senderData = dataAccount[senderID]
     var questions = flow[1]
     if (goto == '-3') {
-        if (flow[2] && flow[2][0]) var mes = {
-            text: flow[2][0]
+        if (flow[2] && flow[2][0]){
+            sendAPI(senderID, {
+                text: flow[2][0]
+            }, null, pageID)
         }
-        else mes = {
-            text: '.'
-        }
-        sendAPI(senderID, mes, null, pageID)
 
         submitResponse(senderData.flow, senderID)
             .then(result => console.log('done', result))
             .catch(err => console.log('err', err))
     }
-
     else if (goto == '-2') {
         q++
         loop(q, flow, senderID, pageID)
 
     }
     else if (!goto) {
-
         q++
         loop(q, flow, senderID, pageID)
 
@@ -3289,9 +3286,7 @@ function receivedMessageRead(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
     // All messages before watermark (a timestamp) or sequence have been seen.
-    var watermark = event.read.watermark;
-    var sequenceNumber = event.read.seq;
-    sendReadReceipt(senderID, recipientID)
+    console.log("receivedMessageRead.", senderID,recipientID);
 }
 
 function receivedAccountLink(event) {
