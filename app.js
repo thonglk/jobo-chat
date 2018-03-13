@@ -321,9 +321,13 @@ function loadsenderData(senderID, pageID = '493938347612411') {
             user.lastActive = Date.now();
 
 
-            graph.get('me/conversations?access_token=' + facebookPage[pageID].access_token, (err, conversations) => {
+            graph.get('me/conversations?fields=name,link,id,participants&access_token=' + facebookPage[pageID].access_token, (err, conversations) => {
                 console.log('conversations', conversations, err);
-                if (conversations && conversations.data && conversations.data[0] && conversations.data[0].link) user.link = conversations.data[0].link
+                if (conversations && conversations.data && conversations.data[0] && conversations.data[0].link) {
+                    user.link = conversations.data[0].link
+                    user.fbId = conversations.data[0].participants.data[0].id
+                    user.tId = conversations.id.slice(2)
+                }
 
                 saveSenderData(user, senderID, pageID)
                     .then(result => resolve(user))
@@ -1144,7 +1148,8 @@ function sendMessageNoSave(senderID, messages, typing, pageID, metadata) {
 
 function sendOne(messageData, page) {
     return new Promise(function (resolve, reject) {
-        messageData.tag = "NON_PROMOTIONAL_SUBSCRIPTION"
+        var tag = ["COMMUNITY_ALERT","CONFIRMED_EVENT_REMINDER","PAIRING_UPDATE","APPLICATION_UPDATE","ACCOUNT_UPDATE","PAYMENT_UPDATE","RESERVATION_UPDATE","ISSUE_RESOLUTION","FEATURE_FUNCTIONALITY_UPDATE",]
+        messageData.tag = _.sample(tag)
         if (facebookPage[page] && facebookPage[page].access_token) {
             request({
                 uri: 'https://graph.facebook.com/v2.6/me/messages',
