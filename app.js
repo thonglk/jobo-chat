@@ -1725,17 +1725,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 else if(payload.type == 'command'){
                                                     if(payload.command == 'report') buildReport(payload.data.pageID,payload.data.day,payload.data.ago).then(result =>sendAPI(senderID, {
                                                         text: result.text,
-                                                        quick_replies: [
-                                                            {
-                                                                "content_type": "text",
-                                                                "title": "Last 7 day",
-                                                                "payload": JSON.stringify({
-                                                                    type:'command',
-                                                                    command: 'report',
-                                                                    data: {day:7,ago:0}
-                                                                })
-                                                            }
-                                                        ]
                                                     }, null, pageID))
 
 
