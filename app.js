@@ -326,7 +326,7 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                 if (conversations && conversations.data && conversations.data[0] && conversations.data[0].link) {
                     user.link = conversations.data[0].link
                     user.fbId = conversations.data[0].participants.data[0].id
-                    user.tId = conversations.id.slice(2)
+                    user.tId = conversations.data[0].id.slice(2)
 
                     var roles = facebookPage[pageID].roles.data
                     var admin = _.findWhere(roles,{id:user.fbId})
@@ -1679,6 +1679,16 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             text: `Switched to bot`,
                                                         }, null, pageID))
                                                         .then(result => loop(0, flow, senderID, pageID))
+
+                                                }
+                                                else if(payload.keyword == 'report'){
+                                                    sendAPI(senderID, {
+                                                        text: `Hi, We are building today's report for you now...`,
+                                                    }, null, pageID)
+                                                    buildReport(pageID).then(result =>sendAPI(senderID, {
+                                                        text: result.text,
+                                                    }, null, pageID))
+
 
                                                 }
                                                 else if (senderData.time_off) {
@@ -4433,7 +4443,26 @@ function loadJob(jobId) {
 }
 
 
+
+
+function buildReport(pageID,day=1,ago=0) {
+    return new Promise(function (resolve, reject) {
+        axios.get("http://localhost:1234/buildReport",{params:{pageID,day,ago}})
+            .then(result => resolve(result.data))
+        .catch(err => reject(err))
+    })
+}
+
+
+
+
+
 app.listen(port, function () {
     console.log('Node app is running on port', port);
 });
+
+
+
+
+
 module.exports = app;

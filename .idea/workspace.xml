@@ -19,8 +19,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="486">
-              <caret line="333" column="0" lean-forward="true" selection-start-line="330" selection-start-column="19" selection-end-line="333" selection-end-column="0" />
+            <state relative-caret-position="282">
+              <caret line="4449" column="74" lean-forward="false" selection-start-line="4449" selection-start-column="74" selection-end-line="4449" selection-end-column="74" />
               <folding />
             </state>
           </provider>
@@ -48,9 +48,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>port</find>
-      <find>chatfuel</find>
-      <find>sendBr</find>
       <find>read</find>
       <find>viewRes</find>
       <find>db.ref</find>
@@ -78,6 +75,9 @@
       <find>receivedMessageRead</find>
       <find>getChat</find>
       <find>messengerId</find>
+      <find>initData</find>
+      <find>update-my</find>
+      <find>slice</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -125,8 +125,8 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1440" />
-    <option name="height" value="900" />
+    <option name="width" value="1680" />
+    <option name="height" value="1050" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -242,12 +242,12 @@
       <workItem from="1520838722082" duration="262000" />
       <workItem from="1520839277930" duration="3264000" />
       <workItem from="1520868528553" duration="991000" />
-      <workItem from="1520918131231" duration="4142000" />
+      <workItem from="1520918131231" duration="6805000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="861220000" />
+    <option name="totallyTimeSpent" value="863883000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -270,7 +270,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2517912" sideWeight="0.4918957" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2517912" sideWeight="0.4918957" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -589,8 +589,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="333" column="0" lean-forward="true" selection-start-line="330" selection-start-column="19" selection-end-line="333" selection-end-column="0" />
+        <state relative-caret-position="282">
+          <caret line="4449" column="74" lean-forward="false" selection-start-line="4449" selection-start-column="74" selection-end-line="4449" selection-end-column="74" />
           <folding />
         </state>
       </provider>
