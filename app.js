@@ -1685,37 +1685,39 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     sendAPI(senderID, {
                                                         text: `Hi, We are building today's report for you now...`,
                                                     }, null, pageID)
-                                                    buildReport(pageID).then(result =>sendAPI(senderID, {
-                                                        text: result.text,
-                                                        quick_replies: [
-                                                            {
-                                                                "content_type": "text",
-                                                                "title": "Last 7 day",
-                                                                "payload": JSON.stringify({
-                                                                    type:'command',
-                                                                    command: 'report',
-                                                                    data: {day:7,ago:0,pageID:pageID}
-                                                                })
-                                                            },
-                                                            {
-                                                                "content_type": "text",
-                                                                "title": "Last 30 day",
-                                                                "payload": JSON.stringify({
-                                                                    type:'command',
-                                                                    command: 'report',
-                                                                    data: {day:7,ago:0,pageID:pageID}
-                                                                })
-                                                            },
-                                                            {
-                                                                "content_type": "text",
-                                                                "title": "Last 1 day",
-                                                                "payload": JSON.stringify({
-                                                                    type:'command',
-                                                                    command: 'report',
-                                                                    data: {day:7,ago:0,pageID:pageID}
-                                                                })
+                                                    buildReport(pageID).then(result => sendAPI(senderID, {
+                                                        attachment: {
+                                                            type: "template",
+                                                            payload: {
+                                                                template_type: "button",
+                                                                text: result.text,
+                                                                buttons: [{
+                                                                    type: "postback",
+                                                                    title: "Last 7 day",
+                                                                    "payload": JSON.stringify({
+                                                                        type:'command',
+                                                                        command: 'report',
+                                                                        data: {day:7,ago:0,pageID:pageID}
+                                                                    })
+                                                                }, {
+                                                                    type: "postback",
+                                                                    title: "Last 30 day",
+                                                                    "payload": JSON.stringify({
+                                                                        type:'command',
+                                                                        command: 'report',
+                                                                        data: {day:30,ago:0,pageID:pageID}
+                                                                    })
+                                                                }, {
+                                                                    type: "postback",
+                                                                    title: "Last 1 day",
+                                                                    "payload": JSON.stringify({
+                                                                        type:'command',
+                                                                        command: 'report',
+                                                                        data: {day:1,ago:0,pageID:pageID}
+                                                                    })
+                                                                }]
                                                             }
-                                                        ]
+                                                        }
                                                     }, null, pageID))
 
 
