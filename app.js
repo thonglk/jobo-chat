@@ -4447,7 +4447,7 @@ function loadJob(jobId) {
 
 function buildReport(pageID,day=1,ago=0) {
     return new Promise(function (resolve, reject) {
-        axios.get("http://localhost:1234/buildReport",{params:{pageID,day,ago}})
+        axios.get("https://botform-webserver.com/buildReport",{params:{pageID,day,ago}})
             .then(result => resolve(result.data))
         .catch(err => reject(err))
     })
