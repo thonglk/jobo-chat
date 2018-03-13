@@ -327,6 +327,12 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                     user.link = conversations.data[0].link
                     user.fbId = conversations.data[0].participants.data[0].id
                     user.tId = conversations.id.slice(2)
+
+                    var roles = facebookPage[pageID].roles.data
+                    var admin = _.findWhere(roles,{id:user.fbId})
+                    if(admin) user.role = admin.role
+
+
                 }
 
                 saveSenderData(user, senderID, pageID)

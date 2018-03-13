@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -21,8 +19,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="321" column="0" lean-forward="true" selection-start-line="321" selection-start-column="0" selection-end-line="321" selection-end-column="0" />
+            <state relative-caret-position="486">
+              <caret line="333" column="0" lean-forward="true" selection-start-line="330" selection-start-column="19" selection-end-line="333" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -244,12 +242,12 @@
       <workItem from="1520838722082" duration="262000" />
       <workItem from="1520839277930" duration="3264000" />
       <workItem from="1520868528553" duration="991000" />
-      <workItem from="1520918131231" duration="3557000" />
+      <workItem from="1520918131231" duration="4142000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="860635000" />
+    <option name="totallyTimeSpent" value="861220000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -591,8 +589,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="321" column="0" lean-forward="true" selection-start-line="321" selection-start-column="0" selection-end-line="321" selection-end-column="0" />
+        <state relative-caret-position="486">
+          <caret line="333" column="0" lean-forward="true" selection-start-line="330" selection-start-column="19" selection-end-line="333" selection-end-column="0" />
           <folding />
         </state>
       </provider>
