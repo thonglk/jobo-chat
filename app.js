@@ -313,13 +313,12 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                 .catch(err => reject(err))
         }
         else graph.get(senderID + '?access_token=' + facebookPage[pageID].access_token, (err, result) => {
-            if (err) reject(err);
             console.log('account', result);
-            var user = result;
+            var user = {id: senderID, createdAt: Date.now(), lastActive: Date.now()};
+            if (result.id && result.first_name) {
+                user = Object.assign(user, result)
+            }
             user.full_name = result.first_name + ' ' + result.last_name;
-            user.createdAt = Date.now();
-            user.lastActive = Date.now();
-
 
             graph.get('me/conversations?fields=name,link,id,participants&access_token=' + facebookPage[pageID].access_token, (err, conversations) => {
                 console.log('conversations', conversations, err);
@@ -2253,7 +2252,7 @@ function getFullPageInfo(pageID, access_token) {
     return new Promise((resolve, reject) => {
         graph.get('/me/?fields=name,id,fan_count,roles,location&access_token=' + access_token, (err, result) => {
             if (err || result.message) reject(err)
-                saveData('facebookPage', pageID, result).then(result => resolve(result)
+            saveData('facebookPage', pageID, result).then(result => resolve(result)
             ).catch(err => reject(err))
         })
     })
