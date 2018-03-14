@@ -325,6 +325,7 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                 console.log('conversations', conversations, err);
                 if (conversations && conversations.data && conversations.data[0] && conversations.data[0].link) {
                     user.link = conversations.data[0].link
+                    user.full_name = conversations.data[0].participants.data[0].name
                     user.fbId = conversations.data[0].participants.data[0].id
                     user.tId = conversations.data[0].id.slice(2)
 
@@ -1158,7 +1159,7 @@ function sendOne(messageData, page) {
         messageData.tag = _.sample(tag)
         if (facebookPage[page] && facebookPage[page].access_token) {
             request({
-                uri: 'https://graph.facebook.com/v2.6/me/messages',
+                uri: 'https://graph.facebook.com/v2.12/me/messages',
                 qs: {access_token: facebookPage[page].access_token},
                 method: 'POST',
                 json: messageData
@@ -2023,7 +2024,7 @@ function setGreeting(greeting = [
 
     return new Promise(function (resolve, reject) {
         request({
-            uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
+            uri: 'https://graph.facebook.com/v2.12/me/messenger_profile',
             qs: {access_token: facebookPage[page].access_token},
             method: 'POST',
             json: {
@@ -2080,7 +2081,7 @@ function setDefautMenu(page = 'jobo', persistent_menu, branding = true) {
 
     return new Promise(function (resolve, reject) {
         request({
-            uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
+            uri: 'https://graph.facebook.com/v2.12/me/messenger_profile',
             qs: {access_token: facebookPage[page].access_token},
             method: 'POST',
             json: menu
@@ -2122,7 +2123,7 @@ function setGetstarted(page = 'jobo') {
 
     return new Promise(function (resolve, reject) {
         request({
-            uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
+            uri: 'https://graph.facebook.com/v2.12/me/thread_settings',
             qs: {access_token: facebookPage[page].access_token},
             method: 'POST',
             json: message
@@ -2153,7 +2154,7 @@ function setWit(page = 'jobo') {
 
     return new Promise(function (resolve, reject) {
         request({
-            uri: "https://graph.facebook.com/v2.8/me/nlp_configs?nlp_enabled=TRUE&&model=VIETNAMESE",
+            uri: "https://graph.facebook.com/v2.12/me/nlp_configs?nlp_enabled=TRUE&&model=VIETNAMESE",
             qs: {access_token: facebookPage[page].access_token},
             method: 'POST',
         }, function (error, response, body) {
@@ -2186,7 +2187,7 @@ function setWhiteListDomain() {
 
     return new Promise(function (resolve, reject) {
         request({
-            uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
+            uri: 'https://graph.facebook.com/v2.12/me/messenger_profile',
             qs: {access_token: PAGE_ACCESS_TOKEN},
             method: 'POST',
             json: mes
@@ -3507,7 +3508,7 @@ function sendLog(text) {
     var page = '233214007218284'
     var messageData = {message: {text}, recipient: {id: '1980317535315791'}}
     if (facebookPage[page] && facebookPage[page].access_token) request({
-        uri: 'https://graph.facebook.com/v2.6/me/messages',
+        uri: 'https://graph.facebook.com/v2.12/me/messages',
         qs: {access_token: facebookPage[page].access_token},
         method: 'POST',
         json: messageData
