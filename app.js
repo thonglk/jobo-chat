@@ -305,7 +305,7 @@ function loadsenderData(senderID, pageID = '493938347612411') {
     return new Promise(function (resolve, reject) {
 
 
-        if (dataAccount[senderID]) {
+        if (dataAccount[senderID] && dataAccount[senderID].fbId) {
             var user = dataAccount[senderID]
             user.lastActive = Date.now();
             saveSenderData(user, senderID, pageID)
@@ -1619,6 +1619,15 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     loop(0, flow, senderID, pageID)
                                                 }
                                                 else if (payload.keyword == 'update-my-bot') {
+
+                                                    if(!senderData.role) {
+                                                        sendAPI(senderID, {
+                                                            text: `You don't have permission to do it`,
+                                                        }, null, pageID)
+
+                                                        return
+                                                    }
+
                                                     if (result.editId) var flowId = result.editId + '/edit'
                                                     else flowId = result.id + '/viewform'
                                                     var data = {url: `https://docs.google.com/forms/d/${flowId}`}
@@ -1637,6 +1646,14 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }, null, pageID))
                                                 }
                                                 else if (payload.keyword == 'get-noti') {
+                                                    if(!senderData.role) {
+                                                        sendAPI(senderID, {
+                                                            text: `You don't have permission to do it`,
+                                                        }, null, pageID)
+
+                                                        return
+                                                    }
+
                                                     saveSenderData({subscribe: 'all'}, senderID, pageID)
                                                         .then(result => sendAPI(senderID, {
                                                             text: `Subscribe noti successful <3!`,
@@ -1652,6 +1669,14 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 }
 
                                                 else if (payload.keyword == 'page-off') {
+                                                    if(!senderData.role) {
+                                                        sendAPI(senderID, {
+                                                            text: `You don't have permission to do it`,
+                                                        }, null, pageID)
+
+                                                        return
+                                                    }
+
                                                     SetOnOffPage(pageID, true)
                                                         .then(result => sendAPI(senderID, {
                                                             text: `Page off :(`,
@@ -1682,6 +1707,14 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                 }
                                                 else if(payload.keyword == 'report'){
+                                                    if(!senderData.role) {
+                                                        sendAPI(senderID, {
+                                                            text: `You don't have permission to do it`,
+                                                        }, null, pageID)
+
+                                                        return
+                                                    }
+
                                                     sendAPI(senderID, {
                                                         text: `Hi, We are building today's report for you now...`,
                                                     }, null, pageID)
@@ -1693,7 +1726,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                 text: result.text,
                                                                 buttons: [{
                                                                     type: "postback",
-                                                                    title: "Last 7 day",
+                                                                    title: "Last 7 days",
                                                                     "payload": JSON.stringify({
                                                                         type:'command',
                                                                         command: 'report',
@@ -1701,7 +1734,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                     })
                                                                 }, {
                                                                     type: "postback",
-                                                                    title: "Last 30 day",
+                                                                    title: "Last 30 days",
                                                                     "payload": JSON.stringify({
                                                                         type:'command',
                                                                         command: 'report',
