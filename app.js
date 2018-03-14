@@ -328,10 +328,12 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                     user.full_name = conversations.data[0].participants.data[0].name
                     user.fbId = conversations.data[0].participants.data[0].id
                     user.tId = conversations.data[0].id.slice(2)
+                    if (facebookPage[pageID].roles && facebookPage[pageID].roles.data) {
+                        var roles = facebookPage[pageID].roles.data
+                        var admin = _.findWhere(roles, {id: user.fbId})
+                        if (admin) user.role = admin.role
 
-                    var roles = facebookPage[pageID].roles.data
-                    var admin = _.findWhere(roles,{id:user.fbId})
-                    if(admin) user.role = admin.role
+                    }
 
 
                 }
@@ -1155,7 +1157,7 @@ function sendMessageNoSave(senderID, messages, typing, pageID, metadata) {
 
 function sendOne(messageData, page) {
     return new Promise(function (resolve, reject) {
-        var tag = ["COMMUNITY_ALERT","CONFIRMED_EVENT_REMINDER","PAIRING_UPDATE","APPLICATION_UPDATE","ACCOUNT_UPDATE","PAYMENT_UPDATE","RESERVATION_UPDATE","ISSUE_RESOLUTION","FEATURE_FUNCTIONALITY_UPDATE",]
+        var tag = ["COMMUNITY_ALERT", "CONFIRMED_EVENT_REMINDER", "PAIRING_UPDATE", "APPLICATION_UPDATE", "ACCOUNT_UPDATE", "PAYMENT_UPDATE", "RESERVATION_UPDATE", "ISSUE_RESOLUTION", "FEATURE_FUNCTIONALITY_UPDATE",]
         messageData.tag = _.sample(tag)
         if (facebookPage[page] && facebookPage[page].access_token) {
             request({
@@ -1174,7 +1176,7 @@ function sendOne(messageData, page) {
                     resolve(messageData)
 
                 } else {
-                    sendLog("callSendAPI_error:" + JSON.stringify(body.error.message) + '\n page: ' + facebookPage[page].name+'\n Message:' + JSON.stringify(messageData))
+                    sendLog("callSendAPI_error:" + JSON.stringify(body.error.message) + '\n page: ' + facebookPage[page].name + '\n Message:' + JSON.stringify(messageData))
                     reject(body)
                 }
             });
@@ -1621,7 +1623,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 }
                                                 else if (payload.keyword == 'update-my-bot') {
 
-                                                    if(!senderData.role) {
+                                                    if (!senderData.role) {
                                                         sendAPI(senderID, {
                                                             text: `You don't have permission to do it`,
                                                         }, null, pageID)
@@ -1647,7 +1649,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }, null, pageID))
                                                 }
                                                 else if (payload.keyword == 'get-noti') {
-                                                    if(!senderData.role) {
+                                                    if (!senderData.role) {
                                                         sendAPI(senderID, {
                                                             text: `You don't have permission to do it`,
                                                         }, null, pageID)
@@ -1670,7 +1672,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 }
 
                                                 else if (payload.keyword == 'page-off') {
-                                                    if(!senderData.role) {
+                                                    if (!senderData.role) {
                                                         sendAPI(senderID, {
                                                             text: `You don't have permission to do it`,
                                                         }, null, pageID)
@@ -1707,8 +1709,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         .then(result => loop(0, flow, senderID, pageID))
 
                                                 }
-                                                else if(payload.keyword == 'report'){
-                                                    if(!senderData.role) {
+                                                else if (payload.keyword == 'report') {
+                                                    if (!senderData.role) {
                                                         sendAPI(senderID, {
                                                             text: `You don't have permission to do it`,
                                                         }, null, pageID)
@@ -1729,25 +1731,25 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                     type: "postback",
                                                                     title: "Last 7 days",
                                                                     "payload": JSON.stringify({
-                                                                        type:'command',
+                                                                        type: 'command',
                                                                         command: 'report',
-                                                                        data: {day:7,ago:0,pageID:pageID}
+                                                                        data: {day: 7, ago: 0, pageID: pageID}
                                                                     })
                                                                 }, {
                                                                     type: "postback",
                                                                     title: "Last 30 days",
                                                                     "payload": JSON.stringify({
-                                                                        type:'command',
+                                                                        type: 'command',
                                                                         command: 'report',
-                                                                        data: {day:30,ago:0,pageID:pageID}
+                                                                        data: {day: 30, ago: 0, pageID: pageID}
                                                                     })
                                                                 }, {
                                                                     type: "postback",
                                                                     title: "Last 1 day",
                                                                     "payload": JSON.stringify({
-                                                                        type:'command',
+                                                                        type: 'command',
                                                                         command: 'report',
-                                                                        data: {day:1,ago:0,pageID:pageID}
+                                                                        data: {day: 1, ago: 0, pageID: pageID}
                                                                     })
                                                                 }]
                                                             }
@@ -1756,8 +1758,8 @@ db.ref('webhook').on('child_added', function (snap) {
 
 
                                                 }
-                                                else if(payload.type == 'command'){
-                                                    if(payload.command == 'report') buildReport(payload.data.pageID,payload.data.day,payload.data.ago).then(result =>sendAPI(senderID, {
+                                                else if (payload.type == 'command') {
+                                                    if (payload.command == 'report') buildReport(payload.data.pageID, payload.data.day, payload.data.ago).then(result => sendAPI(senderID, {
                                                         text: result.text,
                                                     }, null, pageID))
 
@@ -2247,6 +2249,18 @@ app.get('/subscribed_apps', function (req, res) {
         .catch(err => res.status(500).json(err))
 })
 
+function getFullPageInfo(pageID, access_token) {
+    return new Promise((resolve, reject) => {
+        graph.get('/me/?fields=name,id,fan_count,roles,location&access_token=' + access_token, (err, result) => {
+            if (err || result.message) reject(err)
+                saveData('facebookPage', pageID, result).then(result => resolve(result)
+            ).catch(err => reject(err))
+        })
+    })
+
+
+}
+
 function getChat({url, page, access_token, name, pageID}) {
     return new Promise(function (resolve, reject) {
         console.log('getChat-ing', url, page, access_token, name, pageID)
@@ -2481,9 +2495,12 @@ function getChat({url, page, access_token, name, pageID}) {
                                             var pageData = {
                                                 access_token: new_access_token, name, id: pageID, currentBot: id
                                             };
+
                                             subscribed_apps(new_access_token, pageID)
                                                 .then(result => saveFacebookPage(pageData)
                                                     .then(result => {
+                                                        getFullPageInfo(pageID, new_access_token)
+
                                                         facebookPage[page] = pageData
                                                         save.page = `${facebookPage[page].id}`;
                                                         if (facebookPage[page].pro) var branding = null
@@ -2668,7 +2685,7 @@ function go(goto, q = 0, flow, senderID, pageID) {
     var senderData = dataAccount[senderID]
     var questions = flow[1]
     if (goto == '-3') {
-        if (flow[2] && flow[2][0]){
+        if (flow[2] && flow[2][0]) {
             sendAPI(senderID, {
                 text: flow[2][0]
             }, null, pageID)
@@ -3379,7 +3396,7 @@ function receivedMessageRead(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
     // All messages before watermark (a timestamp) or sequence have been seen.
-    console.log("receivedMessageRead.", senderID,recipientID);
+    console.log("receivedMessageRead.", senderID, recipientID);
 }
 
 function receivedAccountLink(event) {
@@ -3611,10 +3628,10 @@ function sendBroadCast(query, blockName) {
 app.get('/sendBroadCast', ({query}, res) => sendBroadCast(query, query.blockName).then(result => res.send(result)).catch(err => res.status(500).json(err)))
 
 function getBotfromPageID(pageID) {
-    if(!pageID) return null
+    if (!pageID) return null
     if (facebookPage[pageID].currentBot) var result = _.findWhere(dataLadiBot, {id: facebookPage[pageID].currentBot});
     else result = _.findWhere(dataLadiBot, {page: pageID});
-    if(result) return result;
+    if (result) return result;
 }
 
 function buildMessage(blockName, pageID) {
@@ -4515,26 +4532,18 @@ function loadJob(jobId) {
 }
 
 
-
-
-function buildReport(pageID,day=1,ago=0) {
+function buildReport(pageID, day = 1, ago = 0) {
     return new Promise(function (resolve, reject) {
-        axios.get("https://botform-webserver.herokuapp.com/buildReport",{params:{pageID,day,ago}})
+        axios.get("https://botform-webserver.herokuapp.com/buildReport", {params: {pageID, day, ago}})
             .then(result => resolve(result.data))
-        .catch(err => reject(err))
+            .catch(err => reject(err))
     })
 }
-
-
-
 
 
 app.listen(port, function () {
     console.log('Node app is running on port', port);
 });
-
-
-
 
 
 module.exports = app;
