@@ -313,11 +313,11 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                 .catch(err => reject(err))
         }
         else graph.get(senderID + '?access_token=' + facebookPage[pageID].access_token, (err, result) => {
-            console.log('account', result);
             var user = {id: senderID, createdAt: Date.now(), lastActive: Date.now()};
-            if (result.id && result.first_name) {
-                user = Object.assign(user, result)
-            }
+
+            console.log('account', result);
+            if (result.id && result.first_name) user = Object.assign(user, result)
+
             user.full_name = result.first_name + ' ' + result.last_name;
 
             graph.get('me/conversations?fields=name,link,id,participants&access_token=' + facebookPage[pageID].access_token, (err, conversations) => {
@@ -331,7 +331,6 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                         var roles = facebookPage[pageID].roles.data
                         var admin = _.findWhere(roles, {id: user.fbId})
                         if (admin) user.role = admin.role
-
                     }
 
 
