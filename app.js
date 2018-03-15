@@ -1555,7 +1555,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         text: `Welcome {{full_name}}! \n Your form is being converted`
                                                     }, null, pageID)
 
-                                                    getChat({url,pageID,type : 'url'})
+                                                    getChat({url, pageID, type: 'url'})
                                                         .then(form => sendAPI(senderID, {
                                                             attachment: {
                                                                 type: "template",
@@ -4560,38 +4560,43 @@ function buildReport(pageID, day = 1, ago = 0) {
     })
 }
 
-function copyFile(id,name) {
+function copyFile(id, name) {
     return new Promise((resolve, reject) => {
         var url = `https://jobo-ana.herokuapp.com/copyFile?id=${id}&name=${name}`
         console.log('copyFile', url)
 
         axios.get(url)
             .then(result => {
-                console.log('result',result.data)
+                console.log('result', result.data)
 
                 resolve(result.data)
             })
             .catch(err => {
-                console.log('err',err)
+                console.log('err', err)
                 reject(err)
             })
     })
 }
 
-app.get('/copyFile', ({query}, res) => copyFile(query.id,query.name)
+app.get('/copyFile', ({query}, res) => copyFile(query.id, query.name)
     .then(result => res.send(result))
     .catch(err => res.status(500).json(err)))
 
 
 function copyForms(formId, pageID, pageData) {
     return new Promise((resolve, reject) => {
-        if(!formId) formId ='1DLurQuYAyKiE1AsaizDEoV9SD8-V4F7FVmS2k4_wloI'
-        if (pageData.editId) resolve({id: pageData.editId})
-        else copyFile(formId, `${pageData.name} Chatbot`)
-            .then(result => saveData('facebookPage', pageID, {editId: result.id})
-                .then(() => resolve({id: result.id}))
-            ).catch(err => reject(err))
-    })
+            if (!formId) formId = '1DLurQuYAyKiE1AsaizDEoV9SD8-V4F7FVmS2k4_wloI'
+            if (pageData.editId) resolve({id: pageData.editId})
+            else if (pageData.currentBot) {
+                var formData = _.findWhere(dataLadiBot, {id: pageData.currentBot})
+                if (formData) resolve({id: formData.editId})
+            }
+            else copyFile(formId, `${pageData.name} Chatbot`)
+                .then(result => saveData('facebookPage', pageID, {editId: result.id})
+                    .then(() => resolve({id: result.id}))
+                ).catch(err => reject(err))
+        }
+    )
 }
 
 function copySheets(sheetId, pageID, pageData) {
@@ -4607,7 +4612,6 @@ function copySheets(sheetId, pageID, pageData) {
             ).catch(err => reject(err))
     })
 }
-
 
 
 app.listen(port, function () {
