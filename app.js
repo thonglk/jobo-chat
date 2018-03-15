@@ -289,7 +289,7 @@ function saveSenderData(data, senderID, page = '493938347612411') {
     return new Promise(function (resolve, reject) {
         if (senderID != page) {
             data.pageID = page
-
+            if(facebookPage[page].sheetId) axios.get(`https://jobo-ana.herokuapp.com/saveDataToSheet?pageID=${page}&sheetId=${facebookPage[page].sheetId}`)
             accountRef.child(senderID).update(data)
                 .then(result => resolve(data))
                 .catch(err => reject(err))
