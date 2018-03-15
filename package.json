@@ -23,6 +23,7 @@
     "express": "^4.13.4",
     "fbgraph": "^1.4.1",
     "firebase-admin": "^5.4.2",
+    "flat": "^4.0.0",
     "googleapis": "^26.0.1",
     "mongodb": "^2.2.33",
     "node-wit": "^4.3.0",

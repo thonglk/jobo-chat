@@ -23,7 +23,7 @@ const
 var encodeUrl = require('encodeurl')
 var urlencode = require('urlencode');
 var cors = require('cors')
-
+var flat = require('flat')
 
 const {Wit, log} = require('node-wit');
 
@@ -278,7 +278,7 @@ initDataLoad(ladiBotRef, dataLadiBot)
 function saveData(ref, child, data) {
     return new Promise(function (resolve, reject) {
         if (!ref || !child || !data) reject({err: 'Insufficient'})
-
+        console.log(`saveData`, ref, child, data)
         db.ref(ref).child(child).update(data)
             .then(result => resolve(data))
             .catch(err => reject(err))
@@ -332,7 +332,6 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                         var admin = _.findWhere(roles, {id: user.fbId})
                         if (admin) user.role = admin.role
                     }
-
 
                 }
 
@@ -1556,7 +1555,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         text: `Welcome {{full_name}}! \n Your form is being converted`
                                                     }, null, pageID)
 
-                                                    getChat({url})
+                                                    getChat({url,pageID,type : 'url'})
                                                         .then(form => sendAPI(senderID, {
                                                             attachment: {
                                                                 type: "template",
@@ -1638,7 +1637,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     sendAPI(senderID, {
                                                         text: `Updating...`,
                                                     }, null, pageID)
-                                                    getChat(data)
+                                                    getChat({pageID})
                                                         .then(form => sendAPI(senderID, {
                                                             text: `Updated successful for ${form.data[8]} <3!`,
                                                         }, null, pageID))
@@ -2222,14 +2221,13 @@ function getLongLiveToken(shortLiveToken) {
                 console.log('getLongLiveToken', res.data)
                 resolve(res.data)
             })
-            .catch(err => {
-                reject(err.response);
-            });
+            .catch(err => reject(err));
     });
 }
 
-function subscribed_apps(access_token, pageID) {
+function subscribed_apps(pageID) {
     return new Promise(function (resolve, reject) {
+        var access_token = facebookPage[pageID].access_token
         console.log(access_token, pageID)
         graph.post(pageID + '/subscribed_apps', {access_token}, function (err, result) {
             console.log('subscribed_apps', err, result)
@@ -2242,26 +2240,46 @@ function subscribed_apps(access_token, pageID) {
 
 app.get('/subscribed_apps', function (req, res) {
     var {pageID} = req.query
-    subscribed_apps(facebookPage[pageID].access_token, facebookPage[pageID].id)
+    subscribed_apps(pageID)
         .then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 })
 
-function getFullPageInfo(pageID, access_token) {
+function getFullPageInfo(access_token) {
     return new Promise((resolve, reject) => {
         graph.get('/me/?fields=name,id,fan_count,roles,location&access_token=' + access_token, (err, result) => {
+            console.log('getFullPageInfo', err, result)
             if (err || result.message) reject(err)
-            saveData('facebookPage', pageID, result).then(result => resolve(result)
-            ).catch(err => reject(err))
+            resolve(result)
         })
     })
 
 
 }
 
-function getChat({url, page, access_token, name, pageID}) {
+function getPage({access_token, name, pageID}) {
     return new Promise(function (resolve, reject) {
-        console.log('getChat-ing', url, page, access_token, name, pageID)
+        if (!access_token) {
+            if (pageID && facebookPage[pageID] && facebookPage[pageID].access_token) access_token = facebookPage[pageID].access_token
+            else reject({err: 'insuf'})
+        }
+
+        getLongLiveToken(access_token)
+            .then(token => getFullPageInfo(token.access_token)
+                .then(pageData => {
+                    pageData.access_token = token.access_token
+                    saveFacebookPage(pageData)
+                        .then(() => resolve(pageData))
+                        .catch(err => reject({err}))
+                })
+            )
+    })
+}
+
+
+function getDataFromUrl(url) {
+    return new Promise(function (resolve, reject) {
+        console.log('getChat-ing')
         if (!url) reject({err: 'Set your url first'})
 
         axios.get(url)
@@ -2452,26 +2470,23 @@ function getChat({url, page, access_token, name, pageID}) {
                                     }
                                 }
 
-                                if (r > 0) {
+                                if (r > 0) axios.post(`https://docs.google.com/forms/d/${save.editId}/renderdata?id=${save.editId}&renderOps=` + urlencode(JSON.stringify(renderOps)))
+                                    .then(result => {
+                                        var sub = result.data.substr(5)
 
-                                    axios.post(`https://docs.google.com/forms/d/${save.editId}/renderdata?id=${save.editId}&renderOps=` + urlencode(JSON.stringify(renderOps)))
-                                        .then(result => {
-                                            var sub = result.data.substr(5)
+                                        var res = JSON.parse(sub)
+                                        console.log(res)
+                                        save.data[20] = {}
+                                        for (var i in renderOps) {
+                                            console.log(i, res[i])
+                                            save.data[20][renderOps[i][1].cosmoId] = res[i]
+                                        }
+                                        saveLadiBot(save, save.id)
 
-                                            var res = JSON.parse(sub)
-                                            console.log(res)
-                                            save.data[20] = {}
-                                            for (var i in renderOps) {
-                                                console.log(i, res[i])
-                                                save.data[20][renderOps[i][1].cosmoId] = res[i]
-                                            }
-                                            saveLadiBot(save, save.id)
+                                    })
+                                    .catch(err => console.log(err))
 
 
-                                        })
-                                        .catch(err => console.log(err))
-
-                                }
                                 console.log('Done greeting & menu')
 
 
@@ -2480,48 +2495,9 @@ function getChat({url, page, access_token, name, pageID}) {
 
 
                                 console.log('Get form', save)
-                                if (pageID) save.page = pageID
-
 
                                 saveLadiBot(save, save.id)
-                                    .then(result => {
-                                        if (!access_token || !name || !pageID) resolve(save)
-
-                                        page = pageID
-                                        getLongLiveToken(access_token).then(data => {
-                                            var new_access_token = data.access_token
-                                            var pageData = {
-                                                access_token: new_access_token, name, id: pageID, currentBot: id
-                                            };
-
-                                            subscribed_apps(new_access_token, pageID)
-                                                .then(result => saveFacebookPage(pageData)
-                                                    .then(result => {
-                                                        getFullPageInfo(pageID, new_access_token)
-
-                                                        facebookPage[page] = pageData
-                                                        save.page = `${facebookPage[page].id}`;
-                                                        if (facebookPage[page].pro) var branding = null
-                                                        else branding = true
-
-                                                        saveLadiBot(save, save.id)
-                                                        setGetstarted(pageID)
-                                                            .then(result => setGreeting(save.greeting, pageID)
-                                                                .then(result => setDefautMenu(pageID, save.persistent_menu, branding)
-                                                                    .then(result => setWit(pageID)
-                                                                        .then(result => resolve(save)).catch(err => reject({err})))
-                                                                    .catch(err => reject({err}))
-                                                                ).catch(err => reject({err})))
-
-                                                            .catch(err => reject({err}))
-                                                    })
-                                                )
-
-
-                                        })
-
-
-                                    })
+                                    .then(result => resolve(save))
                                     .catch(err => reject({err: JSON.stringify(err), url}))
 
                             } else reject({err: 'This parse was not public', url})
@@ -2537,6 +2513,54 @@ function getChat({url, page, access_token, name, pageID}) {
                 reject(err)
             })
 
+    })
+}
+
+function exeTypeBot({type, url, pageID}) {
+    return new Promise(function (resolve, reject) {
+        console.log('exeTypeBot', type, url)
+        if (type == 'url' && url) resolve(url)
+        else copyForms(null, pageID, facebookPage[pageID])
+            .then(form => resolve(`https://docs.google.com/forms/d/${form.id}/edit`))
+    })
+}
+
+function initBot({save = {}, pageID}) {
+    return new Promise(function (resolve, reject) {
+        if (facebookPage[pageID].pro) var branding = null
+        else branding = true
+
+        subscribed_apps(pageID)
+            .then(() => setGetstarted(pageID)
+                .then(result => setGreeting(save.greeting, pageID)
+                    .then(result => setDefautMenu(pageID, save.persistent_menu, branding)
+                        .then(result => setWit(pageID)
+                            .then(result => resolve(save)).catch(err => reject({err})))
+                        .catch(err => reject({err}))
+                    ).catch(err => reject({err})))
+                .catch(err => reject({err}))
+            )
+
+    })
+}
+
+function getChat({url, access_token, name, pageID, type}) {
+    return new Promise(function (resolve, reject) {
+        getPage({access_token, name, pageID})
+            .then(pageData => copySheets(null, pageID, facebookPage[pageID])
+                .then(sheet => exeTypeBot({type, url, pageID})
+                    .then(url => getDataFromUrl(url)
+                        .then(save => initBot({save, pageID})
+                            .then(() => {
+                                pageData.editId = save.editId
+                                pageData.sheetId = sheet.id
+                                pageData.currentBot = save.id
+                                saveFacebookPage(pageData)
+                                    .then(() => resolve(save))
+                                    .catch(err => reject({err}))
+
+                            }))
+                        .catch(err => reject({err})))))
     })
 }
 
@@ -3386,7 +3410,6 @@ function receivedDeliveryConfirmation(event) {
                 messageID);
         });
     }
-
     console.log("All message before %d were delivered.", watermark);
 }
 
@@ -3400,7 +3423,6 @@ function receivedMessageRead(event) {
 function receivedAccountLink(event) {
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
-
     var status = event.account_linking.status;
     var authCode = event.account_linking.authorization_code;
 
@@ -4537,6 +4559,55 @@ function buildReport(pageID, day = 1, ago = 0) {
             .catch(err => reject(err))
     })
 }
+
+function copyFile(id,name) {
+    return new Promise((resolve, reject) => {
+        var url = `https://jobo-ana.herokuapp.com/copyFile?id=${id}&name=${name}`
+        console.log('copyFile', url)
+
+        axios.get(url)
+            .then(result => {
+                console.log('result',result.data)
+
+                resolve(result.data)
+            })
+            .catch(err => {
+                console.log('err',err)
+                reject(err)
+            })
+    })
+}
+
+app.get('/copyFile', ({query}, res) => copyFile(query.id,query.name)
+    .then(result => res.send(result))
+    .catch(err => res.status(500).json(err)))
+
+
+function copyForms(formId, pageID, pageData) {
+    return new Promise((resolve, reject) => {
+        if(!formId) formId ='1DLurQuYAyKiE1AsaizDEoV9SD8-V4F7FVmS2k4_wloI'
+        if (pageData.editId) resolve({id: pageData.editId})
+        else copyFile(formId, `${pageData.name} Chatbot`)
+            .then(result => saveData('facebookPage', pageID, {editId: result.id})
+                .then(() => resolve({id: result.id}))
+            ).catch(err => reject(err))
+    })
+}
+
+function copySheets(sheetId, pageID, pageData) {
+    return new Promise((resolve, reject) => {
+        if (!sheetId) sheetId = '1Siux69lJLWnHUcR90AaCz6QBu6n_mkUk2pweQfcadbg'
+
+        console.log('copySheets-ing', sheetId, pageID);
+
+        if (pageData.sheetId) resolve({id: pageData.sheetId})
+        else copyFile(sheetId, `${pageData.name} Database`)
+            .then(result => saveData('facebookPage', pageID, {sheetId: result.id})
+                .then(() => resolve({id: result.id}))
+            ).catch(err => reject(err))
+    })
+}
+
 
 
 app.listen(port, function () {
