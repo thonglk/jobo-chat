@@ -1563,7 +1563,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                 type: "template",
                                                                 payload: {
                                                                     template_type: "button",
-                                                                    text: `Done <3! \n We had just turn your "${form.data[8]}" form into chatbot to help you convert more leads! \n Step 2: Connect this form to your Facebook Page`,
+                                                                    text: `Done <3! \n We had just turn your "${form.name}" form into chatbot to help you convert more leads! \n Step 2: Connect this form to your Facebook Page`,
                                                                     buttons: [{
                                                                         type: "web_url",
                                                                         url: `https://app.botform.asia/create?url=${url}`,
@@ -1640,8 +1640,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         text: `Updating...`,
                                                     }, null, pageID)
                                                     getChat({pageID})
-                                                        .then(form => sendAPI(senderID, {
-                                                            text: `Updated successful for ${form.data[8]} <3!`,
+                                                        .then(pageData => sendAPI(senderID, {
+                                                            text: `Updated successful for ${pageData.name} <3!`,
                                                         }, null, pageID))
                                                         .catch(err => sendAPI(senderID, {
                                                             text: `Update Error: ${JSON.stringify(err)}`,
@@ -2556,7 +2556,7 @@ function getChat({url, access_token, name, pageID, type}) {
                                 pageData.sheetId = sheet.id
                                 pageData.currentBot = save.id
                                 saveFacebookPage(pageData)
-                                    .then(() => resolve(save))
+                                    .then(() => resolve(pageData))
                                     .catch(err => reject({err}))
 
                             }))
