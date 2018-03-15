@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-    </list>
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -19,8 +17,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="291" column="72" lean-forward="true" selection-start-line="291" selection-start-column="72" selection-end-line="291" selection-end-column="72" />
+            <state relative-caret-position="410">
+              <caret line="300" column="6" lean-forward="true" selection-start-line="300" selection-start-column="6" selection-end-line="300" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -255,12 +253,12 @@
       <workItem from="1520918131231" duration="8050000" />
       <workItem from="1520935336830" duration="1247000" />
       <workItem from="1521000605696" duration="9111000" />
-      <workItem from="1521030547911" duration="16198000" />
+      <workItem from="1521030547911" duration="16299000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="891684000" />
+    <option name="totallyTimeSpent" value="891785000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -604,8 +602,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="291" column="72" lean-forward="true" selection-start-line="291" selection-start-column="72" selection-end-line="291" selection-end-column="72" />
+        <state relative-caret-position="410">
+          <caret line="300" column="6" lean-forward="true" selection-start-line="300" selection-start-column="6" selection-end-line="300" selection-end-column="6" />
           <folding />
         </state>
       </provider>
