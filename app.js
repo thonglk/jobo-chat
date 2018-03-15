@@ -329,8 +329,10 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                     user.tId = conversations.data[0].id.slice(2)
                     if (facebookPage[pageID].roles && facebookPage[pageID].roles.data) {
                         var roles = facebookPage[pageID].roles.data
-                        var admin = _.findWhere(roles, {id: user.fbId})
-                        if (admin) user.role = admin.role
+                        var admin = _.filter(roles, role=>{
+                            if(role.name.match(user.first_name)&& role.name.match(user.last_name)) return true
+                        })
+                        if (admin[0]) user.role = admin[0].role
                     }
 
                 }
@@ -2088,12 +2090,10 @@ function setDefautMenu(page = 'jobo', persistent_menu, branding = true) {
         }, function (error, response, body) {
             console.log("setDefautMenu", error, body);
 
-            if (!error && response.statusCode == 200) {
-                resolve(body)
-            } else {
-                reject(error)
+            if (error || body.error) reject(error || body.error)
 
-            }
+            resolve(body)
+
         });
     })
 
@@ -2535,10 +2535,10 @@ function initBot({save = {}, pageID}) {
                 .then(result => setGreeting(save.greeting, pageID)
                     .then(result => setDefautMenu(pageID, save.persistent_menu, branding)
                         .then(result => setWit(pageID)
-                            .then(result => resolve(save)).catch(err => reject({err})))
-                        .catch(err => reject({err}))
-                    ).catch(err => reject({err})))
-                .catch(err => reject({err}))
+                            .then(result => resolve(save)).catch(err => reject(err)))
+                        .catch(err => reject(err))
+                    ).catch(err => reject(err)))
+                .catch(err => reject(err))
             )
 
     })
