@@ -35,12 +35,12 @@ var Broadcast = require("./broadcast");
 
 var app = express();
 app.use(cors());
-app.set('port', process.env.PORT || 5000);
+app.set('port', process.env.PORT || 5001);
 app.set('view engine', 'ejs');
 app.use(bodyParser.json({verify: verifyRequestSignature}));
 app.use(express.static('public'));
 
-var port = process.env.PORT || 5000;
+var port = process.env.PORT || 5001;
 
 var uri = 'mongodb://joboapp:joboApp.1234@ec2-54-157-20-214.compute-1.amazonaws.com:27017/joboapp';
 
@@ -128,22 +128,6 @@ const FIRE_BASE_ADMIN = {
             "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
             "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-q7ytj%40jobo-b8204.iam.gserviceaccount.com"
         }
-    },
-    joboTest: {
-        databaseURL: "https://jobotest-15784.firebaseio.com",
-        cert: {
-            "type": "service_account",
-            "project_id": "jobotest-15784",
-            "private_key_id": "5d321825529bbd6733efa48613bd0bb160c9094f",
-            "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCuxO6gVlWNONma\nQ0hIlt/Nruej3nRGztllcGCDWXksHl1l6Ds8oN6vMVmOcYlzvoxGqXGjLbd/RQVh\nrXOLRGHngfZIX4ot3jlLZDIK3uzd9KEEoa3pCC0i2v2zw5WZEoWr0ZPibdBa6KJG\nh374GkPRJ6w3uEBUg3uWHpRbIGmWVEQ5803Jz9Vq5nz05yfdR9GNjMLo+1P6ozzU\nVsTY3ca0y0syg7IADrnyRQX2WbHmk9nrMYgVu7h1GhnzGjMbl+lsq4gWik8iDh/N\nJELhY/iXcoOCqdUM1cNmIf3UcqqOg8k6wolI4+jD+fX4PVoS/Ce8oT7u++DCFtAD\nBnfZyzc9AgMBAAECggEABHiENDTRLnIoWuJivHyjkALr6Qy9Q7xx4j7sMR/+Ugsa\nz4sPzN6+o5OrG1I7NmtG8l3OSuLWAVr2JsgFnyfqKz5vWu2avs6i/5M6Fn4aaBkk\nb1ZleQMdCHm6qLkVoBtRsRIE6vNtM44k7JH1xQoC9xxBMxGzD5ZneHEi0Wv0V4SY\ngX1eufCJBPqY0WON0yrModg3ZhDffR5TQUUmDvXSSyzpt2jpRecfPyJVqETk67db\nvrSjPgqbAuWd7x7ODIuLRwoWWjUnCEviN6F5LKFA5cH0alPFdA1egO19umUkuldm\nsGcudwGdalS6oTmgf5DsB/a2bs0BTR+iZSsjuOqToQKBgQDWoClvSYNhXlGsroNf\njkSLOr57i+RrfRFkAo5ntt17lsBV09MAv3mSkG8OxZpS+4Cvo5WTqJo9HJ3B8BXN\n77IfFrIGnSZwaBTRcU4gUsefFj5HS+KqhYAsd/Z6bHXIot0nUAnnKDtjOH1Ksu9Z\nOMxLFG7l08c+Yb2iWBQTeJCsjQKBgQDQddjM+Ee51Jls8kWrCHJk118nLWfoHC0V\nu1nCbpkbPyWe+CIesIbuFLXasjp+W36/YW7qoE7m2G2Oy2XxrXLVxojUkuPfHbL8\nbviZMED0fhiliIUUuDmjGde77BeWCAiCCF1W5QRh0lE7bPeeLeDTSJHgjF13OB85\n6e4OjeyBcQKBgQCSukQZdOSAuH6V02i09wodNTfsNqMeaQ5ulODOPtIEH/e1tW7X\nYA+5B00liCoM+Svs56TmoalwhhPD9mKxu2DGqDllFCKnTkCNPyzuJCmctRQ2ocaA\nVWxe+lRjNasAU3dl3O4oPfT7zC671sCS+qWP3pRCQxo/p4qBZj2zYgVmMQKBgGYC\nJRM4M7El7eY4MAtf2Mqr8a40M/KLRyypP2U7xcRlhD1kYx3teDms/MiGCsWmdEGm\npiY+SB4Crqn/smUvYVBnFLIhJ00ZNWr9yrz7te1ufxUR1z2qYNoFXWJiR7BtQeyP\nt008SIat6n5P9mP7Q1dg3bGqPlqGphEq/gk1PhShAoGAYaJ2O1a1XW0RUgUh/IrK\noqUjL1uSAva8rgcmZtX4XlgPcVvM7GfViPIr1Tj2yCZwEU7tmX0V1hMbkSYzJrnZ\nbjZWq6tpO5uUVGOW700a9fLmM0PXNNIQ8QOXP2zWRUKdbtcC3dUl0JG8E16EhSpT\nBovY0DfWj2mzjxmmA1R27vk=\n-----END PRIVATE KEY-----\n",
-            "client_email": "firebase-adminsdk-qdjob@jobotest-15784.iam.gserviceaccount.com",
-            "client_id": "117909799483746763246",
-            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-            "token_uri": "https://accounts.google.com/o/oauth2/token",
-            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-            "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-qdjob%40jobotest-15784.iam.gserviceaccount.com"
-        }
-
     }
 }
 const vietnameseDecode = (str) => {
@@ -240,14 +224,10 @@ var jobo = firebase.initializeApp({
     credential: firebase.credential.cert(FIRE_BASE_ADMIN['production'].cert),
     databaseURL: FIRE_BASE_ADMIN['production'].databaseURL
 }, "jobo");
-var joboTest = firebase.initializeApp({
-    credential: firebase.credential.cert(FIRE_BASE_ADMIN['joboTest'].cert),
-    databaseURL: FIRE_BASE_ADMIN['joboTest'].databaseURL
-}, "joboTest");
 
 var db = jobochat.database();
 var db2 = jobo.database();
-var db3 = joboTest.database();
+
 
 var userRef = db2.ref('user');
 
@@ -1246,7 +1226,7 @@ db.ref('webhook').on('child_added', function (snap) {
                         isDeveloper = true
                     }
 
-                    if ((isDeveloper && port == '5000') || (!isDeveloper && port != '5000')) {
+                    if ((isDeveloper && port == '5001') || (!isDeveloper && port != '5001')) {
                         console.log('messagingEvent', messagingEvent)
 
                         if (messagingEvent.message || messagingEvent.postback || messagingEvent.referral) {
@@ -1952,6 +1932,11 @@ app.get('/setoff', (req, res) => {
 
 function saveFacebookPage(data) {
     return new Promise(function (resolve, reject) {
+
+        if(!facebookPage[data.id] || !facebookPage[data.id].createdAt) data.createdAt = Date.now()
+
+        data.updateAt = Date.now()
+
         facebookPageRef.child(data.id).update(data)
             .then(result => resolve(result))
             .catch(err => reject(err))
@@ -1963,18 +1948,6 @@ var profileRef = db2.ref('profile');
 
 var a = 0
 
-function queryPage(query) {
-    var data = _.filter(facebookPage, page => {
-        if (page.name && page.name.toLowerCase().match(query.toLowerCase())) return true
-        else return false
-    })
-    return data
-}
-
-app.get('/queryPage', (req, res) => {
-    var {query} = req.query
-    res.send(queryPage(query))
-})
 
 
 function saveLadiBot(save, id) {
@@ -2035,14 +2008,10 @@ function setGreeting(greeting = [
         }, function (error, response, body) {
             console.error("setGreeting", error, body);
 
-            if (!error && response.statusCode == 200) {
+            if (error || body.error) reject(error || body.error)
 
-                resolve(body)
+            resolve(body)
 
-            } else {
-                reject(error)
-
-            }
         });
     })
 
@@ -2128,15 +2097,10 @@ function setGetstarted(page = 'jobo') {
             json: message
 
         }, function (error, response, body) {
-            console.error("setGetstarted", error, body);
-            if (!error && response.statusCode == 200) {
+            console.log("setGetstarted", error, body);
+            if (error || body.error) reject(error || body.error)
 
-                resolve(body)
-
-            } else {
-                reject(error)
-
-            }
+            resolve(body)
         });
     })
 }
@@ -2284,7 +2248,7 @@ function getDataFromUrl(url) {
 
         axios.get(url)
             .then(result => {
-                    console.log('queryURL', result.data);
+
 
                     if (
                         result.data.match('FB_PUBLIC_LOAD_DATA_ = ')
@@ -3796,7 +3760,7 @@ function buildMessage(blockName, pageID) {
                                             type: "web_url",
                                             url: sub,
                                             title: tit,
-                                            messenger_extensions: false
+                                            messenger_extensions: true
                                         }
                                         else button = {
                                             type: "phone_number",
@@ -4562,7 +4526,7 @@ function buildReport(pageID, day = 1, ago = 0) {
 
 function copyFile(id, name) {
     return new Promise((resolve, reject) => {
-        var url = `https://jobo-ana.herokuapp.com/copyFile?id=${id}&name=${name}`
+        var url = `https://jobo-ana.herokuapp.com/copyFile?id=${id}&name=${urlencode(name)}`
         console.log('copyFile', url)
 
         axios.get(url)
@@ -4581,6 +4545,7 @@ function copyFile(id, name) {
 app.get('/copyFile', ({query}, res) => copyFile(query.id, query.name)
     .then(result => res.send(result))
     .catch(err => res.status(500).json(err)))
+
 
 
 function copyForms(formId, pageID, pageData) {
