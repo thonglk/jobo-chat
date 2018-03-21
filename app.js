@@ -234,8 +234,7 @@ var userRef = db2.ref('user');
 
 function initDataLoad(ref, store) {
     ref.on('child_added', function (snap) {
-        if (store.createdAt)
-            store[snap.key] = snap.val()
+        store[snap.key] = snap.val()
     });
     ref.on('child_changed', function (snap) {
         store[snap.key] = snap.val()
@@ -249,7 +248,6 @@ function initDataLoad(ref, store) {
 var dataAccount = {}, accountRef = db.ref('account')
 initDataLoad(accountRef, dataAccount)
 var facebookPage = {}, facebookPageRef = db.ref('facebookPage')
-
 initDataLoad(facebookPageRef, facebookPage)
 
 var dataLadiBot = {}, ladiBotRef = db.ref('ladiBot')
