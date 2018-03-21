@@ -233,13 +233,13 @@ var userRef = db2.ref('user');
 
 
 function initDataLoad(ref, store) {
-    ref.on('child_added', function (snap) {
+    ref.on('child_added', snap => {
         store[snap.key] = snap.val()
     });
-    ref.on('child_changed', function (snap) {
+    ref.on('child_changed', snap => {
         store[snap.key] = snap.val()
     });
-    ref.on('child_removed', function (snap) {
+    ref.on('child_removed', snap => {
         delete store[snap.key]
     });
 }
@@ -1931,7 +1931,7 @@ function saveFacebookPage(data) {
 
         if (!facebookPage[data.id] || !facebookPage[data.id].createdAt) data.createdAt = Date.now()
 
-        data.updateAt = Date.now()
+        data.updatedAt = Date.now()
 
         facebookPageRef.child(data.id).update(data)
             .then(result => resolve(result))
