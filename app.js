@@ -233,16 +233,16 @@ var userRef = db2.ref('user');
 
 
 function initDataLoad(ref, store) {
-    var dateToSave= Date.now() - 1000*60*60*24
-    // ref.on('child_added', function (snap) {
-    //     if(store.createdAt > dateToSave) store[snap.key] = snap.val()
-    // });
-    // ref.on('child_changed', function (snap) {
-    //     if(store.createdAt > dateToSave) store[snap.key] = snap.val()
-    // });
-    // ref.on('child_removed', function (snap) {
-    //     delete store[snap.key]
-    // });
+    ref.on('child_added', function (snap) {
+        if(store.createdAt )
+        store[snap.key] = snap.val()
+    });
+    ref.on('child_changed', function (snap) {
+        store[snap.key] = snap.val()
+    });
+    ref.on('child_removed', function (snap) {
+        delete store[snap.key]
+    });
 }
 
 
@@ -289,10 +289,9 @@ function loadsenderData(senderID, pageID = '493938347612411') {
         if (dataAccount[senderID] && dataAccount[senderID].fbId) {
             var user = dataAccount[senderID]
             user.lastActive = Date.now();
-            resolve(user)
-            // saveSenderData(user, senderID, pageID)
-            //     .then(result => resolve(user))
-            //     .catch(err => reject(err))
+            saveSenderData(user, senderID, pageID)
+                .then(result => resolve(user))
+                .catch(err => reject(err))
         }
         else graph.get(senderID + '?access_token=' + facebookPage[pageID].access_token, (err, result) => {
             var user = {id: senderID, createdAt: Date.now(), lastActive: Date.now()};
@@ -318,10 +317,10 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                     }
 
                 }
-                resolve(user)
-                // saveSenderData(user, senderID, pageID)
-                //     .then(result => resolve(user))
-                //     .catch(err => reject(err))
+
+                saveSenderData(user, senderID, pageID)
+                    .then(result => resolve(user))
+                    .catch(err => reject(err))
             })
 
         })
