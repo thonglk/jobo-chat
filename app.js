@@ -233,7 +233,7 @@ var userRef = db2.ref('user');
 
 
 function initDataLoad(ref, store) {
-    var dateToSave= Date.now() - 1000*60*60*24*5
+    var dateToSave= Date.now() - 1000*60*60*24
     ref.on('child_added', function (snap) {
         if(store.createdAt > dateToSave) store[snap.key] = snap.val()
     });
