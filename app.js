@@ -1861,7 +1861,7 @@ db.ref('webhook').on('child_added', function (snap) {
                             saveSenderData({lastReceive: messagingEvent}, senderID, pageID)
 
 
-                        } else if (messagingEvent.read && pageID != facebookPage['dumpling'].id) {
+                        } else if (messagingEvent.read) {
                             receivedMessageRead(messagingEvent);
                         } else if (messagingEvent.optin) {
                             receivedAuthentication(messagingEvent);
