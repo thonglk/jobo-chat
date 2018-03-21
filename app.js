@@ -270,7 +270,7 @@ function saveSenderData(data, senderID, page = '493938347612411') {
     return new Promise(function (resolve, reject) {
         if (senderID != page) {
             data.pageID = page
-            if (facebookPage[page].sheetId) axios.get(`https://jobo-ana.herokuapp.com/saveDataToSheet?pageID=${page}&sheetId=${facebookPage[page].sheetId}`)
+            if (facebookPage[page] && facebookPage[page].sheetId) axios.get(`https://jobo-ana.herokuapp.com/saveDataToSheet?pageID=${page}&sheetId=${facebookPage[page].sheetId}`)
             accountRef.child(senderID).update(data)
                 .then(result => resolve(data))
                 .catch(err => reject(err))
@@ -1206,8 +1206,6 @@ db.ref('webhook').on('child_added', function (snap) {
     var data = snap.val()
     if (data.object == 'page') {
 
-        // Iterate over each entry
-        // There may be multiple if batched
         data.entry.forEach(pageEntry => {
             if (pageEntry.id) var pageID = `${pageEntry.id}`;
             var timeOfEvent = pageEntry.time;
