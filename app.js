@@ -1928,15 +1928,12 @@ app.get('/setoff', (req, res) => {
 
 function saveFacebookPage(data) {
     return new Promise(function (resolve, reject) {
-
-        if (!facebookPage[data.id] || !facebookPage[data.id].createdAt) data.createdAt = Date.now()
-
         data.updatedAt = Date.now()
+        if (!facebookPage[data.id] || !facebookPage[data.id].createdAt) data.createdAt = Date.now()
 
         facebookPageRef.child(data.id).update(data)
             .then(result => resolve(result))
             .catch(err => reject(err))
-
     })
 }
 
@@ -4521,10 +4518,10 @@ function buildReport(pageID, day = 1, ago = 0) {
 
 function copyFile(id, name) {
     return new Promise((resolve, reject) => {
-        var url = `https://jobo-ana.herokuapp.com/copyFile?id=${id}&name=${urlencode(name)}`
-        console.log('copyFile', url)
+        var params = {id,name:urlencode(name)}
+        console.log('copyFile', params)
 
-        axios.get(url)
+        axios.get('https://jobo-ana.herokuapp.com/copyFile',{params})
             .then(result => {
                 console.log('result', result.data)
 
