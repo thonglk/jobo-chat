@@ -234,8 +234,8 @@ var userRef = db2.ref('user');
 
 function initDataLoad(ref, store) {
     ref.on('child_added', function (snap) {
-        if(store.createdAt )
-        store[snap.key] = snap.val()
+        if (store.createdAt)
+            store[snap.key] = snap.val()
     });
     ref.on('child_changed', function (snap) {
         store[snap.key] = snap.val()
@@ -270,7 +270,7 @@ function saveSenderData(data, senderID, page = '493938347612411') {
     return new Promise(function (resolve, reject) {
         if (senderID != page) {
             data.pageID = page
-            if(facebookPage[page].sheetId) axios.get(`https://jobo-ana.herokuapp.com/saveDataToSheet?pageID=${page}&sheetId=${facebookPage[page].sheetId}`)
+            if (facebookPage[page].sheetId) axios.get(`https://jobo-ana.herokuapp.com/saveDataToSheet?pageID=${page}&sheetId=${facebookPage[page].sheetId}`)
             accountRef.child(senderID).update(data)
                 .then(result => resolve(data))
                 .catch(err => reject(err))
@@ -310,8 +310,8 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                     user.tId = conversations.data[0].id.slice(2)
                     if (facebookPage[pageID].roles && facebookPage[pageID].roles.data) {
                         var roles = facebookPage[pageID].roles.data
-                        var admin = _.filter(roles, role=>{
-                            if(role.name.match(user.first_name)&& role.name.match(user.last_name)) return true
+                        var admin = _.filter(roles, role => {
+                            if (role.name.match(user.first_name) && role.name.match(user.last_name)) return true
                         })
                         if (admin[0]) user.role = admin[0].role
                     }
@@ -1208,10 +1208,9 @@ db.ref('webhook').on('child_added', function (snap) {
 
         // Iterate over each entry
         // There may be multiple if batched
-        data.entry.forEach(function (pageEntry) {
-            var pageID = `${pageEntry.id}`;
+        data.entry.forEach(pageEntry => {
+            if (pageEntry.id) var pageID = `${pageEntry.id}`;
             var timeOfEvent = pageEntry.time;
-
             // Iterate over each messaging event
             if (pageEntry.messaging) {
                 pageEntry.messaging.forEach(function (messagingEvent) {
@@ -1934,7 +1933,7 @@ app.get('/setoff', (req, res) => {
 function saveFacebookPage(data) {
     return new Promise(function (resolve, reject) {
 
-        if(!facebookPage[data.id] || !facebookPage[data.id].createdAt) data.createdAt = Date.now()
+        if (!facebookPage[data.id] || !facebookPage[data.id].createdAt) data.createdAt = Date.now()
 
         data.updateAt = Date.now()
 
@@ -1948,7 +1947,6 @@ function saveFacebookPage(data) {
 var profileRef = db2.ref('profile');
 
 var a = 0
-
 
 
 function saveLadiBot(save, id) {
@@ -4548,7 +4546,6 @@ app.get('/copyFile', ({query}, res) => copyFile(query.id, query.name)
     .catch(err => res.status(500).json(err)))
 
 
-
 function copyForms(formId, pageID, pageData) {
     return new Promise((resolve, reject) => {
             if (!formId) formId = '1DLurQuYAyKiE1AsaizDEoV9SD8-V4F7FVmS2k4_wloI'
@@ -4558,9 +4555,9 @@ function copyForms(formId, pageID, pageData) {
                 if (formData) resolve({id: formData.editId})
             }
             else copyFile(formId, `${pageData.name} Chatbot`)
-                .then(result => saveData('facebookPage', pageID, {editId: result.id})
-                    .then(() => resolve({id: result.id}))
-                ).catch(err => reject(err))
+                    .then(result => saveData('facebookPage', pageID, {editId: result.id})
+                        .then(() => resolve({id: result.id}))
+                    ).catch(err => reject(err))
         }
     )
 }
