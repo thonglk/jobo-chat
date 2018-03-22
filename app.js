@@ -2485,18 +2485,44 @@ function initBot({save = {}, pageID}) {
     return new Promise(function (resolve, reject) {
         if (facebookPage[pageID].pro) var branding = null
         else branding = true
+        save.init = {}
+
 
         subscribed_apps(pageID)
-            .then(() => setGetstarted(pageID)
-                .then(result => setGreeting(save.greeting, pageID)
-                    .then(result => setDefautMenu(pageID, save.persistent_menu, branding)
-                        .then(result => setWit(pageID)
-                            .then(result => resolve(save)).catch(err => reject(err)))
-                        .catch(err => reject(err))
-                    ).catch(err => reject(err)))
-                .catch(err => reject(err))
-            )
+            .then((result,err) => {
+                if(err) save.init.subscribed_apps = err.message || err
+                else save.init.subscribed_apps = Date.now()
+                setGetstarted(pageID)
+                    .then((result, err) => {
+                        if(err) save.init.setGetstarted = err.message || err
+                        else save.init.setGetstarted = Date.now()
 
+                        setGreeting(save.greeting, pageID)
+                            .then((result, err) => {
+                                if(err) save.init.setGreeting = err.message || err
+                                else save.init.setGreeting = Date.now()
+
+                                setDefautMenu(pageID, save.persistent_menu, branding)
+                                    .then((result, err) =>{
+
+                                        if(err) save.init.setDefautMenu = err.message || err
+                                        else save.init.setDefautMenu = Date.now()
+
+                                        setWit(pageID)
+                                            .then((result, err) => {
+                                                if(err) save.init.setWit = err.message || err
+                                                else save.init.setWit = Date.now()
+
+                                                resolve(save)
+                                            })
+                                    })
+
+
+                            })
+                    })
+
+
+            })
     })
 }
 
@@ -4518,10 +4544,10 @@ function buildReport(pageID, day = 1, ago = 0) {
 
 function copyFile(id, name) {
     return new Promise((resolve, reject) => {
-        var params = {id,name:urlencode(name)}
+        var params = {id, name: urlencode(name)}
         console.log('copyFile', params)
 
-        axios.get('https://jobo-ana.herokuapp.com/copyFile',{params})
+        axios.get('https://jobo-ana.herokuapp.com/copyFile', {params})
             .then(result => {
                 console.log('result', result.data)
 
