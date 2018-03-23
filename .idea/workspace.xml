@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -20,15 +19,15 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="2489" column="0" lean-forward="true" selection-start-line="2489" selection-start-column="0" selection-end-line="2489" selection-end-column="0" />
+            <state relative-caret-position="264">
+              <caret line="298" column="72" lean-forward="true" selection-start-line="298" selection-start-column="72" selection-end-line="298" selection-end-column="72" />
               <folding>
                 <element signature="n#!!block;n#templatelize#0" expanded="false" />
                 <element signature="n#!!block;n#saveData#0" expanded="false" />
                 <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
                 <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
                 <element signature="n#!!block;n#intention#0" expanded="false" />
-                <element signature="e#55243#76483#0" expanded="false" />
+                <element signature="e#55200#76440#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -66,8 +65,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>mark_seen</find>
-      <find>setDefautMenu-i</find>
       <find>getBotfromPageID</find>
       <find>setDe</find>
       <find>sendReadReceipt</find>
@@ -96,6 +93,8 @@
       <find>5001</find>
       <find>getFullPageInfo</find>
       <find>getChat</find>
+      <find>ana</find>
+      <find>account</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -268,12 +267,12 @@
       <workItem from="1521430844720" duration="5745000" />
       <workItem from="1521541534497" duration="421000" />
       <workItem from="1521542807591" duration="10634000" />
-      <workItem from="1521693211939" duration="2186000" />
+      <workItem from="1521693211939" duration="5301000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="915256000" />
+    <option name="totallyTimeSpent" value="918371000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -401,7 +400,7 @@
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#55243#76483#0" expanded="false" />
+            <element signature="e#55200#76440#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -416,7 +415,7 @@
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#55243#76483#0" expanded="false" />
+            <element signature="e#55200#76440#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -452,7 +451,7 @@
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#55243#76483#0" expanded="false" />
+            <element signature="e#55200#76440#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -495,7 +494,7 @@
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#55243#76483#0" expanded="false" />
+            <element signature="e#55200#76440#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -524,7 +523,7 @@
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#55243#76483#0" expanded="false" />
+            <element signature="e#55200#76440#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -560,7 +559,7 @@
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#55243#76483#0" expanded="false" />
+            <element signature="e#55200#76440#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -642,15 +641,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="2489" column="0" lean-forward="true" selection-start-line="2489" selection-start-column="0" selection-end-line="2489" selection-end-column="0" />
+        <state relative-caret-position="264">
+          <caret line="298" column="72" lean-forward="true" selection-start-line="298" selection-start-column="72" selection-end-line="298" selection-end-column="72" />
           <folding>
             <element signature="n#!!block;n#templatelize#0" expanded="false" />
             <element signature="n#!!block;n#saveData#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="e#55243#76483#0" expanded="false" />
+            <element signature="e#55200#76440#0" expanded="false" />
           </folding>
         </state>
       </provider>

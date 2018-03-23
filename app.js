@@ -35,7 +35,6 @@ var Broadcast = require("./broadcast");
 
 var app = express();
 app.use(cors());
-app.set('port', process.env.PORT || 5001);
 app.set('view engine', 'ejs');
 app.use(bodyParser.json({verify: verifyRequestSignature}));
 app.use(express.static('public'));
@@ -368,7 +367,7 @@ function matchingPayload(event) {
             if (payloadStr.length > 0) payload = Object.assign({}, JSON.parse(payloadStr), payload)
 
 
-            if (lastMessage.meta) payload = Object.assign({}, lastMessage.meta, payload)
+            if (lastMessage && lastMessage.meta) payload = Object.assign({}, lastMessage.meta, payload)
 
             if (message.quick_reply) {
                 payload.source = 'quick_reply'
