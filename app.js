@@ -2782,7 +2782,7 @@ function loop(q, flow, senderID, pageID) {
 
                             if (option[2]) metadata.goto = option[2]
                             if (generic.length < 10) generic.push({
-                                "title": eleArray[0] || option[0],
+                                "title": eleArray[0] || option[0] || '🤖',
                                 "image_url": image_url,
                                 "subtitle": eleArray[1],
                                 "buttons": [
@@ -2901,7 +2901,7 @@ function loop(q, flow, senderID, pageID) {
                             }
                             var quick = {
                                 "content_type": "text",
-                                "title": option[0],
+                                "title": option[0] || "🤖",
                                 "payload": JSON.stringify(metadata)
 
                             }
@@ -3086,7 +3086,7 @@ function flowAI({keyword, senderID, pageID}) {
         var quick_replies = _.map(flowList, flow => {
             return {
                 "content_type": "text",
-                "title": flow.data[8],
+                "title": flow.data[8] || '🤖',
                 "payload": JSON.stringify({
                     state: 'setFlow',
                     flow: flow.flow
@@ -3159,7 +3159,7 @@ function sendNotiUser(text = 'New User', user, pageID) {
                     "template_type": "generic",
                     "elements": [
                         {
-                            "title": text,
+                            "title": text || '🤖',
                             "image_url": user.profile_pic,
                             "subtitle": `${user.full_name} \n Ref: ${user.ref} \n Gender: ${user.gender}`,
                             "buttons": [
@@ -3737,7 +3737,7 @@ function buildMessage(blockName, pageID) {
 
                                     if (option[2]) metadata.goto = option[2]
                                     if (generic.length < 10) generic.push({
-                                        "title": eleArray[0] || option[0],
+                                        "title": eleArray[0] || option[0] || '🤖',
                                         "image_url": image_url,
                                         "subtitle": eleArray[1],
                                         "buttons": [
@@ -3851,7 +3851,7 @@ function buildMessage(blockName, pageID) {
 
                                     var quick = {
                                         "content_type": "text",
-                                        "title": option[0],
+                                        "title": option[0] || '🤖',
                                         "payload": JSON.stringify(metadata)
 
                                     }
@@ -4412,7 +4412,7 @@ function sendInterviewOption(jobId, senderID, status) {
 
                     var rep = {
                         "content_type": "text",
-                        "title": strTime(time),
+                        "title": strTime(time) || '🤖',
                         "payload": JSON.stringify({
                             type: 'setInterview',
                             time: time,
