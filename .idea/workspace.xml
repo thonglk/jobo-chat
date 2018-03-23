@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -20,14 +19,13 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="369">
-              <caret line="2903" column="55" lean-forward="false" selection-start-line="2903" selection-start-column="55" selection-end-line="2903" selection-end-column="55" />
+            <state relative-caret-position="219">
+              <caret line="461" column="50" lean-forward="false" selection-start-line="461" selection-start-column="44" selection-end-line="461" selection-end-column="50" />
               <folding>
                 <element signature="n#!!block;n#templatelize#0" expanded="false" />
                 <element signature="n#!!block;n#saveData#0" expanded="false" />
                 <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
                 <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-                <element signature="n#!!block;n#intention#0" expanded="false" />
                 <element signature="e#55215#76455#0" expanded="false" />
               </folding>
             </state>
@@ -66,7 +64,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>setDe</find>
       <find>sendReadReceipt</find>
       <find>receivedMessageRead</find>
       <find>messengerId</find>
@@ -96,6 +93,7 @@
       <find>ana</find>
       <find>account</find>
       <find>quick_replies</find>
+      <find>title&quot;</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -268,12 +266,12 @@
       <workItem from="1521430844720" duration="5745000" />
       <workItem from="1521541534497" duration="421000" />
       <workItem from="1521542807591" duration="10634000" />
-      <workItem from="1521693211939" duration="5841000" />
+      <workItem from="1521693211939" duration="6455000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="918911000" />
+    <option name="totallyTimeSpent" value="919525000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -296,7 +294,7 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2517912" sideWeight="0.4918957" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2517912" sideWeight="0.4918957" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -400,7 +398,6 @@
             <element signature="n#!!block;n#saveData#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
             <element signature="e#55215#76455#0" expanded="false" />
           </folding>
         </state>
@@ -415,7 +412,6 @@
             <element signature="n#!!block;n#saveData#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
             <element signature="e#55215#76455#0" expanded="false" />
           </folding>
         </state>
@@ -451,7 +447,6 @@
             <element signature="n#!!block;n#saveData#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
             <element signature="e#55215#76455#0" expanded="false" />
           </folding>
         </state>
@@ -494,7 +489,6 @@
             <element signature="n#!!block;n#saveData#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
             <element signature="e#55215#76455#0" expanded="false" />
           </folding>
         </state>
@@ -523,7 +517,6 @@
             <element signature="n#!!block;n#saveData#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
             <element signature="e#55215#76455#0" expanded="false" />
           </folding>
         </state>
@@ -559,7 +552,6 @@
             <element signature="n#!!block;n#saveData#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
             <element signature="e#55215#76455#0" expanded="false" />
           </folding>
         </state>
@@ -642,14 +634,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="2903" column="55" lean-forward="false" selection-start-line="2903" selection-start-column="55" selection-end-line="2903" selection-end-column="55" />
+        <state relative-caret-position="219">
+          <caret line="461" column="50" lean-forward="false" selection-start-line="461" selection-start-column="44" selection-end-line="461" selection-end-column="50" />
           <folding>
             <element signature="n#!!block;n#templatelize#0" expanded="false" />
             <element signature="n#!!block;n#saveData#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
             <element signature="e#55215#76455#0" expanded="false" />
           </folding>
         </state>

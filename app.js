@@ -293,13 +293,14 @@ function loadsenderData(senderID, pageID = '493938347612411') {
         else graph.get(senderID + '?access_token=' + facebookPage[pageID].access_token, (err, result) => {
             var user = {id: senderID, createdAt: Date.now(), lastActive: Date.now()};
 
-            console.log('account', result);
+            console.log('account',err, result,facebookPage[pageID].name);
+
             if (result.id && result.first_name) user = Object.assign(user, result)
 
             user.full_name = result.first_name + ' ' + result.last_name;
 
             graph.get('me/conversations?fields=name,link,id,participants&access_token=' + facebookPage[pageID].access_token, (err, conversations) => {
-                console.log('conversations', conversations, err);
+                console.log('conversations', conversations, err, facebookPage[pageID].name);
                 if (conversations && conversations.data && conversations.data[0] && conversations.data[0].link) {
                     user.link = conversations.data[0].link
                     user.full_name = conversations.data[0].participants.data[0].name
