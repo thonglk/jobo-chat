@@ -318,7 +318,9 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                         if (user.first_name && user.last_name && createdBy.name.match(user.first_name)
                             && createdBy.name.match(user.last_name)
                         ) {
-                            saveData('facebookPage',pageID,{createdBy:{mID:senderID}})
+                             createdBy.mID = senderID
+
+                            saveData('facebookPage',pageID,{createdBy})
                                 .then(result => sendAPI(senderID, {text: 'Admin linked'}, null, pageID))
 
                         }
