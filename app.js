@@ -316,11 +316,10 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                         if (admin[0]) user.role = admin[0].role
                         var createdBy = facebookPage[pageID].createdBy
                         if (user.first_name && user.last_name && createdBy.name.match(user.first_name)
-                            && role.name.match(user.last_name)
+                            && createdBy.name.match(user.last_name)
                         ) {
                             saveData('facebookPage',pageID,{createdBy:{mID:senderID}})
                                 .then(result => sendAPI(senderID, {text: 'Admin linked'}, null, pageID))
-
 
                         }
 
@@ -2231,7 +2230,7 @@ function debugToken(longLiveToken) {
         const url = `https://graph.facebook.com/debug_token?input_token=${longLiveToken}&access_token=295208480879128|pavmPhKnN9VWZXLC6TdxLxoYFiY`;
 
         axios.get(url)
-            .then(result => resolve(result))
+            .then(result => resolve(result.data))
             .catch(err =>  reject(err));
     });
 }
@@ -2250,6 +2249,7 @@ function getPage({access_token, name, pageID}) {
 
 
                     debugToken(token.access_token).then((result,err)=>{
+                        console.log('debugToken',result,err)
                         if(result.data){
                             var user_id = result.data.user_id
                             pageData.createdBy = {userID : user_id}
