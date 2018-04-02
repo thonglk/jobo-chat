@@ -291,7 +291,8 @@ function loadsenderData(senderID, pageID = '493938347612411') {
         }
         else graph.get(senderID + '?access_token=' + facebookPage[pageID].access_token, (err, result) => {
 
-            console.log('account',err, result,facebookPage[pageID].name);
+            console.log('account',err, result);
+
             var user = {id: senderID, createdAt: Date.now(), lastActive: Date.now()};
 
             if (result.id && result.first_name) user = Object.assign(user, result)
@@ -302,21 +303,20 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                 console.log('conversations', err, facebookPage[pageID].name);
                 if (conversations && conversations.data && conversations.data[0] && conversations.data[0].link) {
                     user.link = conversations.data[0].link
-                    user.full_name = conversations.data[0].participants.data[0].name
                     user.fbId = conversations.data[0].participants.data[0].id
                     user.tId = conversations.data[0].id.slice(2)
 
                     if (facebookPage[pageID].roles && facebookPage[pageID].roles.data) {
                         var roles = facebookPage[pageID].roles.data
                         var admin = _.filter(roles, role => {
-                            if (user.first_name && user.last_name && role.name.match(user.first_name)
+                            if (user.first_name && user.last_name && role.name && role.name.match(user.first_name)
                                 && role.name.match(user.last_name)
                             ) return true
                         })
                         if (admin[0]) user.role = admin[0].role
                         var createdBy = facebookPage[pageID].createdBy
 
-                        if (user.first_name && user.last_name && createdBy && createdBy.name.match(user.first_name)
+                        if (user.first_name && user.last_name && createdBy && createdBy.name && createdBy.name.match(user.first_name)
                             && createdBy.name.match(user.last_name)
                         ) {
                              createdBy.mID = senderID
