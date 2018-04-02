@@ -243,14 +243,13 @@ function initDataLoad(ref, store) {
     });
 }
 
-
+var dataUser = {}, useRef = db.ref('user')
+initDataLoad(useRef, dataUser)
 var dataAccount = {}, accountRef = db.ref('account')
 initDataLoad(accountRef, dataAccount)
 var facebookPage = {}, facebookPageRef = db.ref('facebookPage')
 initDataLoad(facebookPageRef, facebookPage)
-
 var dataLadiBot = {}, ladiBotRef = db.ref('ladiBot')
-
 initDataLoad(ladiBotRef, dataLadiBot)
 
 function saveData(ref, child, data) {
@@ -283,7 +282,7 @@ function loadsenderData(senderID, pageID = '493938347612411') {
     return new Promise(function (resolve, reject) {
 
 
-        if (dataAccount[senderID] && dataAccount[senderID].fbId) {
+        if (dataAccount[senderID]) {
             var user = dataAccount[senderID]
             user.lastActive = Date.now();
             saveSenderData(user, senderID, pageID)
@@ -291,9 +290,9 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                 .catch(err => reject(err))
         }
         else graph.get(senderID + '?access_token=' + facebookPage[pageID].access_token, (err, result) => {
-            var user = {id: senderID, createdAt: Date.now(), lastActive: Date.now()};
 
             console.log('account',err, result,facebookPage[pageID].name);
+            var user = {id: senderID, createdAt: Date.now(), lastActive: Date.now()};
 
             if (result.id && result.first_name) user = Object.assign(user, result)
 
@@ -306,14 +305,25 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                     user.full_name = conversations.data[0].participants.data[0].name
                     user.fbId = conversations.data[0].participants.data[0].id
                     user.tId = conversations.data[0].id.slice(2)
+
                     if (facebookPage[pageID].roles && facebookPage[pageID].roles.data) {
                         var roles = facebookPage[pageID].roles.data
                         var admin = _.filter(roles, role => {
-                            if (role.name.match(user.first_name)
+                            if (user.first_name && user.last_name && role.name.match(user.first_name)
                                 && role.name.match(user.last_name)
                             ) return true
                         })
                         if (admin[0]) user.role = admin[0].role
+                        var createdBy = facebookPage[pageID].createdBy
+                        if (user.first_name && user.last_name && createdBy.name.match(user.first_name)
+                            && role.name.match(user.last_name)
+                        ) {
+                            saveData('facebookPage',pageID,{createdBy:{mID:senderID}})
+                                .then(result => sendAPI(senderID, {text: 'Admin linked'}, null, pageID))
+
+
+                        }
+
                     }
 
                 }
@@ -2215,6 +2225,16 @@ function getFullPageInfo(access_token) {
 
 }
 
+function debugToken(longLiveToken) {
+    return new Promise((resolve, reject) => {
+        const appToken = '295208480879128|pavmPhKnN9VWZXLC6TdxLxoYFiY'
+        const url = `https://graph.facebook.com/debug_token?input_token=${longLiveToken}&access_token=295208480879128|pavmPhKnN9VWZXLC6TdxLxoYFiY`;
+
+        axios.get(url)
+            .then(result => resolve(result))
+            .catch(err =>  reject(err));
+    });
+}
 function getPage({access_token, name, pageID}) {
     return new Promise(function (resolve, reject) {
         if (!access_token) {
@@ -2225,10 +2245,28 @@ function getPage({access_token, name, pageID}) {
         getLongLiveToken(access_token)
             .then(token => getFullPageInfo(token.access_token)
                 .then(pageData => {
+
                     pageData.access_token = token.access_token
-                    saveFacebookPage(pageData)
-                        .then(() => resolve(pageData))
-                        .catch(err => reject({err}))
+
+
+                    debugToken(token.access_token).then((result,err)=>{
+                        if(result.data){
+                            var user_id = result.data.user_id
+                            pageData.createdBy = {userID : user_id}
+
+                            if(dataUser[user_id]){
+                                var userCre = dataUser[user_id]
+                                if(userCre.name) pageData.createdBy.name  = userCre.name
+                                if(userCre.email) pageData.createdBy.email  = userCre.email
+                            }
+                        }
+
+                        saveFacebookPage(pageData)
+                            .then(() => resolve(pageData))
+                            .catch(err => reject({err}))
+
+                    })
+
                 })
             )
     })
