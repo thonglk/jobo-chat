@@ -315,7 +315,8 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                         })
                         if (admin[0]) user.role = admin[0].role
                         var createdBy = facebookPage[pageID].createdBy
-                        if (user.first_name && user.last_name && createdBy.name.match(user.first_name)
+
+                        if (user.first_name && user.last_name && createdBy && createdBy.name.match(user.first_name)
                             && createdBy.name.match(user.last_name)
                         ) {
                              createdBy.mID = senderID
@@ -2013,7 +2014,7 @@ function setGreeting(greeting = [
         }, function (error, response, body) {
             console.error("setGreeting", error, body);
 
-            if (error || body.error) reject(error || body.error)
+            if (error) reject(error)
 
             resolve(body)
 
@@ -2064,7 +2065,7 @@ function setDefautMenu(page = 'jobo', persistent_menu, branding = true) {
         }, function (error, response, body) {
             console.log("setDefautMenu", error, body);
 
-            if (error || body.error) reject(error || body.error)
+            if (error) reject(error)
 
             resolve(body)
 
@@ -2103,7 +2104,7 @@ function setGetstarted(page = 'jobo') {
 
         }, function (error, response, body) {
             console.log("setGetstarted", error, body);
-            if (error || body.error) reject(error || body.error)
+            if (error) reject(error)
 
             resolve(body)
         });
@@ -2535,24 +2536,25 @@ function initBot({save = {}, pageID}) {
                 if(err) save.init.subscribed_apps = err.message || err
                 else save.init.subscribed_apps = Date.now()
                 setGetstarted(pageID)
-                    .then((result, err) => {
-                        if(err) save.init.setGetstarted = err.message || err
+                    .then(result => {
+
+                        if(result.error) save.init.setGetstarted = result.error.message || result.error
                         else save.init.setGetstarted = Date.now()
 
                         setGreeting(save.greeting, pageID)
-                            .then((result, err) => {
-                                if(err) save.init.setGreeting = err.message || err
+                            .then(result => {
+                                if(result.error) save.init.setGreeting = result.error.message || result.error
                                 else save.init.setGreeting = Date.now()
 
                                 setDefautMenu(pageID, save.persistent_menu, branding)
-                                    .then((result, err) =>{
+                                    .then(result => {
 
-                                        if(err) save.init.setDefautMenu = err.message || err
+                                        if(result.error) save.init.setDefautMenu = result.error.message || result.error
                                         else save.init.setDefautMenu = Date.now()
 
                                         setWit(pageID)
-                                            .then((result, err) => {
-                                                if(err) save.init.setWit = err.message || err
+                                            .then(result => {
+                                                if(result.error) save.init.setWit = result.error.message || result.error
                                                 else save.init.setWit = Date.now()
 
                                                 resolve(save)
