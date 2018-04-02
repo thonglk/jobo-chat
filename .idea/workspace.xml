@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -19,35 +20,15 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="461" column="50" lean-forward="false" selection-start-line="461" selection-start-column="44" selection-end-line="461" selection-end-column="50" />
+            <state relative-caret-position="364">
+              <caret line="1517" column="87" lean-forward="false" selection-start-line="1517" selection-start-column="87" selection-end-line="1517" selection-end-column="87" />
               <folding>
                 <element signature="n#!!block;n#templatelize#0" expanded="false" />
                 <element signature="n#!!block;n#saveData#0" expanded="false" />
                 <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
-                <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-                <element signature="e#55215#76455#0" expanded="false" />
+                <element signature="n#!!block;n#intention#0" expanded="false" />
+                <element signature="e#55343#76583#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sample.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sample.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2115">
-              <caret line="141" column="13" lean-forward="false" selection-start-line="122" selection-start-column="12" selection-end-line="141" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="authorize.ejs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/authorize.ejs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="12" lean-forward="false" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -64,12 +45,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>sendReadReceipt</find>
-      <find>receivedMessageRead</find>
-      <find>messengerId</find>
-      <find>initData</find>
-      <find>update-my</find>
-      <find>slice</find>
       <find>report</find>
       <find>quick</find>
       <find>graph</find>
@@ -91,9 +66,15 @@
       <find>getFullPageInfo</find>
       <find>getChat</find>
       <find>ana</find>
-      <find>account</find>
       <find>quick_replies</find>
       <find>title&quot;</find>
+      <find>account</find>
+      <find>account&quot;</find>
+      <find>account'</find>
+      <find>admin</find>
+      <find>ref</find>
+      <find>refData</find>
+      <find>messagingEvent.optin</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -119,6 +100,8 @@
         <option value="$PROJECT_DIR$/sample.js" />
         <option value="$PROJECT_DIR$/public/index.html" />
         <option value="$PROJECT_DIR$/broadcast.js" />
+        <option value="$PROJECT_DIR$/test.js" />
+        <option value="$PROJECT_DIR$/use.js" />
         <option value="$PROJECT_DIR$/app.js" />
       </list>
     </option>
@@ -141,6 +124,7 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="900" />
   </component>
@@ -169,17 +153,12 @@
               <item name="jobo-chat" type="b2602c69:ProjectViewProjectNode" />
               <item name="jobo-chat" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="jobo-chat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jobo-chat" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -266,12 +245,18 @@
       <workItem from="1521430844720" duration="5745000" />
       <workItem from="1521541534497" duration="421000" />
       <workItem from="1521542807591" duration="10634000" />
-      <workItem from="1521693211939" duration="6455000" />
+      <workItem from="1521693211939" duration="6713000" />
+      <workItem from="1521795595620" duration="297000" />
+      <workItem from="1522040069078" duration="1341000" />
+      <workItem from="1522058276803" duration="895000" />
+      <workItem from="1522240643544" duration="559000" />
+      <workItem from="1522316843023" duration="758000" />
+      <workItem from="1522425522077" duration="2928000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="919525000" />
+    <option name="totallyTimeSpent" value="926561000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -294,7 +279,7 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2517912" sideWeight="0.4918957" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2517912" sideWeight="0.4918957" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -338,20 +323,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.jshintrc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/authorize.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="12" lean-forward="false" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -397,8 +368,8 @@
             <element signature="n#!!block;n#templatelize#0" expanded="false" />
             <element signature="n#!!block;n#saveData#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
-            <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="e#55215#76455#0" expanded="false" />
+            <element signature="n#!!block;n#intention#0" expanded="false" />
+            <element signature="e#55343#76583#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -411,8 +382,8 @@
             <element signature="n#!!block;n#templatelize#0" expanded="false" />
             <element signature="n#!!block;n#saveData#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
-            <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="e#55215#76455#0" expanded="false" />
+            <element signature="n#!!block;n#intention#0" expanded="false" />
+            <element signature="e#55343#76583#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -446,8 +417,8 @@
             <element signature="n#!!block;n#templatelize#0" expanded="false" />
             <element signature="n#!!block;n#saveData#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
-            <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="e#55215#76455#0" expanded="false" />
+            <element signature="n#!!block;n#intention#0" expanded="false" />
+            <element signature="e#55343#76583#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -488,8 +459,8 @@
             <element signature="n#!!block;n#templatelize#0" expanded="false" />
             <element signature="n#!!block;n#saveData#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
-            <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="e#55215#76455#0" expanded="false" />
+            <element signature="n#!!block;n#intention#0" expanded="false" />
+            <element signature="e#55343#76583#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -516,8 +487,8 @@
             <element signature="n#!!block;n#templatelize#0" expanded="false" />
             <element signature="n#!!block;n#saveData#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
-            <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="e#55215#76455#0" expanded="false" />
+            <element signature="n#!!block;n#intention#0" expanded="false" />
+            <element signature="e#55343#76583#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -551,8 +522,8 @@
             <element signature="n#!!block;n#templatelize#0" expanded="false" />
             <element signature="n#!!block;n#saveData#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
-            <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="e#55215#76455#0" expanded="false" />
+            <element signature="n#!!block;n#intention#0" expanded="false" />
+            <element signature="e#55343#76583#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -632,33 +603,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
+    <entry file="file://$PROJECT_DIR$/views/authorize.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="461" column="50" lean-forward="false" selection-start-line="461" selection-start-column="44" selection-end-line="461" selection-end-column="50" />
-          <folding>
-            <element signature="n#!!block;n#templatelize#0" expanded="false" />
-            <element signature="n#!!block;n#saveData#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
-            <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="e#55215#76455#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="225">
+          <caret line="15" column="12" lean-forward="false" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sample.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2115">
-          <caret line="141" column="13" lean-forward="false" selection-start-line="122" selection-start-column="12" selection-end-line="141" selection-end-column="13" />
+        <state relative-caret-position="56">
+          <caret line="118" column="15" lean-forward="false" selection-start-line="118" selection-start-column="15" selection-end-line="118" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1754">
+          <caret line="11409" column="5" lean-forward="true" selection-start-line="11409" selection-start-column="5" selection-end-line="11409" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/authorize.ejs">
+    <entry file="file://$PROJECT_DIR$/use.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="12" lean-forward="false" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
+        <state relative-caret-position="12843">
+          <caret line="16498" column="48" lean-forward="true" selection-start-line="16498" selection-start-column="48" selection-end-line="16498" selection-end-column="48" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="1517" column="87" lean-forward="false" selection-start-line="1517" selection-start-column="87" selection-end-line="1517" selection-end-column="87" />
+          <folding>
+            <element signature="n#!!block;n#templatelize#0" expanded="false" />
+            <element signature="n#!!block;n#saveData#0" expanded="false" />
+            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
+            <element signature="n#!!block;n#intention#0" expanded="false" />
+            <element signature="e#55343#76583#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

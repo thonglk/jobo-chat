@@ -300,7 +300,7 @@ function loadsenderData(senderID, pageID = '493938347612411') {
             user.full_name = result.first_name + ' ' + result.last_name;
 
             graph.get('me/conversations?fields=name,link,id,participants&access_token=' + facebookPage[pageID].access_token, (err, conversations) => {
-                console.log('conversations', conversations, err, facebookPage[pageID].name);
+                console.log('conversations', err, facebookPage[pageID].name);
                 if (conversations && conversations.data && conversations.data[0] && conversations.data[0].link) {
                     user.link = conversations.data[0].link
                     user.full_name = conversations.data[0].participants.data[0].name
@@ -309,7 +309,9 @@ function loadsenderData(senderID, pageID = '493938347612411') {
                     if (facebookPage[pageID].roles && facebookPage[pageID].roles.data) {
                         var roles = facebookPage[pageID].roles.data
                         var admin = _.filter(roles, role => {
-                            if (role.name.match(user.first_name) && role.name.match(user.last_name)) return true
+                            if (role.name.match(user.first_name)
+                                && role.name.match(user.last_name)
+                            ) return true
                         })
                         if (admin[0]) user.role = admin[0].role
                     }
@@ -1225,7 +1227,7 @@ db.ref('webhook').on('child_added', function (snap) {
                     if ((isDeveloper && port == '5001') || (!isDeveloper && port != '5001')) {
                         console.log('messagingEvent', messagingEvent)
 
-                        if (messagingEvent.message || messagingEvent.postback || messagingEvent.referral) {
+                        if (messagingEvent.message || messagingEvent.postback || messagingEvent.referral || messagingEvent.optin) {
 
                             loadsenderData(senderID, pageID)
                                 .then(senderData => matchingPayload(messagingEvent)
@@ -1512,6 +1514,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 page: pageID,
                                                 senderID
                                             }
+
+                                            if(messagingEvent.optin) referral = {ref : messagingEvent.optin.ref}
 
                                             if (referral && referral.ref) {
 
@@ -1859,8 +1863,6 @@ db.ref('webhook').on('child_added', function (snap) {
 
                         } else if (messagingEvent.read) {
                             receivedMessageRead(messagingEvent);
-                        } else if (messagingEvent.optin) {
-                            receivedAuthentication(messagingEvent);
                         } else if (messagingEvent.delivery) {
                             receivedDeliveryConfirmation(messagingEvent);
                         } else if (messagingEvent.account_linking) {
