@@ -3536,18 +3536,14 @@ function chatfuelBut(buttons = {
     "type": "json_plugin_url"
 }) {
     var newbuttons = {}
-    if (buttons && buttons.type == 'json_plugin_url') {
-
-        newbuttons = {type: 'postback', payload: JSON.stringify({json_plugin_url: buttons.url}), title: buttons.title}
-    } else if (buttons && buttons.block_names) {
-
-        newbuttons = {
+    if (buttons && buttons.type == 'json_plugin_url') newbuttons = {type: 'postback', payload: JSON.stringify({json_plugin_url: buttons.url}), title: buttons.title}
+     else if (buttons && buttons.block_names) newbuttons = {
             type: 'postback',
             payload: JSON.stringify({block_names: buttons.block_names}),
             title: buttons.title
         }
+    else newbuttons = buttons
 
-    }
     console.log('newbuttons', newbuttons)
 
     return newbuttons

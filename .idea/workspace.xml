@@ -19,8 +19,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="2581" column="42" lean-forward="false" selection-start-line="2581" selection-start-column="42" selection-end-line="2581" selection-end-column="42" />
+            <state relative-caret-position="384">
+              <caret line="3538" column="31" lean-forward="false" selection-start-line="3538" selection-start-column="0" selection-end-line="3539" selection-end-column="0" />
               <folding>
                 <element signature="n#!!block;n#templatelize#0" expanded="false" />
                 <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
@@ -61,7 +61,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getchat</find>
       <find>saveSender</find>
       <find>setGetstarted</find>
       <find>db.ref</find>
@@ -91,6 +90,7 @@
       <find>full_name</find>
       <find>roles</find>
       <find>subscr</find>
+      <find>chatfuelEle,</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -273,12 +273,12 @@
       <workItem from="1522058276803" duration="895000" />
       <workItem from="1522240643544" duration="559000" />
       <workItem from="1522316843023" duration="758000" />
-      <workItem from="1522425522077" duration="17463000" />
+      <workItem from="1522425522077" duration="18560000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="941096000" />
+    <option name="totallyTimeSpent" value="942193000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -702,8 +702,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="2581" column="42" lean-forward="false" selection-start-line="2581" selection-start-column="42" selection-end-line="2581" selection-end-column="42" />
+        <state relative-caret-position="384">
+          <caret line="3538" column="31" lean-forward="false" selection-start-line="3538" selection-start-column="0" selection-end-line="3539" selection-end-column="0" />
           <folding>
             <element signature="n#!!block;n#templatelize#0" expanded="false" />
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
