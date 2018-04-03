@@ -19,12 +19,13 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="398">
-              <caret line="311" column="82" lean-forward="false" selection-start-line="311" selection-start-column="82" selection-end-line="311" selection-end-column="82" />
+            <state relative-caret-position="330">
+              <caret line="2581" column="42" lean-forward="false" selection-start-line="2581" selection-start-column="42" selection-end-line="2581" selection-end-column="42" />
               <folding>
                 <element signature="n#!!block;n#templatelize#0" expanded="false" />
                 <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
                 <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
+                <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
                 <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
                 <element signature="n#!!block;n#intention#0" expanded="false" />
                 <element signature="n#!!block;n#sendAPI#0" expanded="false" />
@@ -32,7 +33,7 @@
                 <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
                 <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
                 <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
-                <element signature="e#55869#77109#0" expanded="false" />
+                <element signature="e#55889#77129#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -60,7 +61,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>setDefautMenu</find>
       <find>getchat</find>
       <find>saveSender</find>
       <find>setGetstarted</find>
@@ -90,6 +90,7 @@
       <find>WHI</find>
       <find>full_name</find>
       <find>roles</find>
+      <find>subscr</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -99,6 +100,7 @@
       <replace>?</replace>
       <replace>:</replace>
       <replace>,</replace>
+      <replace>save</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -271,12 +273,12 @@
       <workItem from="1522058276803" duration="895000" />
       <workItem from="1522240643544" duration="559000" />
       <workItem from="1522316843023" duration="758000" />
-      <workItem from="1522425522077" duration="14572000" />
+      <workItem from="1522425522077" duration="17463000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="938205000" />
+    <option name="totallyTimeSpent" value="941096000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -289,7 +291,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19590114" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -300,7 +301,7 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2517912" sideWeight="0.4918957" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2517912" sideWeight="0.4918957" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -375,6 +376,7 @@
             <element signature="n#!!block;n#templatelize#0" expanded="false" />
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
+            <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
@@ -382,7 +384,7 @@
             <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
-            <element signature="e#55869#77109#0" expanded="false" />
+            <element signature="e#55889#77129#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -395,6 +397,7 @@
             <element signature="n#!!block;n#templatelize#0" expanded="false" />
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
+            <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
@@ -402,7 +405,7 @@
             <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
-            <element signature="e#55869#77109#0" expanded="false" />
+            <element signature="e#55889#77129#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -436,6 +439,7 @@
             <element signature="n#!!block;n#templatelize#0" expanded="false" />
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
+            <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
@@ -443,7 +447,7 @@
             <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
-            <element signature="e#55869#77109#0" expanded="false" />
+            <element signature="e#55889#77129#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -484,6 +488,7 @@
             <element signature="n#!!block;n#templatelize#0" expanded="false" />
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
+            <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
@@ -491,7 +496,7 @@
             <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
-            <element signature="e#55869#77109#0" expanded="false" />
+            <element signature="e#55889#77129#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -518,6 +523,7 @@
             <element signature="n#!!block;n#templatelize#0" expanded="false" />
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
+            <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
@@ -525,7 +531,7 @@
             <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
-            <element signature="e#55869#77109#0" expanded="false" />
+            <element signature="e#55889#77129#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -559,6 +565,7 @@
             <element signature="n#!!block;n#templatelize#0" expanded="false" />
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
+            <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
@@ -566,7 +573,7 @@
             <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
-            <element signature="e#55869#77109#0" expanded="false" />
+            <element signature="e#55889#77129#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -695,12 +702,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
-          <caret line="311" column="82" lean-forward="false" selection-start-line="311" selection-start-column="82" selection-end-line="311" selection-end-column="82" />
+        <state relative-caret-position="330">
+          <caret line="2581" column="42" lean-forward="false" selection-start-line="2581" selection-start-column="42" selection-end-line="2581" selection-end-column="42" />
           <folding>
             <element signature="n#!!block;n#templatelize#0" expanded="false" />
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
+            <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
             <element signature="n#!!block;n#sendAPI#0" expanded="false" />
@@ -708,7 +716,7 @@
             <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
-            <element signature="e#55869#77109#0" expanded="false" />
+            <element signature="e#55889#77129#0" expanded="false" />
           </folding>
         </state>
       </provider>
