@@ -177,7 +177,8 @@ function isObject(a) {
 
 function templatelize(text = 'loading...', data = {first_name: 'Thông'}) {
     var check = 0
-
+    text = `${text}`
+    console.log('text',text)
     if (isObject(text)) {
         var string = JSON.stringify(text)
         for (var i in data) {
@@ -2041,14 +2042,26 @@ function setDefautMenu(page = 'jobo', persistent_menu, branding = true) {
         ]
     }
 
-    if (branding) persistent_menu = persistent_menu.map(per => {
-        per.call_to_actions.push({
-            "title": "Create a bot in Botform",
-            "type": "web_url",
-            "url": "https://app.botform.asia/create"
-        })
-        return per
-    })
+
+    if(facebookPage[page] && facebookPage[page].init){
+        var init = facebookPage[page].init
+
+        if(!init.branding && branding){
+            init.branding = Date.now()
+            persistent_menu = persistent_menu.map(per => {
+                per.call_to_actions.push({
+                    "title": "Create a bot in Botform",
+                    "type": "web_url",
+                    "url": "https://app.botform.asia/create"
+                })
+                return per
+            })
+
+            saveData('facebookPage',page,{init})
+
+        }
+    }
+
 
 
     var menu = {persistent_menu}
@@ -3087,13 +3100,14 @@ function loop(q, flow, senderID, pageID) {
 
 function sendMessages(senderID, messages, typing, pageID, metadata) {
     return new Promise(function (resolve, reject) {
-
         var i = -1
 
         function sendPer() {
             i++
             if (i < messages.length) {
                 var messageData = messages[i]
+                console.log('messagePer',messageData)
+
                 sendAPI(senderID, messageData, typing, pageID, metadata).then(result => setTimeout(() => {
                     sendPer()
                 }, 2000))
@@ -3513,9 +3527,12 @@ function sendjson_plugin_url(senderID, messages, typing, pageID, go_to_block) {
 }
 
 function chatFuelToBoform(chatfuelMes) {
-    if (chatfuelMes.attachment && chatfuelMes.attachment.payload && chatfuelMes.attachment.payload.elements) {
-        chatfuelMes.attachment.payload.elements = chatfuelMes.attachment.payload.elements.map(ele => chatfuelEle(ele))
-    }
+    if (chatfuelMes.attachment && chatfuelMes.attachment.payload) {
+        if(chatfuelMes.attachment.payload.elements) chatfuelMes.attachment.payload.elements = chatfuelMes.attachment.payload.elements.map(ele => chatfuelEle(ele))
+        else if(chatfuelMes.attachment.payload.buttons) chatfuelMes.attachment.payload.buttons = chatfuelMes.attachment.payload.buttons.map(button => chatfuelBut(button))
+    } else if(chatfuelMes.quick_replies) chatfuelMes.quick_replies= chatfuelMes.quick_replies.map(button => chatfuelQuick(button))
+
+
     console.log('chatFuelToBoform,', JSON.stringify(chatfuelMes))
 
     return chatfuelMes
@@ -3542,6 +3559,24 @@ function chatfuelBut(buttons = {
             payload: JSON.stringify({block_names: buttons.block_names}),
             title: buttons.title
         }
+    else newbuttons = buttons
+
+    console.log('newbuttons', newbuttons)
+
+    return newbuttons
+}
+function chatfuelQuick(buttons = {
+    "title":"Not really...",
+    "url": "https://rockets.chatfuel.com/api/sad-match",
+    "type":"json_plugin_url"
+}) {
+    var newbuttons = {}
+    if (buttons && buttons.type == 'json_plugin_url') newbuttons = {content_type: 'text', payload: JSON.stringify({json_plugin_url: buttons.url}), title: buttons.title}
+    else if (buttons && buttons.block_names) newbuttons = {
+        content_type: 'text',
+        payload: JSON.stringify({block_names: buttons.block_names}),
+        title: buttons.title
+    }
     else newbuttons = buttons
 
     console.log('newbuttons', newbuttons)
