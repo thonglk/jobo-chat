@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -20,8 +19,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="1848" column="106" lean-forward="true" selection-start-line="1848" selection-start-column="106" selection-end-line="1848" selection-end-column="106" />
+            <state relative-caret-position="354">
+              <caret line="3057" column="55" lean-forward="true" selection-start-line="3057" selection-start-column="55" selection-end-line="3057" selection-end-column="55" />
               <folding>
                 <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
                 <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
@@ -33,9 +32,6 @@
                 <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
                 <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
                 <element signature="e#55938#77178#0" expanded="false" />
-                <element signature="e#164779#164899#0" expanded="false" />
-                <element signature="n#!!block;n#chatfuelBut#0" expanded="false" />
-                <element signature="e#165803#165938#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -73,13 +69,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>copyFile</find>
-      <find>sheetId</find>
-      <find>5001</find>
-      <find>ana</find>
-      <find>quick_replies</find>
-      <find>title&quot;</find>
-      <find>account</find>
       <find>account&quot;</find>
       <find>account'</find>
       <find>admin</find>
@@ -103,6 +92,13 @@
       <find>button</find>
       <find>json_yr</find>
       <find>messagePer</find>
+      <find>chatfu</find>
+      <find>newurl</find>
+      <find>payload.bl</find>
+      <find>=&gt;</find>
+      <find>text</find>
+      <find>url</find>
+      <find>url'</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -285,12 +281,12 @@
       <workItem from="1522058276803" duration="895000" />
       <workItem from="1522240643544" duration="559000" />
       <workItem from="1522316843023" duration="758000" />
-      <workItem from="1522425522077" duration="26377000" />
+      <workItem from="1522425522077" duration="30354000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="950010000" />
+    <option name="totallyTimeSpent" value="953987000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -396,9 +392,6 @@
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="e#55938#77178#0" expanded="false" />
-            <element signature="e#164779#164899#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelBut#0" expanded="false" />
-            <element signature="e#165803#165938#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -418,9 +411,6 @@
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="e#55938#77178#0" expanded="false" />
-            <element signature="e#164779#164899#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelBut#0" expanded="false" />
-            <element signature="e#165803#165938#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -461,9 +451,6 @@
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="e#55938#77178#0" expanded="false" />
-            <element signature="e#164779#164899#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelBut#0" expanded="false" />
-            <element signature="e#165803#165938#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -511,9 +498,6 @@
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="e#55938#77178#0" expanded="false" />
-            <element signature="e#164779#164899#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelBut#0" expanded="false" />
-            <element signature="e#165803#165938#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -547,9 +531,6 @@
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="e#55938#77178#0" expanded="false" />
-            <element signature="e#164779#164899#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelBut#0" expanded="false" />
-            <element signature="e#165803#165938#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -590,9 +571,6 @@
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="e#55938#77178#0" expanded="false" />
-            <element signature="e#164779#164899#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelBut#0" expanded="false" />
-            <element signature="e#165803#165938#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -722,8 +700,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="1848" column="106" lean-forward="true" selection-start-line="1848" selection-start-column="106" selection-end-line="1848" selection-end-column="106" />
+        <state relative-caret-position="354">
+          <caret line="3057" column="55" lean-forward="true" selection-start-line="3057" selection-start-column="55" selection-end-line="3057" selection-end-column="55" />
           <folding>
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
@@ -735,9 +713,6 @@
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="e#55938#77178#0" expanded="false" />
-            <element signature="e#164779#164899#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelBut#0" expanded="false" />
-            <element signature="e#165803#165938#0" expanded="false" />
           </folding>
         </state>
       </provider>

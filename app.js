@@ -1844,21 +1844,32 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }
                                                     }
                                                 }
-                                                else if (payload.json_plugin_url)
-                                                    sendTypingOn(senderID, pageID)
+                                                else if (payload.json_plugin_url || payload.block_names){
+                                                    if (payload.json_plugin_url)  sendTypingOn(senderID, pageID)
                                                         .then(result => axios.get(payload.json_plugin_url)
-                                                            .then(result => sendjson_plugin_url(senderID, result.data.messages, null, pageID, result.data.go_to_block)
+                                                            .then(result => sendjson_plugin_url(senderID, result.data.messages, null, pageID, result.data.go_to_block,result.data.set_attributes)
                                                             ))
-                                                else if (payload.block_names) {
-                                                    for (var i in questions) {
-                                                        var quest = questions[i]
-                                                        console.log(vietnameseDecode(payload.block_names[0]), vietnameseDecode(quest[1]))
-                                                        if (vietnameseDecode(payload.block_names[0]) == vietnameseDecode(quest[1])) {
-                                                            go(quest[0], null, flow, senderID, pageID)
-                                                            break
+                                                    else if (payload.block_names) {
+                                                        for (var i in questions) {
+                                                            var quest = questions[i]
+                                                            console.log(vietnameseDecode(payload.block_names[0]), vietnameseDecode(quest[1]))
+                                                            if (vietnameseDecode(payload.block_names[0]) == vietnameseDecode(quest[1])) {
+                                                                go(quest[0], null, flow, senderID, pageID)
+                                                                break
+                                                            }
                                                         }
                                                     }
+                                                    if(payload.set_attributes) {
+                                                        var set_attributes = payload.set_attributes
+                                                        var dataCustom = dataAccount[senderID].custom || {}
+                                                        dataCustom = Object.assign(dataCustom,set_attributes)
+                                                        saveData('account',senderID,{custom:dataCustom}).then(result=>{
+                                                            console.log('payload.set_attributes',result)
+                                                        })
+                                                    }
                                                 }
+
+
 
                                             }
 
@@ -3048,7 +3059,7 @@ function loop(q, flow, senderID, pageID) {
 
                                     per.forEach(kv => {
                                         var k_v = kv.split("=")
-                                        newurl = newurl + k_v[0] + "=" + urlencode(k_v[1])
+                                        newurl = newurl + k_v[0] + "=" + urlencode(k_v[1]) +'&'
                                     })
                                 }
 
@@ -3511,11 +3522,11 @@ function sendjson_plugin_url(senderID, messages, typing, pageID, go_to_block,set
     if(set_attributes){
        var dataCustom = dataAccount[senderID].custom || {}
         dataCustom = Object.assign(dataCustom,set_attributes)
-        saveData('user',senderID,{custom:dataCustom})
+        saveData('account',senderID,{custom:dataCustom}).then(result => console.log('set_attributes',result))
     }
 
     if (messages) {
-        messages = messages.map(chatfuelMes => chatFuelToBoform(chatfuelMes))
+        messages = messages.map(chatfuelMes => chatFuelToBoform(chatfuelMes,senderID))
         console.log('sendjson_plugin_url', JSON.stringify(messages))
         sendMessages(senderID, messages, typing, pageID)
     }else if (go_to_block) {
@@ -3532,13 +3543,13 @@ function sendjson_plugin_url(senderID, messages, typing, pageID, go_to_block,set
     }
 }
 
-function chatFuelToBoform(chatfuelMes) {
+function chatFuelToBoform(chatfuelMes,senderID) {
     if (chatfuelMes.attachment && chatfuelMes.attachment.payload) {
-        if(chatfuelMes.attachment.payload.elements) chatfuelMes.attachment.payload.elements = chatfuelMes.attachment.payload.elements.map(ele => chatfuelEle(ele))
-        if(chatfuelMes.attachment.payload.buttons) chatfuelMes.attachment.payload.buttons = chatfuelMes.attachment.payload.buttons.map(button => chatfuelBut(button))
+        if(chatfuelMes.attachment.payload.elements) chatfuelMes.attachment.payload.elements = chatfuelMes.attachment.payload.elements.map(ele => chatfuelEle(ele,senderID))
+        if(chatfuelMes.attachment.payload.buttons) chatfuelMes.attachment.payload.buttons = chatfuelMes.attachment.payload.buttons.map(button => chatfuelBut(button,senderID))
     }
 
-    if(chatfuelMes.quick_replies) chatfuelMes.quick_replies= chatfuelMes.quick_replies.map(button => chatfuelQuick(button))
+    if(chatfuelMes.quick_replies) chatfuelMes.quick_replies= chatfuelMes.quick_replies.map(button => chatfuelQuick(button,senderID))
 
 
     console.log('chatFuelToBoform,', JSON.stringify(chatfuelMes))
@@ -3546,9 +3557,9 @@ function chatFuelToBoform(chatfuelMes) {
     return chatfuelMes
 }
 
-function chatfuelEle(ele) {
+function chatfuelEle(ele,senderID) {
     if (ele.buttons) {
-        ele.buttons = ele.buttons.map(but => chatfuelBut(but))
+        ele.buttons = ele.buttons.map(but => chatfuelBut(but,senderID))
     }
     console.log('chatfuelEle,', JSON.stringify(ele))
 
@@ -3560,14 +3571,17 @@ function chatfuelBut(buttons = {
     "url": "https://rockets.chatfuel.com/api/sad-match",
     "type": "json_plugin_url"
 }) {
-    var newbuttons = {}
-    if (buttons && buttons.type == 'json_plugin_url') newbuttons = {type: 'postback', payload: JSON.stringify({json_plugin_url: buttons.url}), title: buttons.title}
-     else if (buttons && buttons.block_names) newbuttons = {
-            type: 'postback',
-            payload: JSON.stringify({block_names: buttons.block_names}),
-            title: buttons.title
-        }
+
+    var payloadObj = {}
+    if (buttons && buttons.type == 'json_plugin_url') payloadObj = {json_plugin_url: buttons.url}
+    else if (buttons && buttons.block_names) payloadObj = {block_names: buttons.block_names}
+
+    if(buttons.set_attributes) payloadObj.set_attributes = buttons.set_attributes
+
+    if(JSON.stringify(payloadObj).length >0) var newbuttons  = {type: 'postback', payload: JSON.stringify(payloadObj), title: buttons.title}
     else newbuttons = buttons
+
+
 
     console.log('newbuttons', newbuttons)
 
@@ -3578,13 +3592,14 @@ function chatfuelQuick(buttons = {
     "url": "https://rockets.chatfuel.com/api/sad-match",
     "type":"json_plugin_url"
 }) {
-    var newbuttons = {}
-    if (buttons && buttons.type == 'json_plugin_url') newbuttons = {content_type: 'text', payload: JSON.stringify({json_plugin_url: buttons.url}), title: buttons.title}
-    else if (buttons && buttons.block_names) newbuttons = {
-        content_type: 'text',
-        payload: JSON.stringify({block_names: buttons.block_names}),
-        title: buttons.title
-    }
+
+    var payloadObj = {}
+    if (buttons && buttons.type == 'json_plugin_url') payloadObj = {json_plugin_url: buttons.url}
+    else if (buttons && buttons.block_names) payloadObj = {block_names: buttons.block_names}
+
+    if(buttons.set_attributes) payloadObj.set_attributes = buttons.set_attributes
+
+    if(JSON.stringify(payloadObj).length >0) var newbuttons  = {content_type: 'text', payload: JSON.stringify(payloadObj), title: buttons.title}
     else newbuttons = buttons
 
     console.log('newbuttons', newbuttons)
