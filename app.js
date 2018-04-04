@@ -3507,12 +3507,18 @@ function sendingAPI(recipientId, senderId = facebookPage['jobo'].id, message, ty
 }
 
 
-function sendjson_plugin_url(senderID, messages, typing, pageID, go_to_block) {
+function sendjson_plugin_url(senderID, messages, typing, pageID, go_to_block,set_attributes) {
+    if(set_attributes){
+       var dataCustom = dataAccount[senderID].custom || {}
+        dataCustom = Object.assign(dataCustom,set_attributes)
+        saveData('user',senderID,{custom:dataCustom})
+    }
+
     if (messages) {
         messages = messages.map(chatfuelMes => chatFuelToBoform(chatfuelMes))
         console.log('sendjson_plugin_url', JSON.stringify(messages))
         sendMessages(senderID, messages, typing, pageID)
-    } else if (go_to_block) {
+    }else if (go_to_block) {
         var flow = getBotfromPageID(pageID).data
         var questions = flow[1];
         for (var i in questions) {
