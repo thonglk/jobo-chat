@@ -3529,8 +3529,10 @@ function sendjson_plugin_url(senderID, messages, typing, pageID, go_to_block) {
 function chatFuelToBoform(chatfuelMes) {
     if (chatfuelMes.attachment && chatfuelMes.attachment.payload) {
         if(chatfuelMes.attachment.payload.elements) chatfuelMes.attachment.payload.elements = chatfuelMes.attachment.payload.elements.map(ele => chatfuelEle(ele))
-        else if(chatfuelMes.attachment.payload.buttons) chatfuelMes.attachment.payload.buttons = chatfuelMes.attachment.payload.buttons.map(button => chatfuelBut(button))
-    } else if(chatfuelMes.quick_replies) chatfuelMes.quick_replies= chatfuelMes.quick_replies.map(button => chatfuelQuick(button))
+        if(chatfuelMes.attachment.payload.buttons) chatfuelMes.attachment.payload.buttons = chatfuelMes.attachment.payload.buttons.map(button => chatfuelBut(button))
+    }
+
+    if(chatfuelMes.quick_replies) chatfuelMes.quick_replies= chatfuelMes.quick_replies.map(button => chatfuelQuick(button))
 
 
     console.log('chatFuelToBoform,', JSON.stringify(chatfuelMes))
