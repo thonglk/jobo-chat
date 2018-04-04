@@ -3578,7 +3578,7 @@ function chatfuelBut(buttons = {
 
     if(buttons.set_attributes) payloadObj.set_attributes = buttons.set_attributes
 
-    if(JSON.stringify(payloadObj).length >0) var newbuttons  = {type: 'postback', payload: JSON.stringify(payloadObj), title: buttons.title}
+    if(Object.keys(payloadObj).length > 0) var newbuttons  = {type: 'postback', payload: JSON.stringify(payloadObj), title: buttons.title}
     else newbuttons = buttons
 
 
@@ -3599,7 +3599,7 @@ function chatfuelQuick(buttons = {
 
     if(buttons.set_attributes) payloadObj.set_attributes = buttons.set_attributes
 
-    if(JSON.stringify(payloadObj).length >0) var newbuttons  = {content_type: 'text', payload: JSON.stringify(payloadObj), title: buttons.title}
+    if(Object.keys(payloadObj).length > 0) var newbuttons  = {content_type: 'text', payload: JSON.stringify(payloadObj), title: buttons.title}
     else newbuttons = buttons
 
     console.log('newbuttons', newbuttons)
