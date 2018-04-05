@@ -2913,46 +2913,44 @@ function loop(q, flow, senderID, pageID) {
                         var length = buttons.length
                         console.log('length', length)
 
-                        var max = 0
-                        for (var i = 1; i <= length / 3; i++) {
-                            console.log('i', i, length / 3)
-                            var max = i
+                        if(length > 3){
+
                             var messageSend = {
                                 attachment: {
                                     type: "template",
                                     payload: {
                                         template_type: "button",
-                                        text: '---',
-                                        buttons: [buttons[3 * i - 3], buttons[3 * i - 2], buttons[3 * i - 1]]
+                                        text: currentQuestion[1],
+                                        buttons: [buttons[0], buttons[1], buttons[2]]
                                     }
                                 }
                             }
-                            if (i == 1) messageSend.attachment.payload.text = currentQuestion[1]
 
-                            array_mes.push(messageSend)
-                        }
 
-                        if (length % 3 != 0) {
-                            var rest = _.rest(buttons, 3 * max)
+                            var rest = _.rest(buttons, 3)
+                            var mapQuick = rest.map(but => {
+                                but.content_type = "text"
+                                delete but.type
+                                return but
+                            })
+                            messageSend.quick_replies = mapQuick
 
-                            console.log('rest', rest)
 
+                        } else {
                             messageSend = {
                                 attachment: {
                                     type: "template",
                                     payload: {
                                         template_type: "button",
-                                        text: '---',
-                                        buttons: rest
+                                        text: currentQuestion[1],
+                                        buttons: buttons
                                     }
                                 }
                             }
-                            if (length < 3) messageSend.attachment.payload.text = currentQuestion[1]
-                            array_mes.push(messageSend)
 
                         }
 
-
+                        array_mes.push(messageSend)
                         sendMessages(senderID, array_mes, null, pageID, metadata)
 
                     } else {
@@ -3892,44 +3890,83 @@ function buildMessage(blockName, pageID) {
                                 var length = buttons.length
                                 console.log('length', length)
 
-                                var max = 0
-                                for (var i = 1; i <= length / 3; i++) {
-                                    console.log('i', i, length / 3)
-                                    var max = i
+                                // var max = 0
+                                // for (var i = 1; i <= length / 3; i++) {
+                                //     console.log('i', i, length / 3)
+                                //     var max = i
+                                //     var messageSend = {
+                                //         attachment: {
+                                //             type: "template",
+                                //             payload: {
+                                //                 template_type: "button",
+                                //                 text: '---',
+                                //                 buttons: [buttons[3 * i - 3], buttons[3 * i - 2], buttons[3 * i - 1]]
+                                //             }
+                                //         }
+                                //     }
+                                //     if (i == 1) messageSend.attachment.payload.text = currentQuestion[1]
+                                //
+                                //     array_mes.push(messageSend)
+                                // }
+                                // if (length % 3 != 0) {
+                                //     var rest = _.rest(buttons, 3 * max)
+                                //
+                                //     console.log('rest', rest)
+                                //
+                                //     messageSend = {
+                                //         attachment: {
+                                //             type: "template",
+                                //             payload: {
+                                //                 template_type: "button",
+                                //                 text: '---',
+                                //                 buttons: rest
+                                //             }
+                                //         }
+                                //     }
+                                //
+                                //     if (length < 3) messageSend.attachment.payload.text = currentQuestion[1]
+                                //     array_mes.push(messageSend)
+                                //
+                                // }
+
+                                if(length > 3){
+
                                     var messageSend = {
                                         attachment: {
                                             type: "template",
                                             payload: {
                                                 template_type: "button",
-                                                text: '---',
-                                                buttons: [buttons[3 * i - 3], buttons[3 * i - 2], buttons[3 * i - 1]]
+                                                text: currentQuestion[1],
+                                                buttons: [buttons[0], buttons[1], buttons[2]]
                                             }
                                         }
                                     }
-                                    if (i == 1) messageSend.attachment.payload.text = currentQuestion[1]
 
-                                    array_mes.push(messageSend)
-                                }
 
-                                if (length % 3 != 0) {
-                                    var rest = _.rest(buttons, 3 * max)
+                                    var rest = _.rest(buttons, 3)
+                                    var mapQuick = rest.map(but => {
+                                        but.content_type = "text"
+                                        delete but.type
+                                        return but
+                                    })
+                                    messageSend.quick_replies = mapQuick
 
-                                    console.log('rest', rest)
 
+                                } else {
                                     messageSend = {
                                         attachment: {
                                             type: "template",
                                             payload: {
                                                 template_type: "button",
-                                                text: '---',
-                                                buttons: rest
+                                                text: currentQuestion[1],
+                                                buttons: buttons
                                             }
                                         }
                                     }
-                                    if (length < 3) messageSend.attachment.payload.text = currentQuestion[1]
-                                    array_mes.push(messageSend)
 
                                 }
+
+                                array_mes.push(messageSend)
 
                                 allMessages = allMessages.concat(array_mes)
 
