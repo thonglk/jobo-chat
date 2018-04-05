@@ -3547,7 +3547,7 @@ function chatFuelToBoform(chatfuelMes,senderID) {
         if(chatfuelMes.attachment.payload.buttons) chatfuelMes.attachment.payload.buttons = chatfuelMes.attachment.payload.buttons.map(button => chatfuelBut(button,senderID))
     }
 
-    if(chatfuelMes.quick_replies) chatfuelMes.quick_replies= chatfuelMes.quick_replies.map(button => chatfuelQuick(button,senderID))
+    if(chatfuelMes.quick_replies) chatfuelMes.quick_replies = chatfuelMes.quick_replies.map(button => chatfuelQuick(button,senderID))
 
 
     console.log('chatFuelToBoform,', JSON.stringify(chatfuelMes))
@@ -3581,7 +3581,7 @@ function chatfuelBut(buttons = {
 
 
 
-    console.log('newbuttons', newbuttons)
+    console.log('chatfuelBut_newbuttons', newbuttons)
 
     return newbuttons
 }
@@ -3600,7 +3600,7 @@ function chatfuelQuick(buttons = {
     if(Object.keys(payloadObj).length > 0) var newbuttons  = {content_type: 'text', payload: JSON.stringify(payloadObj), title: buttons.title}
     else newbuttons = buttons
 
-    console.log('newbuttons', newbuttons)
+    console.log('chatfuelQuick_newbuttons', newbuttons)
 
     return newbuttons
 }
