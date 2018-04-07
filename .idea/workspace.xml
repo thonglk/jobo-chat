@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="" />
+    <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -17,8 +20,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="366">
-              <caret line="1768" column="49" lean-forward="true" selection-start-line="1768" selection-start-column="49" selection-end-line="1768" selection-end-column="49" />
+            <state relative-caret-position="424">
+              <caret line="2819" column="25" lean-forward="false" selection-start-line="2819" selection-start-column="0" selection-end-line="2820" selection-end-column="0" />
               <folding>
                 <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
                 <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
@@ -30,16 +33,18 @@
                 <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
                 <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
                 <element signature="e#55938#77178#0" expanded="false" />
+                <element signature="e#88455#89470#0" expanded="false" />
+                <element signature="e#89561#90072#0" expanded="false" />
                 <element signature="e#90159#93788#0" expanded="false" />
                 <element signature="e#93873#94260#0" expanded="false" />
                 <element signature="e#94339#95012#0" expanded="false" />
                 <element signature="e#95131#99499#0" expanded="false" />
                 <element signature="e#99586#100159#0" expanded="false" />
                 <element signature="e#100264#102412#0" expanded="false" />
-                <element signature="e#140838#141748#0" expanded="false" />
-                <element signature="e#141798#142236#0" expanded="false" />
-                <element signature="e#181941#182995#0" expanded="false" />
-                <element signature="e#183053#183563#0" expanded="false" />
+                <element signature="e#140927#141837#0" expanded="false" />
+                <element signature="e#141887#142325#0" expanded="false" />
+                <element signature="e#182030#183084#0" expanded="false" />
+                <element signature="e#183142#183652#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -77,8 +82,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>account'</find>
-      <find>admin</find>
       <find>ref</find>
       <find>refData</find>
       <find>messagingEvent.optin</find>
@@ -107,6 +110,8 @@
       <find>url'</find>
       <find>chatfu</find>
       <find>payload.key</find>
+      <find>custom</find>
+      <find>setCustom</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -289,12 +294,12 @@
       <workItem from="1522058276803" duration="895000" />
       <workItem from="1522240643544" duration="559000" />
       <workItem from="1522316843023" duration="758000" />
-      <workItem from="1522425522077" duration="36442000" />
+      <workItem from="1522425522077" duration="38298000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="960075000" />
+    <option name="totallyTimeSpent" value="961931000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -400,16 +405,18 @@
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="e#55938#77178#0" expanded="false" />
+            <element signature="e#88455#89470#0" expanded="false" />
+            <element signature="e#89561#90072#0" expanded="false" />
             <element signature="e#90159#93788#0" expanded="false" />
             <element signature="e#93873#94260#0" expanded="false" />
             <element signature="e#94339#95012#0" expanded="false" />
             <element signature="e#95131#99499#0" expanded="false" />
             <element signature="e#99586#100159#0" expanded="false" />
             <element signature="e#100264#102412#0" expanded="false" />
-            <element signature="e#140838#141748#0" expanded="false" />
-            <element signature="e#141798#142236#0" expanded="false" />
-            <element signature="e#181941#182995#0" expanded="false" />
-            <element signature="e#183053#183563#0" expanded="false" />
+            <element signature="e#140927#141837#0" expanded="false" />
+            <element signature="e#141887#142325#0" expanded="false" />
+            <element signature="e#182030#183084#0" expanded="false" />
+            <element signature="e#183142#183652#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -429,16 +436,18 @@
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="e#55938#77178#0" expanded="false" />
+            <element signature="e#88455#89470#0" expanded="false" />
+            <element signature="e#89561#90072#0" expanded="false" />
             <element signature="e#90159#93788#0" expanded="false" />
             <element signature="e#93873#94260#0" expanded="false" />
             <element signature="e#94339#95012#0" expanded="false" />
             <element signature="e#95131#99499#0" expanded="false" />
             <element signature="e#99586#100159#0" expanded="false" />
             <element signature="e#100264#102412#0" expanded="false" />
-            <element signature="e#140838#141748#0" expanded="false" />
-            <element signature="e#141798#142236#0" expanded="false" />
-            <element signature="e#181941#182995#0" expanded="false" />
-            <element signature="e#183053#183563#0" expanded="false" />
+            <element signature="e#140927#141837#0" expanded="false" />
+            <element signature="e#141887#142325#0" expanded="false" />
+            <element signature="e#182030#183084#0" expanded="false" />
+            <element signature="e#183142#183652#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -479,16 +488,18 @@
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="e#55938#77178#0" expanded="false" />
+            <element signature="e#88455#89470#0" expanded="false" />
+            <element signature="e#89561#90072#0" expanded="false" />
             <element signature="e#90159#93788#0" expanded="false" />
             <element signature="e#93873#94260#0" expanded="false" />
             <element signature="e#94339#95012#0" expanded="false" />
             <element signature="e#95131#99499#0" expanded="false" />
             <element signature="e#99586#100159#0" expanded="false" />
             <element signature="e#100264#102412#0" expanded="false" />
-            <element signature="e#140838#141748#0" expanded="false" />
-            <element signature="e#141798#142236#0" expanded="false" />
-            <element signature="e#181941#182995#0" expanded="false" />
-            <element signature="e#183053#183563#0" expanded="false" />
+            <element signature="e#140927#141837#0" expanded="false" />
+            <element signature="e#141887#142325#0" expanded="false" />
+            <element signature="e#182030#183084#0" expanded="false" />
+            <element signature="e#183142#183652#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -536,16 +547,18 @@
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="e#55938#77178#0" expanded="false" />
+            <element signature="e#88455#89470#0" expanded="false" />
+            <element signature="e#89561#90072#0" expanded="false" />
             <element signature="e#90159#93788#0" expanded="false" />
             <element signature="e#93873#94260#0" expanded="false" />
             <element signature="e#94339#95012#0" expanded="false" />
             <element signature="e#95131#99499#0" expanded="false" />
             <element signature="e#99586#100159#0" expanded="false" />
             <element signature="e#100264#102412#0" expanded="false" />
-            <element signature="e#140838#141748#0" expanded="false" />
-            <element signature="e#141798#142236#0" expanded="false" />
-            <element signature="e#181941#182995#0" expanded="false" />
-            <element signature="e#183053#183563#0" expanded="false" />
+            <element signature="e#140927#141837#0" expanded="false" />
+            <element signature="e#141887#142325#0" expanded="false" />
+            <element signature="e#182030#183084#0" expanded="false" />
+            <element signature="e#183142#183652#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -579,16 +592,18 @@
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="e#55938#77178#0" expanded="false" />
+            <element signature="e#88455#89470#0" expanded="false" />
+            <element signature="e#89561#90072#0" expanded="false" />
             <element signature="e#90159#93788#0" expanded="false" />
             <element signature="e#93873#94260#0" expanded="false" />
             <element signature="e#94339#95012#0" expanded="false" />
             <element signature="e#95131#99499#0" expanded="false" />
             <element signature="e#99586#100159#0" expanded="false" />
             <element signature="e#100264#102412#0" expanded="false" />
-            <element signature="e#140838#141748#0" expanded="false" />
-            <element signature="e#141798#142236#0" expanded="false" />
-            <element signature="e#181941#182995#0" expanded="false" />
-            <element signature="e#183053#183563#0" expanded="false" />
+            <element signature="e#140927#141837#0" expanded="false" />
+            <element signature="e#141887#142325#0" expanded="false" />
+            <element signature="e#182030#183084#0" expanded="false" />
+            <element signature="e#183142#183652#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -629,16 +644,18 @@
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="e#55938#77178#0" expanded="false" />
+            <element signature="e#88455#89470#0" expanded="false" />
+            <element signature="e#89561#90072#0" expanded="false" />
             <element signature="e#90159#93788#0" expanded="false" />
             <element signature="e#93873#94260#0" expanded="false" />
             <element signature="e#94339#95012#0" expanded="false" />
             <element signature="e#95131#99499#0" expanded="false" />
             <element signature="e#99586#100159#0" expanded="false" />
             <element signature="e#100264#102412#0" expanded="false" />
-            <element signature="e#140838#141748#0" expanded="false" />
-            <element signature="e#141798#142236#0" expanded="false" />
-            <element signature="e#181941#182995#0" expanded="false" />
-            <element signature="e#183053#183563#0" expanded="false" />
+            <element signature="e#140927#141837#0" expanded="false" />
+            <element signature="e#141887#142325#0" expanded="false" />
+            <element signature="e#182030#183084#0" expanded="false" />
+            <element signature="e#183142#183652#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -768,8 +785,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="1768" column="49" lean-forward="true" selection-start-line="1768" selection-start-column="49" selection-end-line="1768" selection-end-column="49" />
+        <state relative-caret-position="424">
+          <caret line="2819" column="25" lean-forward="false" selection-start-line="2819" selection-start-column="0" selection-end-line="2820" selection-end-column="0" />
           <folding>
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
             <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
@@ -781,16 +798,18 @@
             <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
             <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
             <element signature="e#55938#77178#0" expanded="false" />
+            <element signature="e#88455#89470#0" expanded="false" />
+            <element signature="e#89561#90072#0" expanded="false" />
             <element signature="e#90159#93788#0" expanded="false" />
             <element signature="e#93873#94260#0" expanded="false" />
             <element signature="e#94339#95012#0" expanded="false" />
             <element signature="e#95131#99499#0" expanded="false" />
             <element signature="e#99586#100159#0" expanded="false" />
             <element signature="e#100264#102412#0" expanded="false" />
-            <element signature="e#140838#141748#0" expanded="false" />
-            <element signature="e#141798#142236#0" expanded="false" />
-            <element signature="e#181941#182995#0" expanded="false" />
-            <element signature="e#183053#183563#0" expanded="false" />
+            <element signature="e#140927#141837#0" expanded="false" />
+            <element signature="e#141887#142325#0" expanded="false" />
+            <element signature="e#182030#183084#0" expanded="false" />
+            <element signature="e#183142#183652#0" expanded="false" />
           </folding>
         </state>
       </provider>

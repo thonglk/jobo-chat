@@ -2816,6 +2816,11 @@ function loop(q, flow, senderID, pageID) {
             var metadata = {
                 questionId: currentQuestionId
             }
+            if (currentQuestion[2] && currentQuestion[2].match(/=>\w+\S/g)) {
+                console.log('setCustom',currentQuestion[2])
+                metadata.setCustom = currentQuestion[2].match(/=>\w+\S/g)[0].substring(2)
+            }
+
             var askStringStr = `0,1,7,9,10,13`;
             var askOptionStr = `2,3,4,5`;
             var askType = currentQuestion[3];
@@ -2823,7 +2828,6 @@ function loop(q, flow, senderID, pageID) {
             if (currentQuestion[4]) {
                 metadata.askType = askType;
                 metadata.type = 'ask';
-                if (currentQuestion[2] && currentQuestion[2].match(/=>\w+\S/g)) metadata.setCustom = currentQuestion[2].match(/=>\w+\S/g)[0].substring(2)
                 if (askOptionStr.match(askType)) {
                     var askOption = currentQuestion[4][0][1];
                     var check = askOption[0][0]
