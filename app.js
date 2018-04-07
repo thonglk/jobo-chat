@@ -3032,7 +3032,7 @@ function loop(q, flow, senderID, pageID) {
                         }, null, pageID, metadata)
                             .then(result => loop(q, flow, senderID, pageID))
                         else if (askType == 6) {
-                            if (currentQuestion[1].match('pdf')) sendAPI(senderID, {
+                            if (currentQuestion[1] && currentQuestion[1].match('pdf')) sendAPI(senderID, {
                                 attachment: {
                                     type: "file",
                                     payload: {
