@@ -178,7 +178,7 @@ function isObject(a) {
 function templatelize(text = 'loading...', data = {first_name: 'Thông'}) {
     var check = 0
     text = `${text}`
-    console.log('text',text)
+    console.log('text', text)
     if (isObject(text)) {
         var string = JSON.stringify(text)
         for (var i in data) {
@@ -1844,10 +1844,10 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }
                                                     }
                                                 }
-                                                else if (payload.json_plugin_url || payload.block_names){
-                                                    if (payload.json_plugin_url)  sendTypingOn(senderID, pageID)
+                                                else if (payload.json_plugin_url || payload.block_names) {
+                                                    if (payload.json_plugin_url) sendTypingOn(senderID, pageID)
                                                         .then(result => axios.get(payload.json_plugin_url)
-                                                            .then(result => sendjson_plugin_url(senderID, result.data.messages, null, pageID, result.data.go_to_block,result.data.set_attributes)
+                                                            .then(result => sendjson_plugin_url(senderID, result.data.messages, null, pageID, result.data.go_to_block, result.data.set_attributes)
                                                             ))
                                                     else if (payload.block_names) {
                                                         for (var i in questions) {
@@ -1859,16 +1859,15 @@ db.ref('webhook').on('child_added', function (snap) {
                                                             }
                                                         }
                                                     }
-                                                    if(payload.set_attributes) {
+                                                    if (payload.set_attributes) {
                                                         var set_attributes = payload.set_attributes
                                                         var dataCustom = dataAccount[senderID].custom || {}
-                                                        dataCustom = Object.assign(dataCustom,set_attributes)
-                                                        saveData('account',senderID,{custom:dataCustom}).then(result=>{
-                                                            console.log('payload.set_attributes',result)
+                                                        dataCustom = Object.assign(dataCustom, set_attributes)
+                                                        saveData('account', senderID, {custom: dataCustom}).then(result => {
+                                                            console.log('payload.set_attributes', result)
                                                         })
                                                     }
                                                 }
-
 
 
                                             }
@@ -2041,45 +2040,20 @@ app.get('/setGreeting', function (req, res) {
         .catch(err => res.status(500).json(err))
 })
 
-function setDefautMenu(page = 'jobo', persistent_menu, branding = true) {
-    if (!persistent_menu) {
-        var form = getBotfromPageID(page)
-        if (form && form.persistent_menu) persistent_menu = form.persistent_menu
-        else persistent_menu = [
-            {
-                "call_to_actions": [],
-                "locale": "default",
-            }
-        ]
-    }
-
-
-    if(facebookPage[page] && facebookPage[page].init){
-        var init = facebookPage[page].init
-
-        if(!init.branding && branding){
-            init.branding = Date.now()
-            persistent_menu = persistent_menu.map(per => {
-                per.call_to_actions.push({
-                    "title": "Create a bot in Botform",
-                    "type": "web_url",
-                    "url": "https://app.botform.asia/create"
-                })
-                return per
-            })
-
-            saveData('facebookPage',page,{init})
-
-        }
-    }
-
-
-
-    var menu = {persistent_menu}
-
-    console.log("setDefautMenu-ing", page, menu);
-
+function setDefautMenu(page = 'jobo', persistent_menu) {
     return new Promise(function (resolve, reject) {
+
+        if (!persistent_menu) {
+            var form = getBotfromPageID(page)
+            if (form && form.persistent_menu) persistent_menu = form.persistent_menu
+        }
+
+        if (!persistent_menu) reject({err: 'No persistent_menu'})
+
+        var menu = {persistent_menu}
+
+        console.log("setDefautMenu-ing", page, menu);
+
         request({
             uri: 'https://graph.facebook.com/v2.12/me/messenger_profile',
             qs: {access_token: facebookPage[page].access_token},
@@ -2166,16 +2140,15 @@ app.get('/setWit', function (req, res) {
         .catch(err => res.status(500).json(err))
 })
 
-function setWhiteListDomain() {
+function setWhiteListDomain(domain, pageID) {
     var mes = {
-        "whitelisted_domains": WHITE_LIST
+        "whitelisted_domains": [domain]
     }
-
 
     return new Promise(function (resolve, reject) {
         request({
             uri: 'https://graph.facebook.com/v2.12/me/messenger_profile',
-            qs: {access_token: PAGE_ACCESS_TOKEN},
+            qs: {access_token: facebookPage[pageID].access_token},
             method: 'POST',
             json: mes
 
@@ -2296,7 +2269,7 @@ function getPage({access_token, name, pageID}) {
 }
 
 
-function getDataFromUrl(url) {
+function getDataFromUrl(url, branding = true) {
     return new Promise(function (resolve, reject) {
         console.log('getChat-ing')
         if (!url) reject({err: 'Set your url first'})
@@ -2510,8 +2483,13 @@ function getDataFromUrl(url) {
 
 
                                 if (greeting.length > 0) save.greeting = greeting
-                                if (persistent_menu.call_to_actions.length > 0) save.persistent_menu = [persistent_menu]
 
+                                if (branding) persistent_menu.call_to_actions.push({
+                                    "title": "Create a bot in Botform",
+                                    "type": "web_url",
+                                    "url": "https://app.botform.asia?ref=branding"
+                                })
+                                if (persistent_menu.call_to_actions.length > 0) save.persistent_menu = [persistent_menu]
 
                                 console.log('Get form', save)
 
@@ -2594,7 +2572,7 @@ function getChat({url, access_token, name, pageID, type}) {
         getPage({access_token, name, pageID})
             .then(pageData => copySheets(null, pageID, facebookPage[pageID])
                 .then(sheet => exeTypeBot({type, url, pageID})
-                    .then(url => getDataFromUrl(url)
+                    .then(url => getDataFromUrl(url, true)
                         .then(save => initBot({save, pageID})
                             .then(init => {
                                 pageData.init = init
@@ -2615,6 +2593,29 @@ app.get('/getchat', function ({query}, res) {
         .then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 });
+app.get('/getChatAll', (req, res) => {
+    var list = _.toArray(facebookPage)
+    console.log('list', list)
+    var promises = list.map(function (obj) {
+        return getChat({pageID: obj.id})
+            .then(results => {
+                    return results
+                }
+            )
+            .catch(err => {
+                    return err
+                }
+            )
+    });
+
+    Promise.all(promises)
+        .then(results => {
+            sendLog('getChatAll')
+            res.send(results)
+        })
+
+
+})
 
 
 function getNLP(entities) {
@@ -2917,7 +2918,7 @@ function loop(q, flow, senderID, pageID) {
                         var length = buttons.length
                         console.log('length', length)
 
-                        if(length > 3){
+                        if (length > 3) {
 
                             var messageSend = {
                                 attachment: {
@@ -3061,7 +3062,7 @@ function loop(q, flow, senderID, pageID) {
 
                                     per.forEach(kv => {
                                         var k_v = kv.split("=")
-                                        newurl = newurl + k_v[0] + "=" + urlencode(k_v[1]) +'&'
+                                        newurl = newurl + k_v[0] + "=" + urlencode(k_v[1]) + '&'
                                     })
                                 }
 
@@ -3119,7 +3120,7 @@ function sendMessages(senderID, messages, typing, pageID, metadata) {
             i++
             if (i < messages.length) {
                 var messageData = messages[i]
-                console.log('messagePer',messageData)
+                console.log('messagePer', messageData)
 
                 sendAPI(senderID, messageData, typing, pageID, metadata).then(result => setTimeout(() => {
                     sendPer()
@@ -3520,18 +3521,18 @@ function sendingAPI(recipientId, senderId = facebookPage['jobo'].id, message, ty
 }
 
 
-function sendjson_plugin_url(senderID, messages, typing, pageID, go_to_block,set_attributes) {
-    if(set_attributes){
-       var dataCustom = dataAccount[senderID].custom || {}
-        dataCustom = Object.assign(dataCustom,set_attributes)
-        saveData('account',senderID,{custom:dataCustom}).then(result => console.log('set_attributes',result))
+function sendjson_plugin_url(senderID, messages, typing, pageID, go_to_block, set_attributes) {
+    if (set_attributes) {
+        var dataCustom = dataAccount[senderID].custom || {}
+        dataCustom = Object.assign(dataCustom, set_attributes)
+        saveData('account', senderID, {custom: dataCustom}).then(result => console.log('set_attributes', result))
     }
 
     if (messages) {
-        messages = messages.map(chatfuelMes => chatFuelToBoform(chatfuelMes,senderID))
+        messages = messages.map(chatfuelMes => chatFuelToBoform(chatfuelMes, senderID))
         console.log('sendjson_plugin_url', JSON.stringify(messages))
         sendMessages(senderID, messages, typing, pageID)
-    }else if (go_to_block) {
+    } else if (go_to_block) {
         var flow = getBotfromPageID(pageID).data
         var questions = flow[1];
         for (var i in questions) {
@@ -3545,13 +3546,13 @@ function sendjson_plugin_url(senderID, messages, typing, pageID, go_to_block,set
     }
 }
 
-function chatFuelToBoform(chatfuelMes,senderID) {
+function chatFuelToBoform(chatfuelMes, senderID) {
     if (chatfuelMes.attachment && chatfuelMes.attachment.payload) {
-        if(chatfuelMes.attachment.payload.elements) chatfuelMes.attachment.payload.elements = chatfuelMes.attachment.payload.elements.map(ele => chatfuelEle(ele,senderID))
-        if(chatfuelMes.attachment.payload.buttons) chatfuelMes.attachment.payload.buttons = chatfuelMes.attachment.payload.buttons.map(button => chatfuelBut(button,senderID))
+        if (chatfuelMes.attachment.payload.elements) chatfuelMes.attachment.payload.elements = chatfuelMes.attachment.payload.elements.map(ele => chatfuelEle(ele, senderID))
+        if (chatfuelMes.attachment.payload.buttons) chatfuelMes.attachment.payload.buttons = chatfuelMes.attachment.payload.buttons.map(button => chatfuelBut(button, senderID))
     }
 
-    if(chatfuelMes.quick_replies) chatfuelMes.quick_replies = chatfuelMes.quick_replies.map(button => chatfuelQuick(button,senderID))
+    if (chatfuelMes.quick_replies) chatfuelMes.quick_replies = chatfuelMes.quick_replies.map(button => chatfuelQuick(button, senderID))
 
 
     console.log('chatFuelToBoform,', JSON.stringify(chatfuelMes))
@@ -3559,9 +3560,9 @@ function chatFuelToBoform(chatfuelMes,senderID) {
     return chatfuelMes
 }
 
-function chatfuelEle(ele,senderID) {
+function chatfuelEle(ele, senderID) {
     if (ele.buttons) {
-        ele.buttons = ele.buttons.map(but => chatfuelBut(but,senderID))
+        ele.buttons = ele.buttons.map(but => chatfuelBut(but, senderID))
     }
     console.log('chatfuelEle,', JSON.stringify(ele))
 
@@ -3578,30 +3579,38 @@ function chatfuelBut(buttons = {
     if (buttons && buttons.type == 'json_plugin_url') payloadObj = {json_plugin_url: buttons.url}
     else if (buttons && buttons.block_names) payloadObj = {block_names: buttons.block_names}
 
-    if(buttons.set_attributes) payloadObj.set_attributes = buttons.set_attributes
+    if (buttons.set_attributes) payloadObj.set_attributes = buttons.set_attributes
 
-    if(Object.keys(payloadObj).length > 0) var newbuttons  = {type: 'postback', payload: JSON.stringify(payloadObj), title: buttons.title}
+    if (Object.keys(payloadObj).length > 0) var newbuttons = {
+        type: 'postback',
+        payload: JSON.stringify(payloadObj),
+        title: buttons.title
+    }
     else newbuttons = buttons
-
 
 
     console.log('chatfuelBut_newbuttons', newbuttons)
 
     return newbuttons
 }
+
 function chatfuelQuick(buttons = {
-    "title":"Not really...",
+    "title": "Not really...",
     "url": "https://rockets.chatfuel.com/api/sad-match",
-    "type":"json_plugin_url"
+    "type": "json_plugin_url"
 }) {
 
     var payloadObj = {}
     if (buttons && buttons.type == 'json_plugin_url') payloadObj = {json_plugin_url: buttons.url}
     else if (buttons && buttons.block_names) payloadObj = {block_names: buttons.block_names}
 
-    if(buttons.set_attributes) payloadObj.set_attributes = buttons.set_attributes
+    if (buttons.set_attributes) payloadObj.set_attributes = buttons.set_attributes
 
-    if(Object.keys(payloadObj).length > 0) var newbuttons  = {content_type: 'text', payload: JSON.stringify(payloadObj), title: buttons.title}
+    if (Object.keys(payloadObj).length > 0) var newbuttons = {
+        content_type: 'text',
+        payload: JSON.stringify(payloadObj),
+        title: buttons.title
+    }
     else newbuttons = buttons
 
     console.log('chatfuelQuick_newbuttons', newbuttons)
@@ -3933,7 +3942,7 @@ function buildMessage(blockName, pageID) {
                                 //
                                 // }
 
-                                if(length > 3){
+                                if (length > 3) {
 
                                     var messageSend = {
                                         attachment: {
