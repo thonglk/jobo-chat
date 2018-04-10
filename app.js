@@ -2524,9 +2524,8 @@ function exeTypeBot({type, url, pageID}) {
 
 function initBot({save = {}, pageID}) {
     return new Promise(function (resolve, reject) {
-        if (facebookPage[pageID].pro) var branding = null
-        else branding = true
-        save = {}
+
+       if(!save) save = {}
 
 
         subscribed_apps(pageID)
@@ -2543,7 +2542,7 @@ function initBot({save = {}, pageID}) {
                                 if (result.error) save.setGreeting = result.error.message || result.error
                                 else save.setGreeting = Date.now()
 
-                                setDefautMenu(pageID, save.persistent_menu, branding)
+                                setDefautMenu(pageID, save.persistent_menu)
                                     .then(result => {
 
                                         if (result.error) save.setDefautMenu = result.error.message || result.error
