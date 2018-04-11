@@ -1641,13 +1641,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }, null, pageID))
                                                 }
                                                 else if (payload.keyword == 'get-noti') {
-                                                    if (!senderData.role) {
-                                                        sendAPI(senderID, {
-                                                            text: `You don't have permission to do it`,
-                                                        }, null, pageID)
 
-                                                        return
-                                                    }
 
                                                     saveSenderData({subscribe: 'all'}, senderID, pageID)
                                                         .then(result => sendAPI(senderID, {

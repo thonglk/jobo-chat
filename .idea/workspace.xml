@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -20,11 +19,10 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
-              <caret line="2553" column="34" lean-forward="true" selection-start-line="2553" selection-start-column="34" selection-end-line="2553" selection-end-column="34" />
+            <state relative-caret-position="339">
+              <caret line="273" column="0" lean-forward="true" selection-start-line="273" selection-start-column="0" selection-end-line="273" selection-end-column="0" />
               <folding>
                 <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
-                <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
                 <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
                 <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
                 <element signature="n#!!block;n#intention#0" expanded="false" />
@@ -295,12 +293,12 @@
       <workItem from="1522058276803" duration="895000" />
       <workItem from="1522240643544" duration="559000" />
       <workItem from="1522316843023" duration="758000" />
-      <workItem from="1522425522077" duration="45521000" />
+      <workItem from="1522425522077" duration="47006000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="969154000" />
+    <option name="totallyTimeSpent" value="970639000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -396,7 +394,6 @@
           <caret line="1691" column="0" lean-forward="false" selection-start-line="1691" selection-start-column="0" selection-end-line="1691" selection-end-column="0" />
           <folding>
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
@@ -428,7 +425,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
@@ -481,7 +477,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
@@ -541,7 +536,6 @@
           <caret line="568" column="0" lean-forward="false" selection-start-line="568" selection-start-column="0" selection-end-line="568" selection-end-column="0" />
           <folding>
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
@@ -587,7 +581,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
@@ -640,7 +633,6 @@
           <caret line="838" column="42" lean-forward="true" selection-start-line="838" selection-start-column="42" selection-end-line="838" selection-end-column="42" />
           <folding>
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
@@ -791,11 +783,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="2553" column="34" lean-forward="true" selection-start-line="2553" selection-start-column="34" selection-end-line="2553" selection-end-column="34" />
+        <state relative-caret-position="339">
+          <caret line="273" column="0" lean-forward="true" selection-start-line="273" selection-start-column="0" selection-end-line="273" selection-end-column="0" />
           <folding>
             <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
             <element signature="n#!!block;n#loadsenderData#0" expanded="false" />
             <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
             <element signature="n#!!block;n#intention#0" expanded="false" />
