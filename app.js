@@ -2782,6 +2782,7 @@ function loop(q, flow, senderID, pageID) {
     console.log('current', q)
     if (q < questions.length) {
         var currentQuestion = questions[q];
+        if(!currentQuestion[1]) currentQuestion[1] = 'Untitled Title'
         if (currentQuestion[4] && currentQuestion[1] && currentQuestion[1].match('locale')) {
             var askOption = currentQuestion[4][0][1];
             var lang = senderData.locale.substring(0, 2)
