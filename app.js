@@ -2336,7 +2336,7 @@ function getDataFromUrl(url, branding = true) {
                                     var description = flow[2]
                                     var type = flow[3]
 
-                                    if (!greetingPart.start && title.toLowerCase().match('greeting') && type == '8') greetingPart.start = i
+                                    if (!greetingPart.start && title.toLowerCase() == 'greeting' && type == '8') greetingPart.start = i
                                     else if (!greetingPart.end && greetingPart.start && type == '8') greetingPart.end = i
                                     else if (!greetingPart.end && greetingPart.start) {
                                         if (description && isObject(strToObj(description)) && strToObj(description).locale) {
@@ -2358,7 +2358,7 @@ function getDataFromUrl(url, branding = true) {
                                         })
                                     }
 
-                                    if (!menuPart.start && title.toLowerCase().match('menu') && type == '8') menuPart.start = i
+                                    if (!menuPart.start && title.toLowerCase() =='menu'  && type == '8') menuPart.start = i
                                     else if (!menuPart.end && menuPart.start && type == '8') menuPart.end = i
                                     else if (!menuPart.end && menuPart.start) {
                                         var menuTitle = flow[1]
