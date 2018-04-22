@@ -1150,8 +1150,8 @@ function sendMessageNoSave(senderID, messages, typing, pageID, metadata) {
 
 function sendOne(messageData, page) {
     return new Promise(function (resolve, reject) {
-        var tag = ["COMMUNITY_ALERT", "CONFIRMED_EVENT_REMINDER", "PAIRING_UPDATE", "APPLICATION_UPDATE", "ACCOUNT_UPDATE", "PAYMENT_UPDATE", "RESERVATION_UPDATE", "ISSUE_RESOLUTION", "FEATURE_FUNCTIONALITY_UPDATE",]
-        messageData.tag = _.sample(tag)
+        // var tag = ["COMMUNITY_ALERT", "CONFIRMED_EVENT_REMINDER", "PAIRING_UPDATE", "APPLICATION_UPDATE", "ACCOUNT_UPDATE", "PAYMENT_UPDATE", "RESERVATION_UPDATE", "ISSUE_RESOLUTION", "FEATURE_FUNCTIONALITY_UPDATE",]
+        messageData.tag = "NON_PROMOTIONAL_SUBSCRIPTION"
         if (facebookPage[page] && facebookPage[page].access_token) {
             request({
                 uri: 'https://graph.facebook.com/v2.12/me/messages',
