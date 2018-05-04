@@ -173,7 +173,7 @@ function strToObj(str) {
 
 function isObject(a) {
     return (!!a) && (a.constructor === Object);
-};
+}
 
 function templatelize(text = 'loading...', data = {first_name: 'Thông'}) {
     var check = 0
@@ -203,8 +203,6 @@ function templatelize(text = 'loading...', data = {first_name: 'Thông'}) {
             return template(data);
         } else return text
     }
-
-
 }
 
 
@@ -1150,7 +1148,6 @@ function sendMessageNoSave(senderID, messages, typing, pageID, metadata) {
 
 function sendOne(messageData, page) {
     return new Promise(function (resolve, reject) {
-        // var tag = ["COMMUNITY_ALERT", "CONFIRMED_EVENT_REMINDER", "PAIRING_UPDATE", "APPLICATION_UPDATE", "ACCOUNT_UPDATE", "PAYMENT_UPDATE", "RESERVATION_UPDATE", "ISSUE_RESOLUTION", "FEATURE_FUNCTIONALITY_UPDATE",]
         messageData.tag = "NON_PROMOTIONAL_SUBSCRIPTION"
         if (facebookPage[page] && facebookPage[page].access_token) {
             request({
@@ -1215,6 +1212,11 @@ function callSendAPI(messageData, page = 'jobo') {
 
 var waiting = {}
 var timeOff = {}
+
+function L(locale,data) {
+    return data[locale.substring(0,2)]
+}
+
 db.ref('webhook').on('child_added', function (snap) {
     var data = snap.val()
     if (data.object == 'page') {
@@ -1222,7 +1224,6 @@ db.ref('webhook').on('child_added', function (snap) {
         data.entry.forEach(pageEntry => {
             if (pageEntry.id) var pageID = `${pageEntry.id}`;
             var timeOfEvent = pageEntry.time;
-            // Iterate over each messaging event
             if (pageEntry.messaging) {
                 pageEntry.messaging.forEach(function (messagingEvent) {
                     if (messagingEvent.sender && messagingEvent.sender.id) var senderID = `${messagingEvent.sender.id}`;
@@ -1642,7 +1643,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 }
                                                 else if (payload.keyword == 'get-noti') {
 
-
                                                     saveSenderData({subscribe: 'all'}, senderID, pageID)
                                                         .then(result => sendAPI(senderID, {
                                                             text: `Subscribe noti successful <3!`,
@@ -1656,7 +1656,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }, null, pageID))
 
                                                 }
-
                                                 else if (payload.keyword == 'page-off') {
                                                     if (!senderData.role) {
                                                         sendAPI(senderID, {
@@ -1674,7 +1673,6 @@ db.ref('webhook').on('child_added', function (snap) {
 
 
                                                 }
-
                                                 else if (payload.keyword && payload.keyword.match('mute-bot')) {
                                                     var time_off = 24 * 60 * 60 * 1000
                                                     var date_until = new Date(Date.now() + time_off)
@@ -1862,8 +1860,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         })
                                                     }
                                                 }
-
-
                                             }
 
 
@@ -1899,13 +1895,26 @@ db.ref('webhook').on('child_added', function (snap) {
                 })
 
             }
-        })
-        ;
+            else if (pageEntry.changes) {
+                console.log('pageEntry.changes',pageEntry.changes)
+                pageEntry.changes.forEach(changeEvent => {
+                    if (changeEvent.value && changeEvent.value.comment_id && changeEvent.value.message && changeEvent.value.parent_id) {
+                        var form = getBotfromPageID(pageID)
+                        var message = 'Thanks for comment. How can I help you?'
+                        if(form && form.data && form.data[0]) message = form.data[0]
+                        sendPrivate(message,changeEvent.value.comment_id, pageID)
 
+                    }
 
+                })
+
+                db.ref('webhook').child(snap.key).remove()
+
+            }
+        });
     }
 
-})
+});
 
 
 function SetOnOffPage(pageID, page_off = null) {
@@ -2166,6 +2175,31 @@ app.get('/setWhiteListDomain', function (req, res) {
         .catch(err => res.status(500).json(err))
 });
 
+function sendPrivate(message,obj, pageID = 'jobo') {
+
+    console.error("sendPrivate-ing",message, pageID);
+
+    return new Promise(function (resolve, reject) {
+        request({
+            uri: `https://graph.facebook.com/v2.12/${obj}/private_replies`,
+            qs: {access_token: facebookPage[pageID].access_token},
+            method: 'POST',
+            json: {
+                message
+            }
+
+        }, function (error, response, body) {
+            console.error("sendPrivate", error, body);
+
+            if (error) reject(error)
+
+            resolve(body)
+
+        });
+    })
+
+}
+
 function getLongLiveToken(shortLiveToken) {
     console.log('getLongLiveToken-ing', shortLiveToken)
 
@@ -2325,6 +2359,9 @@ function getDataFromUrl(url, branding = true) {
                                     "locale": "default",
                                 };
 
+
+                                var autoreply = []
+
                                 var renderOps = {}
                                 var r = 0
 
@@ -2358,7 +2395,7 @@ function getDataFromUrl(url, branding = true) {
                                         })
                                     }
 
-                                    if (!menuPart.start && title.toLowerCase() =='menu'  && type == '8') menuPart.start = i
+                                    if (!menuPart.start && title.toLowerCase() == 'menu' && type == '8') menuPart.start = i
                                     else if (!menuPart.end && menuPart.start && type == '8') menuPart.end = i
                                     else if (!menuPart.end && menuPart.start) {
                                         var menuTitle = flow[1]
@@ -2454,6 +2491,32 @@ function getDataFromUrl(url, branding = true) {
                                         save.data[21] = freetext
 
                                     }
+
+
+                                    if (title == 'autoreply' && type == 2) {
+                                        var freetext = {}
+
+                                        var optionsLists = flow[4][0][1]
+
+                                        if (optionsLists) {
+                                            console.log('optionsList', optionsLists)
+                                            var call = _.each(optionsLists, option => {
+                                                var text = option[0]
+                                                if (text.match('|')) {
+                                                    var array = text.split('|')
+                                                    array.forEach(ar => {
+                                                        freetext[vietnameseDecode(ar)] = option[2]
+                                                    })
+                                                } else freetext[vietnameseDecode(text)] = option[2]
+                                            })
+                                        }
+                                        var data = {freetext}
+                                        data.postId = description || 'any'
+                                        autoreply.push(data)
+
+                                    }
+
+
                                 }
 
                                 if (r > 0) axios.post(`https://docs.google.com/forms/d/${save.editId}/renderdata?id=${save.editId}&renderOps=` + urlencode(JSON.stringify(renderOps)))
@@ -2484,6 +2547,7 @@ function getDataFromUrl(url, branding = true) {
                                     "url": "https://app.botform.asia?ref=branding"
                                 })
                                 if (persistent_menu.call_to_actions.length > 0) save.persistent_menu = [persistent_menu]
+                                if (autoreply.length > 0) save.autoreply = autoreply
 
                                 console.log('Get form', save)
 
@@ -2519,41 +2583,46 @@ function exeTypeBot({type, url, pageID}) {
 function initBot({save = {}, pageID}) {
     return new Promise(function (resolve, reject) {
 
-       if(!save) save = {}
-
+        if (!save) save = {}
+        var init = {}
 
         subscribed_apps(pageID)
             .then(result => {
                 if (result.error) save.subscribed_apps = result.error.message || result.error
-                else save.subscribed_apps = Date.now()
-                setGetstarted(pageID)
+                else init.subscribed_apps = Date.now()
+
+                setGreeting(save.greeting, pageID)
                     .then(result => {
-                        if (result.error) save.setGetstarted = result.error.message || result.error
-                        else save.setGetstarted = Date.now()
+                        if (result.error) save.setGreeting = result.error.message || result.error
+                        else init.setGreeting = Date.now()
 
-                        setGreeting(save.greeting, pageID)
+                        setDefautMenu(pageID, save.persistent_menu)
                             .then(result => {
-                                if (result.error) save.setGreeting = result.error.message || result.error
-                                else save.setGreeting = Date.now()
 
-                                setDefautMenu(pageID, save.persistent_menu)
+                                if (result.error) save.setDefautMenu = result.error.message || result.error
+                                else init.setDefautMenu = Date.now()
+
+                                setWit(pageID)
                                     .then(result => {
+                                        if (result.error) save.setWit = result.error.message || result.error
+                                        else init.setWit = Date.now()
+                                        resolve(init)
 
-                                        if (result.error) save.setDefautMenu = result.error.message || result.error
-                                        else save.setDefautMenu = Date.now()
-
-                                        setWit(pageID)
-                                            .then(result => {
-                                                if (result.error) save.setWit = result.error.message || result.error
-                                                else save.setWit = Date.now()
-
-                                                resolve(save)
-                                            })
+                                        // setGetstarted(pageID)
+                                        //     .then(result => {
+                                        //         if (result.error) save.setGetstarted = result.error.message || result.error
+                                        //         else init.setGetstarted = Date.now()
+                                        //
+                                        //
+                                        //
+                                        //     })
                                     })
-
-
                             })
+
+
                     })
+
+
 
 
             })
@@ -2746,6 +2815,7 @@ var listen = 'on'
 function go(goto, q = 0, flow, senderID, pageID) {
     var senderData = dataAccount[senderID]
     var questions = flow[1]
+
     if (goto == '-3') {
         if (flow[2] && flow[2][0]) {
             sendAPI(senderID, {
@@ -2753,7 +2823,7 @@ function go(goto, q = 0, flow, senderID, pageID) {
             }, null, pageID)
         }
 
-        submitResponse(senderData.flow, senderID)
+        submitResponse(pageID, senderID)
             .then(result => console.log('done', result))
             .catch(err => console.log('err', err))
     }
@@ -2782,7 +2852,9 @@ function loop(q, flow, senderID, pageID) {
     console.log('current', q)
     if (q < questions.length) {
         var currentQuestion = questions[q];
-        if(!currentQuestion[1]) currentQuestion[1] = 'Untitled Title'
+
+
+        if (!currentQuestion[1]) currentQuestion[1] = 'Untitled Title'
         if (currentQuestion[4] && currentQuestion[1] && currentQuestion[1].match('locale')) {
             var askOption = currentQuestion[4][0][1];
             var lang = senderData.locale.substring(0, 2)
@@ -2804,7 +2876,11 @@ function loop(q, flow, senderID, pageID) {
             go(goto, q, flow, senderID, pageID)
 
         } else {
+
             var currentQuestionId = currentQuestion[0];
+
+            saveSenderData({currentQuestionId},senderID,pageID)
+
             var messageSend = {
                 text: currentQuestion[1],
             }
@@ -3166,10 +3242,10 @@ function flowAI({keyword, senderID, pageID}) {
 }
 
 
-function submitResponse(flow, senderID) {
+function submitResponse(pageID, senderID) {
     return new Promise(function (resolve, reject) {
         ladiResCol.findOne({
-            flow, senderID
+            senderID
         }).then(response => {
             if (response) {
                 delete response._id
@@ -3178,7 +3254,8 @@ function submitResponse(flow, senderID) {
                 delete response.senderID
                 delete response.start
                 delete response.end
-                var form = _.findWhere(dataLadiBot, {flow})
+                var form = getBotfromPageID(pageID)
+                console.log('submitResponse',form)
                 if (form && form.id) {
                     var url = 'https://docs.google.com/forms/d/' + form.id + '/formResponse?'
                     var questions = form.data[1]
@@ -3205,8 +3282,8 @@ function submitResponse(flow, senderID) {
 }
 
 app.get('/submitResponse', function (req, res) {
-    var {flow, senderID} = req.query
-    submitResponse(flow, senderID)
+    var {pageID,senderID} = req.query
+    submitResponse(pageID, senderID)
         .then(result => res.send(result))
         .catch(err => res.status(500).json(err))
 })
