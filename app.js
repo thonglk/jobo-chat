@@ -265,7 +265,6 @@ function saveSenderData(data, senderID, page = '493938347612411') {
     return new Promise(function (resolve, reject) {
         if (senderID != page) {
             data.pageID = page
-            if (facebookPage[page] && facebookPage[page].sheetId) axios.get(`https://jobo-ana.herokuapp.com/saveDataToSheet?pageID=${page}&sheetId=${facebookPage[page].sheetId}`)
             accountRef.child(senderID).update(data)
                 .then(result => resolve(data))
                 .catch(err => reject(err))
@@ -301,9 +300,9 @@ function loadsenderData(senderID, pageID = '493938347612411') {
             graph.get('me/conversations?fields=name,link,id,participants&access_token=' + facebookPage[pageID].access_token, (err, conversations) => {
                 console.log('conversations', err, facebookPage[pageID].name);
                 if (conversations && conversations.data && conversations.data[0] && conversations.data[0].link) {
-                    user.link = conversations.data[0].link
-                    user.fbId = conversations.data[0].participants.data[0].id
-                    user.tId = conversations.data[0].id.slice(2)
+                    user.link = conversations.data[0].link;
+                    user.fbId = conversations.data[0].participants.data[0].id;
+                    user.tId = conversations.data[0].id.slice(2);
 
                     if (facebookPage[pageID].roles && facebookPage[pageID].roles.data) {
                         var roles = facebookPage[pageID].roles.data
@@ -1213,8 +1212,8 @@ function callSendAPI(messageData, page = 'jobo') {
 var waiting = {}
 var timeOff = {}
 
-function L(locale,data) {
-    return data[locale.substring(0,2)]
+function L(locale, data) {
+    return data[locale.substring(0, 2)]
 }
 
 db.ref('webhook').on('child_added', function (snap) {
@@ -1759,8 +1758,8 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     }
 
                                                 }
-                                                else if (payload.text && payload.type == 'ask' && payload.questionId) {
-                                                    response[payload.questionId] = payload.text
+                                                else if (payload.text && payload.type == 'ask' && senderData.currentQuestionId) {
+                                                    response[senderData.currentQuestionId] = payload.text
 
                                                     if (payload.setCustom) {
                                                         var custom = senderData.custom || {}
@@ -1777,7 +1776,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                     }).catch(err => console.log('err', err))
 
                                                     var index = _.findLastIndex(questions, {
-                                                        0: payload.questionId
+                                                        0: senderData.currentQuestionId
                                                     });
 
                                                     var goto = payload.goto
@@ -1798,14 +1797,13 @@ db.ref('webhook').on('child_added', function (snap) {
                                                         }
 
                                                     } else if (payload.askType == 0) {
-                                                        var curQues = _.findWhere(questions, {0: payload.questionId});
+                                                        var curQues = _.findWhere(questions, {0: senderData.currentQuestionId});
                                                         if (curQues[4] && curQues[4][0] && curQues[4][0][4] && curQues[4][0][4][0]) {
 
                                                             var valid = curQues[4][0][4][0]
 
                                                             if (valid[0] == 1) {
                                                                 //number
-
                                                                 if (valid[1] == 7) {
                                                                     //between
                                                                     console.log('payload.text', payload.text, Number(payload.text) > valid[2][0])
@@ -1815,8 +1813,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                                     }, null, pageID, payload)
 
                                                                 }
-
-
                                                             }
 
 
@@ -1862,7 +1858,6 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 }
                                             }
 
-
                                         }
 
 
@@ -1896,13 +1891,14 @@ db.ref('webhook').on('child_added', function (snap) {
 
             }
             else if (pageEntry.changes) {
-                console.log('pageEntry.changes',pageEntry.changes)
+                console.log('pageEntry.changes', pageEntry.changes)
                 pageEntry.changes.forEach(changeEvent => {
                     if (changeEvent.value && changeEvent.value.comment_id && changeEvent.value.message && changeEvent.value.parent_id) {
                         var form = getBotfromPageID(pageID)
                         var message = 'Thanks for comment. How can I help you?'
-                        if(form && form.data && form.data[0]) message = form.data[0]
-                        sendPrivate(message,changeEvent.value.comment_id, pageID)
+                        if (form && form.data && form.data[0]) message = form.data[0]
+
+                        sendPrivate(message, changeEvent.value.comment_id, pageID)
 
                     }
 
@@ -2175,9 +2171,9 @@ app.get('/setWhiteListDomain', function (req, res) {
         .catch(err => res.status(500).json(err))
 });
 
-function sendPrivate(message,obj, pageID = 'jobo') {
+function sendPrivate(message, obj, pageID = 'jobo') {
 
-    console.error("sendPrivate-ing",message, pageID);
+    console.error("sendPrivate-ing", message, pageID);
 
     return new Promise(function (resolve, reject) {
         request({
@@ -2414,8 +2410,7 @@ function getDataFromUrl(url, branding = true) {
                                                         "payload": JSON.stringify({
                                                             type: 'ask',
                                                             text: text,
-                                                            goto: option[2],
-                                                            questionId: flow[0]
+                                                            goto: option[2]
                                                         })
                                                     }
                                                 })
@@ -2432,8 +2427,7 @@ function getDataFromUrl(url, branding = true) {
 
                                                 var meta = {
                                                     type: 'ask',
-                                                    text: menuTitle,
-                                                    questionId: flow[0]
+                                                    text: menuTitle
                                                 }
                                                 if (option[2]) {
                                                     meta.goto = option[2]
@@ -2541,12 +2535,20 @@ function getDataFromUrl(url, branding = true) {
 
                                 if (greeting.length > 0) save.greeting = greeting
 
+                                if (persistent_menu.call_to_actions.length == 0) persistent_menu.call_to_actions.push({
+                                    "title": save.data[8] || 'Start over',
+                                    "type": "postback",
+                                    "payload": JSON.stringify({
+                                        type: 'GET_STARTED'
+                                    })
+                                })
                                 if (branding) persistent_menu.call_to_actions.push({
                                     "title": "Create a bot in Botform",
                                     "type": "web_url",
                                     "url": "https://app.botform.asia?ref=branding"
                                 })
-                                if (persistent_menu.call_to_actions.length > 0) save.persistent_menu = [persistent_menu]
+                                save.persistent_menu = [persistent_menu]
+
                                 if (autoreply.length > 0) save.autoreply = autoreply
 
                                 console.log('Get form', save)
@@ -2621,8 +2623,6 @@ function initBot({save = {}, pageID}) {
 
 
                     })
-
-
 
 
             })
@@ -2813,7 +2813,7 @@ function getPaginatedItems(items, page = 1, per_page = 15) {
 var listen = 'on'
 
 function go(goto, q = 0, flow, senderID, pageID) {
-    var senderData = dataAccount[senderID]
+
     var questions = flow[1]
 
     if (goto == '-3') {
@@ -2879,14 +2879,12 @@ function loop(q, flow, senderID, pageID) {
 
             var currentQuestionId = currentQuestion[0];
 
-            saveSenderData({currentQuestionId},senderID,pageID)
+            saveSenderData({currentQuestionId}, senderID, pageID)
 
             var messageSend = {
                 text: currentQuestion[1],
             }
-            var metadata = {
-                questionId: currentQuestionId
-            }
+            var metadata = {}
 
 
             var askStringStr = `0,1,7,9,10,13`;
@@ -3255,7 +3253,7 @@ function submitResponse(pageID, senderID) {
                 delete response.start
                 delete response.end
                 var form = getBotfromPageID(pageID)
-                console.log('submitResponse',form)
+                console.log('submitResponse', form)
                 if (form && form.id) {
                     var url = 'https://docs.google.com/forms/d/' + form.id + '/formResponse?'
                     var questions = form.data[1]
@@ -3282,7 +3280,7 @@ function submitResponse(pageID, senderID) {
 }
 
 app.get('/submitResponse', function (req, res) {
-    var {pageID,senderID} = req.query
+    var {pageID, senderID} = req.query
     submitResponse(pageID, senderID)
         .then(result => res.send(result))
         .catch(err => res.status(500).json(err))
@@ -3880,9 +3878,7 @@ function buildMessage(blockName, pageID) {
                     var messageSend = {
                         text: currentQuestion[1],
                     }
-                    var metadata = {
-                        questionId: currentQuestionId
-                    }
+                    var metadata = {}
                     var askStringStr = `0,1,7,9,10,13`;
                     var askOptionStr = `2,3,4,5`;
                     var askType = currentQuestion[3];
