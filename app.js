@@ -2590,23 +2590,23 @@ function initBot({save = {}, pageID}) {
 
         subscribed_apps(pageID)
             .then(result => {
-                if (result.error) save.subscribed_apps = result.error.message || result.error
+                if (result.error) init.subscribed_apps = result.error.message || result.error
                 else init.subscribed_apps = Date.now()
 
                 setGreeting(save.greeting, pageID)
                     .then(result => {
-                        if (result.error) save.setGreeting = result.error.message || result.error
+                        if (result.error) init.setGreeting = result.error.message || result.error
                         else init.setGreeting = Date.now()
 
                         setDefautMenu(pageID, save.persistent_menu)
                             .then(result => {
 
-                                if (result.error) save.setDefautMenu = result.error.message || result.error
+                                if (result.error) init.setDefautMenu = result.error.message || result.error
                                 else init.setDefautMenu = Date.now()
 
                                 setWit(pageID)
                                     .then(result => {
-                                        if (result.error) save.setWit = result.error.message || result.error
+                                        if (result.error) init.setWit = result.error.message || result.error
                                         else init.setWit = Date.now()
                                         resolve(init)
 
