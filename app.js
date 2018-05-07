@@ -1246,6 +1246,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                 .then(senderData => matchingPayload(messagingEvent)
                                     .then(result => {
                                         var payload = result.payload;
+
                                         if (senderData.nlp) Object.assign(senderData.nlp, payload.nlp)
                                         else senderData.nlp = payload.nlp
                                         if (!_.isEmpty(senderData.nlp)) saveSenderData({nlp: senderData.nlp}, senderID, pageID)
@@ -1528,51 +1529,24 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 senderID
                                             }
 
-                                            if (messagingEvent.optin) referral = {ref: messagingEvent.optin.ref}
+                                            if(payload.ref) var REF = payload.ref
+                                            else if (messagingEvent.optin) REF = messagingEvent.optin.ref
+                                            else if (referral && referral.ref) REF = referral.ref
 
-                                            if (referral && referral.ref) {
 
-                                                senderData.ref = referral.ref;
+                                            if (REF) {
+
+                                                senderData.ref = REF;
                                                 saveSenderData(senderData, senderID, pageID)
 
                                                 if (referral.ref.match('_')) {
-                                                    var refData = referral.ref.split('_');
+                                                    var refData = REF.split('_');
 
-                                                } else refData = [referral.ref]
+                                                } else refData = [REF]
 
                                                 console.log('refData', refData);
 
-                                                if (refData[0] == 'create') {
-                                                    var url = senderData.ref.slice(7);
-                                                    console.log('url', url);
-
-                                                    sendAPI(senderID, {
-                                                        text: `Welcome {{full_name}}! \n Your form is being converted`
-                                                    }, null, pageID)
-
-                                                    getChat({url, pageID, type: 'url'})
-                                                        .then(form => sendAPI(senderID, {
-                                                            attachment: {
-                                                                type: "template",
-                                                                payload: {
-                                                                    template_type: "button",
-                                                                    text: `Done <3! \n We had just turn your "${form.name}" form into chatbot to help you convert more leads! \n Step 2: Connect this form to your Facebook Page`,
-                                                                    buttons: [{
-                                                                        type: "web_url",
-                                                                        url: `https://app.botform.asia/create?url=${url}`,
-                                                                        title: "Connect your Fanpage"
-                                                                    }, {
-                                                                        type: "web_url",
-                                                                        url: `https://www.facebook.com/pages/create`,
-                                                                        title: "Create new page"
-                                                                    }]
-                                                                }
-                                                            }
-                                                        }, null, pageID))
-                                                        .catch(err => sendAPI(senderID, {
-                                                            text: "Err: Can't read your form, make sure it was a google forms link and make it public, go https://app.botform.asia/create to try again" + JSON.stringify(err)
-                                                        }, null, pageID))
-                                                } else if (refData[1]) {
+                                                if (refData[1]) {
 
                                                     for (var i in questions) {
                                                         var quest = questions[i]
