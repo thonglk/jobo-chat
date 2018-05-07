@@ -366,7 +366,13 @@ function matchingPayload(event) {
             payload.source = 'referral'
             console.log('referral', payload)
 
-        } else if (postback) {
+        }
+        else if (event.optin) {
+            referral = event.optin
+            payload.source = 'optin'
+
+        }
+        else if (postback) {
 
             payload.source = 'postback'
             payload.text = postback.title
@@ -1529,7 +1535,7 @@ db.ref('webhook').on('child_added', function (snap) {
                                                 senderID
                                             }
 
-                                            if(payload.ref) var REF = payload.ref
+                                            if (payload.ref) var REF = payload.ref
                                             else if (messagingEvent.optin) REF = messagingEvent.optin.ref
                                             else if (referral && referral.ref) REF = referral.ref
 
