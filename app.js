@@ -390,6 +390,7 @@ function matchingPayload(event) {
 
             if (message.quick_reply) {
                 payload.source = 'quick_reply'
+                if(message.text) payload.text = message.text
 
             } else if (message.attachments) {
                 payload.source = 'attachment'
@@ -1743,7 +1744,7 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                     if (payload.setCustom) {
                                                         var custom = senderData.custom || {}
-                                                        custom[payload.setCustom] = payload.text
+                                                        if(payload.text) custom[payload.setCustom] = payload.text
                                                         console.log('custom', custom)
 
                                                         saveSenderData({custom}, senderID, pageID)
@@ -2829,9 +2830,9 @@ function go(goto, q = 0, flow, senderID, pageID) {
 function loop(q, flow, senderID, pageID) {
     var questions = flow[1]
     var senderData = dataAccount[senderID]
-    console.log('current', q)
     if (q < questions.length) {
         var currentQuestion = questions[q];
+        console.log('current', currentQuestion)
 
 
         if (!currentQuestion[1]) currentQuestion[1] = 'Untitled Title'
@@ -2850,7 +2851,8 @@ function loop(q, flow, senderID, pageID) {
             go(choose[2], q, flow, senderID, pageID)
 
 
-        } else if (currentQuestion[3] == 8) {
+        } else
+            if (currentQuestion[3] == 8) {
             var goto = currentQuestion[5]
 
             go(goto, q, flow, senderID, pageID)
@@ -2866,9 +2868,10 @@ function loop(q, flow, senderID, pageID) {
             }
             var metadata = {}
             var property = {}
+            console.log("currentQuestion[2]",currentQuestion[2])
             if (currentQuestion[2] && currentQuestion[2].startsWith("{") && currentQuestion[2].endsWith("}")) {
-                 property = JSON.parse(currentQuestion[2])
-
+                property = JSON.parse(currentQuestion[2])
+                console.log("property",property)
             }
 
 
@@ -2880,7 +2883,8 @@ function loop(q, flow, senderID, pageID) {
                 if (currentQuestion[2] && currentQuestion[2].match(/=>\w+\S/g)) {
                     metadata.setCustom = currentQuestion[2].match(/=>\w+\S/g)[0].substring(2)
                 }
-                if(property.save) metadata.setCustom = currentQuestion[2].match(/=>\w+\S/g)[0].substring(2)
+
+                if(property.save) metadata.setCustom = property.save
 
                 if(property.content_type) messageSend.quick_replies = [{content_type:property.content_type}]
 
