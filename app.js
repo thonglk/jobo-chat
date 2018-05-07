@@ -2865,6 +2865,11 @@ function loop(q, flow, senderID, pageID) {
                 text: currentQuestion[1],
             }
             var metadata = {}
+            var property = {}
+            if (currentQuestion[2] && currentQuestion[2].startsWith("{") && currentQuestion[2].endsWith("}")) {
+                 property = JSON.parse(currentQuestion[2])
+
+            }
 
 
             var askStringStr = `0,1,7,9,10,13`;
@@ -2875,6 +2880,10 @@ function loop(q, flow, senderID, pageID) {
                 if (currentQuestion[2] && currentQuestion[2].match(/=>\w+\S/g)) {
                     metadata.setCustom = currentQuestion[2].match(/=>\w+\S/g)[0].substring(2)
                 }
+                if(property.save) metadata.setCustom = currentQuestion[2].match(/=>\w+\S/g)[0].substring(2)
+
+                if(property.content_type) messageSend.quick_replies = [{content_type:property.content_type}]
+
                 metadata.askType = askType;
                 metadata.type = 'ask';
                 if (askOptionStr.match(askType)) {
@@ -3046,7 +3055,9 @@ function loop(q, flow, senderID, pageID) {
                     }
 
 
-                } else if (askStringStr.match(askType)) {
+                }
+
+                else if (askStringStr.match(askType)) {
 
                     sendAPI(senderID, messageSend, null, pageID, metadata)
                         .then(resutl => console.log('messageSend', messageSend))
