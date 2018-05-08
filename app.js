@@ -2579,26 +2579,27 @@ function initBot({save = {}, pageID}) {
                         if (result.error) init.setGreeting = result.error.message || result.error
                         else init.setGreeting = Date.now()
 
-                        setDefautMenu(pageID, save.persistent_menu)
+                        setWit(pageID)
                             .then(result => {
+                                if (result.error) init.setWit = result.error.message || result.error
+                                else init.setWit = Date.now()
 
-                                if (result.error) init.setDefautMenu = result.error.message || result.error
-                                else init.setDefautMenu = Date.now()
-
-                                setWit(pageID)
+                                setGetstarted(pageID)
                                     .then(result => {
-                                        if (result.error) init.setWit = result.error.message || result.error
-                                        else init.setWit = Date.now()
-                                        resolve(init)
+                                        if (result.error) save.setGetstarted = result.error.message || result.error
+                                        else init.setGetstarted = Date.now()
 
-                                        // setGetstarted(pageID)
-                                        //     .then(result => {
-                                        //         if (result.error) save.setGetstarted = result.error.message || result.error
-                                        //         else init.setGetstarted = Date.now()
-                                        //
-                                        //
-                                        //
-                                        //     })
+                                        setDefautMenu(pageID, save.persistent_menu)
+                                            .then(result => {
+
+                                                if (result.error) init.setDefautMenu = result.error.message || result.error
+                                                else init.setDefautMenu = Date.now()
+                                                resolve(init)
+
+
+                                            })
+
+
                                     })
                             })
 
