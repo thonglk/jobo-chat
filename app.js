@@ -2526,7 +2526,7 @@ function getDataFromUrl(url, branding = true) {
                                 if (branding) persistent_menu.call_to_actions.push({
                                     "title": "Create a bot in Botform",
                                     "type": "web_url",
-                                    "url": "https://app.botform.asia?ref=branding"
+                                    "url": "https://botform.me?ref=branding"
                                 })
                                 save.persistent_menu = [persistent_menu]
 
@@ -2928,13 +2928,9 @@ function loop(q, flow, senderID, pageID) {
                             else console.log('generic.length', generic.length)
                         });
                         messageSend.attachment.payload.elements = generic;
+                        sendMessages(senderID, [{text: currentQuestion[1]},messageSend], null, pageID)
 
 
-                        sendAPI(senderID, {text: currentQuestion[1]}, null, pageID, metadata)
-                            .then(result => sendAPI(senderID, messageSend, null, pageID, metadata)
-                                .then(result => console.log('messageSend', messageSend))
-                                .catch(err => console.log('sendAPI_err', err)))
-                            .catch(err => console.log('sendAPI_err', err))
 
                     }
                     else if (askType == 3) {
@@ -3018,7 +3014,7 @@ function loop(q, flow, senderID, pageID) {
                         }
 
                         array_mes.push(messageSend)
-                        sendMessages(senderID, array_mes, null, pageID, metadata)
+                        sendMessages(senderID, array_mes, null, pageID)
 
                     } else {
                         var quick_replies = []
@@ -3054,7 +3050,7 @@ function loop(q, flow, senderID, pageID) {
 
                         messageSend.quick_replies = quick_replies
 
-                        sendAPI(senderID, messageSend, null, pageID, metadata)
+                        sendAPI(senderID, messageSend, null, pageID)
                             .then(resutl => console.log('messageSend', messageSend))
                             .catch(err => console.log('sendAPI_err', err))
                     }
