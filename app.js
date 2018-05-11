@@ -1154,7 +1154,7 @@ function sendMessageNoSave(senderID, messages, typing, pageID, metadata) {
 
 function sendOne(messageData, page) {
     return new Promise(function (resolve, reject) {
-        messageData.tag = "NON_PROMOTIONAL_SUBSCRIPTION"
+        // messageData.tag = "NON_PROMOTIONAL_SUBSCRIPTION"
         if (facebookPage[page] && facebookPage[page].access_token) {
             request({
                 uri: 'https://graph.facebook.com/v2.12/me/messages',
