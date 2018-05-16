@@ -42,12 +42,13 @@ app.use(express.static('public'));
 var port = process.env.PORT || 5001;
 
 var uri = 'mongodb://joboapp:joboApp.1234@ec2-54-157-20-214.compute-1.amazonaws.com:27017/joboapp';
+var srv = 'mongodb+srv://jobo:jobo@jobodb-0but3.mongodb.net/test?retryWrites=true'
 
 const MongoClient = require('mongodb');
 
 var md, dumpling_messageFactoryCol, ladiBotCol, ladiResCol, messageFactoryCol
 
-MongoClient.connect(uri, function (err, db) {
+MongoClient.connect(srv, function (err, db) {
     console.log(err);
 
     md = db;
