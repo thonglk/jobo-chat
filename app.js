@@ -1063,7 +1063,7 @@ function sendAPI(recipientId, message, typing, page = 'jobo', meta) {
                         saveSenderData({lastSent: messageData}, recipientId, page)
                             .then(result => {
 
-                                messageFactoryCol.insert(messageData)
+                                if(messageFactoryCol) messageFactoryCol.insert(messageData)
                                 resolve(messageData)
 
                             })
@@ -1866,7 +1866,7 @@ db.ref('webhook').on('child_added', function (snap) {
                         }
 
                         db.ref('webhook').child(snap.key).remove()
-                        messageFactoryCol.insert(messagingEvent)
+                        if(messageFactoryCol) messageFactoryCol.insert(messagingEvent)
 
 
                     }
@@ -3571,14 +3571,11 @@ function sendingAPI(recipientId, senderId = facebookPage['jobo'].id, message, ty
             messageData.senderId = senderId
             messageData.type = 'sent'
             messageData.timestamp = Date.now()
+            saveSenderData({lastSent: messageData}, recipientId, page)
+            resolve(messageData)
 
-            dumpling_messageFactoryCol
-                .insert(messageData)
-                .then(result => {
-                    saveSenderData({lastSent: messageData}, recipientId, page)
-                    resolve(result)
-                })
-                .catch(err => reject(err))
+            if(dumpling_messageFactoryCol) dumpling_messageFactoryCol.insert(messageData)
+
         })
     })
 }
