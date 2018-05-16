@@ -390,7 +390,7 @@ function matchingPayload(event) {
 
             if (message.quick_reply) {
                 payload.source = 'quick_reply'
-                if(message.text) payload.text = message.text
+                if (message.text) payload.text = message.text
 
             } else if (message.attachments) {
                 payload.source = 'attachment'
@@ -1061,7 +1061,12 @@ function sendAPI(recipientId, message, typing, page = 'jobo', meta) {
                         messageData.timestamp = Date.now()
                         if (meta) messageData.meta = meta
                         saveSenderData({lastSent: messageData}, recipientId, page)
-                            .then(result => messageFactoryCol.insert(messageData).then(result => resolve(messageData)).catch(err => reject(err)))
+                            .then(result => {
+
+                                messageFactoryCol.insert(messageData)
+                                resolve(messageData)
+
+                            })
                             .catch(err => reject(err))
                     })
 
@@ -1744,7 +1749,7 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                     if (payload.setCustom) {
                                                         var custom = senderData.custom || {}
-                                                        if(payload.text) custom[payload.setCustom] = payload.text
+                                                        if (payload.text) custom[payload.setCustom] = payload.text
                                                         console.log('custom', custom)
 
                                                         saveSenderData({custom}, senderID, pageID)
@@ -2851,8 +2856,7 @@ function loop(q, flow, senderID, pageID) {
             go(choose[2], q, flow, senderID, pageID)
 
 
-        } else
-            if (currentQuestion[3] == 8) {
+        } else if (currentQuestion[3] == 8) {
             var goto = currentQuestion[5]
 
             go(goto, q, flow, senderID, pageID)
@@ -2868,10 +2872,10 @@ function loop(q, flow, senderID, pageID) {
             }
             var metadata = {}
             var property = {}
-            console.log("currentQuestion[2]",currentQuestion[2])
+            console.log("currentQuestion[2]", currentQuestion[2])
             if (currentQuestion[2] && currentQuestion[2].startsWith("{") && currentQuestion[2].endsWith("}")) {
                 property = JSON.parse(currentQuestion[2])
-                console.log("property",property)
+                console.log("property", property)
             }
 
 
@@ -2884,9 +2888,9 @@ function loop(q, flow, senderID, pageID) {
                     metadata.setCustom = currentQuestion[2].match(/=>\w+\S/g)[0].substring(2)
                 }
 
-                if(property.save) metadata.setCustom = property.save
+                if (property.save) metadata.setCustom = property.save
 
-                if(property.content_type) messageSend.quick_replies = [{content_type:property.content_type}]
+                if (property.content_type) messageSend.quick_replies = [{content_type: property.content_type}]
 
                 metadata.askType = askType;
                 metadata.type = 'ask';
@@ -2927,8 +2931,7 @@ function loop(q, flow, senderID, pageID) {
                             else console.log('generic.length', generic.length)
                         });
                         messageSend.attachment.payload.elements = generic;
-                        sendMessages(senderID, [{text: currentQuestion[1]},messageSend], null, pageID)
-
+                        sendMessages(senderID, [{text: currentQuestion[1]}, messageSend], null, pageID)
 
 
                     }
