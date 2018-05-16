@@ -1062,8 +1062,6 @@ function sendAPI(recipientId, message, typing, page = 'jobo', meta) {
                         if (meta) messageData.meta = meta
                         saveSenderData({lastSent: messageData}, recipientId, page)
                             .then(result => {
-
-                                if(messageFactoryCol) messageFactoryCol.insert(messageData)
                                 resolve(messageData)
 
                             })
@@ -1754,12 +1752,12 @@ db.ref('webhook').on('child_added', function (snap) {
 
                                                         saveSenderData({custom}, senderID, pageID)
                                                     }
-
-                                                    ladiResCol.findOneAndUpdate({
-                                                        page: pageID,
-                                                        senderID
-                                                    }, {$set: response}, {upsert: true}).then(result => {
-                                                    }).catch(err => console.log('err', err))
+                                                    //
+                                                    // ladiResCol.findOneAndUpdate({
+                                                    //     page: pageID,
+                                                    //     senderID
+                                                    // }, {$set: response}, {upsert: true}).then(result => {
+                                                    // }).catch(err => console.log('err', err))
 
                                                     var index = _.findLastIndex(questions, {
                                                         0: senderData.currentQuestionId
@@ -1866,7 +1864,7 @@ db.ref('webhook').on('child_added', function (snap) {
                         }
 
                         db.ref('webhook').child(snap.key).remove()
-                        if(messageFactoryCol) messageFactoryCol.insert(messagingEvent)
+                        // if(messageFactoryCol) messageFactoryCol.insert(messagingEvent)
 
 
                     }
@@ -3074,94 +3072,96 @@ function loop(q, flow, senderID, pageID) {
 
                 var response = {}
                 response[currentQuestionId] = true
-                ladiResCol.findOneAndUpdate({
-                    flow: senderData.flow,
-                    page: pageID,
-                    senderID,
-                }, {$set: response}, {upsert: true}).then(result => {
-                        q++
 
-                        if (askType == 11 && flow[20]) sendAPI(senderID, {
-                            attachment: {
-                                type: "image",
-                                payload: {
-                                    url: flow[20][currentQuestion[6][0]]
-                                }
+                q++
+
+                if (askType == 11 && flow[20]) sendAPI(senderID, {
+                    attachment: {
+                        type: "image",
+                        payload: {
+                            url: flow[20][currentQuestion[6][0]]
+                        }
+                    }
+                }, null, pageID, metadata)
+                    .then(result => loop(q, flow, senderID, pageID))
+                else if (askType == 12 && currentQuestion[6][3]) sendAPI(senderID, {
+                    text: `https://www.youtube.com/watch?v=${currentQuestion[6][3]}`
+                }, null, pageID, metadata)
+                    .then(result => loop(q, flow, senderID, pageID))
+                else if (askType == 6) {
+                    if (currentQuestion[1] && currentQuestion[1].match('pdf')) sendAPI(senderID, {
+                        attachment: {
+                            type: "file",
+                            payload: {
+                                url: currentQuestion[1]
                             }
-                        }, null, pageID, metadata)
-                            .then(result => loop(q, flow, senderID, pageID))
-                        else if (askType == 12 && currentQuestion[6][3]) sendAPI(senderID, {
-                            text: `https://www.youtube.com/watch?v=${currentQuestion[6][3]}`
-                        }, null, pageID, metadata)
-                            .then(result => loop(q, flow, senderID, pageID))
-                        else if (askType == 6) {
-                            if (currentQuestion[1] && currentQuestion[1].match('pdf')) sendAPI(senderID, {
-                                attachment: {
-                                    type: "file",
-                                    payload: {
-                                        url: currentQuestion[1]
-                                    }
-                                }
-                            }, null, pageID, metadata)
-                                .then(result => {
-                                    console.log('result', result)
-                                    loop(q, flow, senderID, pageID)
-                                })
-                                .catch(err => console.log('err', err))
-                            else if (currentQuestion[1].match('JSON')) {
-                                var url = templatelize(currentQuestion[2], senderData)
-                                console.log('url ', url)
-                                var newurl = url
-                                var url_para = url.split("?")
-                                var para = url_para[1]
-                                if (para) {
-                                    newurl = url_para[0] + '?'
-                                    if (para.match("&")) {
-                                        var per = para.split("&")
+                        }
+                    }, null, pageID, metadata)
+                        .then(result => {
+                            console.log('result', result)
+                            loop(q, flow, senderID, pageID)
+                        })
+                        .catch(err => console.log('err', err))
+                    else if (currentQuestion[1].match('JSON')) {
+                        var url = templatelize(currentQuestion[2], senderData)
+                        console.log('url ', url)
+                        var newurl = url
+                        var url_para = url.split("?")
+                        var para = url_para[1]
+                        if (para) {
+                            newurl = url_para[0] + '?'
+                            if (para.match("&")) {
+                                var per = para.split("&")
 
 
-                                    } else per = [para]
+                            } else per = [para]
 
-                                    per.forEach(kv => {
-                                        var k_v = kv.split("=")
-                                        newurl = newurl + k_v[0] + "=" + urlencode(k_v[1]) + '&'
-                                    })
-                                }
-
-                                console.log('newurl ', newurl)
-
-
-                                axios.get(newurl).then(result => sendjson_plugin_url(senderID, result.data.messages, null, pageID))
-
-                            }
-                            else if (currentQuestion[2] && currentQuestion[2].toLowerCase() == 'notification') sendNotiUser(templatelize(currentQuestion[1], senderData), senderData, pageID)
-                                .then(result => loop(q, flow, senderID, pageID))
-
-                            else if (currentQuestion[2] && currentQuestion[2].match('<>')) {
-                                console.log('random', currentQuestion[2])
-                                var array = currentQuestion[2].split('<>');
-                                array.push(currentQuestion[1]);
-                                var pick = _.sample(array)
-                                messageSend.text = templatelize(pick, senderData)
-                                sendAPI(senderID, messageSend, null, pageID, metadata)
-                                    .then(result => loop(q, flow, senderID, pageID))
-                                    .catch(err => console.log('err', err))
-
-                            } else {
-                                var messages = [{text: currentQuestion[1]}]
-                                if (currentQuestion[2]) {
-                                    messages.push({text: currentQuestion[2]})
-                                    console.log('messages', messages)
-                                }
-                                sendMessages(senderID, messages, null, pageID, metadata).then(result => {
-                                    loop(q, flow, senderID, pageID)
-                                })
-                            }
-
+                            per.forEach(kv => {
+                                var k_v = kv.split("=")
+                                newurl = newurl + k_v[0] + "=" + urlencode(k_v[1]) + '&'
+                            })
                         }
 
+                        console.log('newurl ', newurl)
+
+
+                        axios.get(newurl).then(result => sendjson_plugin_url(senderID, result.data.messages, null, pageID))
+
                     }
-                )
+                    else if (currentQuestion[2] && currentQuestion[2].toLowerCase() == 'notification') sendNotiUser(templatelize(currentQuestion[1], senderData), senderData, pageID)
+                        .then(result => loop(q, flow, senderID, pageID))
+
+                    else if (currentQuestion[2] && currentQuestion[2].match('<>')) {
+                        console.log('random', currentQuestion[2])
+                        var array = currentQuestion[2].split('<>');
+                        array.push(currentQuestion[1]);
+                        var pick = _.sample(array)
+                        messageSend.text = templatelize(pick, senderData)
+                        sendAPI(senderID, messageSend, null, pageID, metadata)
+                            .then(result => loop(q, flow, senderID, pageID))
+                            .catch(err => console.log('err', err))
+
+                    } else {
+                        var messages = [{text: currentQuestion[1]}]
+                        if (currentQuestion[2]) {
+                            messages.push({text: currentQuestion[2]})
+                            console.log('messages', messages)
+                        }
+                        sendMessages(senderID, messages, null, pageID, metadata).then(result => {
+                            loop(q, flow, senderID, pageID)
+                        })
+                    }
+
+                }
+
+                // ladiResCol.findOneAndUpdate({
+                //     flow: senderData.flow,
+                //     page: pageID,
+                //     senderID,
+                // }, {$set: response}, {upsert: true}).then(result => {
+                //
+                //
+                //     })
 
 
             }
@@ -3574,7 +3574,7 @@ function sendingAPI(recipientId, senderId = facebookPage['jobo'].id, message, ty
             saveSenderData({lastSent: messageData}, recipientId, page)
             resolve(messageData)
 
-            if(dumpling_messageFactoryCol) dumpling_messageFactoryCol.insert(messageData)
+            // if(dumpling_messageFactoryCol) dumpling_messageFactoryCol.insert(messageData)
 
         })
     })
