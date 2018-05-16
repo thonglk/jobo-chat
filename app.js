@@ -1860,9 +1860,8 @@ db.ref('webhook').on('child_added', function (snap) {
                             console.log("Webhook received unknown messagingEvent: ", messagingEvent);
                         }
 
+                        db.ref('webhook').child(snap.key).remove()
                         messageFactoryCol.insert(messagingEvent)
-                            .then(result => db.ref('webhook').child(snap.key).remove())
-                            .catch(console.error)
 
 
                     }
