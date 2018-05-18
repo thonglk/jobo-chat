@@ -1232,23 +1232,17 @@ function L(locale, data) {
     return data[locale.substring(0, 2)]
 }
 
-db.ref('webhook').on('child_added', function (snap) {
-    var data = snap.val()
-    if (data.object == 'page') {
-
-        data.entry.forEach(pageEntry => {
-            var timeOfEvent = pageEntry.time;
-            var tenSecondBefore = Date.now() - 10 * 1000
-            var delay = (tenSecondBefore - timeOfEvent) / 1000
-            console.log('delay', delay)
-            if (timeOfEvent > tenSecondBefore) execThing(pageEntry, snap.key)
-            else setTimeout(function () {
-                console.log('will do in', delay/100)
-                execThing(pageEntry, snap.key)
-            }, delay/100)
-        });
-
-    }
+db.ref('pageEntry').on('child_added', function (snap) {
+    var pageEntry = snap.val()
+    var timeOfEvent = pageEntry.time ;
+    var tenSecondBefore = Date.now() - 10 * 1000
+    var delay = tenSecondBefore - timeOfEvent
+    console.log('delay in ' + delay + ' for ' + Date.now() + ' ' + timeOfEvent)
+    if (delay < 0) execThing(pageEntry, snap.key)
+    else setTimeout(function () {
+        console.log('will do in', delay)
+        execThing(pageEntry, snap.key)
+    }, delay/100)
 
 
 });
@@ -1886,7 +1880,7 @@ function execThing(pageEntry, snapKey) {
                     console.log("Webhook received unknown messagingEvent: ", messagingEvent);
                 }
 
-                db.ref('webhook').child(snapKey).remove()
+                db.ref('pageEntry').child(snapKey).remove()
 
             }
 
@@ -1906,7 +1900,7 @@ function execThing(pageEntry, snapKey) {
 
             }
 
-            db.ref('webhook').child(snapKey).remove()
+            db.ref('pageEntry').child(snapKey).remove()
 
 
         })
