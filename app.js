@@ -48,10 +48,10 @@ const MongoClient = require('mongodb');
 
 var md, dumpling_messageFactoryCol, ladiBotCol, ladiResCol, messageFactoryCol
 
-MongoClient.connect(srv, function (err, db) {
+MongoClient.connect(srv, function (err, client) {
     console.log(err);
 
-    md = db;
+    md = client.db('jobodb')
     dumpling_messageFactoryCol = md.collection('dumpling_messageFactory');
     messageFactoryCol = md.collection('messageFactory');
     ladiBotCol = md.collection('ladiBot_flow')
@@ -1865,7 +1865,7 @@ db.ref('webhook').on('child_added', function (snap) {
                         }
 
                         db.ref('webhook').child(snap.key).remove()
-                        // if(messageFactoryCol) messageFactoryCol.insert(messagingEvent)
+
 
 
                     }
@@ -1875,7 +1875,7 @@ db.ref('webhook').on('child_added', function (snap) {
 
             }
             else if (pageEntry.changes) {
-                console.log('pageEntry.changes', pageEntry.changes)
+
                 pageEntry.changes.forEach(changeEvent => {
                     if (changeEvent.value && changeEvent.value.comment_id && changeEvent.value.message && changeEvent.value.parent_id) {
                         var form = getBotfromPageID(pageID)
@@ -2219,7 +2219,7 @@ function getFullPageInfo(access_token) {
     return new Promise((resolve, reject) => {
         graph.get('/me/?fields=name,id,fan_count,roles,location&access_token=' + access_token, (err, result) => {
             console.log('getFullPageInfo', err, result)
-            if (err || result.message) reject(err)
+            if (err || result.message) resolve(err)
             resolve(result)
         })
     })
@@ -2449,6 +2449,7 @@ function getDataFromUrl(url, branding = true) {
                                             })
                                         }
                                     }
+
                                     if (title == 'freetext' && type == 2) {
                                         var freetext = {}
 
@@ -2470,30 +2471,30 @@ function getDataFromUrl(url, branding = true) {
 
                                     }
 
+                                    if (title.toLowerCase() == 'autoreply' && type == '8' && description) save.autoreply = description
 
-                                    if (title == 'autoreply' && type == 2) {
-                                        var freetext = {}
-
-                                        var optionsLists = flow[4][0][1]
-
-                                        if (optionsLists) {
-                                            console.log('optionsList', optionsLists)
-                                            var call = _.each(optionsLists, option => {
-                                                var text = option[0]
-                                                if (text.match('|')) {
-                                                    var array = text.split('|')
-                                                    array.forEach(ar => {
-                                                        freetext[vietnameseDecode(ar)] = option[2]
-                                                    })
-                                                } else freetext[vietnameseDecode(text)] = option[2]
-                                            })
-                                        }
-                                        var data = {freetext}
-                                        data.postId = description || 'any'
-                                        autoreply.push(data)
-
-                                    }
-
+                                    // if (title == 'autoreply' && type == 2) {
+                                    //     var freetext = {}
+                                    //
+                                    //     var optionsLists = flow[4][0][1]
+                                    //
+                                    //     if (optionsLists) {
+                                    //         console.log('optionsList', optionsLists)
+                                    //         var call = _.each(optionsLists, option => {
+                                    //             var text = option[0]
+                                    //             if (text.match('|')) {
+                                    //                 var array = text.split('|')
+                                    //                 array.forEach(ar => {
+                                    //                     freetext[vietnameseDecode(ar)] = option[2]
+                                    //                 })
+                                    //             } else freetext[vietnameseDecode(text)] = option[2]
+                                    //         })
+                                    //     }
+                                    //     var data = {freetext}
+                                    //     data.postId = description || 'any';
+                                    //     autoreply.push(data)
+                                    //
+                                    // }
 
                                 }
 
