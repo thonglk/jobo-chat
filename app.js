@@ -1231,21 +1231,21 @@ var timeOff = {}
 function L(locale, data) {
     return data[locale.substring(0, 2)]
 }
-
-db.ref('pageEntry').on('child_added', function (snap) {
-    var pageEntry = snap.val()
-    var timeOfEvent = pageEntry.time ;
-    var tenSecondBefore = Date.now() - 10 * 1000
-    var delay = tenSecondBefore - timeOfEvent
-    console.log('delay in ' + delay + ' for ' + Date.now() + ' ' + timeOfEvent)
-    if (delay < 0) execThing(pageEntry, snap.key)
-    else setTimeout(function () {
-        console.log('will do in', delay)
-        execThing(pageEntry, snap.key)
-    }, delay/100)
-
-
-});
+//
+// db.ref('pageEntry').on('child_added', function (snap) {
+//     var pageEntry = snap.val()
+//     var timeOfEvent = pageEntry.time ;
+//     var tenSecondBefore = Date.now() - 10 * 1000
+//     var delay = tenSecondBefore - timeOfEvent
+//     console.log('delay in ' + delay + ' for ' + Date.now() + ' ' + timeOfEvent)
+//     if (delay < 0) execThing(pageEntry, snap.key)
+//     else setTimeout(function () {
+//         console.log('will do in', delay)
+//         execThing(pageEntry, snap.key)
+//     }, delay/100)
+//
+//
+// });
 
 function execThing(pageEntry, snapKey) {
     if (pageEntry.id) var pageID = `${pageEntry.id}`;
