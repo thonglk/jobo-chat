@@ -42,7 +42,12 @@ app.use(express.static('public'));
 var port = process.env.PORT || 5001;
 
 var uri = 'mongodb://joboapp:joboApp.1234@ec2-54-157-20-214.compute-1.amazonaws.com:27017/joboapp';
-var srv = 'mongodb+srv://jobo:jobo@jobodb-0but3.mongodb.net/test?retryWrites=true'
+var srv = 'mongodb+srv://jobo:jobo@jobodb-0but3.mongodb.net/test?retryWrites=true';
+
+function mem() {
+    console.log(`MongoClient script uses approximately ${Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100} MB`);
+
+}
 
 const MongoClient = require('mongodb');
 
@@ -1893,7 +1898,7 @@ db.ref('webhook').on('child_added', function (snap) {
             }
         });
     }
-
+mem()
 });
 
 
