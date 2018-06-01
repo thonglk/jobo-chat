@@ -209,7 +209,7 @@ function initDataLoad(ref, store) {
     });
 }
 
-var dataUser = {}, useRef = db.ref('user')
+var dataUser = {}, useRef = db.ref('user');
 initDataLoad(useRef, dataUser)
 var dataAccount = {}, accountRef = db.ref('account')
 initDataLoad(accountRef, dataAccount)
@@ -1190,10 +1190,11 @@ var waiting = {}
 var timeOff = {}
 var listen = 'on'
 
-//
-// db.ref('pageEntry').on('child_added', function (snap) {
+
+// FB.botform_hook.database().ref('pageEntry').on('child_added', function (snap) {
 //     var pageEntry = snap.val()
-//     var timeOfEvent = pageEntry.time ;
+//     var timeOfEvent = pageEntry.time;
+//     var timeOfEvent = pageEntry.time;
 //     var tenSecondBefore = Date.now() - 10 * 1000
 //     var delay = tenSecondBefore - timeOfEvent
 //     console.log('delay in ' + delay + ' for ' + Date.now() + ' ' + timeOfEvent)
@@ -1201,16 +1202,14 @@ var listen = 'on'
 //     else setTimeout(function () {
 //         console.log('will do in', delay)
 //         execThing(pageEntry, snap.key)
-//     }, delay/100)
-//
-//
+//     }, delay / 100)
 // });
 
 function execThing(pageEntry, snapKey) {
     if (pageEntry.id) var pageID = `${pageEntry.id}`;
 
-    if (pageEntry.messaging) {
-        pageEntry.messaging.forEach(function (messagingEvent) {
+
+    if (pageEntry.messaging) pageEntry.messaging.forEach(function (messagingEvent) {
             if (messagingEvent.sender && messagingEvent.sender.id) var senderID = `${messagingEvent.sender.id}`;
 
             var recipientID = `${messagingEvent.recipient.id}`;
@@ -1505,318 +1504,326 @@ function execThing(pageEntry, snapKey) {
                                     }
                                 }
                                 else {
-                                    if (facebookPage[pageID].currentBot) var result = _.findWhere(dataLadiBot, {id: facebookPage[pageID].currentBot});
-                                    else result = _.findWhere(dataLadiBot, {page: pageID});
 
-                                    var flow = result.data;
-                                    var questions = flow[1];
-                                    var response = {
-                                        page: pageID,
-                                        senderID
-                                    }
+                                    if (facebookPage[pageID].currentBot) var botData = _.findWhere(dataLadiBot, {id: facebookPage[pageID].currentBot});
+                                    else botData = _.findWhere(dataLadiBot, {page: pageID});
 
-                                    if (payload.ref) var REF = payload.ref
-                                    else if (messagingEvent.optin) REF = messagingEvent.optin.ref
-                                    else if (referral && referral.ref) REF = referral.ref
+                                    getDataFromUrl(`https://docs.google.com/forms/d/${botData.editId}/edit`)
+                                        .then(result =>{
 
-
-                                    if (REF) {
-
-                                        senderData.ref = REF;
-                                        saveSenderData(senderData, senderID, pageID)
-
-                                        if (referral.ref.match('_')) {
-                                            var refData = REF.split('_');
-
-                                        } else refData = [REF]
-
-                                        console.log('refData', refData);
-
-                                        if (refData[1]) {
-
-                                            for (var i in questions) {
-                                                var quest = questions[i]
-                                                console.log(vietnameseDecode(refData[1]), vietnameseDecode(quest[1]))
-                                                if (vietnameseDecode(refData[1]) == vietnameseDecode(quest[1])) {
-                                                    go(quest[0], null, flow, senderID, pageID)
-                                                    break
-                                                }
-                                            }
-
-
-                                        } else loop(0, flow, senderID, pageID)
-
-                                    }
-                                    else if (payload.keyword == 'page-on') {
-                                        SetOnOffPage(pageID)
-                                            .then(result => sendAPI(senderID, {
-                                                text: `Page on ;)`,
-                                            }, null, pageID))
-                                            .catch(err => console.log(err))
-
-                                    }
-                                    else if (!facebookPage[pageID].page_off) {
-
-
-                                        if (payload.keyword == 'start-over' || payload.type == 'GET_STARTED') {
-                                            saveSenderData({time_off: null}, senderID, pageID)
-                                            ladiResCol.remove({
+                                            var flow = result.data;
+                                            var questions = flow[1];
+                                            var response = {
                                                 page: pageID,
                                                 senderID
-                                            }).then(result => {
-                                                console.log('remove response', response)
-                                            });
-                                            payload = {}
-                                            response = {
-                                                page: pageID,
-                                                senderID,
                                             };
-                                            loop(0, flow, senderID, pageID)
-                                        }
-                                        else if (payload.keyword == 'update-my-bot') {
 
-                                            if (!senderData.role) {
-                                                sendAPI(senderID, {
-                                                    text: `You don't have permission to do it`,
-                                                }, null, pageID)
+                                            if (payload.ref) var REF = payload.ref
+                                            else if (messagingEvent.optin) REF = messagingEvent.optin.ref
+                                            else if (referral && referral.ref) REF = referral.ref
 
-                                                return
-                                            }
+                                            if (REF) {
 
-                                            if (result.editId) var flowId = result.editId + '/edit'
-                                            else flowId = result.id + '/viewform'
-                                            var data = {url: `https://docs.google.com/forms/d/${flowId}`}
+                                                senderData.ref = REF;
+                                                saveSenderData(senderData, senderID, pageID)
 
-                                            if (pageID && facebookPage[pageID] && facebookPage[pageID].access_token && facebookPage[pageID].name) data = Object.assign(data, facebookPage[pageID], {pageID})
-                                            console.log('data', data)
-                                            sendAPI(senderID, {
-                                                text: `Updating...`,
-                                            }, null, pageID)
-                                            getChat({pageID})
-                                                .then(pageData => sendAPI(senderID, {
-                                                    text: `Updated successful for ${pageData.name} <3!`,
-                                                }, null, pageID))
-                                                .catch(err => sendAPI(senderID, {
-                                                    text: `Update Error: ${JSON.stringify(err)}`,
-                                                }, null, pageID))
-                                        }
-                                        else if (payload.keyword == 'get-noti') {
+                                                if (REF.match('_')) {
+                                                    var refData = REF.split('_');
 
-                                            saveSenderData({subscribe: 'all'}, senderID, pageID)
-                                                .then(result => sendAPI(senderID, {
-                                                    text: `Subscribe noti successful <3!`,
-                                                }, null, pageID))
+                                                } else refData = [REF]
 
-                                        }
-                                        else if (payload.keyword == 'stop-noti') {
-                                            saveSenderData({subscribe: null}, senderID, pageID)
-                                                .then(result => sendAPI(senderID, {
-                                                    text: `Unsubscribe noti successful (Y)!`,
-                                                }, null, pageID))
+                                                console.log('refData', refData);
 
-                                        }
-                                        else if (payload.keyword == 'page-off') {
-                                            if (!senderData.role) {
-                                                sendAPI(senderID, {
-                                                    text: `You don't have permission to do it`,
-                                                }, null, pageID)
+                                                if (refData[1]) {
 
-                                                return
-                                            }
-
-                                            SetOnOffPage(pageID, true)
-                                                .then(result => sendAPI(senderID, {
-                                                    text: `Page off :(`,
-                                                }, null, pageID))
-                                                .catch(err => console.log(err))
-
-
-                                        }
-                                        else if (payload.keyword && payload.keyword.match('mute-bot')) {
-                                            var time_off = 24 * 60 * 60 * 1000
-                                            var date_until = new Date(Date.now() + time_off)
-
-                                            SetOnOffPagePerUser(pageID, payload.subID, time_off)
-                                                .then(result => sendAPI(senderID, {
-                                                    text: `Bot was off for ${dataAccount[payload.subID].full_name} until  ${date_until}, click 'Mute bot' again to get more time!`,
-                                                }, null, pageID)
-                                                    .then(result => sendAPI(payload.subID, {
-                                                        text: `You are chatting with agent. Type 'stop agent' to switch to bot`,
-                                                    }, null, pageID)))
-                                        }
-                                        else if (payload.keyword == 'stop-agent') {
-                                            saveSenderData({time_off: null}, senderID, pageID)
-                                                .then(result => sendAPI(senderID, {
-                                                    text: `Switched to bot`,
-                                                }, null, pageID))
-                                                .then(result => loop(0, flow, senderID, pageID))
-
-                                        }
-                                        else if (payload.keyword == 'report') {
-                                            if (!senderData.role) {
-                                                sendAPI(senderID, {
-                                                    text: `You don't have permission to do it`,
-                                                }, null, pageID)
-
-                                                return
-                                            }
-
-                                            sendAPI(senderID, {
-                                                text: `Hi, We are building today's report for you now...`,
-                                            }, null, pageID)
-                                            buildReport(pageID).then(result => sendAPI(senderID, {
-                                                attachment: {
-                                                    type: "template",
-                                                    payload: {
-                                                        template_type: "button",
-                                                        text: result.text,
-                                                        buttons: [{
-                                                            type: "postback",
-                                                            title: "Last 7 days",
-                                                            "payload": JSON.stringify({
-                                                                type: 'command',
-                                                                command: 'report',
-                                                                data: {day: 7, ago: 0, pageID: pageID}
-                                                            })
-                                                        }, {
-                                                            type: "postback",
-                                                            title: "Last 30 days",
-                                                            "payload": JSON.stringify({
-                                                                type: 'command',
-                                                                command: 'report',
-                                                                data: {day: 30, ago: 0, pageID: pageID}
-                                                            })
-                                                        }, {
-                                                            type: "postback",
-                                                            title: "Last 1 day",
-                                                            "payload": JSON.stringify({
-                                                                type: 'command',
-                                                                command: 'report',
-                                                                data: {day: 1, ago: 0, pageID: pageID}
-                                                            })
-                                                        }]
-                                                    }
-                                                }
-                                            }, null, pageID))
-
-
-                                        }
-                                        else if (payload.type == 'command') {
-                                            if (payload.command == 'report') buildReport(payload.data.pageID, payload.data.day, payload.data.ago).then(result => sendAPI(senderID, {
-                                                text: result.text,
-                                            }, null, pageID))
-
-
-                                        }
-                                        else if (senderData.time_off) {
-                                            console.log('senderData.time_off')
-                                            if (!timeOff[senderID]) {
-                                                sendAPI(senderID, {
-                                                    text: `You are chatting with agent. Type 'stop agent' to switch to bot (Gõ 'stop agent' để tiếp tục với bot) `,
-                                                }, null, pageID)
-                                                timeOff[senderID] = true
-                                            }
-
-                                        }
-                                        else if (payload.text && payload.type == 'ask' && senderData.currentQuestionId) {
-                                            response[senderData.currentQuestionId] = payload.text
-
-                                            if (payload.setCustom) {
-                                                var custom = senderData.custom || {}
-                                                if (payload.text) custom[payload.setCustom] = payload.text
-                                                console.log('custom', custom)
-
-                                                saveSenderData({custom}, senderID, pageID)
-                                            }
-                                            //
-                                            // ladiResCol.findOneAndUpdate({
-                                            //     page: pageID,
-                                            //     senderID
-                                            // }, {$set: response}, {upsert: true}).then(result => {
-                                            // }).catch(err => console.log('err', err))
-
-                                            var index = _.findLastIndex(questions, {
-                                                0: senderData.currentQuestionId
-                                            });
-
-                                            var goto = payload.goto
-                                            if (payload.askType == 3 || payload.askType == 2) {
-                                                if (payload.source == 'text' && payload.other) {
-                                                    go(payload.other, index, flow, senderID, pageID)
-
-                                                } else go(goto, index, flow, senderID, pageID)
-
-                                            } else if (payload.askType == 1) {
-                                                if (!waiting[senderID]) {
-                                                    waiting[senderID] = true
-                                                    setTimeout(function () {
-                                                        delete waiting[senderID]
-                                                        console.log('delete waiting[senderID]')
-                                                        go(goto, index, flow, senderID, pageID)
-                                                    }, 10000)
-                                                }
-
-                                            } else if (payload.askType == 0) {
-                                                var curQues = _.findWhere(questions, {0: senderData.currentQuestionId});
-                                                if (curQues[4] && curQues[4][0] && curQues[4][0][4] && curQues[4][0][4][0]) {
-
-                                                    var valid = curQues[4][0][4][0]
-
-                                                    if (valid[0] == 1) {
-                                                        //number
-                                                        if (valid[1] == 7) {
-                                                            //between
-                                                            console.log('payload.text', payload.text, Number(payload.text) > valid[2][0])
-                                                            if (Number(payload.text) > valid[2][0] && Number(payload.text) < valid[2][1]) go(goto, index, flow, senderID, pageID)
-                                                            else sendAPI(senderID, {
-                                                                text: valid[3]
-                                                            }, null, pageID, payload)
-
+                                                    for (var i in questions) {
+                                                        var quest = questions[i]
+                                                        console.log(vietnameseDecode(refData[1]), vietnameseDecode(quest[1]))
+                                                        if (vietnameseDecode(refData[1]) == vietnameseDecode(quest[1])) {
+                                                            go(quest[0], null, flow, senderID, pageID)
+                                                            break
                                                         }
                                                     }
 
 
-                                                }
-                                                else go(goto, index, flow, senderID, pageID)
+                                                } else loop(0, flow, senderID, pageID)
 
                                             }
-                                            else go(goto, index, flow, senderID, pageID)
+                                            else if (payload.keyword == 'page-on') {
+                                                SetOnOffPage(pageID)
+                                                    .then(result => sendAPI(senderID, {
+                                                        text: `Page on ;)`,
+                                                    }, null, pageID))
+                                                    .catch(err => console.log(err))
 
-                                        }
-                                        else if (payload.keyword && flow[21]) {
-                                            for (var i in flow[21]) {
-                                                var goto = flow[21][i]
-                                                if (payload.keyword.match(i)) {
-                                                    go(goto, null, flow, senderID, pageID)
-                                                    break
-                                                }
                                             }
-                                        }
-                                        else if (payload.json_plugin_url || payload.block_names) {
-                                            if (payload.json_plugin_url) sendTypingOn(senderID, pageID)
-                                                .then(result => axios.get(payload.json_plugin_url)
-                                                    .then(result => sendjson_plugin_url(senderID, result.data.messages, null, pageID, result.data.go_to_block, result.data.set_attributes)
-                                                    ))
-                                            else if (payload.block_names) {
-                                                for (var i in questions) {
-                                                    var quest = questions[i]
-                                                    console.log(vietnameseDecode(payload.block_names[0]), vietnameseDecode(quest[1]))
-                                                    if (vietnameseDecode(payload.block_names[0]) == vietnameseDecode(quest[1])) {
-                                                        go(quest[0], null, flow, senderID, pageID)
-                                                        break
+                                            else if (!facebookPage[pageID].page_off) {
+
+
+                                                if (payload.keyword == 'start-over' || payload.type == 'GET_STARTED') {
+                                                    saveSenderData({time_off: null}, senderID, pageID)
+                                                    ladiResCol.remove({
+                                                        page: pageID,
+                                                        senderID
+                                                    }).then(result => {
+                                                        console.log('remove response', response)
+                                                    });
+                                                    payload = {}
+                                                    response = {
+                                                        page: pageID,
+                                                        senderID,
+                                                    };
+                                                    loop(0, flow, senderID, pageID)
+                                                }
+                                                else if (payload.keyword == 'update-my-bot') {
+
+                                                    if (!senderData.role) {
+                                                        sendAPI(senderID, {
+                                                            text: `You don't have permission to do it`,
+                                                        }, null, pageID)
+
+                                                        return
+                                                    }
+
+                                                    if (result.editId) var flowId = result.editId + '/edit'
+                                                    else flowId = result.id + '/viewform'
+                                                    var data = {url: `https://docs.google.com/forms/d/${flowId}`}
+
+                                                    if (pageID && facebookPage[pageID] && facebookPage[pageID].access_token && facebookPage[pageID].name) data = Object.assign(data, facebookPage[pageID], {pageID})
+                                                    console.log('data', data)
+                                                    sendAPI(senderID, {
+                                                        text: `Updating...`,
+                                                    }, null, pageID)
+                                                    getChat({pageID})
+                                                        .then(pageData => sendAPI(senderID, {
+                                                            text: `Updated successful for ${pageData.name} <3!`,
+                                                        }, null, pageID))
+                                                        .catch(err => sendAPI(senderID, {
+                                                            text: `Update Error: ${JSON.stringify(err)}`,
+                                                        }, null, pageID))
+                                                }
+                                                else if (payload.keyword == 'get-noti') {
+
+                                                    saveSenderData({subscribe: 'all'}, senderID, pageID)
+                                                        .then(result => sendAPI(senderID, {
+                                                            text: `Subscribe noti successful <3!`,
+                                                        }, null, pageID))
+
+                                                }
+                                                else if (payload.keyword == 'stop-noti') {
+                                                    saveSenderData({subscribe: null}, senderID, pageID)
+                                                        .then(result => sendAPI(senderID, {
+                                                            text: `Unsubscribe noti successful (Y)!`,
+                                                        }, null, pageID))
+
+                                                }
+                                                else if (payload.keyword == 'page-off') {
+                                                    if (!senderData.role) {
+                                                        sendAPI(senderID, {
+                                                            text: `You don't have permission to do it`,
+                                                        }, null, pageID)
+
+                                                        return
+                                                    }
+
+                                                    SetOnOffPage(pageID, true)
+                                                        .then(result => sendAPI(senderID, {
+                                                            text: `Page off :(`,
+                                                        }, null, pageID))
+                                                        .catch(err => console.log(err))
+
+
+                                                }
+                                                else if (payload.keyword && payload.keyword.match('mute-bot')) {
+                                                    var time_off = 24 * 60 * 60 * 1000
+                                                    var date_until = new Date(Date.now() + time_off)
+
+                                                    SetOnOffPagePerUser(pageID, payload.subID, time_off)
+                                                        .then(result => sendAPI(senderID, {
+                                                            text: `Bot was off for ${dataAccount[payload.subID].full_name} until  ${date_until}, click 'Mute bot' again to get more time!`,
+                                                        }, null, pageID)
+                                                            .then(result => sendAPI(payload.subID, {
+                                                                text: `You are chatting with agent. Type 'stop agent' to switch to bot`,
+                                                            }, null, pageID)))
+                                                }
+                                                else if (payload.keyword == 'stop-agent') {
+                                                    saveSenderData({time_off: null}, senderID, pageID)
+                                                        .then(result => sendAPI(senderID, {
+                                                            text: `Switched to bot`,
+                                                        }, null, pageID))
+                                                        .then(result => loop(0, flow, senderID, pageID))
+
+                                                }
+                                                else if (payload.keyword == 'report') {
+                                                    if (!senderData.role) {
+                                                        sendAPI(senderID, {
+                                                            text: `You don't have permission to do it`,
+                                                        }, null, pageID)
+
+                                                        return
+                                                    }
+
+                                                    sendAPI(senderID, {
+                                                        text: `Hi, We are building today's report for you now...`,
+                                                    }, null, pageID)
+                                                    buildReport(pageID).then(result => sendAPI(senderID, {
+                                                        attachment: {
+                                                            type: "template",
+                                                            payload: {
+                                                                template_type: "button",
+                                                                text: result.text,
+                                                                buttons: [{
+                                                                    type: "postback",
+                                                                    title: "Last 7 days",
+                                                                    "payload": JSON.stringify({
+                                                                        type: 'command',
+                                                                        command: 'report',
+                                                                        data: {day: 7, ago: 0, pageID: pageID}
+                                                                    })
+                                                                }, {
+                                                                    type: "postback",
+                                                                    title: "Last 30 days",
+                                                                    "payload": JSON.stringify({
+                                                                        type: 'command',
+                                                                        command: 'report',
+                                                                        data: {day: 30, ago: 0, pageID: pageID}
+                                                                    })
+                                                                }, {
+                                                                    type: "postback",
+                                                                    title: "Last 1 day",
+                                                                    "payload": JSON.stringify({
+                                                                        type: 'command',
+                                                                        command: 'report',
+                                                                        data: {day: 1, ago: 0, pageID: pageID}
+                                                                    })
+                                                                }]
+                                                            }
+                                                        }
+                                                    }, null, pageID))
+
+
+                                                }
+                                                else if (payload.type == 'command') {
+                                                    if (payload.command == 'report') buildReport(payload.data.pageID, payload.data.day, payload.data.ago).then(result => sendAPI(senderID, {
+                                                        text: result.text,
+                                                    }, null, pageID))
+
+
+                                                }
+                                                else if (senderData.time_off) {
+                                                    console.log('senderData.time_off')
+                                                    if (!timeOff[senderID]) {
+                                                        sendAPI(senderID, {
+                                                            text: `You are chatting with agent. Type 'stop agent' to switch to bot (Gõ 'stop agent' để tiếp tục với bot) `,
+                                                        }, null, pageID)
+                                                        timeOff[senderID] = true
+                                                    }
+
+                                                }
+                                                else if (payload.text && payload.type == 'ask' && senderData.currentQuestionId) {
+                                                    response[senderData.currentQuestionId] = payload.text
+
+                                                    if (payload.setCustom) {
+                                                        var custom = senderData.custom || {}
+                                                        if (payload.text) custom[payload.setCustom] = payload.text
+                                                        console.log('custom', custom)
+
+                                                        saveSenderData({custom}, senderID, pageID)
+                                                    }
+                                                    //
+                                                    // ladiResCol.findOneAndUpdate({
+                                                    //     page: pageID,
+                                                    //     senderID
+                                                    // }, {$set: response}, {upsert: true}).then(result => {
+                                                    // }).catch(err => console.log('err', err))
+
+                                                    var index = _.findLastIndex(questions, {
+                                                        0: senderData.currentQuestionId
+                                                    });
+
+                                                    var goto = payload.goto
+                                                    if (payload.askType == 3 || payload.askType == 2) {
+                                                        if (payload.source == 'text' && payload.other) {
+                                                            go(payload.other, index, flow, senderID, pageID)
+
+                                                        } else go(goto, index, flow, senderID, pageID)
+
+                                                    } else if (payload.askType == 1) {
+                                                        if (!waiting[senderID]) {
+                                                            waiting[senderID] = true
+                                                            setTimeout(function () {
+                                                                delete waiting[senderID]
+                                                                console.log('delete waiting[senderID]')
+                                                                go(goto, index, flow, senderID, pageID)
+                                                            }, 10000)
+                                                        }
+
+                                                    } else if (payload.askType == 0) {
+                                                        var curQues = _.findWhere(questions, {0: senderData.currentQuestionId});
+                                                        if (curQues[4] && curQues[4][0] && curQues[4][0][4] && curQues[4][0][4][0]) {
+
+                                                            var valid = curQues[4][0][4][0]
+
+                                                            if (valid[0] == 1) {
+                                                                //number
+                                                                if (valid[1] == 7) {
+                                                                    //between
+                                                                    console.log('payload.text', payload.text, Number(payload.text) > valid[2][0])
+                                                                    if (Number(payload.text) > valid[2][0] && Number(payload.text) < valid[2][1]) go(goto, index, flow, senderID, pageID)
+                                                                    else sendAPI(senderID, {
+                                                                        text: valid[3]
+                                                                    }, null, pageID, payload)
+
+                                                                }
+                                                            }
+
+
+                                                        }
+                                                        else go(goto, index, flow, senderID, pageID)
+
+                                                    }
+                                                    else go(goto, index, flow, senderID, pageID)
+
+                                                }
+                                                else if (payload.keyword && flow[21]) {
+                                                    for (var i in flow[21]) {
+                                                        var goto = flow[21][i]
+                                                        if (payload.keyword.match(i)) {
+                                                            go(goto, null, flow, senderID, pageID)
+                                                            break
+                                                        }
+                                                    }
+                                                }
+                                                else if (payload.json_plugin_url || payload.block_names) {
+                                                    if (payload.json_plugin_url) sendTypingOn(senderID, pageID)
+                                                        .then(result => axios.get(payload.json_plugin_url)
+                                                            .then(result => sendjson_plugin_url(senderID, result.data.messages, null, pageID, result.data.go_to_block, result.data.set_attributes)
+                                                            ))
+                                                    else if (payload.block_names) {
+                                                        for (var i in questions) {
+                                                            var quest = questions[i]
+                                                            console.log(vietnameseDecode(payload.block_names[0]), vietnameseDecode(quest[1]))
+                                                            if (vietnameseDecode(payload.block_names[0]) == vietnameseDecode(quest[1])) {
+                                                                go(quest[0], null, flow, senderID, pageID)
+                                                                break
+                                                            }
+                                                        }
+                                                    }
+                                                    if (payload.set_attributes) {
+                                                        var set_attributes = payload.set_attributes
+                                                        var dataCustom = dataAccount[senderID].custom || {}
+                                                        dataCustom = Object.assign(dataCustom, set_attributes)
+                                                        saveData('account', senderID, {custom: dataCustom}).then(result => {
+                                                            console.log('payload.set_attributes', result)
+                                                        })
                                                     }
                                                 }
                                             }
-                                            if (payload.set_attributes) {
-                                                var set_attributes = payload.set_attributes
-                                                var dataCustom = dataAccount[senderID].custom || {}
-                                                dataCustom = Object.assign(dataCustom, set_attributes)
-                                                saveData('account', senderID, {custom: dataCustom}).then(result => {
-                                                    console.log('payload.set_attributes', result)
-                                                })
-                                            }
-                                        }
-                                    }
+
+
+                                        })
+
+
 
                                 }
 
@@ -1839,27 +1846,30 @@ function execThing(pageEntry, snapKey) {
                     console.log("Webhook received unknown messagingEvent: ", messagingEvent);
                 }
 
-                db.ref('pageEntry').child(snapKey).remove()
-
             }
+
+            FB.botform_hook.database().ref('pageEntry').child(snapKey).remove()
+
 
 
         })
 
-    }
+
     else if (pageEntry.changes) {
 
         pageEntry.changes.forEach(changeEvent => {
             if (changeEvent.value && changeEvent.value.comment_id && changeEvent.value.message && changeEvent.value.parent_id) {
                 var form = getBotfromPageID(pageID)
-                var message = 'Thanks for comment. How can I help you?'
-                if (form && form.data && form.data[0]) message = form.data[0]
+                console.log('form',form)
+                if (form.autoreply)var message = form.autoreply
+                else message = 'Thanks for comment. How can I help you?'
+
 
                 sendPrivate(message, changeEvent.value.comment_id, pageID)
 
             }
 
-            db.ref('pageEntry').child(snapKey).remove()
+            FB.botform_hook.database().ref('pageEntry').child(snapKey).remove()
 
 
         })
@@ -2279,7 +2289,6 @@ function getDataFromUrl(url, branding = true) {
                                 if (str == 'FB_LOAD_DATA_ = ') var allData = array[0]
                                 else allData = array
                                 var data = allData[1]
-                                console.log('data', data)
                                 var id = allData[14]
                                 var save = {
                                     id, data, flow: vietnameseDecode(data[8] || 'untitled')
@@ -2316,7 +2325,7 @@ function getDataFromUrl(url, branding = true) {
                                 var renderOps = {}
                                 var r = 0
 
-                                console.log('Get greeting & menu')
+
 
                                 for (var i in flows) {
                                     var flow = flows[i]
@@ -2442,7 +2451,7 @@ function getDataFromUrl(url, branding = true) {
 
                                     }
 
-                                    if (title.toLowerCase() == 'autoreply' && type == '8' && description) save.autoreply = description
+                                    if (title.toLowerCase() == 'autoreply' && description) save.autoreply = description
 
                                     // if (title == 'autoreply' && type == 2) {
                                     //     var freetext = {}
@@ -2469,24 +2478,6 @@ function getDataFromUrl(url, branding = true) {
 
                                 }
 
-                                if (r > 0) axios.post(`https://docs.google.com/forms/d/${save.editId}/renderdata?id=${save.editId}&renderOps=` + urlencode(JSON.stringify(renderOps)))
-                                    .then(result => {
-                                        var sub = result.data.substr(5)
-
-                                        var res = JSON.parse(sub)
-                                        console.log(res)
-                                        save.data[20] = {}
-                                        for (var i in renderOps) {
-                                            console.log(i, res[i])
-                                            save.data[20][renderOps[i][1].cosmoId] = res[i]
-                                        }
-                                        saveLadiBot(save, save.id)
-
-                                    })
-                                    .catch(err => console.log(err))
-
-
-                                console.log('Done greeting & menu')
 
 
                                 if (greeting.length > 0) save.greeting = greeting
@@ -2503,15 +2494,38 @@ function getDataFromUrl(url, branding = true) {
                                     "type": "web_url",
                                     "url": "https://botform.me?ref=branding"
                                 })
+
                                 save.persistent_menu = [persistent_menu]
 
-                                if (autoreply.length > 0) save.autoreply = autoreply
 
-                                console.log('Get form', save)
 
-                                saveLadiBot(save, save.id)
-                                    .then(result => resolve(save))
-                                    .catch(err => reject({err: JSON.stringify(err), url}))
+                                console.log('save', save)
+
+
+                                if (r > 0) axios.post(`https://docs.google.com/forms/d/${save.editId}/renderdata?id=${save.editId}&renderOps=` + urlencode(JSON.stringify(renderOps)))
+                                    .then(result => {
+                                        var sub = result.data.substr(5)
+
+                                        var res = JSON.parse(sub)
+                                        console.log(res)
+                                        save.data[20] = {}
+                                        for (var i in renderOps) {
+                                            console.log(i, res[i])
+                                            save.data[20][renderOps[i][1].cosmoId] = res[i]
+                                        }
+
+
+
+
+                                        resolve(save)
+
+
+
+                                    })
+                                    .catch(err => console.log(err))
+                                else  resolve(save)
+
+
 
                             } else reject({err: 'This parse was not public', url})
                         } else reject({err: 'This script was not public', url})
@@ -2519,8 +2533,7 @@ function getDataFromUrl(url, branding = true) {
 
                     } else reject({err: 'This data was not public', url})
 
-                }
-            )
+                })
             .catch(err => {
                 console.log('get chat err', err)
                 reject(err)
@@ -2598,6 +2611,7 @@ function getChat({url, access_token, name, pageID, type}) {
                                 pageData.editId = save.editId
                                 pageData.sheetId = sheet.id
                                 pageData.currentBot = save.id
+                                saveLadiBot(save, save.id)
                                 saveFacebookPage(pageData)
                                     .then(() => resolve(pageData))
                                     .catch(err => reject({err}))
@@ -2653,8 +2667,6 @@ function getNLP(entities) {
     }
     return nlp
 }
-
-
 
 
 function shortAddress(fullAddress) {
@@ -3645,7 +3657,6 @@ function chatfuelQuick(buttons = {
     return newbuttons
 }
 
-
 process.on('exit', function (err) {
     sendLog('exit ' + err)
 });
@@ -3656,8 +3667,8 @@ process.on('uncaughtException', function (err) {
 
 function sendLog(text) {
     console.log(text)
-    var page = '233214007218284'
-    var messageData = {message: {text}, recipient: {id: '1980317535315791'}}
+    var page = '517410958639328'
+    var messageData = {message: {text}, recipient: {id: '1951611518197193'}}
     if (facebookPage[page] && facebookPage[page].access_token) request({
         uri: 'https://graph.facebook.com/v2.12/me/messages',
         qs: {access_token: facebookPage[page].access_token},
@@ -3762,6 +3773,7 @@ function sendBroadCast(query, blockName) {
 app.get('/sendBroadCast', ({query}, res) => sendBroadCast(query, query.blockName).then(result => res.send(result)).catch(err => res.status(500).json(err)))
 
 function getBotfromPageID(pageID) {
+    console.log('getBotfromPageID',pageID)
     if (!pageID) return null
     if (facebookPage[pageID].currentBot) var result = _.findWhere(dataLadiBot, {id: facebookPage[pageID].currentBot});
     else result = _.findWhere(dataLadiBot, {page: pageID});
