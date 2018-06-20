@@ -378,6 +378,8 @@ function matchingPayload(event) {
 
             if (message.quick_reply) {
                 payload.source = 'quick_reply'
+                payload.type = 'ask'
+
                 if (message.text) payload.text = message.text
 
             } else if (message.attachments) {
@@ -420,26 +422,9 @@ function matchingPayload(event) {
 
         } else console.log('something donnt know', event)
 
-
-        if (message && message.text && !message.nlp) client.message(message.text, {})
-            .then(data => {
-                console.log('Yay, got Wit.ai response: ', data);
-                var entities = data.entities
-
-                var nlp = getNLP(entities)
-                payload.nlp = nlp
-                Object.assign(payload, nlp)
-                payload.keyword = vietnameseDecode(payload.text)
-                console.log('matchingPayload', payload, senderID, message, postback, referral)
-                resolve({payload, senderID, message, postback, referral})
-
-            })
-            .catch(console.error);
-        else {
-            if (payload.text) payload.keyword = vietnameseDecode(payload.text)
-            console.log('matchingPayload', payload, senderID, message, postback, referral)
-            resolve({payload, senderID, message, postback, referral})
-        }
+        if (payload.text) payload.keyword = vietnameseDecode(payload.text)
+        console.log('matchingPayload', payload, senderID, message, postback, referral)
+        resolve({payload, senderID, message, postback, referral})
 
 
     })
@@ -1886,14 +1871,13 @@ function execThing(pageEntry, snapKey) {
                 var form = getBotfromPageID(pageID)
                 var postId = changeEvent.value.comment_id.split('_')[0]
 
-
-                if (form.autoreply) var autoreply = form.autoreply
+                if (form && form.autoreply) var autoreply = form.autoreply
                 console.log('changeEvent',postId,autoreply, changeEvent)
 
                 if (autoreply) {
-
-                    if(autoreply.all) sendPrivate(autoreply.all, changeEvent.value.comment_id, pageID)
-                    else if(autoreply.postId) sendPrivate(autoreply.all, changeEvent.value.comment_id, pageID)
+                    console.log('autoreply[`${postId}`]',autoreply[`${postId}`])
+                 if(autoreply[`${postId}`]) sendPrivate(autoreply[`${postId}`], changeEvent.value.comment_id, pageID)
+                 else if(autoreply.all) sendPrivate(autoreply.all, changeEvent.value.comment_id, pageID)
                 }
 
 
