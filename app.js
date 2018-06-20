@@ -2909,7 +2909,7 @@ function loop(q, flow, senderID, pageID) {
             var questionStr = question_text.concat(question_select, question_multiselect)
 
             var askType = currentQuestion[3];
-            console.log('askType', askType,);
+            console.log('askType', askType);
 
             if (questionStr.includes(askType)) {
 
