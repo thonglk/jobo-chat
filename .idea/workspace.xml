@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4d8eec54-9a42-4d53-b4e8-5d89541712b5" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/s.js" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+      <change beforePath="$PROJECT_DIR$/s.js" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -18,163 +18,43 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
-              <caret line="1193" column="0" lean-forward="false" selection-start-line="1193" selection-start-column="0" selection-end-line="1205" selection-end-column="3" />
+            <state relative-caret-position="27494">
+              <caret line="2155" column="13" lean-forward="false" selection-start-line="2155" selection-start-column="13" selection-end-line="2155" selection-end-column="13" />
               <folding>
-                <element signature="n#!!block;n#strToObj#0" expanded="false" />
-                <element signature="n#!!block;n#templatelize#0" expanded="false" />
-                <element signature="e#5375#5411#0" expanded="false" />
-                <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
-                <element signature="n#!!block;n#saveData#0" expanded="false" />
-                <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
-                <element signature="e#7420#9584#0" expanded="false" />
-                <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-                <element signature="n#!!block;n#intention#0" expanded="false" />
-                <element signature="n#!!block;n#sendAPI#0" expanded="false" />
-                <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
-                <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
-                <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
+                <element signature="e#15045#15305#0" expanded="false" />
+                <element signature="e#15380#18828#0" expanded="false" />
                 <element signature="n#!!block;n#sendOne#0" expanded="false" />
-                <element signature="n#!!block;n#callSendAPI#0" expanded="false" />
-                <element signature="n#!!block;n#execThing#0" expanded="false" />
-                <element signature="e#50697#69945#0" expanded="false" />
-                <element signature="e#70595#70761#0" expanded="false" />
-                <element signature="e#71105#72470#0" expanded="false" />
-                <element signature="e#72554#72989#0" expanded="false" />
-                <element signature="e#73075#92503#0" expanded="false" />
-                <element signature="e#76314#76737#0" expanded="false" />
-                <element signature="e#76827#77251#0" expanded="false" />
-                <element signature="e#77340#78255#0" expanded="false" />
-                <element signature="e#78367#79382#0" expanded="false" />
-                <element signature="e#79473#79984#0" expanded="false" />
-                <element signature="e#80071#83700#0" expanded="false" />
-                <element signature="e#83785#84172#0" expanded="false" />
-                <element signature="e#84251#84924#0" expanded="false" />
-                <element signature="e#89622#90195#0" expanded="false" />
-                <element signature="e#89700#90145#0" expanded="false" />
-                <element signature="e#90301#92457#0" expanded="false" />
-                <element signature="n#!!block;n#SetOnOffPage#0" expanded="false" />
-                <element signature="e#94405#94560#0" expanded="false" />
-                <element signature="n#!!block;n#SetOnOffPagePerUser#0" expanded="false" />
-                <element signature="e#95266#95462#0" expanded="false" />
-                <element signature="n#!!block;n#saveFacebookPage#0" expanded="false" />
-                <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
-                <element signature="e#96370#96614#0" expanded="false" />
-                <element signature="e#96667#96980#0" expanded="false" />
-                <element signature="e#97017#97144#0" expanded="false" />
-                <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-                <element signature="e#97259#97690#0" expanded="false" />
-                <element signature="e#97740#97894#0" expanded="false" />
-                <element signature="e#98780#98922#0" expanded="false" />
-                <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-                <element signature="e#99785#99927#0" expanded="false" />
-                <element signature="n#!!block;n#setWit#0" expanded="false" />
-                <element signature="e#100466#100595#0" expanded="false" />
-                <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-                <element signature="e#101330#101440#0" expanded="false" />
-                <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
-                <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-                <element signature="e#103077#103228#0" expanded="false" />
-                <element signature="n#!!block;n#getFullPageInfo#0" expanded="false" />
-                <element signature="n#!!block;n#debugToken#0" expanded="false" />
-                <element signature="e#108707#109698#0" expanded="false" />
-                <element signature="e#110012#112828#0" expanded="false" />
-                <element signature="e#112882#114193#0" expanded="false" />
-                <element signature="e#114269#115377#0" expanded="false" />
-                <element signature="e#115536#115579#0" expanded="false" />
-                <element signature="n#!!block;n#initBot#0" expanded="false" />
-                <element signature="n#!!block;n#getNLP#0" expanded="false" />
-                <element signature="n#!!block;n#shortAddress#0" expanded="false" />
-                <element signature="n#!!block;n#strTime#0" expanded="false" />
-                <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-                <element signature="n#!!block;n#getPaginatedItems#0" expanded="false" />
-                <element signature="n#!!block;n#go#0" expanded="false" />
-                <element signature="n#!!block;n#loop#0" expanded="false" />
-                <element signature="e#127653#128089#0" expanded="false" />
-                <element signature="e#137510#141779#0" expanded="false" />
-                <element signature="e#137724#137964#0" expanded="false" />
-                <element signature="n#!!block;n#sendMessages#0" expanded="false" />
-                <element signature="n#!!block;n#flowAI#0" expanded="false" />
-                <element signature="n#!!block;n#submitResponse#0" expanded="false" />
-                <element signature="e#143740#144964#0" expanded="false" />
-                <element signature="e#145075#145245#0" expanded="false" />
-                <element signature="n#!!block;n#sendNotiUser#0" expanded="false" />
-                <element signature="n#!!block;n#sendNotiSub#0" expanded="false" />
-                <element signature="n#!!block;n#matchingPeople#0" expanded="false" />
-                <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-                <element signature="e#151764#152346#0" expanded="false" />
-                <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
-                <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-                <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-                <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
-                <element signature="n#!!block;n#receivedAccountLink#0" expanded="false" />
-                <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
-                <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
-                <element signature="n#!!block;n#sendjson_plugin_url#0" expanded="false" />
-                <element signature="n#!!block;n#chatFuelToBoform#0" expanded="false" />
-                <element signature="n#!!block;n#chatfuelEle#0" expanded="false" />
-                <element signature="e#158233#158353#0" expanded="false" />
-                <element signature="n#!!block;n#chatfuelBut#0" expanded="false" />
-                <element signature="e#158972#159092#0" expanded="false" />
-                <element signature="n#!!block;n#chatfuelQuick#0" expanded="false" />
-                <element signature="e#159717#159747#0" expanded="false" />
-                <element signature="e#159798#159841#0" expanded="false" />
-                <element signature="n#!!block;n#viewResponse#0" expanded="false" />
-                <element signature="n#!!block;n#sendBroadCast#0" expanded="false" />
+                <element signature="e#75946#76349#0" expanded="false" />
+                <element signature="e#76435#76839#0" expanded="false" />
+                <element signature="e#76924#77791#0" expanded="false" />
+                <element signature="e#77899#78874#0" expanded="false" />
+                <element signature="e#78961#79448#0" expanded="false" />
+                <element signature="e#79531#82984#0" expanded="false" />
+                <element signature="e#83065#83436#0" expanded="false" />
+                <element signature="e#83511#84152#0" expanded="false" />
+                <element signature="e#84277#88062#0" expanded="false" />
+                <element signature="e#88164#90228#0" expanded="false" />
+                <element signature="e#106589#107136#0" expanded="false" />
+                <element signature="e#107703#110355#0" expanded="false" />
+                <element signature="e#110405#111636#0" expanded="false" />
+                <element signature="e#125678#126114#0" expanded="false" />
+                <element signature="e#126157#126260#0" expanded="false" />
+                <element signature="e#126661#126784#0" expanded="false" />
+                <element signature="e#127314#127427#0" expanded="false" />
+                <element signature="e#127897#129633#0" expanded="false" />
+                <element signature="e#127941#128288#0" expanded="false" />
+                <element signature="e#129769#131150#0" expanded="false" />
+                <element signature="e#131720#133461#0" expanded="false" />
+                <element signature="e#132092#133170#0" expanded="false" />
+                <element signature="e#133200#133381#0" expanded="false" />
+                <element signature="e#133651#134489#0" expanded="false" />
+                <element signature="e#134535#134937#0" expanded="false" />
+                <element signature="e#135468#139433#0" expanded="false" />
                 <element signature="n#!!block;n#buildMessage#0" expanded="false" />
                 <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
-                <element signature="n#!!block;n#jobJD#0" expanded="false" />
-                <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-                <element signature="n#!!block;n#referInital#0" expanded="false" />
-                <element signature="n#!!block;n#sendListJobByAddress#0" expanded="false" />
-                <element signature="n#!!block;n#sendDefautMessage#0" expanded="false" />
-                <element signature="n#!!block;n#checkRequiment#0" expanded="false" />
-                <element signature="n#!!block;n#loadUser#0" expanded="false" />
-                <element signature="n#!!block;n#sendUpdateProfile#0" expanded="false" />
-                <element signature="n#!!block;n#loadProfile#0" expanded="false" />
-                <element signature="n#!!block;n#sendInterviewInfo#0" expanded="false" />
-                <element signature="n#!!block;n#sendInterviewOption#0" expanded="false" />
-                <element signature="n#!!block;n#getJob#0" expanded="false" />
-                <element signature="n#!!block;n#loadJob#0" expanded="false" />
-                <element signature="n#!!block;n#buildReport#0" expanded="false" />
-                <element signature="n#!!block;n#copyFile#0" expanded="false" />
-                <element signature="n#!!block;n#copyForms#0" expanded="false" />
-                <element signature="n#!!block;n#copySheets#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="firebase.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/firebase.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="765">
-              <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="broadcast.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/broadcast.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="750">
-              <caret line="50" column="16" lean-forward="false" selection-start-line="50" selection-start-column="16" selection-end-line="50" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="s.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/s.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="103">
-              <caret line="383" column="12" lean-forward="true" selection-start-line="383" selection-start-column="0" selection-end-line="420" selection-end-column="0" />
-              <folding>
-                <element signature="n#!!block;n#tracking#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -192,36 +72,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>menu</find>
-      <find>Get started</find>
-      <find>something</find>
-      <find>start over</find>
-      <find>lastMe</find>
-      <find>loop</find>
-      <find>tag</find>
-      <find>insert</find>
-      <find>messageFactoryCol</find>
-      <find>ladiResCol</find>
-      <find>matchingPayload</find>
-      <find>debugToken</find>
-      <find>hour</find>
-      <find>sendPrivate-ing</find>
-      <find>snap</find>
-      <find>ref</find>
-      <find>broadcast</find>
-      <find>check</find>
-      <find>googleapis.com/icon</find>
-      <find>affiliate.botform.me/</find>
-      <find>messenger</find>
-      <find>messen</find>
-      <find>Emojics</find>
-      <find>features</find>
-      <find>getBotfromPageID</find>
-      <find>getChat</find>
-      <find>sendPr</find>
       <find>webhook</find>
       <find>MCpr</find>
       <find>MC</find>
+      <find>jobo</find>
+      <find>page</find>
+      <find>&lt;s</find>
+      <find>&lt;</find>
+      <find>&lt;fo</find>
+      <find>$form</find>
+      <find>&lt;form</find>
+      <find>Build an app, without code_file</find>
+      <find>without_</find>
+      <find>gumroad</find>
+      <find>stripe</find>
+      <find>without_fi</find>
+      <find>.js</find>
+      <find>Thanks</find>
+      <find>gum</find>
+      <find>1`</find>
+      <find>form</find>
+      <find>Loop</find>
+      <find>payload.</find>
+      <find>lastMessage</find>
+      <find>payload.keywor</find>
+      <find>AI</find>
+      <find>loop</find>
+      <find>question</find>
+      <find>CheckAI</find>
+      <find>autoreply</find>
+      <find>getFullPageInfo</find>
     </findStrings>
     <replaceStrings>
       <replace>null, 'dumpling'</replace>
@@ -259,9 +139,12 @@
         <option value="$PROJECT_DIR$/../../Emojics Affiliate Program _ Lifetime Commissions _ Emojics.htm" />
         <option value="/private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/botform.me/index.htm" />
         <option value="/private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/botform.me/affiliates/index.htm" />
-        <option value="$PROJECT_DIR$/app.js" />
         <option value="/private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/shoooow.me/data/jobo_service.html" />
         <option value="$PROJECT_DIR$/s.js" />
+        <option value="/private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/shoooow.me/data/index.html" />
+        <option value="/private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/shoooow.me/data/build.htm" />
+        <option value="/private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/withoutcode.app/index.htm" />
+        <option value="$PROJECT_DIR$/app.js" />
       </list>
     </option>
   </component>
@@ -283,6 +166,7 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="900" />
   </component>
@@ -304,6 +188,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -315,8 +201,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -435,12 +319,26 @@
       <workItem from="1527241140365" duration="169000" />
       <workItem from="1527247620176" duration="940000" />
       <workItem from="1527503740099" duration="8709000" />
-      <workItem from="1528166873556" duration="1123000" />
+      <workItem from="1528166873556" duration="4178000" />
+      <workItem from="1528363671377" duration="430000" />
+      <workItem from="1528462609633" duration="24000" />
+      <workItem from="1528517849898" duration="437000" />
+      <workItem from="1528565205928" duration="237000" />
+      <workItem from="1528608124089" duration="125000" />
+      <workItem from="1483228871603" duration="343000" />
+      <workItem from="1528623852156" duration="598000" />
+      <workItem from="1528626142474" duration="554000" />
+      <workItem from="1528629521820" duration="1732000" />
+      <workItem from="1528971943112" duration="580000" />
+      <workItem from="1529216427394" duration="3686000" />
+      <workItem from="1529261285847" duration="5385000" />
+      <workItem from="1529391878554" duration="1629000" />
+      <workItem from="1529483200983" duration="9623000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1044910000" />
+    <option name="totallyTimeSpent" value="1073348000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -453,19 +351,18 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16696805" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14225437" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25272068" sideWeight="0.5081043" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3285568" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19140226" sideWeight="0.4918957" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24894515" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15762538" sideWeight="0.4918957" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -509,8 +406,13 @@
           <line>2</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file:///private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/withoutcode.app/index.htm</url>
+          <line>1858</line>
+          <option name="timeStamp" value="35" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="30" />
+      <option name="time" value="36" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -527,423 +429,37 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#!!block;n#strToObj#0" expanded="false" />
-            <element signature="n#!!block;n#templatelize#0" expanded="false" />
-            <element signature="e#5375#5411#0" expanded="false" />
-            <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
-            <element signature="n#!!block;n#saveData#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
-            <element signature="e#7420#9584#0" expanded="false" />
-            <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="n#!!block;n#sendAPI#0" expanded="false" />
-            <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
-            <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
-            <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
+            <element signature="e#15045#15305#0" expanded="false" />
+            <element signature="e#15380#18828#0" expanded="false" />
             <element signature="n#!!block;n#sendOne#0" expanded="false" />
-            <element signature="n#!!block;n#callSendAPI#0" expanded="false" />
-            <element signature="n#!!block;n#execThing#0" expanded="false" />
-            <element signature="e#50697#69945#0" expanded="false" />
-            <element signature="e#70595#70761#0" expanded="false" />
-            <element signature="e#71105#72470#0" expanded="false" />
-            <element signature="e#72554#72989#0" expanded="false" />
-            <element signature="e#73075#92503#0" expanded="false" />
-            <element signature="e#76314#76737#0" expanded="false" />
-            <element signature="e#76827#77251#0" expanded="false" />
-            <element signature="e#77340#78255#0" expanded="false" />
-            <element signature="e#78367#79382#0" expanded="false" />
-            <element signature="e#79473#79984#0" expanded="false" />
-            <element signature="e#80071#83700#0" expanded="false" />
-            <element signature="e#83785#84172#0" expanded="false" />
-            <element signature="e#84251#84924#0" expanded="false" />
-            <element signature="e#89622#90195#0" expanded="false" />
-            <element signature="e#89700#90145#0" expanded="false" />
-            <element signature="e#90301#92457#0" expanded="false" />
-            <element signature="n#!!block;n#SetOnOffPage#0" expanded="false" />
-            <element signature="e#94405#94560#0" expanded="false" />
-            <element signature="n#!!block;n#SetOnOffPagePerUser#0" expanded="false" />
-            <element signature="e#95266#95462#0" expanded="false" />
-            <element signature="n#!!block;n#saveFacebookPage#0" expanded="false" />
-            <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
-            <element signature="e#96370#96614#0" expanded="false" />
-            <element signature="e#96667#96980#0" expanded="false" />
-            <element signature="e#97017#97144#0" expanded="false" />
-            <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#97259#97690#0" expanded="false" />
-            <element signature="e#97740#97894#0" expanded="false" />
-            <element signature="e#98780#98922#0" expanded="false" />
-            <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#99785#99927#0" expanded="false" />
-            <element signature="n#!!block;n#setWit#0" expanded="false" />
-            <element signature="e#100466#100595#0" expanded="false" />
-            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#101330#101440#0" expanded="false" />
-            <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
-            <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#103077#103228#0" expanded="false" />
-            <element signature="n#!!block;n#getFullPageInfo#0" expanded="false" />
-            <element signature="n#!!block;n#debugToken#0" expanded="false" />
-            <element signature="e#108707#109698#0" expanded="false" />
-            <element signature="e#110012#112828#0" expanded="false" />
-            <element signature="e#112882#114193#0" expanded="false" />
-            <element signature="e#114269#115377#0" expanded="false" />
-            <element signature="e#115536#115579#0" expanded="false" />
-            <element signature="n#!!block;n#initBot#0" expanded="false" />
-            <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="n#!!block;n#shortAddress#0" expanded="false" />
-            <element signature="n#!!block;n#strTime#0" expanded="false" />
-            <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="n#!!block;n#getPaginatedItems#0" expanded="false" />
-            <element signature="n#!!block;n#go#0" expanded="false" />
-            <element signature="n#!!block;n#loop#0" expanded="false" />
-            <element signature="e#127653#128089#0" expanded="false" />
-            <element signature="e#137510#141779#0" expanded="false" />
-            <element signature="e#137724#137964#0" expanded="false" />
-            <element signature="n#!!block;n#sendMessages#0" expanded="false" />
-            <element signature="n#!!block;n#flowAI#0" expanded="false" />
-            <element signature="n#!!block;n#submitResponse#0" expanded="false" />
-            <element signature="e#143740#144964#0" expanded="false" />
-            <element signature="e#145075#145245#0" expanded="false" />
-            <element signature="n#!!block;n#sendNotiUser#0" expanded="false" />
-            <element signature="n#!!block;n#sendNotiSub#0" expanded="false" />
-            <element signature="n#!!block;n#matchingPeople#0" expanded="false" />
-            <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#151764#152346#0" expanded="false" />
-            <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
-            <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-            <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
-            <element signature="n#!!block;n#receivedAccountLink#0" expanded="false" />
-            <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
-            <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
-            <element signature="n#!!block;n#sendjson_plugin_url#0" expanded="false" />
-            <element signature="n#!!block;n#chatFuelToBoform#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelEle#0" expanded="false" />
-            <element signature="e#158233#158353#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelBut#0" expanded="false" />
-            <element signature="e#158972#159092#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelQuick#0" expanded="false" />
-            <element signature="e#159717#159747#0" expanded="false" />
-            <element signature="e#159798#159841#0" expanded="false" />
-            <element signature="n#!!block;n#viewResponse#0" expanded="false" />
-            <element signature="n#!!block;n#sendBroadCast#0" expanded="false" />
+            <element signature="e#75946#76349#0" expanded="false" />
+            <element signature="e#76435#76839#0" expanded="false" />
+            <element signature="e#76924#77791#0" expanded="false" />
+            <element signature="e#77899#78874#0" expanded="false" />
+            <element signature="e#78961#79448#0" expanded="false" />
+            <element signature="e#79531#82984#0" expanded="false" />
+            <element signature="e#83065#83436#0" expanded="false" />
+            <element signature="e#83511#84152#0" expanded="false" />
+            <element signature="e#84277#88062#0" expanded="false" />
+            <element signature="e#88164#90228#0" expanded="false" />
+            <element signature="e#106589#107136#0" expanded="false" />
+            <element signature="e#107703#110355#0" expanded="false" />
+            <element signature="e#110405#111636#0" expanded="false" />
+            <element signature="e#125678#126114#0" expanded="false" />
+            <element signature="e#126157#126260#0" expanded="false" />
+            <element signature="e#126661#126784#0" expanded="false" />
+            <element signature="e#127314#127427#0" expanded="false" />
+            <element signature="e#127897#129633#0" expanded="false" />
+            <element signature="e#127941#128288#0" expanded="false" />
+            <element signature="e#129769#131150#0" expanded="false" />
+            <element signature="e#131720#133461#0" expanded="false" />
+            <element signature="e#132092#133170#0" expanded="false" />
+            <element signature="e#133200#133381#0" expanded="false" />
+            <element signature="e#133651#134489#0" expanded="false" />
+            <element signature="e#134535#134937#0" expanded="false" />
+            <element signature="e#135468#139433#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
-            <element signature="n#!!block;n#jobJD#0" expanded="false" />
-            <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="n#!!block;n#referInital#0" expanded="false" />
-            <element signature="n#!!block;n#sendListJobByAddress#0" expanded="false" />
-            <element signature="n#!!block;n#sendDefautMessage#0" expanded="false" />
-            <element signature="n#!!block;n#checkRequiment#0" expanded="false" />
-            <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="n#!!block;n#sendUpdateProfile#0" expanded="false" />
-            <element signature="n#!!block;n#loadProfile#0" expanded="false" />
-            <element signature="n#!!block;n#sendInterviewInfo#0" expanded="false" />
-            <element signature="n#!!block;n#sendInterviewOption#0" expanded="false" />
-            <element signature="n#!!block;n#getJob#0" expanded="false" />
-            <element signature="n#!!block;n#loadJob#0" expanded="false" />
-            <element signature="n#!!block;n#buildReport#0" expanded="false" />
-            <element signature="n#!!block;n#copyFile#0" expanded="false" />
-            <element signature="n#!!block;n#copyForms#0" expanded="false" />
-            <element signature="n#!!block;n#copySheets#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="36" column="25" lean-forward="false" selection-start-line="36" selection-start-column="25" selection-end-line="36" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/default.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="1" lean-forward="false" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8415">
-          <caret line="568" column="0" lean-forward="false" selection-start-line="568" selection-start-column="0" selection-end-line="568" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!block;n#strToObj#0" expanded="false" />
-            <element signature="n#!!block;n#templatelize#0" expanded="false" />
-            <element signature="e#5375#5411#0" expanded="false" />
-            <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
-            <element signature="n#!!block;n#saveData#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
-            <element signature="e#7420#9584#0" expanded="false" />
-            <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="n#!!block;n#sendAPI#0" expanded="false" />
-            <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
-            <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
-            <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
-            <element signature="n#!!block;n#sendOne#0" expanded="false" />
-            <element signature="n#!!block;n#callSendAPI#0" expanded="false" />
-            <element signature="n#!!block;n#execThing#0" expanded="false" />
-            <element signature="e#50697#69945#0" expanded="false" />
-            <element signature="e#70595#70761#0" expanded="false" />
-            <element signature="e#71105#72470#0" expanded="false" />
-            <element signature="e#72554#72989#0" expanded="false" />
-            <element signature="e#73075#92503#0" expanded="false" />
-            <element signature="e#76314#76737#0" expanded="false" />
-            <element signature="e#76827#77251#0" expanded="false" />
-            <element signature="e#77340#78255#0" expanded="false" />
-            <element signature="e#78367#79382#0" expanded="false" />
-            <element signature="e#79473#79984#0" expanded="false" />
-            <element signature="e#80071#83700#0" expanded="false" />
-            <element signature="e#83785#84172#0" expanded="false" />
-            <element signature="e#84251#84924#0" expanded="false" />
-            <element signature="e#89622#90195#0" expanded="false" />
-            <element signature="e#89700#90145#0" expanded="false" />
-            <element signature="e#90301#92457#0" expanded="false" />
-            <element signature="n#!!block;n#SetOnOffPage#0" expanded="false" />
-            <element signature="e#94405#94560#0" expanded="false" />
-            <element signature="n#!!block;n#SetOnOffPagePerUser#0" expanded="false" />
-            <element signature="e#95266#95462#0" expanded="false" />
-            <element signature="n#!!block;n#saveFacebookPage#0" expanded="false" />
-            <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
-            <element signature="e#96370#96614#0" expanded="false" />
-            <element signature="e#96667#96980#0" expanded="false" />
-            <element signature="e#97017#97144#0" expanded="false" />
-            <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#97259#97690#0" expanded="false" />
-            <element signature="e#97740#97894#0" expanded="false" />
-            <element signature="e#98780#98922#0" expanded="false" />
-            <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#99785#99927#0" expanded="false" />
-            <element signature="n#!!block;n#setWit#0" expanded="false" />
-            <element signature="e#100466#100595#0" expanded="false" />
-            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#101330#101440#0" expanded="false" />
-            <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
-            <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#103077#103228#0" expanded="false" />
-            <element signature="n#!!block;n#getFullPageInfo#0" expanded="false" />
-            <element signature="n#!!block;n#debugToken#0" expanded="false" />
-            <element signature="e#108707#109698#0" expanded="false" />
-            <element signature="e#110012#112828#0" expanded="false" />
-            <element signature="e#112882#114193#0" expanded="false" />
-            <element signature="e#114269#115377#0" expanded="false" />
-            <element signature="e#115536#115579#0" expanded="false" />
-            <element signature="n#!!block;n#initBot#0" expanded="false" />
-            <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="n#!!block;n#shortAddress#0" expanded="false" />
-            <element signature="n#!!block;n#strTime#0" expanded="false" />
-            <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="n#!!block;n#getPaginatedItems#0" expanded="false" />
-            <element signature="n#!!block;n#go#0" expanded="false" />
-            <element signature="n#!!block;n#loop#0" expanded="false" />
-            <element signature="e#127653#128089#0" expanded="false" />
-            <element signature="e#137510#141779#0" expanded="false" />
-            <element signature="e#137724#137964#0" expanded="false" />
-            <element signature="n#!!block;n#sendMessages#0" expanded="false" />
-            <element signature="n#!!block;n#flowAI#0" expanded="false" />
-            <element signature="n#!!block;n#submitResponse#0" expanded="false" />
-            <element signature="e#143740#144964#0" expanded="false" />
-            <element signature="e#145075#145245#0" expanded="false" />
-            <element signature="n#!!block;n#sendNotiUser#0" expanded="false" />
-            <element signature="n#!!block;n#sendNotiSub#0" expanded="false" />
-            <element signature="n#!!block;n#matchingPeople#0" expanded="false" />
-            <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#151764#152346#0" expanded="false" />
-            <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
-            <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-            <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
-            <element signature="n#!!block;n#receivedAccountLink#0" expanded="false" />
-            <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
-            <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
-            <element signature="n#!!block;n#sendjson_plugin_url#0" expanded="false" />
-            <element signature="n#!!block;n#chatFuelToBoform#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelEle#0" expanded="false" />
-            <element signature="e#158233#158353#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelBut#0" expanded="false" />
-            <element signature="e#158972#159092#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelQuick#0" expanded="false" />
-            <element signature="e#159717#159747#0" expanded="false" />
-            <element signature="e#159798#159841#0" expanded="false" />
-            <element signature="n#!!block;n#viewResponse#0" expanded="false" />
-            <element signature="n#!!block;n#sendBroadCast#0" expanded="false" />
-            <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
-            <element signature="n#!!block;n#jobJD#0" expanded="false" />
-            <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="n#!!block;n#referInital#0" expanded="false" />
-            <element signature="n#!!block;n#sendListJobByAddress#0" expanded="false" />
-            <element signature="n#!!block;n#sendDefautMessage#0" expanded="false" />
-            <element signature="n#!!block;n#checkRequiment#0" expanded="false" />
-            <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="n#!!block;n#sendUpdateProfile#0" expanded="false" />
-            <element signature="n#!!block;n#loadProfile#0" expanded="false" />
-            <element signature="n#!!block;n#sendInterviewInfo#0" expanded="false" />
-            <element signature="n#!!block;n#sendInterviewOption#0" expanded="false" />
-            <element signature="n#!!block;n#getJob#0" expanded="false" />
-            <element signature="n#!!block;n#loadJob#0" expanded="false" />
-            <element signature="n#!!block;n#buildReport#0" expanded="false" />
-            <element signature="n#!!block;n#copyFile#0" expanded="false" />
-            <element signature="n#!!block;n#copyForms#0" expanded="false" />
-            <element signature="n#!!block;n#copySheets#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="36" column="25" lean-forward="false" selection-start-line="36" selection-start-column="25" selection-end-line="36" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/default.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="1" lean-forward="false" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!block;n#strToObj#0" expanded="false" />
-            <element signature="n#!!block;n#templatelize#0" expanded="false" />
-            <element signature="e#5375#5411#0" expanded="false" />
-            <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
-            <element signature="n#!!block;n#saveData#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
-            <element signature="e#7420#9584#0" expanded="false" />
-            <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="n#!!block;n#sendAPI#0" expanded="false" />
-            <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
-            <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
-            <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
-            <element signature="n#!!block;n#sendOne#0" expanded="false" />
-            <element signature="n#!!block;n#callSendAPI#0" expanded="false" />
-            <element signature="n#!!block;n#execThing#0" expanded="false" />
-            <element signature="e#50697#69945#0" expanded="false" />
-            <element signature="e#70595#70761#0" expanded="false" />
-            <element signature="e#71105#72470#0" expanded="false" />
-            <element signature="e#72554#72989#0" expanded="false" />
-            <element signature="e#73075#92503#0" expanded="false" />
-            <element signature="e#76314#76737#0" expanded="false" />
-            <element signature="e#76827#77251#0" expanded="false" />
-            <element signature="e#77340#78255#0" expanded="false" />
-            <element signature="e#78367#79382#0" expanded="false" />
-            <element signature="e#79473#79984#0" expanded="false" />
-            <element signature="e#80071#83700#0" expanded="false" />
-            <element signature="e#83785#84172#0" expanded="false" />
-            <element signature="e#84251#84924#0" expanded="false" />
-            <element signature="e#89622#90195#0" expanded="false" />
-            <element signature="e#89700#90145#0" expanded="false" />
-            <element signature="e#90301#92457#0" expanded="false" />
-            <element signature="n#!!block;n#SetOnOffPage#0" expanded="false" />
-            <element signature="e#94405#94560#0" expanded="false" />
-            <element signature="n#!!block;n#SetOnOffPagePerUser#0" expanded="false" />
-            <element signature="e#95266#95462#0" expanded="false" />
-            <element signature="n#!!block;n#saveFacebookPage#0" expanded="false" />
-            <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
-            <element signature="e#96370#96614#0" expanded="false" />
-            <element signature="e#96667#96980#0" expanded="false" />
-            <element signature="e#97017#97144#0" expanded="false" />
-            <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#97259#97690#0" expanded="false" />
-            <element signature="e#97740#97894#0" expanded="false" />
-            <element signature="e#98780#98922#0" expanded="false" />
-            <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#99785#99927#0" expanded="false" />
-            <element signature="n#!!block;n#setWit#0" expanded="false" />
-            <element signature="e#100466#100595#0" expanded="false" />
-            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#101330#101440#0" expanded="false" />
-            <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
-            <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#103077#103228#0" expanded="false" />
-            <element signature="n#!!block;n#getFullPageInfo#0" expanded="false" />
-            <element signature="n#!!block;n#debugToken#0" expanded="false" />
-            <element signature="e#108707#109698#0" expanded="false" />
-            <element signature="e#110012#112828#0" expanded="false" />
-            <element signature="e#112882#114193#0" expanded="false" />
-            <element signature="e#114269#115377#0" expanded="false" />
-            <element signature="e#115536#115579#0" expanded="false" />
-            <element signature="n#!!block;n#initBot#0" expanded="false" />
-            <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="n#!!block;n#shortAddress#0" expanded="false" />
-            <element signature="n#!!block;n#strTime#0" expanded="false" />
-            <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="n#!!block;n#getPaginatedItems#0" expanded="false" />
-            <element signature="n#!!block;n#go#0" expanded="false" />
-            <element signature="n#!!block;n#loop#0" expanded="false" />
-            <element signature="e#127653#128089#0" expanded="false" />
-            <element signature="e#137510#141779#0" expanded="false" />
-            <element signature="e#137724#137964#0" expanded="false" />
-            <element signature="n#!!block;n#sendMessages#0" expanded="false" />
-            <element signature="n#!!block;n#flowAI#0" expanded="false" />
-            <element signature="n#!!block;n#submitResponse#0" expanded="false" />
-            <element signature="e#143740#144964#0" expanded="false" />
-            <element signature="e#145075#145245#0" expanded="false" />
-            <element signature="n#!!block;n#sendNotiUser#0" expanded="false" />
-            <element signature="n#!!block;n#sendNotiSub#0" expanded="false" />
-            <element signature="n#!!block;n#matchingPeople#0" expanded="false" />
-            <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#151764#152346#0" expanded="false" />
-            <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
-            <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-            <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
-            <element signature="n#!!block;n#receivedAccountLink#0" expanded="false" />
-            <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
-            <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
-            <element signature="n#!!block;n#sendjson_plugin_url#0" expanded="false" />
-            <element signature="n#!!block;n#chatFuelToBoform#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelEle#0" expanded="false" />
-            <element signature="e#158233#158353#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelBut#0" expanded="false" />
-            <element signature="e#158972#159092#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelQuick#0" expanded="false" />
-            <element signature="e#159717#159747#0" expanded="false" />
-            <element signature="e#159798#159841#0" expanded="false" />
-            <element signature="n#!!block;n#viewResponse#0" expanded="false" />
-            <element signature="n#!!block;n#sendBroadCast#0" expanded="false" />
-            <element signature="n#!!block;n#buildMessage#0" expanded="false" />
-            <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
-            <element signature="n#!!block;n#jobJD#0" expanded="false" />
-            <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="n#!!block;n#referInital#0" expanded="false" />
-            <element signature="n#!!block;n#sendListJobByAddress#0" expanded="false" />
-            <element signature="n#!!block;n#sendDefautMessage#0" expanded="false" />
-            <element signature="n#!!block;n#checkRequiment#0" expanded="false" />
-            <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="n#!!block;n#sendUpdateProfile#0" expanded="false" />
-            <element signature="n#!!block;n#loadProfile#0" expanded="false" />
-            <element signature="n#!!block;n#sendInterviewInfo#0" expanded="false" />
-            <element signature="n#!!block;n#sendInterviewOption#0" expanded="false" />
-            <element signature="n#!!block;n#getJob#0" expanded="false" />
-            <element signature="n#!!block;n#loadJob#0" expanded="false" />
-            <element signature="n#!!block;n#buildReport#0" expanded="false" />
-            <element signature="n#!!block;n#copyFile#0" expanded="false" />
-            <element signature="n#!!block;n#copyForms#0" expanded="false" />
-            <element signature="n#!!block;n#copySheets#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -974,125 +490,37 @@
         <state relative-caret-position="12570">
           <caret line="838" column="42" lean-forward="true" selection-start-line="838" selection-start-column="42" selection-end-line="838" selection-end-column="42" />
           <folding>
-            <element signature="n#!!block;n#strToObj#0" expanded="false" />
-            <element signature="n#!!block;n#templatelize#0" expanded="false" />
-            <element signature="e#5375#5411#0" expanded="false" />
-            <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
-            <element signature="n#!!block;n#saveData#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
-            <element signature="e#7420#9584#0" expanded="false" />
-            <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="n#!!block;n#sendAPI#0" expanded="false" />
-            <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
-            <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
-            <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
+            <element signature="e#15045#15305#0" expanded="false" />
+            <element signature="e#15380#18828#0" expanded="false" />
             <element signature="n#!!block;n#sendOne#0" expanded="false" />
-            <element signature="n#!!block;n#callSendAPI#0" expanded="false" />
-            <element signature="n#!!block;n#execThing#0" expanded="false" />
-            <element signature="e#50697#69945#0" expanded="false" />
-            <element signature="e#70595#70761#0" expanded="false" />
-            <element signature="e#71105#72470#0" expanded="false" />
-            <element signature="e#72554#72989#0" expanded="false" />
-            <element signature="e#73075#92503#0" expanded="false" />
-            <element signature="e#76314#76737#0" expanded="false" />
-            <element signature="e#76827#77251#0" expanded="false" />
-            <element signature="e#77340#78255#0" expanded="false" />
-            <element signature="e#78367#79382#0" expanded="false" />
-            <element signature="e#79473#79984#0" expanded="false" />
-            <element signature="e#80071#83700#0" expanded="false" />
-            <element signature="e#83785#84172#0" expanded="false" />
-            <element signature="e#84251#84924#0" expanded="false" />
-            <element signature="e#89622#90195#0" expanded="false" />
-            <element signature="e#89700#90145#0" expanded="false" />
-            <element signature="e#90301#92457#0" expanded="false" />
-            <element signature="n#!!block;n#SetOnOffPage#0" expanded="false" />
-            <element signature="e#94405#94560#0" expanded="false" />
-            <element signature="n#!!block;n#SetOnOffPagePerUser#0" expanded="false" />
-            <element signature="e#95266#95462#0" expanded="false" />
-            <element signature="n#!!block;n#saveFacebookPage#0" expanded="false" />
-            <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
-            <element signature="e#96370#96614#0" expanded="false" />
-            <element signature="e#96667#96980#0" expanded="false" />
-            <element signature="e#97017#97144#0" expanded="false" />
-            <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#97259#97690#0" expanded="false" />
-            <element signature="e#97740#97894#0" expanded="false" />
-            <element signature="e#98780#98922#0" expanded="false" />
-            <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#99785#99927#0" expanded="false" />
-            <element signature="n#!!block;n#setWit#0" expanded="false" />
-            <element signature="e#100466#100595#0" expanded="false" />
-            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#101330#101440#0" expanded="false" />
-            <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
-            <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#103077#103228#0" expanded="false" />
-            <element signature="n#!!block;n#getFullPageInfo#0" expanded="false" />
-            <element signature="n#!!block;n#debugToken#0" expanded="false" />
-            <element signature="e#108707#109698#0" expanded="false" />
-            <element signature="e#110012#112828#0" expanded="false" />
-            <element signature="e#112882#114193#0" expanded="false" />
-            <element signature="e#114269#115377#0" expanded="false" />
-            <element signature="e#115536#115579#0" expanded="false" />
-            <element signature="n#!!block;n#initBot#0" expanded="false" />
-            <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="n#!!block;n#shortAddress#0" expanded="false" />
-            <element signature="n#!!block;n#strTime#0" expanded="false" />
-            <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="n#!!block;n#getPaginatedItems#0" expanded="false" />
-            <element signature="n#!!block;n#go#0" expanded="false" />
-            <element signature="n#!!block;n#loop#0" expanded="false" />
-            <element signature="e#127653#128089#0" expanded="false" />
-            <element signature="e#137510#141779#0" expanded="false" />
-            <element signature="e#137724#137964#0" expanded="false" />
-            <element signature="n#!!block;n#sendMessages#0" expanded="false" />
-            <element signature="n#!!block;n#flowAI#0" expanded="false" />
-            <element signature="n#!!block;n#submitResponse#0" expanded="false" />
-            <element signature="e#143740#144964#0" expanded="false" />
-            <element signature="e#145075#145245#0" expanded="false" />
-            <element signature="n#!!block;n#sendNotiUser#0" expanded="false" />
-            <element signature="n#!!block;n#sendNotiSub#0" expanded="false" />
-            <element signature="n#!!block;n#matchingPeople#0" expanded="false" />
-            <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#151764#152346#0" expanded="false" />
-            <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
-            <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-            <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
-            <element signature="n#!!block;n#receivedAccountLink#0" expanded="false" />
-            <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
-            <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
-            <element signature="n#!!block;n#sendjson_plugin_url#0" expanded="false" />
-            <element signature="n#!!block;n#chatFuelToBoform#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelEle#0" expanded="false" />
-            <element signature="e#158233#158353#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelBut#0" expanded="false" />
-            <element signature="e#158972#159092#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelQuick#0" expanded="false" />
-            <element signature="e#159717#159747#0" expanded="false" />
-            <element signature="e#159798#159841#0" expanded="false" />
-            <element signature="n#!!block;n#viewResponse#0" expanded="false" />
-            <element signature="n#!!block;n#sendBroadCast#0" expanded="false" />
+            <element signature="e#75946#76349#0" expanded="false" />
+            <element signature="e#76435#76839#0" expanded="false" />
+            <element signature="e#76924#77791#0" expanded="false" />
+            <element signature="e#77899#78874#0" expanded="false" />
+            <element signature="e#78961#79448#0" expanded="false" />
+            <element signature="e#79531#82984#0" expanded="false" />
+            <element signature="e#83065#83436#0" expanded="false" />
+            <element signature="e#83511#84152#0" expanded="false" />
+            <element signature="e#84277#88062#0" expanded="false" />
+            <element signature="e#88164#90228#0" expanded="false" />
+            <element signature="e#106589#107136#0" expanded="false" />
+            <element signature="e#107703#110355#0" expanded="false" />
+            <element signature="e#110405#111636#0" expanded="false" />
+            <element signature="e#125678#126114#0" expanded="false" />
+            <element signature="e#126157#126260#0" expanded="false" />
+            <element signature="e#126661#126784#0" expanded="false" />
+            <element signature="e#127314#127427#0" expanded="false" />
+            <element signature="e#127897#129633#0" expanded="false" />
+            <element signature="e#127941#128288#0" expanded="false" />
+            <element signature="e#129769#131150#0" expanded="false" />
+            <element signature="e#131720#133461#0" expanded="false" />
+            <element signature="e#132092#133170#0" expanded="false" />
+            <element signature="e#133200#133381#0" expanded="false" />
+            <element signature="e#133651#134489#0" expanded="false" />
+            <element signature="e#134535#134937#0" expanded="false" />
+            <element signature="e#135468#139433#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
-            <element signature="n#!!block;n#jobJD#0" expanded="false" />
-            <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="n#!!block;n#referInital#0" expanded="false" />
-            <element signature="n#!!block;n#sendListJobByAddress#0" expanded="false" />
-            <element signature="n#!!block;n#sendDefautMessage#0" expanded="false" />
-            <element signature="n#!!block;n#checkRequiment#0" expanded="false" />
-            <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="n#!!block;n#sendUpdateProfile#0" expanded="false" />
-            <element signature="n#!!block;n#loadProfile#0" expanded="false" />
-            <element signature="n#!!block;n#sendInterviewInfo#0" expanded="false" />
-            <element signature="n#!!block;n#sendInterviewOption#0" expanded="false" />
-            <element signature="n#!!block;n#getJob#0" expanded="false" />
-            <element signature="n#!!block;n#loadJob#0" expanded="false" />
-            <element signature="n#!!block;n#buildReport#0" expanded="false" />
-            <element signature="n#!!block;n#copyFile#0" expanded="false" />
-            <element signature="n#!!block;n#copyForms#0" expanded="false" />
-            <element signature="n#!!block;n#copySheets#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1197,196 +625,110 @@
     </entry>
     <entry file="file:///private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/shoooow.me/cdn/shoooow.js" />
     <entry file="file://$PROJECT_DIR$/sample.js" />
+    <entry file="file://$PROJECT_DIR$/../../assert/theme.min.css" />
+    <entry file="file://$PROJECT_DIR$/../../Emojics Affiliate Program _ Lifetime Commissions _ Emojics.htm" />
+    <entry file="file:///private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/botform.me/index.htm" />
+    <entry file="file:///private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/botform.me/affiliates/index.htm" />
+    <entry file="file:///private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/shoooow.me/data/jobo_service.html" />
+    <entry file="file://$PROJECT_DIR$/broadcast.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="436">
+          <caret line="50" column="16" lean-forward="false" selection-start-line="50" selection-start-column="16" selection-end-line="50" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/mailsheet_email.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="489" column="9" lean-forward="true" selection-start-line="489" selection-start-column="9" selection-end-line="489" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.dom.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="4910" column="4" lean-forward="false" selection-start-line="4910" selection-start-column="4" selection-end-line="4910" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/shoooow.me/cdn/trackingsheet.js" />
+    <entry file="file:///private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/shoooow.me/data/index.html" />
+    <entry file="file://$PROJECT_DIR$/s.js" />
     <entry file="file://$PROJECT_DIR$/firebase.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
+        <state relative-caret-position="746">
           <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../assert/theme.min.css" />
-    <entry file="file://$PROJECT_DIR$/../../Emojics Affiliate Program _ Lifetime Commissions _ Emojics.htm" />
-    <entry file="file:///private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/botform.me/index.htm" />
-    <entry file="file:///private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/botform.me/affiliates/index.htm" />
-    <entry file="file:///private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/shoooow.me/data/jobo_service.html">
+    <entry file="file:///private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/public_html/deal/index.html" />
+    <entry file="file:///private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/public_html/deal/dangky.html" />
+    <entry file="file:///private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/withoutcode.app/index.htm">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="58">
-          <caret line="511" column="24" lean-forward="false" selection-start-line="511" selection-start-column="24" selection-end-line="511" selection-end-column="24" />
+        <state relative-caret-position="131">
+          <caret line="1242" column="25" lean-forward="false" selection-start-line="1242" selection-start-column="25" selection-end-line="1242" selection-end-column="25" />
           <folding>
-            <marker date="1528167671000" expanded="true" signature="218:346" ph="..." />
-            <marker date="1528167671000" expanded="true" signature="248:337" ph="..." />
-            <marker date="1528167671000" expanded="false" signature="13790:13802" ph="..." />
-            <marker date="1528167671000" expanded="true" signature="13803:13902" ph="..." />
-            <marker date="1528167671000" expanded="true" signature="13817:13902" ph="..." />
-            <marker date="1528167671000" expanded="false" signature="13879:13891" ph="..." />
-            <marker date="1528167671000" expanded="true" signature="13892:13902" ph="..." />
-            <marker date="1528167671000" expanded="false" signature="14539:14551" ph="..." />
-            <marker date="1528167671000" expanded="true" signature="14552:14651" ph="..." />
-            <marker date="1528167671000" expanded="true" signature="14566:14651" ph="..." />
-            <marker date="1528167671000" expanded="false" signature="14628:14640" ph="..." />
-            <marker date="1528167671000" expanded="true" signature="14641:14651" ph="..." />
-            <marker date="1528167671000" expanded="false" signature="15225:15236" ph="..." />
-            <marker date="1528167671000" expanded="true" signature="15237:15251" ph="..." />
-            <marker date="1528167671000" expanded="true" signature="15246:15251" ph="..." />
-            <marker date="1528167671000" expanded="false" signature="15331:15343" ph="..." />
-            <marker date="1528167671000" expanded="true" signature="15344:15349" ph="..." />
-            <marker date="1528167671000" expanded="false" signature="21009:21021" ph="..." />
-            <marker date="1528167671000" expanded="true" signature="21022:21121" ph="..." />
-            <marker date="1528167671000" expanded="true" signature="21036:21121" ph="..." />
-            <marker date="1528167671000" expanded="false" signature="21098:21110" ph="..." />
-            <marker date="1528167671000" expanded="true" signature="21111:21121" ph="..." />
-            <marker date="1528167671000" expanded="false" signature="21697:21708" ph="..." />
-            <marker date="1528167671000" expanded="true" signature="21709:21723" ph="..." />
-            <marker date="1528167671000" expanded="true" signature="21718:21723" ph="..." />
-            <marker date="1528167671000" expanded="false" signature="21803:21815" ph="..." />
-            <marker date="1528167671000" expanded="true" signature="21816:21821" ph="..." />
+            <element signature="e#41478#41518#0" expanded="false" />
+            <element signature="e#41538#41581#0" expanded="false" />
+            <element signature="e#42006#42162#0" expanded="false" />
+            <element signature="e#43717#43756#0" expanded="false" />
+            <element signature="e#43791#44683#0" expanded="false" />
+            <element signature="e#43826#44461#0" expanded="false" />
+            <element signature="e#44547#44648#0" expanded="false" />
+            <element signature="e#44918#45055#0" expanded="false" />
+            <element signature="e#45109#45218#0" expanded="false" />
+            <element signature="e#51718#52402#0" expanded="false" />
+            <element signature="e#52439#52687#0" expanded="false" />
+            <element signature="e#52730#54760#0" expanded="false" />
+            <element signature="e#54805#59223#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///private/var/folders/ns/dc805mmd2tvdsc480j70s_sh0000gn/T/4675aa95-da10-4dc9-a815-e6b623e579f2/shoooow.me/data/build.htm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="467">
+          <caret line="2998" column="13" lean-forward="true" selection-start-line="2998" selection-start-column="13" selection-end-line="2998" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="1193" column="0" lean-forward="false" selection-start-line="1193" selection-start-column="0" selection-end-line="1205" selection-end-column="3" />
+        <state relative-caret-position="27494">
+          <caret line="2155" column="13" lean-forward="false" selection-start-line="2155" selection-start-column="13" selection-end-line="2155" selection-end-column="13" />
           <folding>
-            <element signature="n#!!block;n#strToObj#0" expanded="false" />
-            <element signature="n#!!block;n#templatelize#0" expanded="false" />
-            <element signature="e#5375#5411#0" expanded="false" />
-            <element signature="n#!!block;n#initDataLoad#0" expanded="false" />
-            <element signature="n#!!block;n#saveData#0" expanded="false" />
-            <element signature="n#!!block;n#saveSenderData#0" expanded="false" />
-            <element signature="e#7420#9584#0" expanded="false" />
-            <element signature="n#!!block;n#matchingPayload#0" expanded="false" />
-            <element signature="n#!!block;n#intention#0" expanded="false" />
-            <element signature="n#!!block;n#sendAPI#0" expanded="false" />
-            <element signature="n#!!block;n#sendTypingOn#0" expanded="false" />
-            <element signature="n#!!block;n#sendTypingOff#0" expanded="false" />
-            <element signature="n#!!block;n#sendMessageNoSave#0" expanded="false" />
+            <element signature="e#15045#15305#0" expanded="false" />
+            <element signature="e#15380#18828#0" expanded="false" />
             <element signature="n#!!block;n#sendOne#0" expanded="false" />
-            <element signature="n#!!block;n#callSendAPI#0" expanded="false" />
-            <element signature="n#!!block;n#execThing#0" expanded="false" />
-            <element signature="e#50697#69945#0" expanded="false" />
-            <element signature="e#70595#70761#0" expanded="false" />
-            <element signature="e#71105#72470#0" expanded="false" />
-            <element signature="e#72554#72989#0" expanded="false" />
-            <element signature="e#73075#92503#0" expanded="false" />
-            <element signature="e#76314#76737#0" expanded="false" />
-            <element signature="e#76827#77251#0" expanded="false" />
-            <element signature="e#77340#78255#0" expanded="false" />
-            <element signature="e#78367#79382#0" expanded="false" />
-            <element signature="e#79473#79984#0" expanded="false" />
-            <element signature="e#80071#83700#0" expanded="false" />
-            <element signature="e#83785#84172#0" expanded="false" />
-            <element signature="e#84251#84924#0" expanded="false" />
-            <element signature="e#89622#90195#0" expanded="false" />
-            <element signature="e#89700#90145#0" expanded="false" />
-            <element signature="e#90301#92457#0" expanded="false" />
-            <element signature="n#!!block;n#SetOnOffPage#0" expanded="false" />
-            <element signature="e#94405#94560#0" expanded="false" />
-            <element signature="n#!!block;n#SetOnOffPagePerUser#0" expanded="false" />
-            <element signature="e#95266#95462#0" expanded="false" />
-            <element signature="n#!!block;n#saveFacebookPage#0" expanded="false" />
-            <element signature="n#!!block;n#saveLadiBot#0" expanded="false" />
-            <element signature="e#96370#96614#0" expanded="false" />
-            <element signature="e#96667#96980#0" expanded="false" />
-            <element signature="e#97017#97144#0" expanded="false" />
-            <element signature="n#!!block;n#setGreeting#0" expanded="false" />
-            <element signature="e#97259#97690#0" expanded="false" />
-            <element signature="e#97740#97894#0" expanded="false" />
-            <element signature="e#98780#98922#0" expanded="false" />
-            <element signature="n#!!block;n#setGetstarted#0" expanded="false" />
-            <element signature="e#99785#99927#0" expanded="false" />
-            <element signature="n#!!block;n#setWit#0" expanded="false" />
-            <element signature="e#100466#100595#0" expanded="false" />
-            <element signature="n#!!block;n#setWhiteListDomain#0" expanded="false" />
-            <element signature="e#101330#101440#0" expanded="false" />
-            <element signature="n#!!block;n#getLongLiveToken#0" expanded="false" />
-            <element signature="n#!!block;n#subscribed_apps#0" expanded="false" />
-            <element signature="e#103077#103228#0" expanded="false" />
-            <element signature="n#!!block;n#getFullPageInfo#0" expanded="false" />
-            <element signature="n#!!block;n#debugToken#0" expanded="false" />
-            <element signature="e#108707#109698#0" expanded="false" />
-            <element signature="e#110012#112828#0" expanded="false" />
-            <element signature="e#112882#114193#0" expanded="false" />
-            <element signature="e#114269#115377#0" expanded="false" />
-            <element signature="e#115536#115579#0" expanded="false" />
-            <element signature="n#!!block;n#initBot#0" expanded="false" />
-            <element signature="n#!!block;n#getNLP#0" expanded="false" />
-            <element signature="n#!!block;n#shortAddress#0" expanded="false" />
-            <element signature="n#!!block;n#strTime#0" expanded="false" />
-            <element signature="n#!!block;n#timeAgo#0" expanded="false" />
-            <element signature="n#!!block;n#getPaginatedItems#0" expanded="false" />
-            <element signature="n#!!block;n#go#0" expanded="false" />
-            <element signature="n#!!block;n#loop#0" expanded="false" />
-            <element signature="e#127653#128089#0" expanded="false" />
-            <element signature="e#137510#141779#0" expanded="false" />
-            <element signature="e#137724#137964#0" expanded="false" />
-            <element signature="n#!!block;n#sendMessages#0" expanded="false" />
-            <element signature="n#!!block;n#flowAI#0" expanded="false" />
-            <element signature="n#!!block;n#submitResponse#0" expanded="false" />
-            <element signature="e#143740#144964#0" expanded="false" />
-            <element signature="e#145075#145245#0" expanded="false" />
-            <element signature="n#!!block;n#sendNotiUser#0" expanded="false" />
-            <element signature="n#!!block;n#sendNotiSub#0" expanded="false" />
-            <element signature="n#!!block;n#matchingPeople#0" expanded="false" />
-            <element signature="n#!!block;n#checkAvaible#0" expanded="false" />
-            <element signature="e#151764#152346#0" expanded="false" />
-            <element signature="n#!!block;n#verifyRequestSignature#0" expanded="false" />
-            <element signature="n#!!block;n#receivedAuthentication#0" expanded="false" />
-            <element signature="n#!!block;n#receivedDeliveryConfirmation#0" expanded="false" />
-            <element signature="n#!!block;n#receivedMessageRead#0" expanded="false" />
-            <element signature="n#!!block;n#receivedAccountLink#0" expanded="false" />
-            <element signature="n#!!block;n#sendTextMessage#0" expanded="false" />
-            <element signature="n#!!block;n#sendingAPI#0" expanded="false" />
-            <element signature="n#!!block;n#sendjson_plugin_url#0" expanded="false" />
-            <element signature="n#!!block;n#chatFuelToBoform#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelEle#0" expanded="false" />
-            <element signature="e#158233#158353#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelBut#0" expanded="false" />
-            <element signature="e#158972#159092#0" expanded="false" />
-            <element signature="n#!!block;n#chatfuelQuick#0" expanded="false" />
-            <element signature="e#159717#159747#0" expanded="false" />
-            <element signature="e#159798#159841#0" expanded="false" />
-            <element signature="n#!!block;n#viewResponse#0" expanded="false" />
-            <element signature="n#!!block;n#sendBroadCast#0" expanded="false" />
+            <element signature="e#75946#76349#0" expanded="false" />
+            <element signature="e#76435#76839#0" expanded="false" />
+            <element signature="e#76924#77791#0" expanded="false" />
+            <element signature="e#77899#78874#0" expanded="false" />
+            <element signature="e#78961#79448#0" expanded="false" />
+            <element signature="e#79531#82984#0" expanded="false" />
+            <element signature="e#83065#83436#0" expanded="false" />
+            <element signature="e#83511#84152#0" expanded="false" />
+            <element signature="e#84277#88062#0" expanded="false" />
+            <element signature="e#88164#90228#0" expanded="false" />
+            <element signature="e#106589#107136#0" expanded="false" />
+            <element signature="e#107703#110355#0" expanded="false" />
+            <element signature="e#110405#111636#0" expanded="false" />
+            <element signature="e#125678#126114#0" expanded="false" />
+            <element signature="e#126157#126260#0" expanded="false" />
+            <element signature="e#126661#126784#0" expanded="false" />
+            <element signature="e#127314#127427#0" expanded="false" />
+            <element signature="e#127897#129633#0" expanded="false" />
+            <element signature="e#127941#128288#0" expanded="false" />
+            <element signature="e#129769#131150#0" expanded="false" />
+            <element signature="e#131720#133461#0" expanded="false" />
+            <element signature="e#132092#133170#0" expanded="false" />
+            <element signature="e#133200#133381#0" expanded="false" />
+            <element signature="e#133651#134489#0" expanded="false" />
+            <element signature="e#134535#134937#0" expanded="false" />
+            <element signature="e#135468#139433#0" expanded="false" />
             <element signature="n#!!block;n#buildMessage#0" expanded="false" />
             <element signature="n#!!block;n#sendBroadCasting#0" expanded="false" />
-            <element signature="n#!!block;n#jobJD#0" expanded="false" />
-            <element signature="n#!!block;n#getUserDataAndSave#0" expanded="false" />
-            <element signature="n#!!block;n#referInital#0" expanded="false" />
-            <element signature="n#!!block;n#sendListJobByAddress#0" expanded="false" />
-            <element signature="n#!!block;n#sendDefautMessage#0" expanded="false" />
-            <element signature="n#!!block;n#checkRequiment#0" expanded="false" />
-            <element signature="n#!!block;n#loadUser#0" expanded="false" />
-            <element signature="n#!!block;n#sendUpdateProfile#0" expanded="false" />
-            <element signature="n#!!block;n#loadProfile#0" expanded="false" />
-            <element signature="n#!!block;n#sendInterviewInfo#0" expanded="false" />
-            <element signature="n#!!block;n#sendInterviewOption#0" expanded="false" />
-            <element signature="n#!!block;n#getJob#0" expanded="false" />
-            <element signature="n#!!block;n#loadJob#0" expanded="false" />
-            <element signature="n#!!block;n#buildReport#0" expanded="false" />
-            <element signature="n#!!block;n#copyFile#0" expanded="false" />
-            <element signature="n#!!block;n#copyForms#0" expanded="false" />
-            <element signature="n#!!block;n#copySheets#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/broadcast.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="50" column="16" lean-forward="false" selection-start-line="50" selection-start-column="16" selection-end-line="50" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/s.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="103">
-          <caret line="383" column="12" lean-forward="true" selection-start-line="383" selection-start-column="0" selection-end-line="420" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!block;n#tracking#0" expanded="false" />
           </folding>
         </state>
       </provider>

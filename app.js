@@ -367,14 +367,14 @@ function matchingPayload(event) {
 
         } else if (message) {
 
-            var lastMessage = dataAccount[senderID].lastSent
-            console.log('lastMessage', lastMessage);
-            if (lastMessage && lastMessage.message && lastMessage.message.metadata) payloadStr = lastMessage.message.metadata;
-
-            if (payloadStr.length > 0) payload = Object.assign({}, JSON.parse(payloadStr), payload)
-
-
-            if (lastMessage && lastMessage.meta) payload = Object.assign({}, lastMessage.meta, payload)
+            // var lastMessage = dataAccount[senderID].lastSent
+            // console.log('lastMessage', lastMessage);
+            // if (lastMessage && lastMessage.message && lastMessage.message.metadata) payloadStr = lastMessage.message.metadata;
+            //
+            // if (payloadStr.length > 0) payload = Object.assign({}, JSON.parse(payloadStr), payload)
+            //
+            //
+            // if (lastMessage && lastMessage.meta) payload = Object.assign({}, lastMessage.meta, payload)
 
             if (message.quick_reply) {
                 payload.source = 'quick_reply'
@@ -1207,6 +1207,30 @@ function callSendAPI(messageData, page = 'jobo') {
 
 }
 
+function checkAI(keyword, flow, senderID, pageID) {
+    console.log('checkAI')
+    if (flow[21]) for (var i in flow[21]) {
+        var goto = flow[21][i]
+        if (keyword.match(i)) {
+            go(goto, null, flow, senderID, pageID)
+            break
+        }
+    }
+    else {
+        var questions = flow[1]
+        for (var i in questions) {
+            var quest = questions[i]
+            if (quest[1].toLowerCase() == 'default') {
+                go(quest[0], null, flow, senderID, pageID)
+                break
+            }
+        }
+
+
+    }
+}
+
+
 var waiting = {}
 var timeOff = {}
 var listen = 'on'
@@ -1231,123 +1255,78 @@ function execThing(pageEntry, snapKey) {
 
 
     if (pageEntry.messaging) pageEntry.messaging.forEach(function (messagingEvent) {
-            if (messagingEvent.sender && messagingEvent.sender.id) var senderID = `${messagingEvent.sender.id}`;
+        if (messagingEvent.sender && messagingEvent.sender.id) var senderID = `${messagingEvent.sender.id}`;
 
-            var recipientID = `${messagingEvent.recipient.id}`;
-            var timeOfMessage = messagingEvent.timestamp;
+        var recipientID = `${messagingEvent.recipient.id}`;
+        var timeOfMessage = messagingEvent.timestamp;
 
-            var isDeveloper = false
-            if (facebookPage[pageID]
-                && facebookPage[pageID].developer
-                && facebookPage[pageID].developer.match(senderID)) {
-                isDeveloper = true
-            }
+        var isDeveloper = false
+        if (facebookPage[pageID]
+            && facebookPage[pageID].developer
+            && facebookPage[pageID].developer.match(senderID)) {
+            isDeveloper = true
+        }
 
-            if ((isDeveloper && port == '5001') || (!isDeveloper && port != '5001')) {
-                console.log('messagingEvent', messagingEvent)
+        if ((isDeveloper && port == '5001') || (!isDeveloper && port != '5001')) {
+            console.log('messagingEvent', messagingEvent)
 
-                if (messagingEvent.message || messagingEvent.postback || messagingEvent.referral || messagingEvent.optin) {
+            if (messagingEvent.message || messagingEvent.postback || messagingEvent.referral || messagingEvent.optin) {
 
-                    loadsenderData(senderID, pageID)
-                        .then(senderData => matchingPayload(messagingEvent)
-                            .then(result => {
-                                var payload = result.payload;
+                loadsenderData(senderID, pageID)
+                    .then(senderData => matchingPayload(messagingEvent)
+                        .then(result => {
+                            var payload = result.payload;
 
-                                if (senderData.nlp) Object.assign(senderData.nlp, payload.nlp)
-                                else senderData.nlp = payload.nlp
-                                if (!_.isEmpty(senderData.nlp)) saveSenderData({nlp: senderData.nlp}, senderID, pageID)
+                            if (senderData.nlp) Object.assign(senderData.nlp, payload.nlp)
+                            else senderData.nlp = payload.nlp
+                            if (!_.isEmpty(senderData.nlp)) saveSenderData({nlp: senderData.nlp}, senderID, pageID)
 
-                                var message = result.message;
-                                var referral = result.referral;
-                                var postback = result.postback;
+                            var message = result.message;
+                            var referral = result.referral;
+                            var postback = result.postback;
 
 
-                                if (pageID == facebookPage['jobo'].id) intention(payload, senderID, postback, message)
+                            if (pageID == facebookPage['jobo'].id) intention(payload, senderID, postback, message)
 
-                                else if (pageID == facebookPage['dumpling'].id) {
+                            else if (pageID == facebookPage['dumpling'].id) {
 
-                                    if (message && message.text) var messageText = message.text;
-                                    if (message && message.attachments) var messageAttachments = message.attachments;
+                                if (message && message.text) var messageText = message.text;
+                                if (message && message.attachments) var messageAttachments = message.attachments;
 
-                                    if (payload.type == 'GET_STARTED') {
-                                        if (referral && referral.ref) {
-                                            senderData.ref = referral.ref
-                                            var refData = senderData.ref.split('_');
-                                            console.log('refData', refData);
-                                            senderData.topic = {}
-                                            if (refData[0] != 'start') senderData.topic = refData[0]
-                                        }
+                                if (payload.type == 'GET_STARTED') {
+                                    if (referral && referral.ref) {
+                                        senderData.ref = referral.ref
+                                        var refData = senderData.ref.split('_');
+                                        console.log('refData', refData);
+                                        senderData.topic = {}
+                                        if (refData[0] != 'start') senderData.topic = refData[0]
+                                    }
 
-                                        saveSenderData(senderData, senderID, pageID)
-                                            .then(result => sendMessages(senderID, [{
-                                                text: `Dumpling kết nối hai người lạ nói chuyện với nhau bằng một cuộc trò chuyện bí mật`,
-                                            }, {
-                                                text: `đảm bảo 100% bí mật thông tin và nội dung trò chuyện`,
-                                            }, {
-                                                text: `Hãy gửi vị trí của bạn`,
-                                                quick_replies: [{
-                                                    "content_type": "location",
-                                                    "payload": JSON.stringify({
-                                                        type: 'getLocation',
-                                                        case: 'quick'
-                                                    })
-                                                }],
-                                                metadata: JSON.stringify({
+                                    saveSenderData(senderData, senderID, pageID)
+                                        .then(result => sendMessages(senderID, [{
+                                            text: `Dumpling kết nối hai người lạ nói chuyện với nhau bằng một cuộc trò chuyện bí mật`,
+                                        }, {
+                                            text: `đảm bảo 100% bí mật thông tin và nội dung trò chuyện`,
+                                        }, {
+                                            text: `Hãy gửi vị trí của bạn`,
+                                            quick_replies: [{
+                                                "content_type": "location",
+                                                "payload": JSON.stringify({
                                                     type: 'getLocation',
-                                                    case: 'search'
+                                                    case: 'quick'
                                                 })
-                                            }], null, recipientID))
-                                    }
-                                    else if (payload.type == 'getLocation' || payload.location) {
+                                            }],
+                                            metadata: JSON.stringify({
+                                                type: 'getLocation',
+                                                case: 'search'
+                                            })
+                                        }], null, recipientID))
+                                }
+                                else if (payload.type == 'getLocation' || payload.location) {
 
-                                        saveSenderData({location: payload.location}, senderID, pageID)
-                                            .then(result => sendingAPI(senderID, recipientID, {
-                                                text: `Bạn đang tham gia Dumpling #${payload.topic}, hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện`,
-                                                quick_replies: [
-                                                    {
-                                                        "content_type": "text",
-                                                        "title": "💬 Bắt Đầu",
-                                                        "payload": JSON.stringify({
-                                                            type: 'matching'
-                                                        })
-                                                    }
-                                                ]
-                                            }, null, 'dumpling'))
-
-                                    }
-                                    else if (payload.type == 'stop') {
-
-                                        if (senderData && senderData.match) {
-
-                                            accountRef.child(senderID).child('match').remove()
-                                                .then(result => accountRef.child(senderData.match).child('match').remove())
-                                                .then(result => sendingAPI(senderID, recipientID, {
-                                                    text: "[Hệ Thống] Bạn đã dừng cuộc trò chuyện",
-                                                    quick_replies: [
-                                                        {
-                                                            "content_type": "text",
-                                                            "title": "💬 Bắt đầu mới",
-                                                            "payload": JSON.stringify({
-                                                                type: 'matching'
-                                                            })
-                                                        }
-                                                    ]
-                                                }, null, 'dumpling'))
-                                                .then(result => sendingAPI(senderData.match, recipientID, {
-                                                    text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
-                                                    quick_replies: [
-                                                        {
-                                                            "content_type": "text",
-                                                            "title": "💬 Bắt đầu mới",
-                                                            "payload": JSON.stringify({
-                                                                type: 'matching'
-                                                            })
-                                                        }
-                                                    ]
-                                                }, null, 'dumpling'))
-
-                                        } else if (senderData) sendingAPI(senderID, recipientID, {
-                                            text: "[Hệ Thống] Bạn chưa bắt đầu cuộc trò chuyện!",
+                                    saveSenderData({location: payload.location}, senderID, pageID)
+                                        .then(result => sendingAPI(senderID, recipientID, {
+                                            text: `Bạn đang tham gia Dumpling #${payload.topic}, hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện`,
                                             quick_replies: [
                                                 {
                                                     "content_type": "text",
@@ -1357,157 +1336,183 @@ function execThing(pageEntry, snapKey) {
                                                     })
                                                 }
                                             ]
-                                        }, null, 'dumpling')
-                                    }
-                                    else if (payload.type == 'matching') {
-                                        if (senderData && senderData.match) sendingAPI(senderID, recipientID, {
-                                            text: "[Hệ Thống] Hãy huỷ cuộc hội thoại hiện có !",
-                                        }, null, 'dumpling');
-                                        else sendAPI(senderID, {
-                                            text: `[Hệ Thống] Đang tìm kiếm....`,
-                                        }, null, '493938347612411')
-                                            .then(result => matchingPeople(senderID))
-                                    }
-                                    else if (payload.type == 'share') {
-                                        sendingAPI(senderID, recipientID, {
-                                            text: 'Chia sẻ Dumpling với bạn bè để giúp họ tìm thấy 1 nữa của đời mình nhé 👇'
-                                        }, null, 'dumpling').then(result => sendingAPI(senderID, recipientID, {
-                                            "attachment": {
-                                                "type": "template",
-                                                "payload": {
-                                                    "template_type": "generic",
-                                                    "elements": [
-                                                        {
-                                                            "title": "Dumpling Bot <3 <3 <3!",
-                                                            "subtitle": "Mình là Dumpling Xanh Dương cực dễ thương. Mình đến với trái đất với mục đích kết duyên mọi người.",
-                                                            "image_url": "https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/23659623_558217007851211_9187684244656643971_n.jpg?oh=7f6099d65ee108a021a2818c369777c5&oe=5AA8F1BD",
-                                                            "buttons": [
-                                                                {
-                                                                    "type": "element_share",
-                                                                    "share_contents": {
-                                                                        "attachment": {
-                                                                            "type": "template",
-                                                                            "payload": {
-                                                                                "template_type": "generic",
-                                                                                "elements": [
-                                                                                    {
-                                                                                        "title": "Dumpling Bot <3 <3 <3!",
-                                                                                        "subtitle": "Mình là Dumpling Xanh Dương cực dễ thương. Mình đến với trái đất với mục đích kết duyên mọi người.",
-                                                                                        "image_url": "https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/23659623_558217007851211_9187684244656643971_n.jpg?oh=7f6099d65ee108a021a2818c369777c5&oe=5AA8F1BD",
-                                                                                        "default_action": {
-                                                                                            "type": "web_url",
-                                                                                            "url": "https://m.me/dumpling.bot?ref=start_invitedby:" + senderID
-                                                                                        },
-                                                                                        "buttons": [
-                                                                                            {
-                                                                                                "type": "web_url",
-                                                                                                "url": "https://m.me/dumpling.bot?ref=start_invitedby:" + senderID,
-                                                                                                "title": "Bắt đầu tìm gấu"
-                                                                                            }
-                                                                                        ]
-                                                                                    }
-                                                                                ]
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            }
-
-                                        }, null, 'dumpling')).catch(err => console.log(err))
-                                    }
-                                    else if (payload.type == 'status') {
-                                        var status = senderData.status
-                                        if (status == 0) sendingAPI(senderID, recipientID, {
-                                            text: "[Hệ Thống] Trạng thái: InActive \n Bạn sẽ không nhận được ghép cặp!",
-                                            quick_replies: [
-                                                {
-                                                    "content_type": "text",
-                                                    "title": "Bật",
-                                                    "payload": JSON.stringify({
-                                                        type: 'confirm_status',
-                                                        answer: 'on'
-                                                    })
-                                                }
-                                            ]
-                                        }, null, 'dumpling')
-                                        else sendingAPI(senderID, recipientID, {
-                                            text: "[Hệ Thống] Trạng thái: Active \n Bạn sẽ nhận được ghép cặp!",
-                                            quick_replies: [
-                                                {
-                                                    "content_type": "text",
-                                                    "title": "Tắt",
-                                                    "payload": JSON.stringify({
-                                                        type: 'confirm_status',
-                                                        answer: 'off'
-                                                    })
-                                                }
-                                            ]
-                                        }, null, 'dumpling')
-                                    }
-                                    else if (payload.type == 'confirm_status') {
-                                        if (payload.answer == 'off') accountRef.child(senderID).update({status: 0}).then(result => sendingAPI(senderID, recipientID, {
-                                            text: "[Hệ Thống] Trạng thái: InActive \n Bạn sẽ không nhận được ghép cặp!",
-                                            quick_replies: [
-                                                {
-                                                    "content_type": "text",
-                                                    "title": "Bật",
-                                                    "payload": JSON.stringify({
-                                                        type: 'confirm_status',
-                                                        answer: 'on'
-                                                    })
-                                                }
-                                            ]
-                                        }, null, 'dumpling'))
-                                        else if (payload.answer == 'on') accountRef.child(senderID).update({status: 1}).then(result => sendingAPI(senderID, recipientID, {
-                                            text: "[Hệ Thống] Trạng thái: Active \n Bạn sẽ nhận được ghép cặp!",
-                                            quick_replies: [
-                                                {
-                                                    "content_type": "text",
-                                                    "title": "Tắt",
-                                                    "payload": JSON.stringify({
-                                                        type: 'confirm_status',
-                                                        answer: 'off'
-                                                    })
-                                                }
-                                            ]
                                         }, null, 'dumpling'))
 
-                                    }
-                                    else if (messagingEvent.optin) {
-                                        receivedAuthentication(messagingEvent);
-                                    }
-                                    else if (messagingEvent.read) {
-                                        sendReadReceipt(senderData.match, 'dumpling')
-                                    }
-                                    else if (messageText) {
-                                        if (senderData && senderData.match) {
-                                            sendingAPI(senderData.match, senderID, {
-                                                text: messageText,
-                                            }, null, pageID)
-                                        } else sendAPI(senderID, {
-                                                text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
+                                }
+                                else if (payload.type == 'stop') {
+
+                                    if (senderData && senderData.match) {
+
+                                        accountRef.child(senderID).child('match').remove()
+                                            .then(result => accountRef.child(senderData.match).child('match').remove())
+                                            .then(result => sendingAPI(senderID, recipientID, {
+                                                text: "[Hệ Thống] Bạn đã dừng cuộc trò chuyện",
                                                 quick_replies: [
                                                     {
                                                         "content_type": "text",
-                                                        "title": "💬 Bắt Đầu",
+                                                        "title": "💬 Bắt đầu mới",
                                                         "payload": JSON.stringify({
                                                             type: 'matching'
                                                         })
                                                     }
                                                 ]
-                                            }, 10, pageID
-                                        )
-                                    }
-                                    else if (messageAttachments) {
-                                        if (senderData && senderData.match) {
-                                            sendingAPI(senderData.match, senderID, {
-                                                attachment: messageAttachments[0]
-                                            }, null, 'dumpling')
-                                        } else sendingAPI(senderID, recipientID, {
+                                            }, null, 'dumpling'))
+                                            .then(result => sendingAPI(senderData.match, recipientID, {
+                                                text: "[Hệ Thống] Người lạ đã dừng cuộc trò chuyện",
+                                                quick_replies: [
+                                                    {
+                                                        "content_type": "text",
+                                                        "title": "💬 Bắt đầu mới",
+                                                        "payload": JSON.stringify({
+                                                            type: 'matching'
+                                                        })
+                                                    }
+                                                ]
+                                            }, null, 'dumpling'))
+
+                                    } else if (senderData) sendingAPI(senderID, recipientID, {
+                                        text: "[Hệ Thống] Bạn chưa bắt đầu cuộc trò chuyện!",
+                                        quick_replies: [
+                                            {
+                                                "content_type": "text",
+                                                "title": "💬 Bắt Đầu",
+                                                "payload": JSON.stringify({
+                                                    type: 'matching'
+                                                })
+                                            }
+                                        ]
+                                    }, null, 'dumpling')
+                                }
+                                else if (payload.type == 'matching') {
+                                    if (senderData && senderData.match) sendingAPI(senderID, recipientID, {
+                                        text: "[Hệ Thống] Hãy huỷ cuộc hội thoại hiện có !",
+                                    }, null, 'dumpling');
+                                    else sendAPI(senderID, {
+                                        text: `[Hệ Thống] Đang tìm kiếm....`,
+                                    }, null, '493938347612411')
+                                        .then(result => matchingPeople(senderID))
+                                }
+                                else if (payload.type == 'share') {
+                                    sendingAPI(senderID, recipientID, {
+                                        text: 'Chia sẻ Dumpling với bạn bè để giúp họ tìm thấy 1 nữa của đời mình nhé 👇'
+                                    }, null, 'dumpling').then(result => sendingAPI(senderID, recipientID, {
+                                        "attachment": {
+                                            "type": "template",
+                                            "payload": {
+                                                "template_type": "generic",
+                                                "elements": [
+                                                    {
+                                                        "title": "Dumpling Bot <3 <3 <3!",
+                                                        "subtitle": "Mình là Dumpling Xanh Dương cực dễ thương. Mình đến với trái đất với mục đích kết duyên mọi người.",
+                                                        "image_url": "https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/23659623_558217007851211_9187684244656643971_n.jpg?oh=7f6099d65ee108a021a2818c369777c5&oe=5AA8F1BD",
+                                                        "buttons": [
+                                                            {
+                                                                "type": "element_share",
+                                                                "share_contents": {
+                                                                    "attachment": {
+                                                                        "type": "template",
+                                                                        "payload": {
+                                                                            "template_type": "generic",
+                                                                            "elements": [
+                                                                                {
+                                                                                    "title": "Dumpling Bot <3 <3 <3!",
+                                                                                    "subtitle": "Mình là Dumpling Xanh Dương cực dễ thương. Mình đến với trái đất với mục đích kết duyên mọi người.",
+                                                                                    "image_url": "https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/23659623_558217007851211_9187684244656643971_n.jpg?oh=7f6099d65ee108a021a2818c369777c5&oe=5AA8F1BD",
+                                                                                    "default_action": {
+                                                                                        "type": "web_url",
+                                                                                        "url": "https://m.me/dumpling.bot?ref=start_invitedby:" + senderID
+                                                                                    },
+                                                                                    "buttons": [
+                                                                                        {
+                                                                                            "type": "web_url",
+                                                                                            "url": "https://m.me/dumpling.bot?ref=start_invitedby:" + senderID,
+                                                                                            "title": "Bắt đầu tìm gấu"
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        }
+
+                                    }, null, 'dumpling')).catch(err => console.log(err))
+                                }
+                                else if (payload.type == 'status') {
+                                    var status = senderData.status
+                                    if (status == 0) sendingAPI(senderID, recipientID, {
+                                        text: "[Hệ Thống] Trạng thái: InActive \n Bạn sẽ không nhận được ghép cặp!",
+                                        quick_replies: [
+                                            {
+                                                "content_type": "text",
+                                                "title": "Bật",
+                                                "payload": JSON.stringify({
+                                                    type: 'confirm_status',
+                                                    answer: 'on'
+                                                })
+                                            }
+                                        ]
+                                    }, null, 'dumpling')
+                                    else sendingAPI(senderID, recipientID, {
+                                        text: "[Hệ Thống] Trạng thái: Active \n Bạn sẽ nhận được ghép cặp!",
+                                        quick_replies: [
+                                            {
+                                                "content_type": "text",
+                                                "title": "Tắt",
+                                                "payload": JSON.stringify({
+                                                    type: 'confirm_status',
+                                                    answer: 'off'
+                                                })
+                                            }
+                                        ]
+                                    }, null, 'dumpling')
+                                }
+                                else if (payload.type == 'confirm_status') {
+                                    if (payload.answer == 'off') accountRef.child(senderID).update({status: 0}).then(result => sendingAPI(senderID, recipientID, {
+                                        text: "[Hệ Thống] Trạng thái: InActive \n Bạn sẽ không nhận được ghép cặp!",
+                                        quick_replies: [
+                                            {
+                                                "content_type": "text",
+                                                "title": "Bật",
+                                                "payload": JSON.stringify({
+                                                    type: 'confirm_status',
+                                                    answer: 'on'
+                                                })
+                                            }
+                                        ]
+                                    }, null, 'dumpling'))
+                                    else if (payload.answer == 'on') accountRef.child(senderID).update({status: 1}).then(result => sendingAPI(senderID, recipientID, {
+                                        text: "[Hệ Thống] Trạng thái: Active \n Bạn sẽ nhận được ghép cặp!",
+                                        quick_replies: [
+                                            {
+                                                "content_type": "text",
+                                                "title": "Tắt",
+                                                "payload": JSON.stringify({
+                                                    type: 'confirm_status',
+                                                    answer: 'off'
+                                                })
+                                            }
+                                        ]
+                                    }, null, 'dumpling'))
+
+                                }
+                                else if (messagingEvent.optin) {
+                                    receivedAuthentication(messagingEvent);
+                                }
+                                else if (messagingEvent.read) {
+                                    sendReadReceipt(senderData.match, 'dumpling')
+                                }
+                                else if (messageText) {
+                                    if (senderData && senderData.match) {
+                                        sendingAPI(senderData.match, senderID, {
+                                            text: messageText,
+                                        }, null, pageID)
+                                    } else sendAPI(senderID, {
                                             text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
                                             quick_replies: [
                                                 {
@@ -1518,362 +1523,360 @@ function execThing(pageEntry, snapKey) {
                                                     })
                                                 }
                                             ]
+                                        }, 10, pageID
+                                    )
+                                }
+                                else if (messageAttachments) {
+                                    if (senderData && senderData.match) {
+                                        sendingAPI(senderData.match, senderID, {
+                                            attachment: messageAttachments[0]
                                         }, null, 'dumpling')
-                                    }
-                                    else {
-                                        console.log('something missing here')
-                                    }
+                                    } else sendingAPI(senderID, recipientID, {
+                                        text: "[Hệ thống] Bạn chưa ghép đôi với ai cả\n Bạn hãy ấn [💬 Bắt Đầu] để bắt đầu tìm người lạ trò chuyện",
+                                        quick_replies: [
+                                            {
+                                                "content_type": "text",
+                                                "title": "💬 Bắt Đầu",
+                                                "payload": JSON.stringify({
+                                                    type: 'matching'
+                                                })
+                                            }
+                                        ]
+                                    }, null, 'dumpling')
                                 }
                                 else {
+                                    console.log('something missing here')
+                                }
+                            }
+                            else {
 
-                                    if (facebookPage[pageID].currentBot) var botData = _.findWhere(dataLadiBot, {id: facebookPage[pageID].currentBot});
-                                    else botData = _.findWhere(dataLadiBot, {page: pageID});
+                                if (facebookPage[pageID].currentBot) var botData = _.findWhere(dataLadiBot, {id: facebookPage[pageID].currentBot});
+                                else botData = _.findWhere(dataLadiBot, {page: pageID});
 
-                                    getDataFromUrl(`https://docs.google.com/forms/d/${botData.editId}/edit`)
-                                        .then(result =>{
+                                getDataFromUrl(`https://docs.google.com/forms/d/${botData.editId}/edit`)
+                                    .then(result => {
 
-                                            var flow = result.data;
-                                            var questions = flow[1];
-                                            var response = {
-                                                page: pageID,
-                                                senderID
-                                            };
+                                        var flow = result.data;
+                                        var questions = flow[1];
+                                        var response = {
+                                            page: pageID,
+                                            senderID
+                                        };
 
-                                            if (payload.ref) var REF = payload.ref
-                                            else if (messagingEvent.optin) REF = messagingEvent.optin.ref
-                                            else if (referral && referral.ref) REF = referral.ref
+                                        if (payload.ref) var REF = payload.ref
+                                        else if (messagingEvent.optin) REF = messagingEvent.optin.ref
+                                        else if (referral && referral.ref) REF = referral.ref
 
-                                            if (REF) {
+                                        if (REF) {
 
-                                                senderData.ref = REF;
-                                                saveSenderData(senderData, senderID, pageID)
+                                            senderData.ref = REF;
+                                            saveSenderData(senderData, senderID, pageID)
 
-                                                if (REF.match('_')) {
-                                                    var refData = REF.split('_');
+                                            if (REF.match('_')) {
+                                                var refData = REF.split('_');
 
-                                                } else refData = [REF]
+                                            } else refData = [REF]
 
-                                                console.log('refData', refData);
+                                            console.log('refData', refData);
 
-                                                if (refData[1]) {
+                                            if (refData[1]) {
 
-                                                    for (var i in questions) {
-                                                        var quest = questions[i]
-                                                        console.log(vietnameseDecode(refData[1]), vietnameseDecode(quest[1]))
-                                                        if (vietnameseDecode(refData[1]) == vietnameseDecode(quest[1])) {
-                                                            go(quest[0], null, flow, senderID, pageID)
-                                                            break
-                                                        }
+                                                for (var i in questions) {
+                                                    var quest = questions[i]
+                                                    console.log(vietnameseDecode(refData[1]), vietnameseDecode(quest[1]))
+                                                    if (vietnameseDecode(refData[1]) == vietnameseDecode(quest[1])) {
+                                                        go(quest[0], null, flow, senderID, pageID)
+                                                        break
                                                     }
+                                                }
 
 
-                                                } else loop(0, flow, senderID, pageID)
+                                            } else loop(0, flow, senderID, pageID)
+
+                                        }
+                                        else if (payload.keyword == 'page-on') {
+                                            SetOnOffPage(pageID)
+                                                .then(result => sendAPI(senderID, {
+                                                    text: `Page on ;)`,
+                                                }, null, pageID))
+                                                .catch(err => console.log(err))
+
+                                        }
+                                        else if (!facebookPage[pageID].page_off) {
+
+
+                                            if (payload.keyword == 'start-over' || payload.type == 'GET_STARTED') {
+                                                saveSenderData({time_off: null}, senderID, pageID)
+
+                                                payload = {}
+                                                response = {
+                                                    page: pageID,
+                                                    senderID,
+                                                };
+                                                loop(0, flow, senderID, pageID)
+                                            }
+                                            else if (payload.keyword == 'update-my-bot') {
+
+                                                if (!senderData.role) {
+                                                    sendAPI(senderID, {
+                                                        text: `You don't have permission to do it`,
+                                                    }, null, pageID)
+
+                                                    return
+                                                }
+
+                                                if (result.editId) var flowId = result.editId + '/edit'
+                                                else flowId = result.id + '/viewform'
+                                                var data = {url: `https://docs.google.com/forms/d/${flowId}`}
+
+                                                if (pageID && facebookPage[pageID] && facebookPage[pageID].access_token && facebookPage[pageID].name) data = Object.assign(data, facebookPage[pageID], {pageID})
+                                                console.log('data', data)
+                                                sendAPI(senderID, {
+                                                    text: `Updating...`,
+                                                }, null, pageID)
+                                                getChat({pageID})
+                                                    .then(pageData => sendAPI(senderID, {
+                                                        text: `Updated successful for ${pageData.name} <3!`,
+                                                    }, null, pageID))
+                                                    .catch(err => sendAPI(senderID, {
+                                                        text: `Update Error: ${JSON.stringify(err)}`,
+                                                    }, null, pageID))
+                                            }
+                                            else if (payload.keyword == 'get-noti') {
+
+                                                saveSenderData({subscribe: 'all'}, senderID, pageID)
+                                                    .then(result => sendAPI(senderID, {
+                                                        text: `Subscribe noti successful <3!`,
+                                                    }, null, pageID))
 
                                             }
-                                            else if (payload.keyword == 'page-on') {
-                                                SetOnOffPage(pageID)
+                                            else if (payload.keyword == 'stop-noti') {
+                                                saveSenderData({subscribe: null}, senderID, pageID)
                                                     .then(result => sendAPI(senderID, {
-                                                        text: `Page on ;)`,
+                                                        text: `Unsubscribe noti successful (Y)!`,
+                                                    }, null, pageID))
+
+                                            }
+                                            else if (payload.keyword == 'page-off') {
+                                                if (!senderData.role) {
+                                                    sendAPI(senderID, {
+                                                        text: `You don't have permission to do it`,
+                                                    }, null, pageID)
+
+                                                    return
+                                                }
+
+                                                SetOnOffPage(pageID, true)
+                                                    .then(result => sendAPI(senderID, {
+                                                        text: `Page off :(`,
                                                     }, null, pageID))
                                                     .catch(err => console.log(err))
 
+
                                             }
-                                            else if (!facebookPage[pageID].page_off) {
+                                            else if (payload.keyword && payload.keyword.match('mute-bot')) {
+                                                var time_off = 24 * 60 * 60 * 1000
+                                                var date_until = new Date(Date.now() + time_off)
 
-
-                                                if (payload.keyword == 'start-over' || payload.type == 'GET_STARTED') {
-                                                    saveSenderData({time_off: null}, senderID, pageID)
-                                                    ladiResCol.remove({
-                                                        page: pageID,
-                                                        senderID
-                                                    }).then(result => {
-                                                        console.log('remove response', response)
-                                                    });
-                                                    payload = {}
-                                                    response = {
-                                                        page: pageID,
-                                                        senderID,
-                                                    };
-                                                    loop(0, flow, senderID, pageID)
-                                                }
-                                                else if (payload.keyword == 'update-my-bot') {
-
-                                                    if (!senderData.role) {
-                                                        sendAPI(senderID, {
-                                                            text: `You don't have permission to do it`,
-                                                        }, null, pageID)
-
-                                                        return
-                                                    }
-
-                                                    if (result.editId) var flowId = result.editId + '/edit'
-                                                    else flowId = result.id + '/viewform'
-                                                    var data = {url: `https://docs.google.com/forms/d/${flowId}`}
-
-                                                    if (pageID && facebookPage[pageID] && facebookPage[pageID].access_token && facebookPage[pageID].name) data = Object.assign(data, facebookPage[pageID], {pageID})
-                                                    console.log('data', data)
-                                                    sendAPI(senderID, {
-                                                        text: `Updating...`,
+                                                SetOnOffPagePerUser(pageID, payload.subID, time_off)
+                                                    .then(result => sendAPI(senderID, {
+                                                        text: `Bot was off for ${dataAccount[payload.subID].full_name} until  ${date_until}, click 'Mute bot' again to get more time!`,
                                                     }, null, pageID)
-                                                    getChat({pageID})
-                                                        .then(pageData => sendAPI(senderID, {
-                                                            text: `Updated successful for ${pageData.name} <3!`,
-                                                        }, null, pageID))
-                                                        .catch(err => sendAPI(senderID, {
-                                                            text: `Update Error: ${JSON.stringify(err)}`,
-                                                        }, null, pageID))
-                                                }
-                                                else if (payload.keyword == 'get-noti') {
+                                                        .then(result => sendAPI(payload.subID, {
+                                                            text: `You are chatting with agent. Type 'stop agent' to switch to bot`,
+                                                        }, null, pageID)))
+                                            }
+                                            else if (payload.keyword == 'stop-agent') {
+                                                saveSenderData({time_off: null}, senderID, pageID)
+                                                    .then(result => sendAPI(senderID, {
+                                                        text: `Switched to bot`,
+                                                    }, null, pageID))
+                                                    .then(result => loop(0, flow, senderID, pageID))
 
-                                                    saveSenderData({subscribe: 'all'}, senderID, pageID)
-                                                        .then(result => sendAPI(senderID, {
-                                                            text: `Subscribe noti successful <3!`,
-                                                        }, null, pageID))
-
-                                                }
-                                                else if (payload.keyword == 'stop-noti') {
-                                                    saveSenderData({subscribe: null}, senderID, pageID)
-                                                        .then(result => sendAPI(senderID, {
-                                                            text: `Unsubscribe noti successful (Y)!`,
-                                                        }, null, pageID))
-
-                                                }
-                                                else if (payload.keyword == 'page-off') {
-                                                    if (!senderData.role) {
-                                                        sendAPI(senderID, {
-                                                            text: `You don't have permission to do it`,
-                                                        }, null, pageID)
-
-                                                        return
-                                                    }
-
-                                                    SetOnOffPage(pageID, true)
-                                                        .then(result => sendAPI(senderID, {
-                                                            text: `Page off :(`,
-                                                        }, null, pageID))
-                                                        .catch(err => console.log(err))
-
-
-                                                }
-                                                else if (payload.keyword && payload.keyword.match('mute-bot')) {
-                                                    var time_off = 24 * 60 * 60 * 1000
-                                                    var date_until = new Date(Date.now() + time_off)
-
-                                                    SetOnOffPagePerUser(pageID, payload.subID, time_off)
-                                                        .then(result => sendAPI(senderID, {
-                                                            text: `Bot was off for ${dataAccount[payload.subID].full_name} until  ${date_until}, click 'Mute bot' again to get more time!`,
-                                                        }, null, pageID)
-                                                            .then(result => sendAPI(payload.subID, {
-                                                                text: `You are chatting with agent. Type 'stop agent' to switch to bot`,
-                                                            }, null, pageID)))
-                                                }
-                                                else if (payload.keyword == 'stop-agent') {
-                                                    saveSenderData({time_off: null}, senderID, pageID)
-                                                        .then(result => sendAPI(senderID, {
-                                                            text: `Switched to bot`,
-                                                        }, null, pageID))
-                                                        .then(result => loop(0, flow, senderID, pageID))
-
-                                                }
-                                                else if (payload.keyword == 'report') {
-                                                    if (!senderData.role) {
-                                                        sendAPI(senderID, {
-                                                            text: `You don't have permission to do it`,
-                                                        }, null, pageID)
-
-                                                        return
-                                                    }
-
+                                            }
+                                            else if (payload.keyword == 'report') {
+                                                if (!senderData.role) {
                                                     sendAPI(senderID, {
-                                                        text: `Hi, We are building today's report for you now...`,
+                                                        text: `You don't have permission to do it`,
                                                     }, null, pageID)
-                                                    buildReport(pageID).then(result => sendAPI(senderID, {
-                                                        attachment: {
-                                                            type: "template",
-                                                            payload: {
-                                                                template_type: "button",
-                                                                text: result.text,
-                                                                buttons: [{
-                                                                    type: "postback",
-                                                                    title: "Last 7 days",
-                                                                    "payload": JSON.stringify({
-                                                                        type: 'command',
-                                                                        command: 'report',
-                                                                        data: {day: 7, ago: 0, pageID: pageID}
-                                                                    })
-                                                                }, {
-                                                                    type: "postback",
-                                                                    title: "Last 30 days",
-                                                                    "payload": JSON.stringify({
-                                                                        type: 'command',
-                                                                        command: 'report',
-                                                                        data: {day: 30, ago: 0, pageID: pageID}
-                                                                    })
-                                                                }, {
-                                                                    type: "postback",
-                                                                    title: "Last 1 day",
-                                                                    "payload": JSON.stringify({
-                                                                        type: 'command',
-                                                                        command: 'report',
-                                                                        data: {day: 1, ago: 0, pageID: pageID}
-                                                                    })
-                                                                }]
+
+                                                    return
+                                                }
+
+                                                sendAPI(senderID, {
+                                                    text: `Hi, We are building today's report for you now...`,
+                                                }, null, pageID)
+                                                buildReport(pageID).then(result => sendAPI(senderID, {
+                                                    attachment: {
+                                                        type: "template",
+                                                        payload: {
+                                                            template_type: "button",
+                                                            text: result.text,
+                                                            buttons: [{
+                                                                type: "postback",
+                                                                title: "Last 7 days",
+                                                                "payload": JSON.stringify({
+                                                                    type: 'command',
+                                                                    command: 'report',
+                                                                    data: {day: 7, ago: 0, pageID: pageID}
+                                                                })
+                                                            }, {
+                                                                type: "postback",
+                                                                title: "Last 30 days",
+                                                                "payload": JSON.stringify({
+                                                                    type: 'command',
+                                                                    command: 'report',
+                                                                    data: {day: 30, ago: 0, pageID: pageID}
+                                                                })
+                                                            }, {
+                                                                type: "postback",
+                                                                title: "Last 1 day",
+                                                                "payload": JSON.stringify({
+                                                                    type: 'command',
+                                                                    command: 'report',
+                                                                    data: {day: 1, ago: 0, pageID: pageID}
+                                                                })
+                                                            }]
+                                                        }
+                                                    }
+                                                }, null, pageID))
+
+
+                                            }
+                                            else if (payload.type == 'command') {
+                                                if (payload.command == 'report') buildReport(payload.data.pageID, payload.data.day, payload.data.ago).then(result => sendAPI(senderID, {
+                                                    text: result.text,
+                                                }, null, pageID))
+
+
+                                            }
+                                            else if (senderData.time_off) {
+                                                console.log('senderData.time_off')
+                                                if (!timeOff[senderID]) {
+                                                    sendAPI(senderID, {
+                                                        text: `You are chatting with agent. Type 'stop agent' to switch to bot (Gõ 'stop agent' để tiếp tục với bot) `,
+                                                    }, null, pageID)
+                                                    timeOff[senderID] = true
+                                                }
+
+                                            }
+                                            else if (payload.text && payload.type == 'ask' && senderData.currentQuestionId) {
+                                                response[senderData.currentQuestionId] = payload.text
+
+                                                if (payload.setCustom) {
+                                                    var custom = senderData.custom || {}
+                                                    if (payload.text) custom[payload.setCustom] = payload.text
+                                                    console.log('custom', custom)
+
+                                                    saveSenderData({custom}, senderID, pageID)
+                                                }
+
+                                                var index = _.findLastIndex(questions, {
+                                                    0: senderData.currentQuestionId
+                                                });
+
+                                                var goto = payload.goto
+
+                                                if (payload.askType == 3 || payload.askType == 2) {
+                                                    if (payload.source == 'text') {
+                                                        if (payload.other) go(payload.other, index, flow, senderID, pageID)
+                                                        else checkAI(payload.keyword, flow, senderID, pageID)
+
+                                                    } else go(goto, index, flow, senderID, pageID)
+
+                                                } else if (payload.askType == 1) {
+                                                    if (!waiting[senderID]) {
+                                                        waiting[senderID] = true
+                                                        setTimeout(function () {
+                                                            delete waiting[senderID]
+                                                            go(goto, index, flow, senderID, pageID)
+                                                        }, 10000)
+                                                    }
+
+                                                } else if (payload.askType == 0) {
+                                                    var curQues = _.findWhere(questions, {0: senderData.currentQuestionId});
+                                                    if (curQues[4] && curQues[4][0] && curQues[4][0][4] && curQues[4][0][4][0]) {
+
+                                                        var valid = curQues[4][0][4][0]
+
+                                                        if (valid[0] == 1) {
+                                                            //number
+                                                            if (valid[1] == 7) {
+                                                                //between
+                                                                console.log('payload.text', payload.text, Number(payload.text) > valid[2][0])
+                                                                if (Number(payload.text) > valid[2][0] && Number(payload.text) < valid[2][1]) go(goto, index, flow, senderID, pageID)
+                                                                else sendAPI(senderID, {
+                                                                    text: valid[3]
+                                                                }, null, pageID, payload)
+
                                                             }
                                                         }
-                                                    }, null, pageID))
 
-
-                                                }
-                                                else if (payload.type == 'command') {
-                                                    if (payload.command == 'report') buildReport(payload.data.pageID, payload.data.day, payload.data.ago).then(result => sendAPI(senderID, {
-                                                        text: result.text,
-                                                    }, null, pageID))
-
-
-                                                }
-                                                else if (senderData.time_off) {
-                                                    console.log('senderData.time_off')
-                                                    if (!timeOff[senderID]) {
-                                                        sendAPI(senderID, {
-                                                            text: `You are chatting with agent. Type 'stop agent' to switch to bot (Gõ 'stop agent' để tiếp tục với bot) `,
-                                                        }, null, pageID)
-                                                        timeOff[senderID] = true
-                                                    }
-
-                                                }
-                                                else if (payload.text && payload.type == 'ask' && senderData.currentQuestionId) {
-                                                    response[senderData.currentQuestionId] = payload.text
-
-                                                    if (payload.setCustom) {
-                                                        var custom = senderData.custom || {}
-                                                        if (payload.text) custom[payload.setCustom] = payload.text
-                                                        console.log('custom', custom)
-
-                                                        saveSenderData({custom}, senderID, pageID)
-                                                    }
-                                                    //
-                                                    // ladiResCol.findOneAndUpdate({
-                                                    //     page: pageID,
-                                                    //     senderID
-                                                    // }, {$set: response}, {upsert: true}).then(result => {
-                                                    // }).catch(err => console.log('err', err))
-
-                                                    var index = _.findLastIndex(questions, {
-                                                        0: senderData.currentQuestionId
-                                                    });
-
-                                                    var goto = payload.goto
-                                                    if (payload.askType == 3 || payload.askType == 2) {
-                                                        if (payload.source == 'text' && payload.other) {
-                                                            go(payload.other, index, flow, senderID, pageID)
-
-                                                        } else go(goto, index, flow, senderID, pageID)
-
-                                                    } else if (payload.askType == 1) {
-                                                        if (!waiting[senderID]) {
-                                                            waiting[senderID] = true
-                                                            setTimeout(function () {
-                                                                delete waiting[senderID]
-                                                                console.log('delete waiting[senderID]')
-                                                                go(goto, index, flow, senderID, pageID)
-                                                            }, 10000)
-                                                        }
-
-                                                    } else if (payload.askType == 0) {
-                                                        var curQues = _.findWhere(questions, {0: senderData.currentQuestionId});
-                                                        if (curQues[4] && curQues[4][0] && curQues[4][0][4] && curQues[4][0][4][0]) {
-
-                                                            var valid = curQues[4][0][4][0]
-
-                                                            if (valid[0] == 1) {
-                                                                //number
-                                                                if (valid[1] == 7) {
-                                                                    //between
-                                                                    console.log('payload.text', payload.text, Number(payload.text) > valid[2][0])
-                                                                    if (Number(payload.text) > valid[2][0] && Number(payload.text) < valid[2][1]) go(goto, index, flow, senderID, pageID)
-                                                                    else sendAPI(senderID, {
-                                                                        text: valid[3]
-                                                                    }, null, pageID, payload)
-
-                                                                }
-                                                            }
-
-
-                                                        }
-                                                        else go(goto, index, flow, senderID, pageID)
 
                                                     }
                                                     else go(goto, index, flow, senderID, pageID)
 
-                                                }
-                                                else if (payload.keyword && flow[21]) {
-                                                    for (var i in flow[21]) {
-                                                        var goto = flow[21][i]
-                                                        if (payload.keyword.match(i)) {
-                                                            go(goto, null, flow, senderID, pageID)
+                                                } else go(goto, index, flow, senderID, pageID)
+
+                                            }
+                                            else if (payload.json_plugin_url || payload.block_names) {
+                                                if (payload.json_plugin_url) sendTypingOn(senderID, pageID)
+                                                    .then(result => axios.get(payload.json_plugin_url)
+                                                        .then(result => sendjson_plugin_url(senderID, result.data.messages, null, pageID, result.data.go_to_block, result.data.set_attributes)
+                                                        ))
+                                                else if (payload.block_names) {
+                                                    for (var i in questions) {
+                                                        var quest = questions[i]
+                                                        console.log(vietnameseDecode(payload.block_names[0]), vietnameseDecode(quest[1]))
+                                                        if (vietnameseDecode(payload.block_names[0]) == vietnameseDecode(quest[1])) {
+                                                            go(quest[0], null, flow, senderID, pageID)
                                                             break
                                                         }
                                                     }
                                                 }
-                                                else if (payload.json_plugin_url || payload.block_names) {
-                                                    if (payload.json_plugin_url) sendTypingOn(senderID, pageID)
-                                                        .then(result => axios.get(payload.json_plugin_url)
-                                                            .then(result => sendjson_plugin_url(senderID, result.data.messages, null, pageID, result.data.go_to_block, result.data.set_attributes)
-                                                            ))
-                                                    else if (payload.block_names) {
-                                                        for (var i in questions) {
-                                                            var quest = questions[i]
-                                                            console.log(vietnameseDecode(payload.block_names[0]), vietnameseDecode(quest[1]))
-                                                            if (vietnameseDecode(payload.block_names[0]) == vietnameseDecode(quest[1])) {
-                                                                go(quest[0], null, flow, senderID, pageID)
-                                                                break
-                                                            }
-                                                        }
-                                                    }
-                                                    if (payload.set_attributes) {
-                                                        var set_attributes = payload.set_attributes
-                                                        var dataCustom = dataAccount[senderID].custom || {}
-                                                        dataCustom = Object.assign(dataCustom, set_attributes)
-                                                        saveData('account', senderID, {custom: dataCustom}).then(result => {
-                                                            console.log('payload.set_attributes', result)
-                                                        })
-                                                    }
+                                                if (payload.set_attributes) {
+                                                    var set_attributes = payload.set_attributes
+                                                    var dataCustom = dataAccount[senderID].custom || {}
+                                                    dataCustom = Object.assign(dataCustom, set_attributes)
+                                                    saveData('account', senderID, {custom: dataCustom}).then(result => {
+                                                        console.log('payload.set_attributes', result)
+                                                    })
                                                 }
                                             }
+                                            else if (payload.keyword) checkAI(payload.keyword, flow, senderID, pageID)
+
+                                        }
 
 
-                                        })
+                                    })
 
 
-
-                                }
-
-
-                            })
-                            .catch(err => console.error())
-                        ).catch(err => console.error());
-
-                    messagingEvent.type = 'received';
-                    saveSenderData({lastReceive: messagingEvent}, senderID, pageID)
+                            }
 
 
-                } else if (messagingEvent.read) {
-                    receivedMessageRead(messagingEvent);
-                } else if (messagingEvent.delivery) {
-                    receivedDeliveryConfirmation(messagingEvent);
-                } else if (messagingEvent.account_linking) {
-                    receivedAccountLink(messagingEvent);
-                } else {
-                    console.log("Webhook received unknown messagingEvent: ", messagingEvent);
-                }
+                        })
+                        .catch(err => console.error())
+                    ).catch(err => console.error());
 
-            }
-
-            FB.botform_hook.database().ref('pageEntry').child(snapKey).remove()
+                messagingEvent.type = 'received';
+                saveSenderData({lastReceive: messagingEvent}, senderID, pageID)
 
 
+            } else if (messagingEvent.read) {
+                receivedMessageRead(messagingEvent);
+            } else if (messagingEvent.delivery) {
+                receivedDeliveryConfirmation(messagingEvent);
+            } else if (messagingEvent.account_linking) {
+                receivedAccountLink(messagingEvent);
+            } else console.log("Webhook received unknown messagingEvent: ", messagingEvent);
 
-        })
+
+        }
+
+        FB.botform_hook.database().ref('pageEntry').child(snapKey).remove()
+
+
+    })
 
 
     else if (pageEntry.changes) {
@@ -1881,12 +1884,18 @@ function execThing(pageEntry, snapKey) {
         pageEntry.changes.forEach(changeEvent => {
             if (changeEvent.value && changeEvent.value.comment_id && changeEvent.value.message && changeEvent.value.parent_id) {
                 var form = getBotfromPageID(pageID)
-                console.log('form',form)
-                if (form.autoreply)var message = form.autoreply
-                else message = 'Thanks for comment. How can I help you?'
+                var postId = changeEvent.value.comment_id.split('_')[0]
 
 
-                sendPrivate(message, changeEvent.value.comment_id, pageID)
+                if (form.autoreply) var autoreply = form.autoreply
+                console.log('changeEvent',postId,autoreply, changeEvent)
+
+                if (autoreply) {
+
+                    if(autoreply.all) sendPrivate(autoreply.all, changeEvent.value.comment_id, pageID)
+                    else if(autoreply.postId) sendPrivate(autoreply.all, changeEvent.value.comment_id, pageID)
+                }
+
 
             }
 
@@ -1940,6 +1949,7 @@ app.get('/setoff', (req, res) => {
 function saveFacebookPage(data) {
     return new Promise(function (resolve, reject) {
         data.updatedAt = Date.now()
+        if(!data.id) reject({err:'No PageID'})
         if (!facebookPage[data.id] || !facebookPage[data.id].createdAt) data.createdAt = Date.now()
 
         facebookPageRef.child(data.id).update(data)
@@ -2203,7 +2213,6 @@ function subscribed_apps(pageID) {
         console.log(access_token, pageID)
         graph.post(pageID + '/subscribed_apps', {access_token}, function (err, result) {
             console.log('subscribed_apps', err, result)
-            // if (err) reject(err)
 
             resolve(result)
         })
@@ -2218,11 +2227,10 @@ app.get('/subscribed_apps', function (req, res) {
         .catch(err => res.status(500).json(err))
 })
 
-function getFullPageInfo(access_token) {
+function getFullPageInfo(access_token, pageID) {
     return new Promise((resolve, reject) => {
         graph.get('/me/?fields=name,id,fan_count,roles,location&access_token=' + access_token, (err, result) => {
-            console.log('getFullPageInfo', err, result)
-            if (err || result.message) resolve(err)
+            if (err || result.message) resolve({ id:pageID})
             resolve(result)
         })
     })
@@ -2233,7 +2241,7 @@ function getFullPageInfo(access_token) {
 function debugToken(longLiveToken) {
     return new Promise((resolve, reject) => {
         const appToken = '295208480879128|pavmPhKnN9VWZXLC6TdxLxoYFiY'
-        const url = `https://graph.facebook.com/debug_token?input_token=${longLiveToken}&access_token=295208480879128|pavmPhKnN9VWZXLC6TdxLxoYFiY`;
+        const url = `https://graph.facebook.com/debug_token?input_token=${longLiveToken}&access_token=${appToken}`;
 
         axios.get(url)
             .then(result => resolve(result.data))
@@ -2249,7 +2257,7 @@ function getPage({access_token, name, pageID}) {
         }
 
         getLongLiveToken(access_token)
-            .then(token => getFullPageInfo(token.access_token)
+            .then(token => getFullPageInfo(token.access_token, pageID)
                 .then(pageData => {
 
                     pageData.access_token = token.access_token
@@ -2267,10 +2275,12 @@ function getPage({access_token, name, pageID}) {
                                 if (userCre.email) pageData.createdBy.email = userCre.email
                             }
                         }
+                        console.log('getFullPageInfo', pageData)
+
 
                         saveFacebookPage(pageData)
                             .then(() => resolve(pageData))
-                            .catch(err => reject({err}))
+                            .catch(err => reject(err))
 
                     })
 
@@ -2288,273 +2298,282 @@ function getDataFromUrl(url, branding = true) {
             .then(result => {
 
 
-                    if (
-                        result.data.match('FB_PUBLIC_LOAD_DATA_ = ')
-                        || result.data.match('FB_LOAD_DATA_ = ')
-                    ) {
-                        var str = '';
+                if (
+                    result.data.match('FB_PUBLIC_LOAD_DATA_ = ')
+                    || result.data.match('FB_LOAD_DATA_ = ')
+                ) {
+                    var str = '';
 
-                        if (result.data.match('FB_PUBLIC_LOAD_DATA_ = ')) str = 'FB_PUBLIC_LOAD_DATA_ = ';
-                        else str = 'FB_LOAD_DATA_ = ';
+                    if (result.data.match('FB_PUBLIC_LOAD_DATA_ = ')) str = 'FB_PUBLIC_LOAD_DATA_ = ';
+                    else str = 'FB_LOAD_DATA_ = ';
 
-                        var splitFirst = result.data.split(str);
+                    var splitFirst = result.data.split(str);
 
-                        var two = splitFirst[1]
-                        //certain
+                    var two = splitFirst[1]
+                    //certain
 
-                        if (two.match(`;</script>`)) {
-                            var right = two.split(`;</script>`);
-                            var it = right[0]//certain
-                            if (JSON.parse(it)) {
-                                var array = JSON.parse(it)
-                                if (str == 'FB_LOAD_DATA_ = ') var allData = array[0]
-                                else allData = array
-                                var data = allData[1]
-                                var id = allData[14]
-                                var save = {
-                                    id, data, flow: vietnameseDecode(data[8] || 'untitled')
+                    if (two.match(`;</script>`)) {
+                        var right = two.split(`;</script>`);
+                        var it = right[0]//certain
+                        if (JSON.parse(it)) {
+                            var array = JSON.parse(it)
+                            if (str == 'FB_LOAD_DATA_ = ') var allData = array[0]
+                            else allData = array
+                            var data = allData[1]
+                            var id = allData[14]
+                            var save = {
+                                id, data, flow: vietnameseDecode(data[8] || 'untitled')
 
+                            }
+                            if (!url.match('/d/e/')) {
+                                var urla = url.split('/d/')
+                                var editId = urla[1].split('/')[0]
+                                save.editId = editId
+                            }
+
+                            var flows = data[1]
+                            // add description
+                            if (data[0]) {
+                                var des = [0, data[0], null, 6]
+                                flows.unshift(des)
+                            }
+
+
+                            //
+                            var greeting = [];
+                            var greetingPart = {}
+
+                            var menuPart = {}
+                            var persistent_menu = {
+                                "call_to_actions": [],
+                                "locale": "default",
+                            };
+
+
+
+                            var renderOps = {}
+                            var r = 0
+
+
+                            for (var i in flows) {
+                                var flow = flows[i]
+                                var title = flow[1] || 'undefined'
+                                var description = flow[2]
+                                var type = flow[3]
+
+                                if (!greetingPart.start && title.toLowerCase() == 'greeting' && type == '8') greetingPart.start = i
+                                else if (!greetingPart.end && greetingPart.start && type == '8') greetingPart.end = i
+                                else if (!greetingPart.end && greetingPart.start) {
+                                    if (description && isObject(strToObj(description)) && strToObj(description).locale) {
+                                        var obj = strToObj(description)
+                                        var first = obj.locale
+                                        var supportLang = config.get('supportLang')
+                                        var checkLg = supportLang.indexOf(first);
+
+                                        if (checkLg != -1) {
+                                            var locale = supportLang.substring(checkLg, checkLg + 5)
+                                        }
+
+
+                                    } else var locale = 'default'
+                                    if (locale) greeting.push({
+                                        text: title,
+                                        locale
+                                    })
                                 }
-                                if (!url.match('/d/e/')) {
-                                    var urla = url.split('/d/')
-                                    var editId = urla[1].split('/')[0]
-                                    save.editId = editId
-                                }
 
-                                var flows = data[1]
-                                // add description
-                                if (data[0]) {
-                                    var des = [0, data[0], null, 6]
-                                    flows.unshift(des)
-                                }
+                                if (!menuPart.start && title.toLowerCase() == 'menu' && type == '8') menuPart.start = i
+                                else if (!menuPart.end && menuPart.start && type == '8') menuPart.end = i
+                                else if (!menuPart.end && menuPart.start) {
+                                    var menuTitle = flow[1]
 
+                                    if (type == '2' && flow[4] && flow[4][0]) {
 
-                                //
-                                var greeting = [];
-                                var greetingPart = {}
+                                        var optionsList = flow[4][0][1]
 
-                                var menuPart = {}
+                                        if (optionsList.length > 1) {
+                                            console.log('optionsList', optionsList)
+                                            var call_to_actions = _.map(optionsList, option => {
+                                                var text = option[0]
+                                                if (option[2]) return {
+                                                    title: text,
+                                                    "type": "postback",
+                                                    "payload": JSON.stringify({
+                                                        type: 'ask',
+                                                        text: text,
+                                                        goto: option[2]
+                                                    })
+                                                }
+                                            })
+                                            console.log('call_to_actions', call_to_actions)
 
-                                var persistent_menu = {
-                                    "call_to_actions": [],
-                                    "locale": "default",
-                                };
+                                            persistent_menu.call_to_actions.push({
+                                                title: menuTitle,
+                                                type: "nested",
+                                                call_to_actions
+                                            })
+                                        }
+                                        else if (optionsList[0]) {
+                                            var option = optionsList[0]
 
-
-                                var autoreply = []
-
-                                var renderOps = {}
-                                var r = 0
-
-
-
-                                for (var i in flows) {
-                                    var flow = flows[i]
-                                    var title = flow[1] || 'undefined'
-                                    var description = flow[2]
-                                    var type = flow[3]
-
-                                    if (!greetingPart.start && title.toLowerCase() == 'greeting' && type == '8') greetingPart.start = i
-                                    else if (!greetingPart.end && greetingPart.start && type == '8') greetingPart.end = i
-                                    else if (!greetingPart.end && greetingPart.start) {
-                                        if (description && isObject(strToObj(description)) && strToObj(description).locale) {
-                                            var obj = strToObj(description)
-                                            var first = obj.locale
-                                            var supportLang = config.get('supportLang')
-                                            var checkLg = supportLang.indexOf(first);
-
-                                            if (checkLg != -1) {
-                                                var locale = supportLang.substring(checkLg, checkLg + 5)
+                                            var meta = {
+                                                type: 'ask',
+                                                text: menuTitle
                                             }
+                                            if (option[2]) {
+                                                meta.goto = option[2]
+                                            }
+                                            persistent_menu.call_to_actions.push({
+                                                title: menuTitle,
+                                                "type": "postback",
+                                                "payload": JSON.stringify(meta)
+                                            })
+
+                                        }
 
 
-                                        } else var locale = 'default'
+                                    }
 
-                                        if (locale) greeting.push({
-                                            text: title,
-                                            locale
+                                }
+                                if (save.editId) {
+                                    if (type == '11') {
+                                        console.log(flow[6][0])
+                                        renderOps['r' + r] = ["image", {
+                                            "cosmoId": flow[6][0],
+                                            "container": save.editId
+                                        }]
+                                        r++
+                                    } else if (type == 2 && flow[4] && flow[4][0] && flow[4][0][1]) {
+                                        var options = flow[4][0][1]
+                                        options.forEach(option => {
+                                            if (option[5] && option[5][0]) {
+                                                renderOps['r' + r] = ["image", {
+                                                    "cosmoId": option[5][0],
+                                                    "container": save.editId
+                                                }]
+                                                r++
+                                            }
                                         })
                                     }
+                                }
 
-                                    if (!menuPart.start && title.toLowerCase() == 'menu' && type == '8') menuPart.start = i
-                                    else if (!menuPart.end && menuPart.start && type == '8') menuPart.end = i
-                                    else if (!menuPart.end && menuPart.start) {
-                                        var menuTitle = flow[1]
+                                if (title.toLowerCase() == 'freetext' && type == 2) {
+                                    var freetext = {}
 
-                                        if (type == '2' && flow[4] && flow[4][0]) {
+                                    var optionsLists = flow[4][0][1]
 
-                                            var optionsList = flow[4][0][1]
-
-                                            if (optionsList.length > 1) {
-                                                console.log('optionsList', optionsList)
-                                                var call_to_actions = _.map(optionsList, option => {
-                                                    var text = option[0]
-                                                    if (option[2]) return {
-                                                        title: text,
-                                                        "type": "postback",
-                                                        "payload": JSON.stringify({
-                                                            type: 'ask',
-                                                            text: text,
-                                                            goto: option[2]
-                                                        })
-                                                    }
+                                    if (optionsLists) {
+                                        console.log('optionsList', optionsLists)
+                                        var call = _.each(optionsLists, option => {
+                                            var text = option[0]
+                                            if (text.match('|')) {
+                                                var array = text.split('|')
+                                                array.forEach(ar => {
+                                                    freetext[vietnameseDecode(ar)] = option[2]
                                                 })
-                                                console.log('call_to_actions', call_to_actions)
+                                            } else freetext[vietnameseDecode(text)] = option[2]
+                                        })
+                                    }
+                                    save.data[21] = freetext
+                                }
 
-                                                persistent_menu.call_to_actions.push({
-                                                    title: menuTitle,
-                                                    type: "nested",
-                                                    call_to_actions
-                                                })
+
+                                if (title.toLowerCase() == 'autoreply' && type == 2) {
+
+                                    var autoreply = {}
+
+                                    var optionsLists = flow[4][0][1]
+
+                                    if (optionsLists) {
+                                        console.log('optionsList', optionsLists)
+                                        var call = _.each(optionsLists, option => {
+                                            var text = option[0]
+                                            if (text.match('=>')) {
+                                                var array = text.split('=>')
+                                                autoreply[array[0]] = array[1]
                                             }
-                                            else if (optionsList[0]) {
-                                                var option = optionsList[0]
-
-                                                var meta = {
-                                                    type: 'ask',
-                                                    text: menuTitle
-                                                }
-                                                if (option[2]) {
-                                                    meta.goto = option[2]
-                                                }
-                                                persistent_menu.call_to_actions.push({
-                                                    title: menuTitle,
-                                                    "type": "postback",
-                                                    "payload": JSON.stringify(meta)
-                                                })
-
-                                            }
-
-
-                                        }
-
+                                        })
                                     }
-                                    if (save.editId) {
-                                        if (type == '11') {
-                                            console.log(flow[6][0])
-                                            renderOps['r' + r] = ["image", {
-                                                "cosmoId": flow[6][0],
-                                                "container": save.editId
-                                            }]
-                                            r++
-                                        } else if (type == 2 && flow[4] && flow[4][0] && flow[4][0][1]) {
-                                            var options = flow[4][0][1]
-                                            options.forEach(option => {
-                                                if (option[5] && option[5][0]) {
-                                                    renderOps['r' + r] = ["image", {
-                                                        "cosmoId": option[5][0],
-                                                        "container": save.editId
-                                                    }]
-                                                    r++
-                                                }
-                                            })
-                                        }
-                                    }
-
-                                    if (title == 'freetext' && type == 2) {
-                                        var freetext = {}
-
-                                        var optionsLists = flow[4][0][1]
-
-                                        if (optionsLists) {
-                                            console.log('optionsList', optionsLists)
-                                            var call = _.each(optionsLists, option => {
-                                                var text = option[0]
-                                                if (text.match('|')) {
-                                                    var array = text.split('|')
-                                                    array.forEach(ar => {
-                                                        freetext[vietnameseDecode(ar)] = option[2]
-                                                    })
-                                                } else freetext[vietnameseDecode(text)] = option[2]
-                                            })
-                                        }
-                                        save.data[21] = freetext
-
-                                    }
-
-                                    if (title.toLowerCase() == 'autoreply' && description) save.autoreply = description
-
-                                    // if (title == 'autoreply' && type == 2) {
-                                    //     var freetext = {}
-                                    //
-                                    //     var optionsLists = flow[4][0][1]
-                                    //
-                                    //     if (optionsLists) {
-                                    //         console.log('optionsList', optionsLists)
-                                    //         var call = _.each(optionsLists, option => {
-                                    //             var text = option[0]
-                                    //             if (text.match('|')) {
-                                    //                 var array = text.split('|')
-                                    //                 array.forEach(ar => {
-                                    //                     freetext[vietnameseDecode(ar)] = option[2]
-                                    //                 })
-                                    //             } else freetext[vietnameseDecode(text)] = option[2]
-                                    //         })
-                                    //     }
-                                    //     var data = {freetext}
-                                    //     data.postId = description || 'any';
-                                    //     autoreply.push(data)
-                                    //
-                                    // }
+                                    save.autoreply = autoreply
 
                                 }
 
 
+                                // if (title == 'autoreply' && type == 2) {
+                                //     var freetext = {}
+                                //
+                                //     var optionsLists = flow[4][0][1]
+                                //
+                                //     if (optionsLists) {
+                                //         console.log('optionsList', optionsLists)
+                                //         var call = _.each(optionsLists, option => {
+                                //             var text = option[0]
+                                //             if (text.match('|')) {
+                                //                 var array = text.split('|')
+                                //                 array.forEach(ar => {
+                                //                     freetext[vietnameseDecode(ar)] = option[2]
+                                //                 })
+                                //             } else freetext[vietnameseDecode(text)] = option[2]
+                                //         })
+                                //     }
+                                //     var data = {freetext}
+                                //     data.postId = description || 'any';
+                                //     autoreply.push(data)
+                                //
+                                // }
 
-                                if (greeting.length > 0) save.greeting = greeting
+                            }
 
-                                if (persistent_menu.call_to_actions.length == 0) persistent_menu.call_to_actions.push({
-                                    "title": save.data[8] || 'Start over',
-                                    "type": "postback",
-                                    "payload": JSON.stringify({
-                                        type: 'GET_STARTED'
-                                    })
+
+                            if (greeting.length > 0) save.greeting = greeting
+
+                            if (persistent_menu.call_to_actions.length == 0) persistent_menu.call_to_actions.push({
+                                "title": save.data[8] || 'Start over',
+                                "type": "postback",
+                                "payload": JSON.stringify({
+                                    type: 'GET_STARTED'
                                 })
-                                if (branding) persistent_menu.call_to_actions.push({
-                                    "title": "Create a bot in Botform",
-                                    "type": "web_url",
-                                    "url": "https://botform.me?ref=branding"
+                            })
+                            if (branding) persistent_menu.call_to_actions.push({
+                                "title": "Create a bot in Botform",
+                                "type": "web_url",
+                                "url": "https://botform.me?ref=branding"
+                            })
+
+                            save.persistent_menu = [persistent_menu]
+
+
+                            console.log('save', save)
+
+
+                            if (r > 0) axios.post(`https://docs.google.com/forms/d/${save.editId}/renderdata?id=${save.editId}&renderOps=` + urlencode(JSON.stringify(renderOps)))
+                                .then(result => {
+                                    var sub = result.data.substr(5)
+
+                                    var res = JSON.parse(sub)
+                                    console.log(res)
+                                    save.data[20] = {}
+                                    for (var i in renderOps) {
+                                        console.log(i, res[i])
+                                        save.data[20][renderOps[i][1].cosmoId] = res[i]
+                                    }
+
+
+                                    resolve(save)
+
+
                                 })
-
-                                save.persistent_menu = [persistent_menu]
-
-
-
-                                console.log('save', save)
+                                .catch(err => console.log(err))
+                            else resolve(save)
 
 
-                                if (r > 0) axios.post(`https://docs.google.com/forms/d/${save.editId}/renderdata?id=${save.editId}&renderOps=` + urlencode(JSON.stringify(renderOps)))
-                                    .then(result => {
-                                        var sub = result.data.substr(5)
-
-                                        var res = JSON.parse(sub)
-                                        console.log(res)
-                                        save.data[20] = {}
-                                        for (var i in renderOps) {
-                                            console.log(i, res[i])
-                                            save.data[20][renderOps[i][1].cosmoId] = res[i]
-                                        }
+                        } else reject({err: 'This parse was not public', url})
+                    } else reject({err: 'This script was not public', url})
 
 
+                } else reject({err: 'This data was not public', url})
 
-
-                                        resolve(save)
-
-
-
-                                    })
-                                    .catch(err => console.log(err))
-                                else  resolve(save)
-
-
-
-                            } else reject({err: 'This parse was not public', url})
-                        } else reject({err: 'This script was not public', url})
-
-
-                    } else reject({err: 'This data was not public', url})
-
-                })
+            })
             .catch(err => {
                 console.log('get chat err', err)
                 reject(err)
@@ -2635,10 +2654,11 @@ function getChat({url, access_token, name, pageID, type}) {
                                 saveLadiBot(save, save.id)
                                 saveFacebookPage(pageData)
                                     .then(() => resolve(pageData))
-                                    .catch(err => reject({err}))
+                                    .catch(err => reject(err))
 
                             }))
-                        .catch(err => reject({err})))))
+                        .catch(err => reject(err)))))
+            .catch(err => reject(err) )
     })
 }
 
@@ -2836,11 +2856,12 @@ function loop(q, flow, senderID, pageID) {
     var questions = flow[1]
     var senderData = dataAccount[senderID]
     if (q < questions.length) {
+
         var currentQuestion = questions[q];
         console.log('current', currentQuestion)
 
-
         if (!currentQuestion[1]) currentQuestion[1] = 'Untitled Title'
+
         if (currentQuestion[4] && currentQuestion[1] && currentQuestion[1].match('locale')) {
             var askOption = currentQuestion[4][0][1];
             var lang = senderData.locale.substring(0, 2)
@@ -2856,12 +2877,14 @@ function loop(q, flow, senderID, pageID) {
             go(choose[2], q, flow, senderID, pageID)
 
 
-        } else if (currentQuestion[3] == 8) {
+        }
+        else if (currentQuestion[3] == 8) {
             var goto = currentQuestion[5]
 
             go(goto, q, flow, senderID, pageID)
 
-        } else {
+        }
+        else {
 
             var currentQuestionId = currentQuestion[0];
 
@@ -2870,20 +2893,26 @@ function loop(q, flow, senderID, pageID) {
             var messageSend = {
                 text: currentQuestion[1],
             }
-            var metadata = {}
-            var property = {}
-            console.log("currentQuestion[2]", currentQuestion[2])
+            var metadata = {};
+            var property = {};
             if (currentQuestion[2] && currentQuestion[2].startsWith("{") && currentQuestion[2].endsWith("}")) {
                 property = JSON.parse(currentQuestion[2])
                 console.log("property", property)
             }
+            var question_text = [0, 1, 9, 10, 13]
 
+            var question_select = [2, 3]
+            var question_multiselect = [4]
+            var info_type = [6, 8, 11, 12]
+            var notSupport = [5, 7]
 
-            var askStringStr = `0,1,7,9,10,13`;
-            var askOptionStr = `2,3,4,5`;
+            var questionStr = question_text.concat(question_select, question_multiselect)
+
             var askType = currentQuestion[3];
-            console.log('askType', askType);
-            if (currentQuestion[4]) {
+            console.log('askType', askType,);
+
+            if (questionStr.includes(askType)) {
+
                 if (currentQuestion[2] && currentQuestion[2].match(/=>\w+\S/g)) {
                     metadata.setCustom = currentQuestion[2].match(/=>\w+\S/g)[0].substring(2)
                 }
@@ -2894,8 +2923,9 @@ function loop(q, flow, senderID, pageID) {
 
                 metadata.askType = askType;
                 metadata.type = 'ask';
-                if (askOptionStr.match(askType)) {
-                    var askOption = currentQuestion[4][0][1];
+                var askOption = currentQuestion[4][0][1];
+
+                if (askType == 2 || askType == 4) {
                     var check = askOption[0][0]
                     if (check.match('&&')) {
                         var messageSend = {
@@ -2935,90 +2965,7 @@ function loop(q, flow, senderID, pageID) {
 
 
                     }
-                    else if (askType == 3) {
-                        console.log('askOption[0][2]', askOption[0][2])
-                        var array_mes = []
-                        var buttons = []
-                        var each = _.each(askOption, option => {
-                            metadata.text = option[0]
-                            if (option[2]) metadata.goto = option[2]
-                            if (option[4] == 1) metadata.other = option[2]
-
-                            var str = option[0]
-                            str = templatelize(str, senderData)
-
-                            if (str.indexOf("[") != -1 && str.indexOf("]") != -1) {
-                                var n = str.indexOf("[") + 1;
-                                var b = str.indexOf("]");
-                                var sub = str.substr(n, b - n)
-                                var tit = str.substr(0, n - 2)
-                                var expression = "/((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[\\-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9\\.\\-]+|(?:www\\.|[\\-;:&=\\+\\$,\\w]+@)[A-Za-z0-9\\.\\-]+)((?:\\/[\\+~%\\/\\.\\w\\-_]*)?\\??(?:[\\-\\+=&;%@\\.\\w_]*)#?(?:[\\.\\!\\/\\\\\\w]*))?)/\n";
-                                var regex = 'http';
-                                if (sub.match(regex)) var button = {
-                                    type: "web_url",
-                                    url: sub,
-                                    title: tit,
-                                    messenger_extensions: false
-                                }
-                                else button = {
-                                    type: "phone_number",
-                                    title: tit,
-                                    payload: sub
-                                }
-
-                            } else if (option[0]) button = {
-                                type: "postback",
-                                title: option[0],
-                                payload: JSON.stringify(metadata)
-                            }
-                            if (button) buttons.push(button)
-
-                        });
-                        console.log('buttons', buttons)
-                        var length = buttons.length
-                        console.log('length', length)
-
-                        if (length > 3) {
-
-                            var messageSend = {
-                                attachment: {
-                                    type: "template",
-                                    payload: {
-                                        template_type: "button",
-                                        text: currentQuestion[1],
-                                        buttons: [buttons[0], buttons[1], buttons[2]]
-                                    }
-                                }
-                            }
-
-
-                            var rest = _.rest(buttons, 3)
-                            var mapQuick = rest.map(but => {
-                                but.content_type = "text"
-                                delete but.type
-                                return but
-                            })
-                            messageSend.quick_replies = mapQuick
-
-
-                        } else {
-                            messageSend = {
-                                attachment: {
-                                    type: "template",
-                                    payload: {
-                                        template_type: "button",
-                                        text: currentQuestion[1],
-                                        buttons: buttons
-                                    }
-                                }
-                            }
-
-                        }
-
-                        array_mes.push(messageSend)
-                        sendMessages(senderID, array_mes, null, pageID)
-
-                    } else {
+                    else {
                         var quick_replies = []
                         var map = _.map(askOption, option => {
                             metadata.text = option[0]
@@ -3058,20 +3005,100 @@ function loop(q, flow, senderID, pageID) {
                     }
 
 
+                } else if (askType == 3) {
+                    console.log('askOption[0][2]', askOption[0][2])
+                    var array_mes = []
+                    var buttons = []
+                    var each = _.each(askOption, option => {
+                        metadata.text = option[0]
+                        if (option[2]) metadata.goto = option[2]
+                        if (option[4] == 1) metadata.other = option[2]
+
+                        var str = option[0]
+                        str = templatelize(str, senderData)
+
+                        if (str.indexOf("[") != -1 && str.indexOf("]") != -1) {
+                            var n = str.indexOf("[") + 1;
+                            var b = str.indexOf("]");
+                            var sub = str.substr(n, b - n)
+                            var tit = str.substr(0, n - 2)
+                            var expression = "/((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[\\-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9\\.\\-]+|(?:www\\.|[\\-;:&=\\+\\$,\\w]+@)[A-Za-z0-9\\.\\-]+)((?:\\/[\\+~%\\/\\.\\w\\-_]*)?\\??(?:[\\-\\+=&;%@\\.\\w_]*)#?(?:[\\.\\!\\/\\\\\\w]*))?)/\n";
+                            var regex = 'http';
+                            if (sub.match(regex)) var button = {
+                                type: "web_url",
+                                url: sub,
+                                title: tit,
+                                messenger_extensions: false
+                            }
+                            else button = {
+                                type: "phone_number",
+                                title: tit,
+                                payload: sub
+                            }
+
+                        } else if (option[0]) button = {
+                            type: "postback",
+                            title: option[0],
+                            payload: JSON.stringify(metadata)
+                        }
+                        if (button) buttons.push(button)
+
+                    });
+                    console.log('buttons', buttons)
+                    var length = buttons.length
+                    console.log('length', length)
+
+                    if (length > 3) {
+
+                        var messageSend = {
+                            attachment: {
+                                type: "template",
+                                payload: {
+                                    template_type: "button",
+                                    text: currentQuestion[1],
+                                    buttons: [buttons[0], buttons[1], buttons[2]]
+                                }
+                            }
+                        }
+
+
+                        var rest = _.rest(buttons, 3)
+                        var mapQuick = rest.map(but => {
+                            but.content_type = "text"
+                            delete but.type
+                            return but
+                        })
+                        messageSend.quick_replies = mapQuick
+
+
+                    } else {
+                        messageSend = {
+                            attachment: {
+                                type: "template",
+                                payload: {
+                                    template_type: "button",
+                                    text: currentQuestion[1],
+                                    buttons: buttons
+                                }
+                            }
+                        }
+
+                    }
+
+                    array_mes.push(messageSend)
+                    sendMessages(senderID, array_mes, null, pageID)
+
                 }
-
-                else if (askStringStr.match(askType)) {
-
+                else if (question_text.includes(askType)) {
                     sendAPI(senderID, messageSend, null, pageID, metadata)
-                        .then(resutl => console.log('messageSend', messageSend))
+                        .then(result => console.log('messageSend', messageSend))
                         .catch(err => console.log('sendAPI_err', err))
                 }
 
 
             }
-            else {
+            else if (info_type.includes(askType)) {
                 metadata.type = 'info'
-
                 var response = {}
                 response[currentQuestionId] = true
 
@@ -3156,16 +3183,11 @@ function loop(q, flow, senderID, pageID) {
 
                 }
 
-                // ladiResCol.findOneAndUpdate({
-                //     flow: senderData.flow,
-                //     page: pageID,
-                //     senderID,
-                // }, {$set: response}, {upsert: true}).then(result => {
-                //
-                //
-                //     })
 
-
+            }
+            else {
+                q++
+                loop(q, flow, senderID, pageID)
             }
 
 
@@ -3794,10 +3816,11 @@ function sendBroadCast(query, blockName) {
 app.get('/sendBroadCast', ({query}, res) => sendBroadCast(query, query.blockName).then(result => res.send(result)).catch(err => res.status(500).json(err)))
 
 function getBotfromPageID(pageID) {
-    console.log('getBotfromPageID',pageID)
+    console.log('getBotfromPageID', pageID)
     if (!pageID) return null
-    if (facebookPage[pageID].currentBot) var result = _.findWhere(dataLadiBot, {id: facebookPage[pageID].currentBot});
+    if (facebookPage[pageID] && facebookPage[pageID].currentBot) var result = _.findWhere(dataLadiBot, {id: facebookPage[pageID].currentBot});
     else result = _.findWhere(dataLadiBot, {page: pageID});
+
     if (result) return result;
 }
 
