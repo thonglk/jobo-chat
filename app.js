@@ -41,13 +41,8 @@ app.use(express.static('public'));
 
 var port = process.env.PORT || 5001;
 
-var uri = 'mongodb://joboapp:joboApp.1234@ec2-54-157-20-214.compute-1.amazonaws.com:27017/joboapp';
 var srv = 'mongodb+srv://jobo:jobo@jobodb-0but3.mongodb.net/test?retryWrites=true';
 
-function mem() {
-    console.log(`MongoClient script uses approximately ${Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100} MB`);
-
-}
 
 const MongoClient = require('mongodb');
 
@@ -205,6 +200,7 @@ function templatelize(text = 'loading...', data = {first_name: 'Thông'}) {
 
 
 var CONFIG;
+
 axios.get(API_URL + '/config')
     .then(result => {
         CONFIG = result.data
@@ -229,15 +225,6 @@ function initDataLoad(ref, store) {
         delete store[snap.key]
     });
 }
-
-var dataUser = {}, useRef = db.ref('user');
-initDataLoad(useRef, dataUser)
-var dataAccount = {}, accountRef = db.ref('account')
-initDataLoad(accountRef, dataAccount)
-var facebookPage = {}, facebookPageRef = db.ref('facebookPage')
-initDataLoad(facebookPageRef, facebookPage)
-var dataLadiBot = {}, ladiBotRef = db.ref('ladiBot')
-initDataLoad(ladiBotRef, dataLadiBot)
 
 function saveData(ref, child, data) {
     return new Promise(function (resolve, reject) {
@@ -1033,12 +1020,7 @@ function sendAPI(recipientId, message, typing, page = 'jobo', meta) {
                         messageData.type = 'sent'
                         messageData.timestamp = Date.now()
                         if (meta) messageData.meta = meta
-                        saveSenderData({lastSent: messageData}, recipientId, page)
-                            .then(result => {
-                                resolve(messageData)
-
-                            })
-                            .catch(err => reject(err))
+                        resolve(messageData)
                     })
 
 
@@ -1221,19 +1203,6 @@ var timeOff = {}
 var listen = 'on'
 
 
-// FB.botform_hook.database().ref('pageEntry').on('child_added', function (snap) {
-//     var pageEntry = snap.val()
-//     var timeOfEvent = pageEntry.time;
-//     var timeOfEvent = pageEntry.time;
-//     var tenSecondBefore = Date.now() - 10 * 1000
-//     var delay = tenSecondBefore - timeOfEvent
-//     console.log('delay in ' + delay + ' for ' + Date.now() + ' ' + timeOfEvent)
-//     if (delay < 0) execThing(pageEntry, snap.key)
-//     else setTimeout(function () {
-//         console.log('will do in', delay)
-//         execThing(pageEntry, snap.key)
-//     }, delay / 100)
-// });
 
 function execThing(pageEntry, snapKey) {
     if (pageEntry.id) var pageID = `${pageEntry.id}`;
@@ -1260,6 +1229,7 @@ function execThing(pageEntry, snapKey) {
                 loadsenderData(senderID, pageID)
                     .then(senderData => matchingPayload(messagingEvent)
                         .then(result => {
+                            console.log('loadsenderData',senderData)
                             var payload = result.payload;
 
                             if (senderData.nlp) Object.assign(senderData.nlp, payload.nlp)
@@ -1745,8 +1715,10 @@ function execThing(pageEntry, snapKey) {
                                                 }
 
                                             }
-                                            else if (payload.text && payload.type == 'ask' && senderData.currentQuestionId) {
-                                                response[senderData.currentQuestionId] = payload.text
+                                            else if (payload.text && senderData.currentMeta && senderData.currentMeta.type =='ask') {
+                                                var currentMeta = senderData.currentMeta
+
+                                                response[currentMeta.id] = payload.text
 
                                                 if (payload.setCustom) {
                                                     var custom = senderData.custom || {}
@@ -1757,19 +1729,19 @@ function execThing(pageEntry, snapKey) {
                                                 }
 
                                                 var index = _.findLastIndex(questions, {
-                                                    0: senderData.currentQuestionId
+                                                    0: currentMeta.id
                                                 });
 
                                                 var goto = payload.goto
 
-                                                if (payload.askType == 3 || payload.askType == 2) {
+                                                if (currentMeta.askType == 3 || currentMeta.askType == 2) {
                                                     if (payload.source == 'text') {
                                                         if (payload.other) go(payload.other, index, flow, senderID, pageID)
                                                         else checkAI(payload.keyword, flow, senderID, pageID)
 
                                                     } else go(goto, index, flow, senderID, pageID)
 
-                                                } else if (payload.askType == 1) {
+                                                } else if (currentMeta.askType == 1) {
                                                     if (!waiting[senderID]) {
                                                         waiting[senderID] = true
                                                         setTimeout(function () {
@@ -1778,7 +1750,7 @@ function execThing(pageEntry, snapKey) {
                                                         }, 10000)
                                                     }
 
-                                                } else if (payload.askType == 0) {
+                                                } else if (currentMeta.askType == 0) {
                                                     var curQues = _.findWhere(questions, {0: senderData.currentQuestionId});
                                                     if (curQues[4] && curQues[4][0] && curQues[4][0][4] && curQues[4][0][4][0]) {
 
@@ -1872,12 +1844,12 @@ function execThing(pageEntry, snapKey) {
                 var postId = changeEvent.value.comment_id.split('_')[0]
 
                 if (form && form.autoreply) var autoreply = form.autoreply
-                console.log('changeEvent',postId,autoreply, changeEvent)
+                console.log('changeEvent', postId, autoreply, changeEvent)
 
                 if (autoreply) {
-                    console.log('autoreply[`${postId}`]',autoreply[`${postId}`])
-                 if(autoreply[`${postId}`]) sendPrivate(autoreply[`${postId}`], changeEvent.value.comment_id, pageID)
-                 else if(autoreply.all) sendPrivate(autoreply.all, changeEvent.value.comment_id, pageID)
+                    console.log('autoreply[`${postId}`]', autoreply[`${postId}`])
+                    if (autoreply[`${postId}`]) sendPrivate(autoreply[`${postId}`], changeEvent.value.comment_id, pageID)
+                    else if (autoreply.all) sendPrivate(autoreply.all, changeEvent.value.comment_id, pageID)
                 }
 
 
@@ -1933,7 +1905,7 @@ app.get('/setoff', (req, res) => {
 function saveFacebookPage(data) {
     return new Promise(function (resolve, reject) {
         data.updatedAt = Date.now()
-        if(!data.id) reject({err:'No PageID'})
+        if (!data.id) reject({err: 'No PageID'})
         if (!facebookPage[data.id] || !facebookPage[data.id].createdAt) data.createdAt = Date.now()
 
         facebookPageRef.child(data.id).update(data)
@@ -2214,7 +2186,7 @@ app.get('/subscribed_apps', function (req, res) {
 function getFullPageInfo(access_token, pageID) {
     return new Promise((resolve, reject) => {
         graph.get('/me/?fields=name,id,fan_count,roles,location&access_token=' + access_token, (err, result) => {
-            if (err || result.message) resolve({ id:pageID})
+            if (err || result.message) resolve({id: pageID})
             resolve(result)
         })
     })
@@ -2334,7 +2306,6 @@ function getDataFromUrl(url, branding = true) {
                             };
 
 
-
                             var renderOps = {}
                             var r = 0
 
@@ -2376,7 +2347,6 @@ function getDataFromUrl(url, branding = true) {
                                         var optionsList = flow[4][0][1]
 
                                         if (optionsList.length > 1) {
-                                            console.log('optionsList', optionsList)
                                             var call_to_actions = _.map(optionsList, option => {
                                                 var text = option[0]
                                                 if (option[2]) return {
@@ -2389,7 +2359,6 @@ function getDataFromUrl(url, branding = true) {
                                                     })
                                                 }
                                             })
-                                            console.log('call_to_actions', call_to_actions)
 
                                             persistent_menu.call_to_actions.push({
                                                 title: menuTitle,
@@ -2469,7 +2438,6 @@ function getDataFromUrl(url, branding = true) {
                                     var optionsLists = flow[4][0][1]
 
                                     if (optionsLists) {
-                                        console.log('optionsList', optionsLists)
                                         var call = _.each(optionsLists, option => {
                                             var text = option[0]
                                             if (text.match('=>')) {
@@ -2526,8 +2494,6 @@ function getDataFromUrl(url, branding = true) {
 
                             save.persistent_menu = [persistent_menu]
 
-
-                            console.log('save', save)
 
 
                             if (r > 0) axios.post(`https://docs.google.com/forms/d/${save.editId}/renderdata?id=${save.editId}&renderOps=` + urlencode(JSON.stringify(renderOps)))
@@ -2642,7 +2608,7 @@ function getChat({url, access_token, name, pageID, type}) {
 
                             }))
                         .catch(err => reject(err)))))
-            .catch(err => reject(err) )
+            .catch(err => reject(err))
     })
 }
 
@@ -2872,11 +2838,11 @@ function loop(q, flow, senderID, pageID) {
 
             var currentQuestionId = currentQuestion[0];
 
-            saveSenderData({currentQuestionId}, senderID, pageID)
 
             var messageSend = {
                 text: currentQuestion[1],
             }
+            var currentMeta = { text: currentQuestion[1],id:currentQuestionId,createdAt: Date.now()}
             var metadata = {};
             var property = {};
             if (currentQuestion[2] && currentQuestion[2].startsWith("{") && currentQuestion[2].endsWith("}")) {
@@ -2907,6 +2873,10 @@ function loop(q, flow, senderID, pageID) {
 
                 metadata.askType = askType;
                 metadata.type = 'ask';
+                currentMeta.askType = askType;
+                currentMeta.type = 'ask';
+
+
                 var askOption = currentQuestion[4][0][1];
 
                 if (askType == 2 || askType == 4) {
@@ -3083,6 +3053,8 @@ function loop(q, flow, senderID, pageID) {
             }
             else if (info_type.includes(askType)) {
                 metadata.type = 'info'
+                currentMeta.type = 'info'
+
                 var response = {}
                 response[currentQuestionId] = true
 
@@ -3173,6 +3145,8 @@ function loop(q, flow, senderID, pageID) {
                 q++
                 loop(q, flow, senderID, pageID)
             }
+            console.log('save metadata', currentMeta)
+            saveSenderData({currentMeta}, senderID, pageID)
 
 
         }
@@ -4813,6 +4787,31 @@ function copySheets(sheetId, pageID, pageData) {
 app.listen(port, function () {
     console.log('Node app is running on port', port);
 });
+
+
+var dataUser = {}, useRef = db.ref('user');
+initDataLoad(useRef, dataUser)
+
+var facebookPage = {}, facebookPageRef = db.ref('facebookPage')
+initDataLoad(facebookPageRef, facebookPage)
+var dataLadiBot = {}, ladiBotRef = db.ref('ladiBot')
+initDataLoad(ladiBotRef, dataLadiBot)
+
+// var dataAccount = {}, accountRef = db.ref('account')
+// initDataLoad(accountRef, dataAccount)
+// FB.botform_hook.database().ref('pageEntry').on('child_added', function (snap) {
+//     var pageEntry = snap.val()
+//     var timeOfEvent = pageEntry.time;
+//     var timeOfEvent = pageEntry.time;
+//     var tenSecondBefore = Date.now() - 10 * 1000
+//     var delay = tenSecondBefore - timeOfEvent
+//     console.log('delay in ' + delay + ' for ' + Date.now() + ' ' + timeOfEvent)
+//     if (delay < 0) execThing(pageEntry, snap.key)
+//     else setTimeout(function () {
+//         console.log('will do in', delay)
+//         execThing(pageEntry, snap.key)
+//     }, delay / 100)
+// });
 
 
 module.exports = app;
