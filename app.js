@@ -4532,7 +4532,7 @@ initDataLoad(facebookPageRef, facebookPage)
 var dataLadiBot = {}, ladiBotRef = db.ref('ladiBot')
 initDataLoad(ladiBotRef, dataLadiBot)
 
-// var dataAccount = {}, accountRef = db.ref('account')
+var dataAccount = {}, accountRef = db.ref('account')
 // initDataLoad(accountRef, dataAccount)
 // FB.botform_hook.database().ref('pageEntry').on('child_added', function (snap) {
 //     var pageEntry = snap.val()
@@ -4547,6 +4547,19 @@ initDataLoad(ladiBotRef, dataLadiBot)
 //         execThing(pageEntry, snap.key)
 //     }, delay / 100)
 // });
+
+app.post('/SNSListen', (req, res) => {
+
+
+    var text = JSON.stringify(req.body)
+    axios.get(`http://botform-webserver.herokuapp.com/sendLog`,{params:{text}}).then(result => res.send(result.data))
+        .catch(err => res.status(500).json(err.response))
+
+    res.redirect(req.body.SubscribeURL)
+
+
+})
+
 
 
 module.exports = app;
