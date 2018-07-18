@@ -4533,20 +4533,20 @@ var dataLadiBot = {}, ladiBotRef = db.ref('ladiBot')
 initDataLoad(ladiBotRef, dataLadiBot)
 
 var dataAccount = {}, accountRef = db.ref('account')
-// initDataLoad(accountRef, dataAccount)
-// FB.botform_hook.database().ref('pageEntry').on('child_added', function (snap) {
-//     var pageEntry = snap.val()
-//     var timeOfEvent = pageEntry.time;
-//     var timeOfEvent = pageEntry.time;
-//     var tenSecondBefore = Date.now() - 10 * 1000
-//     var delay = tenSecondBefore - timeOfEvent
-//     console.log('delay in ' + delay + ' for ' + Date.now() + ' ' + timeOfEvent)
-//     if (delay < 0) execThing(pageEntry, snap.key)
-//     else setTimeout(function () {
-//         console.log('will do in', delay)
-//         execThing(pageEntry, snap.key)
-//     }, delay / 100)
-// });
+initDataLoad(accountRef, dataAccount)
+FB.botform_hook.database().ref('pageEntry').on('child_added', function (snap) {
+    var pageEntry = snap.val()
+    var timeOfEvent = pageEntry.time;
+    var timeOfEvent = pageEntry.time;
+    var tenSecondBefore = Date.now() - 10 * 1000
+    var delay = tenSecondBefore - timeOfEvent
+    console.log('delay in ' + delay + ' for ' + Date.now() + ' ' + timeOfEvent)
+    if (delay < 0) execThing(pageEntry, snap.key)
+    else setTimeout(function () {
+        console.log('will do in', delay)
+        execThing(pageEntry, snap.key)
+    }, delay / 100)
+});
 
 app.post('/SNSListen', (req, res) => {
 
